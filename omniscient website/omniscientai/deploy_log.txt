@@ -1,0 +1,24 @@
+Services to deploy:
+
+descriptor:                  [C:\Users\Aaron\omniscient website\omniscientai\app.yaml]
+source:                      [C:\Users\Aaron\omniscient website\omniscientai]
+target project:              [omniscientai-website]
+target service:              [default]
+target version:              [20260311t025903]
+target url:                  [https://omniscientai-website.ts.r.appspot.com]
+target service account:      [omniscientai-website@appspot.gserviceaccount.com]
+
+
+Beginning deployment of service [default]...
+Uploading 1 file to Google Cloud Storage
+100%
+100%
+File upload done.
+WARNING: Node.js 20 is no longer supported by the Node.js community as of 30 April, 2026. Node.js 20 will be end of support on 2026-04-30. As of 2026-04-30 you will no longer be able to deploy your App Engine Standard using nodejs20. We recommend you to upgrade to the latest version of Node.js as soon as possible.
+
+Waiting for operation [apps/omniscientai-website/operations/36935985-7d90-4d15-b584-dff31b7e3d9a] to complete...
+......................................failed.
+ERROR: (gcloud.app.deploy) Error Response: [9] Cloud build ea480ad6-c118-43b3-8420-9e37ca29a071 status: FAILURE
+Failed to download at least one file. Cannot continue.
+
+Full build logs: https://console.cloud.google.com/cloud-build/builds;region=australia-southeast1/ea480ad6-c118-43b3-8420-9e37ca29a071?project=103899237331

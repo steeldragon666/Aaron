@@ -1,0 +1,222 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* OmniscientAI brand tokens */
+  --color-cyan: oklch(0.72 0.14 200);
+  --color-tangerine: oklch(0.75 0.16 55);
+  --color-surface: oklch(0.12 0 0);
+  --color-surface-elevated: oklch(0.16 0 0);
+  --color-surface-glass: rgba(20, 20, 20, 0.6);
+
+  /* Fluid Typography - Perfectly scales between mobile and desktop */
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --font-size-sm: clamp(0.875rem, 0.8rem + 0.3vw, 1rem);
+  --font-size-base: clamp(1rem, 0.95rem + 0.4vw, 1.125rem);
+  --font-size-lg: clamp(1.125rem, 1.05rem + 0.5vw, 1.25rem);
+  --font-size-xl: clamp(1.25rem, 1.15rem + 0.8vw, 1.5rem);
+  --font-size-2xl: clamp(1.5rem, 1.35rem + 1.2vw, 2rem);
+  --font-size-3xl: clamp(2rem, 1.8rem + 1.8vw, 3rem);
+  --font-size-4xl: clamp(2.5rem, 2.2rem + 2.5vw, 4rem);
+  --font-size-5xl: clamp(3rem, 2.5rem + 4vw, 5.5rem);
+
+  /* Font families */
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, monospace;
+}
+
+:root {
+  --radius: 0.75rem; /* Slightly softer corners for premium feel */
+  /* Dark mode as default — OmniscientAI brand */
+  --background: oklch(0.05 0 0); /* Even deeper black for better contrast */
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.12 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.15 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(0.72 0.14 200);
+  --primary-foreground: oklch(0.05 0 0);
+  --secondary: oklch(0.12 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.75 0.16 55);
+  --accent-foreground: oklch(0.05 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.22 0 0);
+  --input: oklch(0.22 0 0);
+  --ring: oklch(0.72 0.14 200);
+  --chart-1: oklch(0.72 0.14 200);
+  --chart-2: oklch(0.75 0.16 55);
+  --chart-3: oklch(0.65 0.12 200);
+  --chart-4: oklch(0.60 0.10 55);
+  --chart-5: oklch(0.50 0.08 200);
+  --sidebar: oklch(0.1 0 0);
+  --sidebar-foreground: oklch(0.95 0 0);
+  --sidebar-primary: oklch(0.72 0.14 200);
+  --sidebar-primary-foreground: oklch(0.05 0 0);
+  --sidebar-accent: oklch(0.15 0 0);
+  --sidebar-accent-foreground: oklch(0.95 0 0);
+  --sidebar-border: oklch(0.22 0 0);
+  --sidebar-ring: oklch(0.72 0.14 200);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: var(--font-size-base);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  h1 { font-size: var(--font-size-5xl); }
+  h2 { font-size: var(--font-size-3xl); }
+  h3 { font-size: var(--font-size-2xl); }
+  h4 { font-size: var(--font-size-xl); }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+    font-family: var(--font-heading);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 3rem;
+      padding-right: 3rem;
+      max-width: 1440px;
+    }
+  }
+
+  /* Premium Glass card effect */
+  .glass-card {
+    background: var(--color-surface-glass);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+      0 4px 24px -1px rgba(0, 0, 0, 0.2),
+      0 0 1px 0 rgba(255, 255, 255, 0.1) inset;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .glass-card:hover {
+    border-color: rgba(18, 181, 203, 0.4);
+    box-shadow: 
+      0 12px 40px -12px rgba(18, 181, 203, 0.15),
+      0 0 20px rgba(18, 181, 203, 0.05);
+    background: rgba(30, 30, 30, 0.65);
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  /* Refined Glow effects */
+  .glow-cyan {
+    box-shadow: 0 0 60px rgba(18, 181, 203, 0.2);
+  }
+  
+  .text-glow-cyan {
+    text-shadow: 0 0 25px rgba(18, 181, 203, 0.4);
+  }
+
+  .gradient-text-cyan {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#12B5CB] via-[#12B5CB] to-[#F2F2F2];
+  }
+
+  /* Section spacing */
+  .section-padding {
+    @apply py-20 md:py-32 lg:py-40;
+  }
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #444444;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(18, 181, 203, 0.3);
+  color: #E8E8E8;
+}
+
+/* Infinite marquee scroll */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
