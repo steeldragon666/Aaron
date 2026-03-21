@@ -33,7 +33,7 @@ export default function SectionHeading({ label, title, description, align = "cen
         {title}
       </h2>
       {description && (
-        <p className="text-lg md:text-xl text-white/50 leading-relaxed font-medium">
+        <p className="text-lg md:text-xl text-white/70 leading-relaxed font-medium">
           {description}
         </p>
       )}

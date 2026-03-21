@@ -1,16 +1,46 @@
 // Contact — OmniscientAI
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle, Linkedin } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Send, CheckCircle, Linkedin, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { BRAND } from "@/lib/data";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    subject: "general",
+    message: "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    toast.success("Message sent! We'll respond within 24 hours.");
+    if (loading) return;
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Failed to send");
+
+      setSubmitted(true);
+      toast.success("Message sent! We'll respond within 24 hours.");
+    } catch {
+      toast.error("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -21,7 +51,7 @@ export default function Contact() {
           <h1 className="text-4xl md:text-5xl font-bold text-[#E8E8E8] mb-4" style={{ fontFamily: "var(--font-heading)" }}>
             Get in <span className="text-[#12B5CB]">touch</span>
           </h1>
-          <p className="text-lg text-[#888888] max-w-2xl leading-relaxed">
+          <p className="text-lg text-white/60 max-w-2xl leading-relaxed">
             Have a question about our workshops or services? Want to discuss a custom engagement? We'd love to hear from you.
           </p>
         </motion.div>
@@ -35,28 +65,60 @@ export default function Contact() {
                   <CheckCircle className="w-8 h-8 text-[#12B5CB]" />
                 </div>
                 <h2 className="text-2xl font-bold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>Message Sent</h2>
-                <p className="text-[#888888]">Thank you for reaching out. We'll respond within 24 hours during business days.</p>
+                <p className="text-white/60">Thank you for reaching out. We'll respond within 24 hours during business days.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="glass-card rounded-2xl p-6 md:p-8 space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium text-[#E8E8E8] mb-2">Name *</label>
-                    <input required type="text" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="Your name" />
+                    <label htmlFor="contact-name" className="block text-sm font-medium text-[#E8E8E8] mb-2">Name *</label>
+                    <input
+                      id="contact-name"
+                      name="name"
+                      required
+                      type="text"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none focus:ring-2 focus:ring-[#12B5CB]/20 transition-colors"
+                      placeholder="Your name"
+                    />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-[#E8E8E8] mb-2">Email *</label>
-                    <input required type="email" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="you@company.com" />
+                    <label htmlFor="contact-email" className="block text-sm font-medium text-[#E8E8E8] mb-2">Email *</label>
+                    <input
+                      id="contact-email"
+                      name="email"
+                      required
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none focus:ring-2 focus:ring-[#12B5CB]/20 transition-colors"
+                      placeholder="you@company.com"
+                    />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium text-[#E8E8E8] mb-2">Company</label>
-                    <input type="text" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="Company name" />
+                    <label htmlFor="contact-company" className="block text-sm font-medium text-[#E8E8E8] mb-2">Company</label>
+                    <input
+                      id="contact-company"
+                      name="company"
+                      type="text"
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none focus:ring-2 focus:ring-[#12B5CB]/20 transition-colors"
+                      placeholder="Company name"
+                    />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-[#E8E8E8] mb-2">Subject</label>
-                    <select className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] focus:border-[#12B5CB] focus:outline-none transition-colors">
+                    <label htmlFor="contact-subject" className="block text-sm font-medium text-[#E8E8E8] mb-2">Subject</label>
+                    <select
+                      id="contact-subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] focus:border-[#12B5CB] focus:outline-none focus:ring-2 focus:ring-[#12B5CB]/20 transition-colors"
+                    >
                       <option value="general">General Enquiry</option>
                       <option value="workshop">Workshop Enquiry</option>
                       <option value="consulting">Consulting Enquiry</option>
@@ -66,11 +128,32 @@ export default function Contact() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#E8E8E8] mb-2">Message *</label>
-                  <textarea required rows={5} className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors resize-none" placeholder="Tell us how we can help..." />
+                  <label htmlFor="contact-message" className="block text-sm font-medium text-[#E8E8E8] mb-2">Message *</label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    required
+                    rows={5}
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none focus:ring-2 focus:ring-[#12B5CB]/20 transition-colors resize-none"
+                    placeholder="Tell us how we can help..."
+                  />
                 </div>
-                <button type="submit" className="w-full px-6 py-3.5 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all flex items-center justify-center gap-2">
-                  <Send className="w-4 h-4" /> Send Message
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full px-6 py-3.5 text-sm font-semibold text-black bg-[#12B5CB] rounded-lg hover:bg-[#12B5CB]/90 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" /> Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" /> Send Message
+                    </>
+                  )}
                 </button>
               </form>
             )}
@@ -85,28 +168,28 @@ export default function Contact() {
                   <div className="flex items-start gap-3">
                     <Mail className="w-5 h-5 text-[#12B5CB] mt-0.5" />
                     <div>
-                      <p className="text-sm text-[#888888]">Email</p>
-                      <a href="mailto:hello@omniscientai.com.au" className="text-[#E8E8E8] hover:text-[#12B5CB] transition-colors">hello@omniscientai.com.au</a>
+                      <p className="text-sm text-white/60">Email</p>
+                      <a href={`mailto:${BRAND.email}`} className="text-[#E8E8E8] hover:text-[#12B5CB] transition-colors cursor-pointer">{BRAND.email}</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Phone className="w-5 h-5 text-[#12B5CB] mt-0.5" />
                     <div>
-                      <p className="text-sm text-[#888888]">Phone</p>
-                      <a href="tel:+61412345678" className="text-[#E8E8E8] hover:text-[#12B5CB] transition-colors">+61 4 1234 5678</a>
+                      <p className="text-sm text-white/60">Phone</p>
+                      <a href={`tel:${BRAND.phone}`} className="text-[#E8E8E8] hover:text-[#12B5CB] transition-colors cursor-pointer">{BRAND.phone}</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-[#12B5CB] mt-0.5" />
                     <div>
-                      <p className="text-sm text-[#888888]">Location</p>
+                      <p className="text-sm text-white/60">Location</p>
                       <p className="text-[#E8E8E8]">Melbourne CBD, VIC 3000</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Clock className="w-5 h-5 text-[#12B5CB] mt-0.5" />
                     <div>
-                      <p className="text-sm text-[#888888]">Business Hours</p>
+                      <p className="text-sm text-white/60">Business Hours</p>
                       <p className="text-[#E8E8E8]">Mon–Fri: 9am–5pm AEST</p>
                     </div>
                   </div>
@@ -115,16 +198,16 @@ export default function Contact() {
 
               <div className="glass-card rounded-2xl p-6">
                 <h3 className="text-lg font-bold text-[#E8E8E8] mb-3" style={{ fontFamily: "var(--font-heading)" }}>Follow Us</h3>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[#888888] hover:text-[#12B5CB] transition-colors">
+                <a href="https://www.linkedin.com/company/omniscientai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">
                   <Linkedin className="w-5 h-5" />
                   <span className="text-sm">LinkedIn</span>
                 </a>
               </div>
 
-              <div className="glass-card rounded-2xl p-6 glow-tangerine">
+              <div className="glass-card rounded-2xl p-6">
                 <h3 className="text-lg font-bold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>Prefer to talk?</h3>
-                <p className="text-sm text-[#888888] mb-4">Book a free 30-minute strategy session instead.</p>
-                <a href="/book" className="block w-full text-center px-4 py-3 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all">
+                <p className="text-sm text-white/60 mb-4">Book a free 30-minute strategy session instead.</p>
+                <a href="/book" className="block w-full text-center px-4 py-3 text-sm font-semibold text-black bg-[#12B5CB] rounded-lg hover:bg-[#12B5CB]/90 transition-all cursor-pointer">
                   Book a Session
                 </a>
               </div>

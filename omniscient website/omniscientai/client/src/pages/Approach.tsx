@@ -17,7 +17,7 @@ export default function Approach() {
       <section className="relative pt-28 pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#12B5CB]/5 to-transparent pointer-events-none" />
         <div className="container relative">
-          <Link href="/about" className="inline-flex items-center gap-1 text-sm text-[#888888] hover:text-[#12B5CB] transition-colors mb-6">
+          <Link href="/about" className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-[#12B5CB] transition-colors mb-6 cursor-pointer">
             <ArrowLeft className="w-4 h-4" /> Back to about
           </Link>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -25,7 +25,7 @@ export default function Approach() {
             <h1 className="text-4xl md:text-5xl font-bold text-[#E8E8E8] leading-tight mb-4" style={{ fontFamily: "var(--font-heading)" }}>
               A methodology built for <span className="text-[#12B5CB]">real results</span>
             </h1>
-            <p className="text-lg text-[#888888] max-w-2xl leading-relaxed">
+            <p className="text-lg text-white/60 max-w-2xl leading-relaxed">
               Our five-step methodology ensures every engagement delivers measurable business outcomes, not just AI awareness.
             </p>
           </motion.div>
@@ -52,7 +52,7 @@ export default function Approach() {
                       <span className="text-sm font-bold text-[#12B5CB]" style={{ fontFamily: "var(--font-mono)" }}>0{i + 1}</span>
                       <h2 className="text-xl font-bold text-[#E8E8E8]" style={{ fontFamily: "var(--font-heading)" }}>{step.title}</h2>
                     </div>
-                    <p className="text-[#888888] leading-relaxed">{step.desc}</p>
+                    <p className="text-white/60 leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
               </motion.div>
@@ -67,7 +67,7 @@ export default function Approach() {
             className="mt-16 text-center"
           >
             <h2 className="text-2xl font-bold text-[#E8E8E8] mb-4" style={{ fontFamily: "var(--font-heading)" }}>Ready to get started?</h2>
-            <Link href="/book" className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all">
+            <Link href="/book" className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all cursor-pointer">
               Book a Free Strategy Session <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { motion, useSpring, useMotionValue } from "framer-motion";
+import { motion, useSpring, useMotionValue, useReducedMotion } from "framer-motion";
 
 export default function CustomCursor() {
     const [isVisible, setIsVisible] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
+    const prefersReducedMotion = useReducedMotion();
 
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -13,6 +14,8 @@ export default function CustomCursor() {
     const cursorY = useSpring(mouseY, springConfig);
 
     useEffect(() => {
+        if (prefersReducedMotion) return;
+
         const handleMouseMove = (e: MouseEvent) => {
             mouseX.set(e.clientX);
             mouseY.set(e.clientY);
@@ -37,12 +40,12 @@ export default function CustomCursor() {
             window.removeEventListener("mousemove", handleMouseMove);
             window.removeEventListener("mouseover", handleMouseOver);
         };
-    }, [isVisible, mouseX, mouseY]);
+    }, [isVisible, mouseX, mouseY, prefersReducedMotion]);
 
-    if (!isVisible) return null;
+    if (prefersReducedMotion || !isVisible) return null;
 
     return (
-        <div className="fixed inset-0 pointer-events-none z-[9999] hidden md:block">
+        <div className="fixed inset-0 pointer-events-none z-50 hidden md:block">
             {/* Outer Ring */}
             <motion.div
                 className="absolute w-8 h-8 border border-[#12B5CB]/40 rounded-full -translate-x-1/2 -translate-y-1/2"

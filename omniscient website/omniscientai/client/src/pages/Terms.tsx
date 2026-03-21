@@ -7,7 +7,7 @@ export default function Terms() {
       <div className="container max-w-3xl">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <h1 className="text-4xl font-bold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>Terms of Service</h1>
-          <p className="text-sm text-[#888888] mb-10" style={{ fontFamily: "var(--font-mono)" }}>Last updated: March 2026</p>
+          <p className="text-sm text-white/60 mb-10" style={{ fontFamily: "var(--font-mono)" }}>Last updated: March 2026</p>
 
           <div className="space-y-8 text-[#E8E8E8]/80 leading-relaxed">
             <div>

@@ -2,7 +2,6 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowRight, Compass, BarChart3 } from "lucide-react";
-import SectionHeading from "@/components/SectionHeading";
 import { SERVICES } from "@/lib/data";
 
 const icons = [Compass, BarChart3];
@@ -18,7 +17,7 @@ export default function Services() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#E8E8E8] leading-tight mb-4" style={{ fontFamily: "var(--font-heading)" }}>
               Strategic AI consulting for <span className="text-[#FA903E]">real outcomes</span>
             </h1>
-            <p className="text-lg text-[#888888] max-w-2xl leading-relaxed">
+            <p className="text-lg text-white/60 max-w-2xl leading-relaxed">
               Beyond workshops, we provide hands-on consulting to help your organisation develop and execute a practical AI strategy. Vendor-neutral. Budget-appropriate. Results-focused.
             </p>
           </motion.div>
@@ -38,8 +37,8 @@ export default function Services() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                 >
-                  <Link href={`/services/${svc.slug}`}>
-                    <div className="glass-card rounded-2xl p-8 group">
+                  <Link href={`/services/${svc.slug}`} className="cursor-pointer">
+                    <div className="glass-card rounded-2xl p-8 group cursor-pointer">
                       <div className="flex items-start gap-6">
                         <div className="w-12 h-12 rounded-xl bg-[#FA903E]/10 border border-[#FA903E]/20 flex items-center justify-center shrink-0">
                           <Icon className="w-6 h-6 text-[#FA903E]" />
@@ -47,7 +46,7 @@ export default function Services() {
                         <div className="flex-1">
                           <h2 className="text-2xl font-bold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>{svc.title}</h2>
                           <p className="text-sm text-[#12B5CB] mb-3">{svc.subtitle}</p>
-                          <p className="text-[#888888] leading-relaxed mb-4">{svc.description}</p>
+                          <p className="text-white/60 leading-relaxed mb-4">{svc.description}</p>
                           <div className="flex items-center gap-1 text-sm text-[#12B5CB] font-medium group-hover:gap-2 transition-all">
                             Learn more <ArrowRight className="w-4 h-4" />
                           </div>

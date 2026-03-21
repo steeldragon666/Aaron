@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from "react";
-import { useMouse } from "react-use";
+import { useRef, useEffect } from "react";
+import { useReducedMotion } from "framer-motion";
 
 interface Particle {
     x: number;
@@ -10,11 +10,13 @@ interface Particle {
 }
 
 export default function GenerativeNeuralMesh() {
-    const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const { elX, elY } = useMouse(containerRef);
+    const mouseRef = useRef({ x: 0, y: 0 });
+    const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
+        if (prefersReducedMotion) return;
+
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -46,21 +48,24 @@ export default function GenerativeNeuralMesh() {
             }
         };
 
+        const handleMouseMove = (e: MouseEvent) => {
+            mouseRef.current.x = e.clientX;
+            mouseRef.current.y = e.clientY;
+        };
+
         const draw = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const { x: mx, y: my } = mouseRef.current;
 
             particles.forEach((p, i) => {
-                // Move
                 p.x += p.vx;
                 p.y += p.vy;
 
-                // Bounce
                 if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
                 if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
-                // Mouse Attraction
-                const dx = elX - p.x;
-                const dy = elY - p.y;
+                const dx = mx - p.x;
+                const dy = my - p.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
 
                 if (dist < mouseRadius) {
@@ -69,13 +74,11 @@ export default function GenerativeNeuralMesh() {
                     p.vy += dy * force * 0.001;
                 }
 
-                // Draw particle
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fillStyle = "rgba(18, 181, 203, 0.4)";
                 ctx.fill();
 
-                // Connect
                 for (let j = i + 1; j < particles.length; j++) {
                     const p2 = particles[j];
                     const cdx = p.x - p2.x;
@@ -98,17 +101,21 @@ export default function GenerativeNeuralMesh() {
         };
 
         window.addEventListener("resize", resize);
+        window.addEventListener("mousemove", handleMouseMove);
         resize();
         draw();
 
         return () => {
             window.removeEventListener("resize", resize);
+            window.removeEventListener("mousemove", handleMouseMove);
             cancelAnimationFrame(animationFrameId);
         };
-    }, [elX, elY]);
+    }, [prefersReducedMotion]);
+
+    if (prefersReducedMotion) return null;
 
     return (
-        <div ref={containerRef} className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
             <canvas ref={canvasRef} />
             <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
         </div>

@@ -18,7 +18,7 @@ export default function Industries() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#E8E8E8] leading-tight mb-4" style={{ fontFamily: "var(--font-heading)" }}>
               AI solutions for <span className="text-[#12B5CB]">your industry</span>
             </h1>
-            <p className="text-lg text-[#888888] max-w-2xl leading-relaxed">
+            <p className="text-lg text-white/60 max-w-2xl leading-relaxed">
               Every industry has unique AI opportunities and challenges. We tailor our workshops and consulting to your specific sector, regulations, and competitive landscape.
             </p>
           </motion.div>
@@ -39,21 +39,21 @@ export default function Industries() {
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                 >
                   <Link href={`/industries/${ind.slug}`}>
-                    <div className="glass-card rounded-2xl p-6 md:p-8 h-full group">
+                    <div className="glass-card rounded-2xl p-6 md:p-8 h-full group cursor-pointer">
                       <div className="flex items-start gap-4 mb-4">
                         <div className="w-12 h-12 rounded-xl bg-[#12B5CB]/10 border border-[#12B5CB]/20 flex items-center justify-center shrink-0">
                           <Icon className="w-6 h-6 text-[#12B5CB]" />
                         </div>
                         <div>
                           <h2 className="text-xl font-bold text-[#E8E8E8]" style={{ fontFamily: "var(--font-heading)" }}>{ind.title}</h2>
-                          <p className="text-sm text-[#888888]">{ind.subtitle}</p>
+                          <p className="text-sm text-white/60">{ind.subtitle}</p>
                         </div>
                       </div>
-                      <p className="text-sm text-[#888888] leading-relaxed mb-4">{ind.description}</p>
+                      <p className="text-sm text-white/60 leading-relaxed mb-4">{ind.description}</p>
                       <div className="flex items-center justify-between">
                         <div>
                           <span className="text-2xl font-bold text-[#12B5CB]" style={{ fontFamily: "var(--font-mono)" }}>{ind.stat}</span>
-                          <span className="text-xs text-[#888888] ml-2">{ind.statLabel}</span>
+                          <span className="text-xs text-white/60 ml-2">{ind.statLabel}</span>
                         </div>
                         <div className="flex items-center gap-1 text-sm text-[#12B5CB] font-medium group-hover:gap-2 transition-all">
                           Learn more <ArrowRight className="w-4 h-4" />

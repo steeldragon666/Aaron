@@ -76,14 +76,14 @@ export default function LeadGate({ toolName, toolDescription, icon, children }: 
           >
             Unlock {toolName}
           </h2>
-          <p className="text-sm text-[#888888] text-center mb-8 max-w-sm mx-auto leading-relaxed">
+          <p className="text-sm text-white/60 text-center mb-8 max-w-sm mx-auto leading-relaxed">
             {toolDescription}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name */}
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#888888]" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60" />
               <input
                 type="text"
                 placeholder="Your name"
@@ -95,7 +95,7 @@ export default function LeadGate({ toolName, toolDescription, icon, children }: 
 
             {/* Email */}
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#888888]" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60" />
               <input
                 type="email"
                 placeholder="Work email"
@@ -107,7 +107,7 @@ export default function LeadGate({ toolName, toolDescription, icon, children }: 
 
             {/* Company */}
             <div className="relative">
-              <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#888888]" />
+              <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60" />
               <input
                 type="text"
                 placeholder="Company name"

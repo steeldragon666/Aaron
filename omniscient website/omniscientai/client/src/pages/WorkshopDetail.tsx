@@ -30,7 +30,7 @@ export default function WorkshopDetail() {
           <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/80 via-[#0A0A0A]/90 to-[#0A0A0A]" />
         </div>
         <div className="container relative">
-          <Link href="/workshops" className="inline-flex items-center gap-1 text-sm text-[#888888] hover:text-[#12B5CB] transition-colors mb-6">
+          <Link href="/workshops" className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-[#12B5CB] transition-colors mb-6 cursor-pointer">
             <ArrowLeft className="w-4 h-4" /> Back to workshops
           </Link>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -38,15 +38,15 @@ export default function WorkshopDetail() {
               <span className="text-xs font-medium text-[#12B5CB] px-3 py-1 rounded-full bg-[#12B5CB]/10 border border-[#12B5CB]/20 flex items-center gap-1" style={{ fontFamily: "var(--font-mono)" }}>
                 <Clock className="w-3 h-3" /> {ws.duration}
               </span>
-              <span className="text-xs font-medium text-[#888888] px-3 py-1 rounded-full bg-white/5 border border-[#333333] flex items-center gap-1" style={{ fontFamily: "var(--font-mono)" }}>
+              <span className="text-xs font-medium text-white/60 px-3 py-1 rounded-full bg-white/5 border border-[#333333] flex items-center gap-1" style={{ fontFamily: "var(--font-mono)" }}>
                 <Users className="w-3 h-3" /> {ws.format}
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-[#E8E8E8] mb-3" style={{ fontFamily: "var(--font-heading)" }}>{ws.title}</h1>
-            <p className="text-xl text-[#888888] mb-4">{ws.subtitle}</p>
+            <p className="text-xl text-white/60 mb-4">{ws.subtitle}</p>
             <div className="flex items-center gap-4">
               <span className="text-2xl font-bold text-[#FA903E]" style={{ fontFamily: "var(--font-mono)" }}>{ws.priceRange}</span>
-              <span className="text-sm text-[#888888]">{ws.priceNote}</span>
+              <span className="text-sm text-white/60">{ws.priceNote}</span>
             </div>
           </motion.div>
         </div>
@@ -85,9 +85,9 @@ export default function WorkshopDetail() {
                         <span className="text-[#12B5CB] mr-2" style={{ fontFamily: "var(--font-mono)" }}>0{i + 1}</span>
                         {mod.title}
                       </h3>
-                      <span className="text-xs text-[#888888] shrink-0 px-2 py-0.5 rounded-full bg-white/5" style={{ fontFamily: "var(--font-mono)" }}>{mod.duration}</span>
+                      <span className="text-xs text-white/60 shrink-0 px-2 py-0.5 rounded-full bg-white/5" style={{ fontFamily: "var(--font-mono)" }}>{mod.duration}</span>
                     </div>
-                    <p className="text-sm text-[#888888] leading-relaxed">{mod.description}</p>
+                    <p className="text-sm text-white/60 leading-relaxed">{mod.description}</p>
                   </div>
                 ))}
               </div>
@@ -116,14 +116,14 @@ export default function WorkshopDetail() {
                   <div key={i} className="glass-card rounded-xl overflow-hidden">
                     <button
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                      className="w-full flex items-center justify-between p-5 text-left"
+                      className="w-full flex items-center justify-between p-5 text-left cursor-pointer"
                     >
                       <span className="text-[#E8E8E8] font-medium pr-4">{faq.q}</span>
-                      <ChevronDown className={`w-5 h-5 text-[#888888] shrink-0 transition-transform ${openFaq === i ? "rotate-180" : ""}`} />
+                      <ChevronDown className={`w-5 h-5 text-white/60 shrink-0 transition-transform ${openFaq === i ? "rotate-180" : ""}`} />
                     </button>
                     {openFaq === i && (
                       <div className="px-5 pb-5 -mt-1">
-                        <p className="text-sm text-[#888888] leading-relaxed">{faq.a}</p>
+                        <p className="text-sm text-white/60 leading-relaxed">{faq.a}</p>
                       </div>
                     )}
                   </div>
@@ -140,7 +140,7 @@ export default function WorkshopDetail() {
                     <p className="text-[#E8E8E8]/90 leading-relaxed mb-4 italic">"{t.quote}"</p>
                     <div>
                       <p className="text-sm font-semibold text-[#E8E8E8]">{t.name}</p>
-                      <p className="text-xs text-[#888888]">{t.role}</p>
+                      <p className="text-xs text-white/60">{t.role}</p>
                     </div>
                   </div>
                 ))}
@@ -153,31 +153,31 @@ export default function WorkshopDetail() {
             <div className="lg:sticky lg:top-24">
               <div className="glass-card rounded-2xl p-6 glow-cyan">
                 <h3 className="text-lg font-bold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>Book This Workshop</h3>
-                <p className="text-sm text-[#888888] mb-4">Secure your team's spot. We'll customise the content to your industry.</p>
+                <p className="text-sm text-white/60 mb-4">Secure your team's spot. We'll customise the content to your industry.</p>
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#888888]">Duration</span>
+                    <span className="text-white/60">Duration</span>
                     <span className="text-[#E8E8E8] font-medium">{ws.duration}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#888888]">Format</span>
+                    <span className="text-white/60">Format</span>
                     <span className="text-[#E8E8E8] font-medium">{ws.format}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#888888]">Investment</span>
+                    <span className="text-white/60">Investment</span>
                     <span className="text-[#FA903E] font-bold" style={{ fontFamily: "var(--font-mono)" }}>{ws.priceRange}</span>
                   </div>
-                  <div className="text-xs text-[#888888]">{ws.priceNote}</div>
+                  <div className="text-xs text-white/60">{ws.priceNote}</div>
                 </div>
                 <Link
                   href="/book"
-                  className="block w-full text-center px-6 py-3.5 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all mb-3"
+                  className="block w-full text-center px-6 py-3.5 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all mb-3 cursor-pointer"
                 >
                   Book Now
                 </Link>
                 <Link
                   href="/contact"
-                  className="block w-full text-center px-6 py-3 text-sm font-medium text-[#12B5CB] border border-[#12B5CB]/30 rounded-lg hover:bg-[#12B5CB]/10 transition-colors"
+                  className="block w-full text-center px-6 py-3 text-sm font-medium text-[#12B5CB] border border-[#12B5CB]/30 rounded-lg hover:bg-[#12B5CB]/10 transition-colors cursor-pointer"
                 >
                   Ask a Question
                 </Link>

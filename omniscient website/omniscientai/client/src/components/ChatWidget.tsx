@@ -103,10 +103,10 @@ export default function ChatWidget() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-[#E8E8E8]" style={{ fontFamily: "var(--font-heading)" }}>OmniscientAI</p>
-                  <p className="text-xs text-[#888888]">Demo Assistant</p>
+                  <p className="text-xs text-white/60">Demo Assistant</p>
                 </div>
               </div>
-              <button onClick={() => setOpen(false)} className="text-[#888888] hover:text-[#E8E8E8] transition-colors">
+              <button onClick={() => setOpen(false)} className="text-white/60 hover:text-[#E8E8E8] transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -128,9 +128,9 @@ export default function ChatWidget() {
                 <div className="flex justify-start">
                   <div className="bg-[#0A0A0A] border border-[#333333] rounded-2xl rounded-bl-md px-4 py-3">
                     <div className="flex gap-1">
-                      <div className="w-2 h-2 rounded-full bg-[#888888] animate-bounce" style={{ animationDelay: "0ms" }} />
-                      <div className="w-2 h-2 rounded-full bg-[#888888] animate-bounce" style={{ animationDelay: "150ms" }} />
-                      <div className="w-2 h-2 rounded-full bg-[#888888] animate-bounce" style={{ animationDelay: "300ms" }} />
+                      <div className="w-2 h-2 rounded-full bg-white/60 animate-bounce" style={{ animationDelay: "0ms" }} />
+                      <div className="w-2 h-2 rounded-full bg-white/60 animate-bounce" style={{ animationDelay: "150ms" }} />
+                      <div className="w-2 h-2 rounded-full bg-white/60 animate-bounce" style={{ animationDelay: "300ms" }} />
                     </div>
                   </div>
                 </div>
@@ -163,7 +163,7 @@ export default function ChatWidget() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about our workshops..."
-                  className="flex-1 px-3 py-2 rounded-lg bg-[#1A1A1A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] text-sm focus:border-[#12B5CB] focus:outline-none transition-colors"
+                  className="flex-1 px-3 py-2 rounded-lg bg-[#1A1A1A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 text-sm focus:border-[#12B5CB] focus:outline-none transition-colors"
                 />
                 <button
                   type="submit"
@@ -173,7 +173,7 @@ export default function ChatWidget() {
                   <Send className="w-4 h-4" />
                 </button>
               </form>
-              <p className="text-[10px] text-[#888888] mt-1.5 text-center">This is a demo chatbot with pre-scripted responses.</p>
+              <p className="text-[10px] text-white/60 mt-1.5 text-center">This is a demo chatbot with pre-scripted responses.</p>
             </div>
           </motion.div>
         )}

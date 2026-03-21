@@ -12,26 +12,26 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block hover:opacity-90 transition-opacity mb-6">
+            <Link href="/" className="inline-block hover:opacity-90 transition-opacity mb-6 cursor-pointer">
               <Logo iconOnly={false} />
             </Link>
-            <p className="text-base text-white/50 leading-relaxed mb-8 max-w-sm">
+            <p className="text-base text-white/60 leading-relaxed mb-8 max-w-sm">
               Melbourne's leading vendor-neutral AI training and consulting for SMEs. Practical skills, not vendor hype.
             </p>
             <div className="space-y-4 text-sm font-medium">
-              <a href={`mailto:${BRAND.email}`} className="flex items-center gap-3 text-white/40 hover:text-[#12B5CB] transition-colors">
+              <a href={`mailto:${BRAND.email}`} className="flex items-center gap-3 text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">
                 <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
                   <Mail className="w-4 h-4" />
                 </div>
                 {BRAND.email}
               </a>
-              <a href={`tel:${BRAND.phone}`} className="flex items-center gap-3 text-white/40 hover:text-[#12B5CB] transition-colors">
+              <a href={`tel:${BRAND.phone}`} className="flex items-center gap-3 text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">
                 <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
                   <Phone className="w-4 h-4" />
                 </div>
                 {BRAND.phone}
               </a>
-              <div className="flex items-start gap-3 text-white/40">
+              <div className="flex items-start gap-3 text-white/60">
                 <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
                   <MapPin className="w-4 h-4" />
                 </div>
@@ -44,10 +44,10 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-8">Workshops</h4>
             <ul className="space-y-4">
-              <li><Link href="/workshops/ai-for-business-leaders" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">AI for Business Leaders</Link></li>
-              <li><Link href="/workshops/microsoft-copilot-masterclass" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">Copilot Masterclass</Link></li>
-              <li><Link href="/workshops/ai-governance-essentials" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">Governance Essentials</Link></li>
-              <li><Link href="/workshops/custom" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">Custom Workshop</Link></li>
+              <li><Link href="/workshops/ai-for-business-leaders" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">AI for Business Leaders</Link></li>
+              <li><Link href="/workshops/microsoft-copilot-masterclass" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">Copilot Masterclass</Link></li>
+              <li><Link href="/workshops/ai-governance-essentials" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">Governance Essentials</Link></li>
+              <li><Link href="/workshops/custom" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">Custom Workshop</Link></li>
             </ul>
           </div>
 
@@ -55,11 +55,11 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-8">Company</h4>
             <ul className="space-y-4">
-              <li><Link href="/about" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">About Us</Link></li>
-              <li><Link href="/about/approach" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">Our Approach</Link></li>
-              <li><Link href="/insights" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">Insights</Link></li>
-              <li><Link href="/contact" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">Contact</Link></li>
-              <li><Link href="/book" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">Book a Session</Link></li>
+              <li><Link href="/about" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">About Us</Link></li>
+              <li><Link href="/about/approach" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">Our Approach</Link></li>
+              <li><Link href="/insights" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">Insights</Link></li>
+              <li><Link href="/contact" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">Contact</Link></li>
+              <li><Link href="/book" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">Book a Session</Link></li>
             </ul>
           </div>
 
@@ -67,10 +67,10 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-8">Resources</h4>
             <ul className="space-y-4">
-              <li><Link href="/ai-readiness-quiz" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">AI Readiness Quiz</Link></li>
-              <li><Link href="/roi-calculator" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">AI ROI Calculator</Link></li>
-              <li><Link href="/services/ai-strategy-consulting" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">Strategy Consulting</Link></li>
-              <li><Link href="/services/ai-readiness-assessment" className="text-sm text-white/40 hover:text-[#12B5CB] transition-colors">Readiness Assessment</Link></li>
+              <li><Link href="/ai-readiness-quiz" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">AI Readiness Quiz</Link></li>
+              <li><Link href="/roi-calculator" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">AI ROI Calculator</Link></li>
+              <li><Link href="/services/ai-strategy-consulting" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">Strategy Consulting</Link></li>
+              <li><Link href="/services/ai-readiness-assessment" className="text-sm text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer">Readiness Assessment</Link></li>
             </ul>
           </div>
         </div>
@@ -92,12 +92,12 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-white/20">
-            &copy; {new Date().getFullYear()} OmniscientAI • ABN {BRAND.abn}
+          <p className="text-xs font-bold uppercase tracking-widest text-white/30">
+            &copy; {new Date().getFullYear()} OmniscientAI &middot; ABN {BRAND.abn}
           </p>
           <div className="flex items-center gap-8">
-            <Link href="/privacy-policy" className="text-xs font-bold uppercase tracking-widest text-white/20 hover:text-[#12B5CB] transition-colors">Privacy</Link>
-            <Link href="/terms" className="text-xs font-bold uppercase tracking-widest text-white/20 hover:text-[#12B5CB] transition-colors">Terms</Link>
+            <Link href="/privacy-policy" className="text-xs font-bold uppercase tracking-widest text-white/30 hover:text-[#12B5CB] transition-colors cursor-pointer">Privacy</Link>
+            <Link href="/terms" className="text-xs font-bold uppercase tracking-widest text-white/30 hover:text-[#12B5CB] transition-colors cursor-pointer">Terms</Link>
           </div>
         </div>
       </div>

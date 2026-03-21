@@ -63,7 +63,7 @@ function ScoreBar({ label, value, delay }: { label: string; value: number; delay
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-xs text-[#888888]">{label}</span>
+        <span className="text-xs text-white/60">{label}</span>
         <span className="text-xs font-semibold" style={{ color: getColor(value), fontFamily: "var(--font-mono)" }}>
           {value}%
         </span>
@@ -97,7 +97,7 @@ function ResultsDashboard({ result }: { result: AnalysisResult }) {
             Document Summary
           </h3>
         </div>
-        <p className="text-sm text-[#888888] leading-relaxed">{result.summary}</p>
+        <p className="text-sm text-white/60 leading-relaxed">{result.summary}</p>
       </div>
 
       {/* Scores Grid */}
@@ -138,7 +138,7 @@ function ResultsDashboard({ result }: { result: AnalysisResult }) {
               >
                 {result.timeSavingsHoursPerWeek}
               </motion.span>
-              <span className="text-sm text-[#888888]">hours/week</span>
+              <span className="text-sm text-white/60">hours/week</span>
             </div>
             <p className="text-xs text-[#666666] mt-1">
               That's ~{Math.round(result.timeSavingsHoursPerWeek * 52)} hours per year your team could save with AI automation.
@@ -163,7 +163,7 @@ function ResultsDashboard({ result }: { result: AnalysisResult }) {
                   className="flex items-start gap-2"
                 >
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#12B5CB] shrink-0 mt-0.5" />
-                  <span className="text-xs text-[#888888] leading-relaxed">{opp}</span>
+                  <span className="text-xs text-white/60 leading-relaxed">{opp}</span>
                 </motion.div>
               ))}
             </div>
@@ -191,7 +191,7 @@ function ResultsDashboard({ result }: { result: AnalysisResult }) {
               <span className="text-xs font-bold text-[#12B5CB] shrink-0 mt-0.5" style={{ fontFamily: "var(--font-mono)" }}>
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="text-xs text-[#888888] leading-relaxed">{rec}</span>
+              <span className="text-xs text-white/60 leading-relaxed">{rec}</span>
             </motion.div>
           ))}
         </div>
@@ -232,7 +232,7 @@ function ResultsDashboard({ result }: { result: AnalysisResult }) {
         <h3 className="text-lg font-semibold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>
           Ready to act on these insights?
         </h3>
-        <p className="text-sm text-[#888888] mb-4 max-w-lg mx-auto">
+        <p className="text-sm text-white/60 mb-4 max-w-lg mx-auto">
           Book a free strategy session to discuss your analysis results and create a tailored AI implementation roadmap.
         </p>
         <Link
@@ -338,7 +338,7 @@ function AnalyserContent() {
           </h2>
           <button
             onClick={handleReset}
-            className="text-xs text-[#888888] hover:text-[#12B5CB] transition-colors flex items-center gap-1"
+            className="text-xs text-white/60 hover:text-[#12B5CB] transition-colors flex items-center gap-1 cursor-pointer"
           >
             Analyse another document
           </button>
@@ -359,7 +359,7 @@ function AnalyserContent() {
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
               inputMode === "file"
                 ? "bg-[#12B5CB]/10 text-[#12B5CB] border border-[#12B5CB]/20"
-                : "text-[#888888] border border-[#333333] hover:border-[#12B5CB]/20"
+                : "text-white/60 border border-[#333333] hover:border-[#12B5CB]/20"
             }`}
           >
             <Upload className="w-3.5 h-3.5" /> Upload File
@@ -369,7 +369,7 @@ function AnalyserContent() {
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
               inputMode === "text"
                 ? "bg-[#12B5CB]/10 text-[#12B5CB] border border-[#12B5CB]/20"
-                : "text-[#888888] border border-[#333333] hover:border-[#12B5CB]/20"
+                : "text-white/60 border border-[#333333] hover:border-[#12B5CB]/20"
             }`}
           >
             <FileText className="w-3.5 h-3.5" /> Paste Text
@@ -401,14 +401,14 @@ function AnalyserContent() {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-[#E8E8E8]">{file.name}</p>
-                  <p className="text-xs text-[#888888]">{(file.size / 1024).toFixed(1)} KB</p>
+                  <p className="text-xs text-white/60">{(file.size / 1024).toFixed(1)} KB</p>
                 </div>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     setFile(null);
                   }}
-                  className="inline-flex items-center gap-1 text-xs text-[#888888] hover:text-red-400 transition-colors"
+                  className="inline-flex items-center gap-1 text-xs text-white/60 hover:text-red-400 transition-colors cursor-pointer"
                 >
                   <X className="w-3 h-3" /> Remove
                 </button>
@@ -416,7 +416,7 @@ function AnalyserContent() {
             ) : (
               <div className="space-y-3">
                 <div className="w-16 h-16 rounded-2xl bg-[#1A1A1A] border border-[#333333] border-dashed flex items-center justify-center mx-auto">
-                  <Upload className="w-7 h-7 text-[#888888]" />
+                  <Upload className="w-7 h-7 text-white/60" />
                 </div>
                 <div>
                   <p className="text-sm text-[#E8E8E8]">
@@ -562,7 +562,7 @@ export default function DocumentAnalyser() {
               AI Business{" "}
               <span className="text-[#FA903E]">Document Analyser</span>
             </h1>
-            <p className="text-base md:text-lg text-[#888888] leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-white/60 leading-relaxed max-w-2xl mx-auto">
               Upload any business document and get an instant AI analysis identifying automation opportunities,
               time savings, and personalised workshop recommendations.
             </p>

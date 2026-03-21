@@ -14,7 +14,7 @@ export default function About() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#E8E8E8] leading-tight mb-4" style={{ fontFamily: "var(--font-heading)" }}>
               Vendor-neutral AI expertise for <span className="text-[#12B5CB]">Melbourne SMEs</span>
             </h1>
-            <p className="text-lg text-[#888888] max-w-2xl leading-relaxed">
+            <p className="text-lg text-white/60 max-w-2xl leading-relaxed">
               We exist because most AI training is either too theoretical, too vendor-biased, or too expensive for small and medium businesses. We're changing that.
             </p>
           </motion.div>
@@ -43,7 +43,10 @@ export default function About() {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}>
               <img
                 src="https://d2xsxph8kpxj0f.cloudfront.net/310419663026972742/it6qHcTHLu2dmqyuKKnamM/melbourne-skyline-PTJNo5KjCBwBdy5Wy2WHDt.webp"
-                alt="Melbourne skyline"
+                alt="Melbourne skyline view from CBD"
+                width={800}
+                height={500}
+                loading="lazy"
                 className="w-full rounded-2xl"
               />
             </motion.div>
@@ -76,7 +79,7 @@ export default function About() {
                     <v.icon className="w-5 h-5 text-[#12B5CB]" />
                   </div>
                   <h3 className="text-lg font-semibold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>{v.title}</h3>
-                  <p className="text-sm text-[#888888] leading-relaxed">{v.desc}</p>
+                  <p className="text-sm text-white/60 leading-relaxed">{v.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -92,10 +95,10 @@ export default function About() {
               Want to learn more about our approach?
             </h2>
             <div className="flex flex-wrap justify-center gap-4 mt-6">
-              <Link href="/about/approach" className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-[#12B5CB] border border-[#12B5CB]/30 rounded-lg hover:bg-[#12B5CB]/10 transition-colors">
+              <Link href="/about/approach" className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-[#12B5CB] border border-[#12B5CB]/30 rounded-lg hover:bg-[#12B5CB]/10 transition-colors cursor-pointer">
                 Our Methodology <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/book" className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all">
+              <Link href="/book" className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-[#0A0A0A] bg-[#12B5CB] rounded-lg hover:bg-[#12B5CB]/90 transition-all cursor-pointer">
                 Book a Strategy Session <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

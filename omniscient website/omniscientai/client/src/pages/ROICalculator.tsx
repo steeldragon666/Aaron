@@ -48,7 +48,7 @@ export default function ROICalculator() {
           <h1 className="text-4xl md:text-5xl font-bold text-[#E8E8E8] mb-4" style={{ fontFamily: "var(--font-heading)" }}>
             Calculate your <span className="text-[#FA903E]">AI ROI</span>
           </h1>
-          <p className="text-lg text-[#888888] max-w-2xl leading-relaxed">
+          <p className="text-lg text-white/60 max-w-2xl leading-relaxed">
             Estimate the potential time and cost savings from AI adoption for your business. Adjust the inputs to match your organisation.
           </p>
         </motion.div>
@@ -72,7 +72,7 @@ export default function ROICalculator() {
                   onChange={(e) => setEmployees(Number(e.target.value))}
                   className="w-full h-2 rounded-full appearance-none bg-[#333333] accent-[#12B5CB]"
                 />
-                <div className="flex justify-between text-xs text-[#888888] mt-1"><span>1</span><span>200</span></div>
+                <div className="flex justify-between text-xs text-white/60 mt-1"><span>1</span><span>200</span></div>
               </div>
 
               <div>
@@ -88,7 +88,7 @@ export default function ROICalculator() {
                   onChange={(e) => setHoursManual(Number(e.target.value))}
                   className="w-full h-2 rounded-full appearance-none bg-[#333333] accent-[#12B5CB]"
                 />
-                <div className="flex justify-between text-xs text-[#888888] mt-1"><span>1h</span><span>40h</span></div>
+                <div className="flex justify-between text-xs text-white/60 mt-1"><span>1h</span><span>40h</span></div>
               </div>
 
               <div>
@@ -105,7 +105,7 @@ export default function ROICalculator() {
                   onChange={(e) => setHourlyRate(Number(e.target.value))}
                   className="w-full h-2 rounded-full appearance-none bg-[#333333] accent-[#12B5CB]"
                 />
-                <div className="flex justify-between text-xs text-[#888888] mt-1"><span>$25</span><span>$250</span></div>
+                <div className="flex justify-between text-xs text-white/60 mt-1"><span>$25</span><span>$250</span></div>
               </div>
 
               <div>
@@ -134,7 +134,7 @@ export default function ROICalculator() {
                     <Clock className="w-5 h-5 text-[#12B5CB]" />
                   </div>
                   <div>
-                    <p className="text-sm text-[#888888]">Time saved per person per week</p>
+                    <p className="text-sm text-white/60">Time saved per person per week</p>
                     <p className="text-2xl font-bold text-[#12B5CB]" style={{ fontFamily: "var(--font-mono)" }}>{results.timeSavedPerPerson} hours</p>
                   </div>
                 </div>
@@ -144,7 +144,7 @@ export default function ROICalculator() {
                     <DollarSign className="w-5 h-5 text-[#12B5CB]" />
                   </div>
                   <div>
-                    <p className="text-sm text-[#888888]">Estimated annual savings</p>
+                    <p className="text-sm text-white/60">Estimated annual savings</p>
                     <p className="text-3xl font-bold text-[#12B5CB]" style={{ fontFamily: "var(--font-mono)" }}>{fmt(results.annualSavings)}</p>
                   </div>
                 </div>
@@ -154,36 +154,36 @@ export default function ROICalculator() {
                     <TrendingUp className="w-5 h-5 text-[#FA903E]" />
                   </div>
                   <div>
-                    <p className="text-sm text-[#888888]">Estimated ROI (first year)</p>
+                    <p className="text-sm text-white/60">Estimated ROI (first year)</p>
                     <p className="text-3xl font-bold text-[#FA903E]" style={{ fontFamily: "var(--font-mono)" }}>{results.roi}%</p>
                   </div>
                 </div>
 
                 <div className="border-t border-[#333333]/50 pt-4 space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#888888]">Total hours saved / week</span>
+                    <span className="text-white/60">Total hours saved / week</span>
                     <span className="text-[#E8E8E8]" style={{ fontFamily: "var(--font-mono)" }}>{results.totalTimeSavedWeekly}h</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#888888]">Weekly cost savings</span>
+                    <span className="text-white/60">Weekly cost savings</span>
                     <span className="text-[#E8E8E8]" style={{ fontFamily: "var(--font-mono)" }}>{fmt(results.weeklySavings)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#888888]">Est. implementation cost</span>
+                    <span className="text-white/60">Est. implementation cost</span>
                     <span className="text-[#E8E8E8]" style={{ fontFamily: "var(--font-mono)" }}>{fmt(results.estimatedCost)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#888888]">Industry automation rate</span>
+                    <span className="text-white/60">Industry automation rate</span>
                     <span className="text-[#E8E8E8]" style={{ fontFamily: "var(--font-mono)" }}>{results.automationRate}%</span>
                   </div>
                 </div>
               </div>
 
               <div className="mt-6 pt-6 border-t border-[#333333]/50">
-                <p className="text-xs text-[#888888] mb-4">These are estimates based on industry benchmarks. Actual results vary based on implementation quality and use case selection.</p>
+                <p className="text-xs text-white/60 mb-4">These are estimates based on industry benchmarks. Actual results vary based on implementation quality and use case selection.</p>
                 <Link
                   href="/book"
-                  className="block w-full text-center px-6 py-3.5 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all"
+                  className="block w-full text-center px-6 py-3.5 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all cursor-pointer"
                 >
                   Discuss Your AI Opportunity
                 </Link>

@@ -115,7 +115,7 @@ export default function AIOssistant() {
                                                     initial={{ opacity: 0, y: 5 }}
                                                     animate={{ opacity: 1, y: 0 }}
                                                     exit={{ opacity: 0, y: -5 }}
-                                                    className="text-[10px] font-bold uppercase tracking-widest text-white/40"
+                                                    className="text-[10px] font-bold uppercase tracking-widest text-white/60"
                                                 >
                                                     {INITIAL_STATUS[statusIdx]}
                                                 </motion.span>
@@ -127,7 +127,7 @@ export default function AIOssistant() {
                                     onClick={() => setOpen(false)}
                                     className="p-2 hover:bg-white/5 rounded-lg transition-colors"
                                 >
-                                    <X className="w-5 h-5 text-white/40 hover:text-white" />
+                                    <X className="w-5 h-5 text-white/60 hover:text-white" />
                                 </button>
                             </div>
                         </div>

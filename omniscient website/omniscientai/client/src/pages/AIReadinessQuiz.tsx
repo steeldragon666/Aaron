@@ -83,13 +83,13 @@ export default function AIReadinessQuiz() {
                     {totalScore}/{maxScore}
                   </div>
                   <div className="text-2xl font-bold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>{tierInfo.tier}</div>
-                  <p className="text-[#888888] leading-relaxed">{tierInfo.description}</p>
+                  <p className="text-white/60 leading-relaxed">{tierInfo.description}</p>
                 </div>
                 <div className="w-full md:w-80 h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <RadarChart data={categoryScores}>
                       <PolarGrid stroke="#333333" />
-                      <PolarAngleAxis dataKey="category" tick={{ fill: "#888888", fontSize: 11 }} />
+                      <PolarAngleAxis dataKey="category" tick={{ fill: "#9CA3AF", fontSize: 11 }} />
                       <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} axisLine={false} />
                       <Radar name="Score" dataKey="score" stroke="#12B5CB" fill="#12B5CB" fillOpacity={0.2} strokeWidth={2} />
                     </RadarChart>
@@ -120,7 +120,7 @@ export default function AIReadinessQuiz() {
                   <Lock className="w-6 h-6 text-[#12B5CB] mt-1 shrink-0" />
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>Get Your Full AI Readiness Report</h3>
-                    <p className="text-sm text-[#888888] mb-4">Enter your email to receive a detailed PDF report with personalised recommendations, industry benchmarks, and a prioritised action plan.</p>
+                    <p className="text-sm text-white/60 mb-4">Enter your email to receive a detailed PDF report with personalised recommendations, industry benchmarks, and a prioritised action plan.</p>
                     <form onSubmit={(e) => { e.preventDefault(); setEmailSubmitted(true); }} className="flex flex-col sm:flex-row gap-3">
                       <input
                         type="email"
@@ -128,7 +128,7 @@ export default function AIReadinessQuiz() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@company.com"
-                        className="flex-1 px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors"
+                        className="flex-1 px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none transition-colors"
                       />
                       <button type="submit" className="px-6 py-3 text-sm font-semibold text-[#0A0A0A] bg-[#12B5CB] rounded-lg hover:bg-[#12B5CB]/90 transition-all whitespace-nowrap flex items-center gap-2">
                         <Download className="w-4 h-4" /> Get Report
@@ -152,10 +152,10 @@ export default function AIReadinessQuiz() {
               <div className="space-y-3">
                 {recommendations.map((ws) => (
                   <Link key={ws.slug} href={`/workshops/${ws.slug}`}>
-                    <div className="glass-card rounded-xl p-5 group flex items-center justify-between">
+                    <div className="glass-card rounded-xl p-5 group flex items-center justify-between cursor-pointer">
                       <div>
                         <h4 className="text-lg font-semibold text-[#E8E8E8]" style={{ fontFamily: "var(--font-heading)" }}>{ws.title}</h4>
-                        <p className="text-sm text-[#888888]">{ws.duration} · {ws.priceRange}</p>
+                        <p className="text-sm text-white/60">{ws.duration} · {ws.priceRange}</p>
                       </div>
                       <ArrowRight className="w-5 h-5 text-[#12B5CB] group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -183,13 +183,13 @@ export default function AIReadinessQuiz() {
           <h1 className="text-3xl md:text-4xl font-bold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>
             How AI-ready is your business?
           </h1>
-          <p className="text-[#888888] mb-8">Answer 10 questions to get your personalised AI Readiness Score with tailored recommendations.</p>
+          <p className="text-white/60 mb-8">Answer 10 questions to get your personalised AI Readiness Score with tailored recommendations.</p>
         </motion.div>
 
         {/* Progress bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between text-sm mb-2">
-            <span className="text-[#888888]">Question {currentQ + 1} of {QUIZ_QUESTIONS.length}</span>
+            <span className="text-white/60">Question {currentQ + 1} of {QUIZ_QUESTIONS.length}</span>
             <span className="text-[#12B5CB] font-medium" style={{ fontFamily: "var(--font-mono)" }}>{Math.round(progress)}%</span>
           </div>
           <div className="w-full h-2 rounded-full bg-[#333333]">
@@ -226,7 +226,7 @@ export default function AIReadinessQuiz() {
                     className={`w-full text-left p-4 rounded-xl border transition-all ${
                       answers[q.id] === opt.score
                         ? "border-[#12B5CB] bg-[#12B5CB]/10 text-[#E8E8E8]"
-                        : "border-[#333333] text-[#888888] hover:border-[#12B5CB]/30 hover:text-[#E8E8E8] hover:bg-white/5"
+                        : "border-[#333333] text-white/60 hover:border-[#12B5CB]/30 hover:text-[#E8E8E8] hover:bg-white/5"
                     }`}
                   >
                     {opt.label}
@@ -242,7 +242,7 @@ export default function AIReadinessQuiz() {
           <button
             onClick={() => setCurrentQ(Math.max(0, currentQ - 1))}
             disabled={currentQ === 0}
-            className="flex items-center gap-1 text-sm text-[#888888] hover:text-[#E8E8E8] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-1 text-sm text-white/60 hover:text-[#E8E8E8] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" /> Previous
           </button>

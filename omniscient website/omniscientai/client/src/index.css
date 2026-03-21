@@ -161,11 +161,18 @@
   
   .glass-card:hover {
     border-color: rgba(18, 181, 203, 0.4);
-    box-shadow: 
+    box-shadow:
       0 12px 40px -12px rgba(18, 181, 203, 0.15),
       0 0 20px rgba(18, 181, 203, 0.05);
     background: rgba(30, 30, 30, 0.65);
-    transform: translateY(-4px) scale(1.01);
+    transform: translateY(-4px);
+  }
+
+  /* Clickable glass cards */
+  a .glass-card,
+  button .glass-card,
+  .glass-card-clickable {
+    cursor: pointer;
   }
 
   /* Refined Glow effects */
@@ -219,4 +226,38 @@
 }
 .animate-marquee {
   animation: marquee 40s linear infinite;
+}
+
+/* Reduced motion: disable all non-essential animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+  .glass-card:hover {
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Skip to content link */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-cyan);
+  color: #052A30;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border-radius: 0 0 0.5rem 0;
+}
+.skip-to-content:focus {
+  left: 0;
 }

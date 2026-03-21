@@ -200,7 +200,7 @@ function ScoreDisplay({ scores, overall, suggestions }: {
           >
             {overall}
           </span>
-          <span className="text-xs text-[#888888]">/10</span>
+          <span className="text-xs text-white/60">/10</span>
         </div>
       </div>
 
@@ -216,7 +216,7 @@ function ScoreDisplay({ scores, overall, suggestions }: {
                 style={{ backgroundColor: getColor(value as number) }}
               />
             </div>
-            <span className="text-[10px] text-[#888888] capitalize">{key}</span>
+            <span className="text-[10px] text-white/60 capitalize">{key}</span>
           </div>
         ))}
       </div>
@@ -225,7 +225,7 @@ function ScoreDisplay({ scores, overall, suggestions }: {
         <div className="space-y-1.5">
           <p className="text-xs font-medium text-[#FA903E]">Suggestions:</p>
           {suggestions.map((s, i) => (
-            <p key={i} className="text-xs text-[#888888] leading-relaxed pl-3 border-l border-[#333333]">
+            <p key={i} className="text-xs text-white/60 leading-relaxed pl-3 border-l border-[#333333]">
               {s}
             </p>
           ))}
@@ -318,7 +318,7 @@ export default function Playground() {
               Prompt Engineering{" "}
               <span className="text-[#12B5CB]">Playground</span>
             </h1>
-            <p className="text-base md:text-lg text-[#888888] leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-white/60 leading-relaxed max-w-2xl mx-auto">
               Experiment with AI prompts, learn best practices, and score your prompt quality.
               This is exactly what you'll master in our{" "}
               <Link href="/workshops/hands-on-prompt-engineering" className="text-[#12B5CB] hover:underline">
@@ -346,7 +346,7 @@ export default function Playground() {
                     <BookOpen className="w-4 h-4 text-[#12B5CB]" />
                     Prompt Templates
                   </span>
-                  <ChevronDown className={`w-4 h-4 text-[#888888] transition-transform ${showTemplates ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`w-4 h-4 text-white/60 transition-transform ${showTemplates ? "rotate-180" : ""}`} />
                 </button>
 
                 <AnimatePresence>
@@ -368,7 +368,7 @@ export default function Playground() {
                               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
                                 activeCategory === i
                                   ? "bg-[#12B5CB]/10 text-[#12B5CB] border border-[#12B5CB]/20"
-                                  : "text-[#888888] hover:text-[#E8E8E8] border border-transparent"
+                                  : "text-white/60 hover:text-[#E8E8E8] border border-transparent"
                               }`}
                             >
                               <cat.icon className="w-3 h-3" />
@@ -403,7 +403,7 @@ export default function Playground() {
               {/* Prompt input */}
               <div className="glass-card rounded-2xl p-5">
                 <div className="flex items-center justify-between mb-3">
-                  <label className="text-xs font-semibold text-[#888888] uppercase tracking-wider" style={{ fontFamily: "var(--font-mono)" }}>
+                  <label className="text-xs font-semibold text-white/60 uppercase tracking-wider" style={{ fontFamily: "var(--font-mono)" }}>
                     Your Prompt
                   </label>
                   <span className="text-[10px] text-[#666666]" style={{ fontFamily: "var(--font-mono)" }}>
@@ -462,7 +462,7 @@ export default function Playground() {
 
                   <button
                     onClick={handleReset}
-                    className="ml-auto p-2.5 text-[#888888] hover:text-[#E8E8E8] transition-colors rounded-xl hover:bg-[#1A1A1A]/50"
+                    className="ml-auto p-2.5 text-white/60 hover:text-[#E8E8E8] transition-colors rounded-xl hover:bg-[#1A1A1A]/50 cursor-pointer"
                     title="Reset"
                   >
                     <RotateCcw className="w-4 h-4" />
@@ -486,13 +486,13 @@ export default function Playground() {
             <div className="space-y-4">
               <div className="glass-card rounded-2xl p-5 min-h-[500px] flex flex-col">
                 <div className="flex items-center justify-between mb-3">
-                  <label className="text-xs font-semibold text-[#888888] uppercase tracking-wider" style={{ fontFamily: "var(--font-mono)" }}>
+                  <label className="text-xs font-semibold text-white/60 uppercase tracking-wider" style={{ fontFamily: "var(--font-mono)" }}>
                     AI Response
                   </label>
                   {response && (
                     <button
                       onClick={handleCopy}
-                      className="flex items-center gap-1 text-xs text-[#888888] hover:text-[#12B5CB] transition-colors"
+                      className="flex items-center gap-1 text-xs text-white/60 hover:text-[#12B5CB] transition-colors cursor-pointer"
                     >
                       {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                       {copied ? "Copied" : "Copy"}
@@ -502,7 +502,7 @@ export default function Playground() {
 
                 <div className="flex-1">
                   {chatMutation.isPending ? (
-                    <div className="flex items-center gap-3 text-sm text-[#888888]">
+                    <div className="flex items-center gap-3 text-sm text-white/60">
                       <div className="flex gap-1">
                         <div className="w-2 h-2 rounded-full bg-[#12B5CB] animate-bounce" style={{ animationDelay: "0ms" }} />
                         <div className="w-2 h-2 rounded-full bg-[#12B5CB] animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -523,7 +523,7 @@ export default function Playground() {
                       <div className="w-16 h-16 rounded-2xl bg-[#12B5CB]/5 border border-[#12B5CB]/10 flex items-center justify-center mb-4">
                         <Sparkles className="w-7 h-7 text-[#12B5CB]/30" />
                       </div>
-                      <p className="text-sm text-[#888888] mb-1">AI response will appear here</p>
+                      <p className="text-sm text-white/60 mb-1">AI response will appear here</p>
                       <p className="text-xs text-[#666666]">
                         Write a prompt and click <strong className="text-[#12B5CB]">Run Prompt</strong> or press{" "}
                         <kbd className="px-1.5 py-0.5 rounded bg-[#1A1A1A] border border-[#333333] text-[10px]">Cmd+Enter</kbd>
@@ -543,7 +543,7 @@ export default function Playground() {
                     <h3 className="text-sm font-semibold text-[#E8E8E8] mb-1" style={{ fontFamily: "var(--font-heading)" }}>
                       Want to master prompt engineering?
                     </h3>
-                    <p className="text-xs text-[#888888] leading-relaxed mb-3">
+                    <p className="text-xs text-white/60 leading-relaxed mb-3">
                       Our full-day Hands-On Prompt Engineering workshop covers advanced techniques, chain-of-thought prompting, and multi-model strategies your team can use immediately.
                     </p>
                     <Link

@@ -2,7 +2,6 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowRight, Clock, Users, Cpu, Shield, Zap, Sparkles } from "lucide-react";
-import SectionHeading from "@/components/SectionHeading";
 import TechPartners from "@/components/TechPartners";
 import SEO from "@/components/SEO";
 import { WORKSHOPS } from "@/lib/data";
@@ -47,7 +46,7 @@ export default function Workshops() {
             <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight mb-6" style={{ fontFamily: "var(--font-heading)" }}>
               Training the next generation of <span className="gradient-text-cyan">AI leaders</span>
             </h1>
-            <p className="text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
               Our workshops are precision-engineered for Melbourne SMEs. We don't just teach theory; we implement operational AI workflows in real-time.
             </p>
           </motion.div>
@@ -75,8 +74,8 @@ export default function Workshops() {
                   className={`relative group ${isLarge ? "md:col-span-6 lg:col-span-8" : "md:col-span-3 lg:col-span-4"
                     }`}
                 >
-                  <Link href={`/workshops/${ws.slug}`}>
-                    <div className="h-full glass-card rounded-3xl overflow-hidden border border-white/5 group-hover:border-[#12B5CB]/30 transition-all duration-500 relative flex flex-col">
+                  <Link href={`/workshops/${ws.slug}`} className="cursor-pointer">
+                    <div className="h-full glass-card rounded-3xl overflow-hidden border border-white/5 group-hover:border-[#12B5CB]/30 transition-all duration-500 relative flex flex-col cursor-pointer">
                       {/* Interactive Glow */}
                       <div className="absolute inset-0 bg-gradient-to-br from-[#12B5CB]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
@@ -85,6 +84,9 @@ export default function Workshops() {
                         <img
                           src={ws.heroImage}
                           alt={ws.title}
+                          width={800}
+                          height={isLarge ? 320 : 192}
+                          loading="lazy"
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[40%] group-hover:grayscale-0"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent" />
@@ -110,27 +112,24 @@ export default function Workshops() {
                         <h2 className="text-2xl font-bold text-white mb-3 group-hover:text-[#12B5CB] transition-colors" style={{ fontFamily: "var(--font-heading)" }}>
                           {ws.title}
                         </h2>
-                        <p className="text-sm text-white/50 leading-relaxed mb-6 line-clamp-2">
+                        <p className="text-sm text-white/60 leading-relaxed mb-6 line-clamp-2">
                           {ws.description}
                         </p>
 
                         <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
                           <div className="flex gap-4">
-                            <div className="flex items-center gap-1.5 text-white/40">
+                            <div className="flex items-center gap-1.5 text-white/60">
                               <Clock className="w-3.5 h-3.5" />
                               <span className="text-[10px] font-bold uppercase tracking-widest">{ws.duration}</span>
                             </div>
-                            <div className="flex items-center gap-1.5 text-white/40">
+                            <div className="flex items-center gap-1.5 text-white/60">
                               <Users className="w-3.5 h-3.5" />
                               <span className="text-[10px] font-bold uppercase tracking-widest">{ws.format}</span>
                             </div>
                           </div>
-                          <motion.div
-                            whileHover={{ x: 5 }}
-                            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#12B5CB] group-hover:text-black transition-all"
-                          >
+                          <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#12B5CB] group-hover:text-black transition-all">
                             <ArrowRight className="w-5 h-5" />
-                          </motion.div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -159,12 +158,12 @@ export default function Workshops() {
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight" style={{ fontFamily: "var(--font-heading)" }}>
                 Architect a custom <span className="text-[#FA903E]">AI strategy</span> for your team
               </h2>
-              <p className="text-lg text-white/60 mb-10 leading-relaxed">
+              <p className="text-lg text-white/70 mb-10 leading-relaxed">
                 We design exclusive frameworks tailored to your industry's specific data hierarchy and operational bottlenecks.
               </p>
               <Link
                 href="/workshops/custom"
-                className="inline-flex items-center gap-3 px-8 py-4 text-sm font-bold text-black bg-[#FA903E] rounded-2xl hover:bg-[#FA903E]/90 hover:scale-105 transition-all"
+                className="inline-flex items-center gap-3 px-8 py-4 text-sm font-bold text-black bg-[#FA903E] rounded-2xl hover:bg-[#FA903E]/90 hover:scale-105 transition-all cursor-pointer"
               >
                 Request Systems Audit <Zap className="w-4 h-4" />
               </Link>

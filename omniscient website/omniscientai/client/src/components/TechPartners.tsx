@@ -2,14 +2,14 @@
  * TechPartners — "We Train Across All Major AI Platforms" logo bar
  * Design: Luminous Depth — glass surface, infinite horizontal scroll, monochrome logos that colorize on hover
  */
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface Partner {
   name: string;
   logo: string;
   url: string;
-  invert?: boolean; // true = logo is dark on transparent, needs invert for dark bg
-  roundedFull?: boolean; // circular logos
+  invert?: boolean;
+  roundedFull?: boolean;
 }
 
 const PARTNERS: Partner[] = [
@@ -84,7 +84,7 @@ function LogoItem({ partner }: { partner: Partner }) {
       href={partner.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex flex-col items-center justify-center gap-2 px-6 md:px-8 shrink-0 group"
+      className="flex flex-col items-center justify-center gap-2 px-6 md:px-8 shrink-0 group cursor-pointer"
       title={partner.name}
     >
       <div
@@ -98,12 +98,14 @@ function LogoItem({ partner }: { partner: Partner }) {
         <img
           src={partner.logo}
           alt={partner.name}
+          width={64}
+          height={64}
+          loading="lazy"
           className={`
             max-w-full max-h-full object-contain
             ${partner.invert ? "invert brightness-200" : ""}
             ${partner.roundedFull ? "w-full h-full object-cover" : ""}
           `}
-          loading="lazy"
         />
       </div>
       <span className="text-[11px] md:text-xs font-mono tracking-wider text-muted-foreground/60 group-hover:text-cyan whitespace-nowrap transition-colors duration-300">
@@ -114,7 +116,7 @@ function LogoItem({ partner }: { partner: Partner }) {
 }
 
 export default function TechPartners() {
-  // Duplicate for seamless infinite scroll
+  const prefersReducedMotion = useReducedMotion();
   const doubled = [...PARTNERS, ...PARTNERS];
 
   return (
@@ -139,24 +141,36 @@ export default function TechPartners() {
             We train across{" "}
             <span className="text-cyan text-glow-cyan">all major AI platforms</span>
           </h2>
-          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-3 text-sm md:text-base text-white/60 max-w-2xl mx-auto">
             Vendor-neutral means we know every platform inside out. Our workshops cover the tools that matter — so you get unbiased, practical guidance.
           </p>
         </motion.div>
       </div>
 
-      {/* Infinite scroll marquee */}
+      {/* Logo display */}
       <div className="relative">
         {/* Fade edges */}
         <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 z-10 bg-gradient-to-r from-background to-transparent pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 z-10 bg-gradient-to-l from-background to-transparent pointer-events-none" />
 
-        {/* Scrolling track */}
-        <div className="flex animate-marquee hover:[animation-play-state:paused]">
-          {doubled.map((partner, i) => (
-            <LogoItem key={`${partner.name}-${i}`} partner={partner} />
-          ))}
-        </div>
+        {/* Scrolling track — static grid for reduced motion */}
+        {prefersReducedMotion ? (
+          <div className="flex flex-wrap justify-center gap-4 px-8">
+            {PARTNERS.map((partner) => (
+              <LogoItem key={partner.name} partner={partner} />
+            ))}
+          </div>
+        ) : (
+          <div
+            className="flex animate-marquee hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]"
+            role="marquee"
+            aria-label="AI platform partner logos"
+          >
+            {doubled.map((partner, i) => (
+              <LogoItem key={`${partner.name}-${i}`} partner={partner} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

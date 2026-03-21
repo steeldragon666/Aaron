@@ -226,7 +226,7 @@ export default function VoiceConsultant() {
               Chat with Our{" "}
               <span className="text-[#12B5CB]">AI Consultant</span>
             </h1>
-            <p className="text-base md:text-lg text-[#888888] leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-white/60 leading-relaxed max-w-2xl mx-auto">
               Get instant, personalised advice on AI training and strategy for your business.
               Our AI consultant knows everything about our workshops, services, and how AI can transform your operations.
             </p>
@@ -300,7 +300,7 @@ export default function VoiceConsultant() {
                   <h3 className="text-sm font-semibold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>
                     Ready for the real thing?
                   </h3>
-                  <p className="text-xs text-[#888888] leading-relaxed mb-3">
+                  <p className="text-xs text-white/60 leading-relaxed mb-3">
                     Book a free 30-minute strategy session with a human consultant to discuss your AI training needs.
                   </p>
                   <Link

@@ -1,5 +1,5 @@
 // Navbar — OmniscientAI Luminous Depth
-// Glass-morphism nav with dropdown menus, mobile hamburger
+// Floating glass-morphism nav with dropdown menus, mobile hamburger
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { NAV_LINKS } from "@/lib/data";
@@ -26,14 +26,14 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-          ? "py-3 bg-[#050505]/80 backdrop-blur-2xl border-b border-white/5 shadow-2xl shadow-black/40"
-          : "py-6 bg-transparent"
+      className={`fixed z-50 transition-all duration-500 ${scrolled
+          ? "top-4 left-4 right-4 py-3 bg-[#050505]/80 backdrop-blur-2xl border border-white/5 shadow-2xl shadow-black/40 rounded-2xl"
+          : "top-0 left-0 right-0 py-6 bg-transparent"
         }`}
     >
       <nav className="container flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="hover:opacity-90 transition-opacity">
+        <Link href="/" className="hover:opacity-90 transition-opacity cursor-pointer">
           <Logo variant="minimal" />
         </Link>
 
@@ -51,7 +51,7 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 flex items-center gap-1.5 ${isActive
+                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${isActive
                       ? "text-white"
                       : "text-white/60 hover:text-white"
                     }`}
@@ -82,7 +82,7 @@ export default function Navbar() {
                           <Link
                             key={child.href}
                             href={child.href}
-                            className="group flex flex-col px-4 py-2.5 rounded-xl hover:bg-white/5 transition-all"
+                            className="group flex flex-col px-4 py-2.5 rounded-xl hover:bg-white/5 transition-all cursor-pointer"
                           >
                             <span className="text-sm font-medium text-white/80 group-hover:text-[#12B5CB]">
                               {child.label}
@@ -102,13 +102,13 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-4">
           <Link
             href="/ai-readiness-quiz"
-            className="text-sm font-semibold text-[#12B5CB] hover:text-[#12B5CB]/80 transition-colors"
+            className="text-sm font-semibold text-[#12B5CB] hover:text-[#12B5CB]/80 transition-colors cursor-pointer"
           >
             AI Quiz
           </Link>
           <Link
             href="/book"
-            className="px-6 py-2.5 text-sm font-bold text-[#052A30] bg-[#12B5CB] rounded-full hover:bg-[#12B5CB]/90 transition-all shadow-lg shadow-[#12B5CB]/20 hover:shadow-[#12B5CB]/40 active:scale-95 btn-premium"
+            className="px-6 py-2.5 text-sm font-bold text-[#052A30] bg-[#12B5CB] rounded-full hover:bg-[#12B5CB]/90 transition-all shadow-lg shadow-[#12B5CB]/20 hover:shadow-[#12B5CB]/40 active:scale-95 btn-premium cursor-pointer"
           >
             Book Now
           </Link>
@@ -117,7 +117,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden p-2.5 rounded-xl bg-white/5 border border-white/10 text-white/80 hover:text-white"
+          className="lg:hidden p-2.5 rounded-xl bg-white/5 border border-white/10 text-white/80 hover:text-white cursor-pointer"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -138,7 +138,7 @@ export default function Navbar() {
                 <div key={link.label} className="space-y-4">
                   <Link
                     href={link.href}
-                    className="block text-2xl font-bold text-white hover:text-[#12B5CB] transition-colors"
+                    className="block text-2xl font-bold text-white hover:text-[#12B5CB] transition-colors cursor-pointer"
                   >
                     {link.label}
                   </Link>
@@ -148,7 +148,7 @@ export default function Navbar() {
                         <Link
                           key={child.href}
                           href={child.href}
-                          className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-sm text-white/50 hover:text-[#12B5CB] transition-all"
+                          className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-sm text-white/60 hover:text-[#12B5CB] transition-all cursor-pointer"
                         >
                           {child.label}
                         </Link>
@@ -160,7 +160,7 @@ export default function Navbar() {
               <div className="pt-8 flex flex-col gap-4 border-t border-white/5">
                 <Link
                   href="/book"
-                  className="w-full py-4 text-center text-lg font-bold text-[#052A30] bg-[#12B5CB] rounded-2xl shadow-xl shadow-[#12B5CB]/20"
+                  className="w-full py-4 text-center text-lg font-bold text-[#052A30] bg-[#12B5CB] rounded-2xl shadow-xl shadow-[#12B5CB]/20 cursor-pointer"
                 >
                   Book a Session
                 </Link>

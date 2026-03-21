@@ -24,7 +24,7 @@ export default function ServiceDetail() {
       <section className="relative pt-28 pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#FA903E]/5 to-transparent pointer-events-none" />
         <div className="container relative">
-          <Link href="/services" className="inline-flex items-center gap-1 text-sm text-[#888888] hover:text-[#12B5CB] transition-colors mb-6">
+          <Link href="/services" className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-[#12B5CB] transition-colors mb-6 cursor-pointer">
             <ArrowLeft className="w-4 h-4" /> Back to services
           </Link>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -65,7 +65,7 @@ export default function ServiceDetail() {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-[#E8E8E8] mb-1" style={{ fontFamily: "var(--font-heading)" }}>{p.step}</h3>
-                      <p className="text-sm text-[#888888] leading-relaxed">{p.description}</p>
+                      <p className="text-sm text-white/60 leading-relaxed">{p.description}</p>
                     </div>
                   </div>
                 ))}
@@ -78,16 +78,16 @@ export default function ServiceDetail() {
             <div className="lg:sticky lg:top-24">
               <div className="glass-card rounded-2xl p-6 glow-tangerine">
                 <h3 className="text-lg font-bold text-[#E8E8E8] mb-2" style={{ fontFamily: "var(--font-heading)" }}>Get Started</h3>
-                <p className="text-sm text-[#888888] mb-6">Book a free 30-minute strategy session to discuss how this service can help your business.</p>
+                <p className="text-sm text-white/60 mb-6">Book a free 30-minute strategy session to discuss how this service can help your business.</p>
                 <Link
                   href="/book"
-                  className="block w-full text-center px-6 py-3.5 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all mb-3"
+                  className="block w-full text-center px-6 py-3.5 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all mb-3 cursor-pointer"
                 >
                   Book a Strategy Session
                 </Link>
                 <Link
                   href="/contact"
-                  className="block w-full text-center px-6 py-3 text-sm font-medium text-[#12B5CB] border border-[#12B5CB]/30 rounded-lg hover:bg-[#12B5CB]/10 transition-colors"
+                  className="block w-full text-center px-6 py-3 text-sm font-medium text-[#12B5CB] border border-[#12B5CB]/30 rounded-lg hover:bg-[#12B5CB]/10 transition-colors cursor-pointer"
                 >
                   Ask a Question
                 </Link>

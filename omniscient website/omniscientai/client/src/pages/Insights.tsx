@@ -28,7 +28,7 @@ export default function Insights() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#E8E8E8] leading-tight mb-4" style={{ fontFamily: "var(--font-heading)" }}>
               Practical AI knowledge for <span className="text-[#12B5CB]">Australian SMEs</span>
             </h1>
-            <p className="text-lg text-[#888888] max-w-2xl leading-relaxed">
+            <p className="text-lg text-white/60 max-w-2xl leading-relaxed">
               Vendor-neutral insights, guides, and analysis to help your business navigate the AI landscape with confidence.
             </p>
           </motion.div>
@@ -46,7 +46,7 @@ export default function Insights() {
                 className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                   filter === cat.value
                     ? "bg-[#12B5CB]/10 text-[#12B5CB] border border-[#12B5CB]/30"
-                    : "text-[#888888] border border-[#333333] hover:text-[#E8E8E8] hover:border-[#12B5CB]/20"
+                    : "text-white/60 border border-[#333333] hover:text-[#E8E8E8] hover:border-[#12B5CB]/20"
                 }`}
               >
                 {cat.label}
@@ -57,7 +57,7 @@ export default function Insights() {
           {/* Featured articles */}
           {filter === "all" && featured.length > 0 && (
             <div className="mb-12">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.15em] text-[#888888] mb-6" style={{ fontFamily: "var(--font-mono)" }}>Featured</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.15em] text-white/60 mb-6" style={{ fontFamily: "var(--font-mono)" }}>Featured</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {featured.map((article, i) => (
                   <motion.div
@@ -68,19 +68,19 @@ export default function Insights() {
                     transition={{ duration: 0.5, delay: i * 0.1 }}
                   >
                     <Link href={`/insights/${article.slug}`}>
-                      <div className="glass-card rounded-2xl p-6 h-full group border-[#12B5CB]/10">
+                      <div className="glass-card rounded-2xl p-6 h-full group border-[#12B5CB]/10 cursor-pointer">
                         <div className="flex items-center gap-2 mb-3">
                           <span className="text-xs font-medium text-[#12B5CB] px-2 py-0.5 rounded-full bg-[#12B5CB]/10">{article.categoryLabel}</span>
-                          <span className="text-xs text-[#888888] flex items-center gap-1" style={{ fontFamily: "var(--font-mono)" }}>
+                          <span className="text-xs text-white/60 flex items-center gap-1" style={{ fontFamily: "var(--font-mono)" }}>
                             <Clock className="w-3 h-3" /> {article.readTime}
                           </span>
                         </div>
                         <h3 className="text-xl font-bold text-[#E8E8E8] mb-2 group-hover:text-[#12B5CB] transition-colors" style={{ fontFamily: "var(--font-heading)" }}>
                           {article.title}
                         </h3>
-                        <p className="text-sm text-[#888888] leading-relaxed mb-4">{article.excerpt}</p>
+                        <p className="text-sm text-white/60 leading-relaxed mb-4">{article.excerpt}</p>
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-[#888888]">{article.date}</span>
+                          <span className="text-xs text-white/60">{article.date}</span>
                           <div className="flex items-center gap-1 text-sm text-[#12B5CB] font-medium group-hover:gap-2 transition-all">
                             Read <ArrowRight className="w-4 h-4" />
                           </div>
@@ -95,7 +95,7 @@ export default function Insights() {
 
           {/* All articles grid */}
           <div>
-            {filter === "all" && <h2 className="text-sm font-semibold uppercase tracking-[0.15em] text-[#888888] mb-6" style={{ fontFamily: "var(--font-mono)" }}>All Articles</h2>}
+            {filter === "all" && <h2 className="text-sm font-semibold uppercase tracking-[0.15em] text-white/60 mb-6" style={{ fontFamily: "var(--font-mono)" }}>All Articles</h2>}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((article, i) => (
                 <motion.div
@@ -106,16 +106,16 @@ export default function Insights() {
                   transition={{ duration: 0.5, delay: i * 0.05 }}
                 >
                   <Link href={`/insights/${article.slug}`}>
-                    <div className="glass-card rounded-xl p-5 h-full group">
+                    <div className="glass-card rounded-xl p-5 h-full group cursor-pointer">
                       <div className="flex items-center gap-2 mb-3">
                         <span className="text-xs font-medium text-[#12B5CB] px-2 py-0.5 rounded-full bg-[#12B5CB]/10">{article.categoryLabel}</span>
-                        <span className="text-xs text-[#888888]" style={{ fontFamily: "var(--font-mono)" }}>{article.readTime}</span>
+                        <span className="text-xs text-white/60" style={{ fontFamily: "var(--font-mono)" }}>{article.readTime}</span>
                       </div>
                       <h3 className="text-lg font-semibold text-[#E8E8E8] mb-2 group-hover:text-[#12B5CB] transition-colors leading-snug" style={{ fontFamily: "var(--font-heading)" }}>
                         {article.title}
                       </h3>
-                      <p className="text-sm text-[#888888] leading-relaxed mb-3 line-clamp-3">{article.excerpt}</p>
-                      <span className="text-xs text-[#888888]">{article.date}</span>
+                      <p className="text-sm text-white/60 leading-relaxed mb-3 line-clamp-3">{article.excerpt}</p>
+                      <span className="text-xs text-white/60">{article.date}</span>
                     </div>
                   </Link>
                 </motion.div>
@@ -135,14 +135,14 @@ export default function Insights() {
               <h3 className="text-2xl font-bold text-[#E8E8E8] mb-3" style={{ fontFamily: "var(--font-heading)" }}>
                 Get insights like this delivered weekly
               </h3>
-              <p className="text-[#888888] mb-6">Practical AI insights for Australian SMEs. No spam. Unsubscribe anytime.</p>
+              <p className="text-white/60 mb-6">Practical AI insights for Australian SMEs. No spam. Unsubscribe anytime.</p>
               <form onSubmit={(e) => { e.preventDefault(); }} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                 <input
                   type="email"
                   placeholder="you@company.com"
-                  className="flex-1 px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors"
+                  className="flex-1 px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none transition-colors"
                 />
-                <button className="px-6 py-3 text-sm font-semibold text-[#0A0A0A] bg-[#12B5CB] rounded-lg hover:bg-[#12B5CB]/90 transition-all whitespace-nowrap">
+                <button className="px-6 py-3 text-sm font-semibold text-[#0A0A0A] bg-[#12B5CB] rounded-lg hover:bg-[#12B5CB]/90 transition-all whitespace-nowrap cursor-pointer">
                   Subscribe
                 </button>
               </form>

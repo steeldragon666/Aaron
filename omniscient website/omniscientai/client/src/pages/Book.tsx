@@ -43,15 +43,15 @@ export default function Book() {
                 <CheckCircle className="w-8 h-8 text-[#12B5CB]" />
               </div>
               <h1 className="text-3xl font-bold text-[#E8E8E8] mb-3" style={{ fontFamily: "var(--font-heading)" }}>Booking Confirmed</h1>
-              <p className="text-[#888888] mb-2">
+              <p className="text-white/60 mb-2">
                 Your free strategy session is booked for{" "}
                 <span className="text-[#E8E8E8] font-medium">
                   {selectedDate?.toLocaleDateString("en-AU", { weekday: "long", day: "numeric", month: "long" })}
                 </span>{" "}
                 at <span className="text-[#12B5CB] font-medium">{selectedTime}</span> (AEST).
               </p>
-              <p className="text-sm text-[#888888] mb-6">We've sent a confirmation email with meeting details and a brief preparation guide.</p>
-              <Link href="/" className="text-[#12B5CB] hover:underline">Return to homepage</Link>
+              <p className="text-sm text-white/60 mb-6">We've sent a confirmation email with meeting details and a brief preparation guide.</p>
+              <Link href="/" className="text-[#12B5CB] hover:underline cursor-pointer">Return to homepage</Link>
             </div>
           </motion.div>
         </div>
@@ -67,7 +67,7 @@ export default function Book() {
           <h1 className="text-4xl md:text-5xl font-bold text-[#E8E8E8] mb-4" style={{ fontFamily: "var(--font-heading)" }}>
             Free 30-minute <span className="text-[#FA903E]">strategy session</span>
           </h1>
-          <p className="text-lg text-[#888888] max-w-2xl leading-relaxed">
+          <p className="text-lg text-white/60 max-w-2xl leading-relaxed">
             No sales pitch. We'll discuss your AI goals, assess your readiness, and recommend the best path forward for your business.
           </p>
         </motion.div>
@@ -79,11 +79,11 @@ export default function Book() {
               {[1, 2, 3].map((s) => (
                 <div key={s} className="flex items-center gap-2">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                    step >= s ? "bg-[#12B5CB] text-[#0A0A0A]" : "bg-[#333333] text-[#888888]"
+                    step >= s ? "bg-[#12B5CB] text-[#0A0A0A]" : "bg-[#333333] text-white/60"
                   }`} style={{ fontFamily: "var(--font-mono)" }}>
                     {s}
                   </div>
-                  <span className={`text-sm ${step >= s ? "text-[#E8E8E8]" : "text-[#888888]"}`}>
+                  <span className={`text-sm ${step >= s ? "text-[#E8E8E8]" : "text-white/60"}`}>
                     {s === 1 ? "Date & Time" : s === 2 ? "Format" : "Details"}
                   </span>
                   {s < 3 && <div className={`w-8 h-px ${step > s ? "bg-[#12B5CB]" : "bg-[#333333]"}`} />}
@@ -106,9 +106,9 @@ export default function Book() {
                           : "border-[#333333] hover:border-[#12B5CB]/30"
                       }`}
                     >
-                      <div className="text-xs text-[#888888]">{d.toLocaleDateString("en-AU", { weekday: "short" })}</div>
+                      <div className="text-xs text-white/60">{d.toLocaleDateString("en-AU", { weekday: "short" })}</div>
                       <div className="text-lg font-bold text-[#E8E8E8]">{d.getDate()}</div>
-                      <div className="text-xs text-[#888888]">{d.toLocaleDateString("en-AU", { month: "short" })}</div>
+                      <div className="text-xs text-white/60">{d.toLocaleDateString("en-AU", { month: "short" })}</div>
                     </button>
                   ))}
                 </div>
@@ -124,7 +124,7 @@ export default function Book() {
                           className={`px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
                             selectedTime === t
                               ? "border-[#12B5CB] bg-[#12B5CB]/10 text-[#12B5CB]"
-                              : "border-[#333333] text-[#888888] hover:border-[#12B5CB]/30 hover:text-[#E8E8E8]"
+                              : "border-[#333333] text-white/60 hover:border-[#12B5CB]/30 hover:text-[#E8E8E8]"
                           }`}
                           style={{ fontFamily: "var(--font-mono)" }}
                         >
@@ -159,7 +159,7 @@ export default function Book() {
                     <Video className="w-6 h-6 text-[#12B5CB]" />
                     <div className="text-left">
                       <p className="text-[#E8E8E8] font-medium">Video Call</p>
-                      <p className="text-sm text-[#888888]">Google Meet or Zoom — link provided after booking</p>
+                      <p className="text-sm text-white/60">Google Meet or Zoom — link provided after booking</p>
                     </div>
                   </button>
                   <button
@@ -171,12 +171,12 @@ export default function Book() {
                     <Phone className="w-6 h-6 text-[#12B5CB]" />
                     <div className="text-left">
                       <p className="text-[#E8E8E8] font-medium">Phone Call</p>
-                      <p className="text-sm text-[#888888]">We'll call you at your provided number</p>
+                      <p className="text-sm text-white/60">We'll call you at your provided number</p>
                     </div>
                   </button>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={() => setStep(1)} className="px-4 py-3 text-sm text-[#888888] hover:text-[#E8E8E8] transition-colors">Back</button>
+                  <button onClick={() => setStep(1)} className="px-4 py-3 text-sm text-white/60 hover:text-[#E8E8E8] transition-colors cursor-pointer">Back</button>
                   <button
                     onClick={() => setStep(3)}
                     className="px-6 py-3 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all flex items-center gap-2"
@@ -195,29 +195,29 @@ export default function Book() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm font-medium text-[#E8E8E8] mb-2">Name *</label>
-                      <input required type="text" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="Your name" />
+                      <input required type="text" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="Your name" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-[#E8E8E8] mb-2">Email *</label>
-                      <input required type="email" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="you@company.com" />
+                      <input required type="email" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="you@company.com" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm font-medium text-[#E8E8E8] mb-2">Company</label>
-                      <input type="text" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="Company name" />
+                      <input type="text" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="Company name" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-[#E8E8E8] mb-2">Phone</label>
-                      <input type="tel" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="04XX XXX XXX" />
+                      <input type="tel" className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none transition-colors" placeholder="04XX XXX XXX" />
                     </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-[#E8E8E8] mb-2">What would you like to discuss?</label>
-                    <textarea rows={3} className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-[#888888] focus:border-[#12B5CB] focus:outline-none transition-colors resize-none" placeholder="Tell us about your AI goals, challenges, or questions..." />
+                    <textarea rows={3} className="w-full px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#333333] text-[#E8E8E8] placeholder-white/40 focus:border-[#12B5CB] focus:outline-none transition-colors resize-none" placeholder="Tell us about your AI goals, challenges, or questions..." />
                   </div>
                   <div className="flex gap-3">
-                    <button type="button" onClick={() => setStep(2)} className="px-4 py-3 text-sm text-[#888888] hover:text-[#E8E8E8] transition-colors">Back</button>
+                    <button type="button" onClick={() => setStep(2)} className="px-4 py-3 text-sm text-white/60 hover:text-[#E8E8E8] transition-colors cursor-pointer">Back</button>
                     <button type="submit" className="px-6 py-3.5 text-sm font-semibold text-[#0A0A0A] bg-[#FA903E] rounded-lg hover:bg-[#FA903E]/90 transition-all flex items-center gap-2">
                       Confirm Booking <CheckCircle className="w-4 h-4" />
                     </button>
@@ -253,7 +253,7 @@ export default function Book() {
                   </div>
                 </div>
                 <div className="mt-4 pt-4 border-t border-[#333333]/50">
-                  <p className="text-xs text-[#888888]">This is a free, no-obligation strategy session. We'll discuss your goals and recommend the best path forward.</p>
+                  <p className="text-xs text-white/60">This is a free, no-obligation strategy session. We'll discuss your goals and recommend the best path forward.</p>
                 </div>
               </div>
             </div>
