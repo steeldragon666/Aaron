@@ -19,13 +19,13 @@ import { Layout, InkSection, Section } from '@/components-v2/layout';
 import { HeroCentric, CTAStrip } from '@/components-v2/sections';
 import { Card, FeaturedCard } from '@/components-v2/ui';
 
-// TODO: founder to validate/replace — drafted 2026-04-22.
-// Three paragraphs of "why Omniscient exists" narrative. Placeholder voice
-// follows the tone guide in docs/design-system/README.md.
+// TODO: founder to validate/replace — updated 2026-04-22 for the sovereign
+// applied AI positioning pivot. Three paragraphs of the "who we are / why
+// we exist" narrative. Follows the tone guide in docs/design-system/README.md.
 const STORY_PARAGRAPHS = [
-  "Omniscient started because the big consulting firms couldn't say no. Every answer was billable, every engagement was twelve months, and every recommendation pointed at whichever vendor was paying the highest kickback that quarter. Good people, trapped inside a business model that rewarded sprawl.",
-  "We do the opposite. Short engagements. One artefact at the end. A named practitioner doing the work — not a partner pitching and a junior delivering. If the right answer is \"don't build this yet,\" we say so, because we're not paid to ship lines of code.",
-  "We're vendor-neutral by design, not by slogan. No reseller agreements, no partner tiers, no rebate schemes. When we recommend a tool, it's because it fits your team and your data — full stop.",
+  "Omniscient AI is Australia's sovereign applied AI company. We build the products, platforms, and agents that modernise our most consequential industries — bioenergy, defence, and mental health — and operate them as managed services so our customers don't have to.",
+  "We do the opposite of a big consulting firm. Short bets. Owned code. Named practitioners doing the work — not a partner pitching and a junior delivering. And when we build something good, we run it. Managed services, not slide decks.",
+  "Sovereign by design, not by slogan. Built, hosted, and operated in Australia. For defence and government customers, the data stays where it should. For everyone else, it means the thing we ship keeps working even when the vendor of the month goes quiet.",
 ];
 
 // TODO: founder to validate values copy — drafted 2026-04-22.
