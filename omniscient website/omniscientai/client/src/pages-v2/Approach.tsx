@@ -1,17 +1,22 @@
 /**
  * Approach.tsx — v2 Approach/methodology page.
  *
- * Detailed view of how we work — the four-phase engagement cycle and the
- * principles that sit underneath it. Composed from existing primitives:
+ * Strategic pivot (2026-04-22): the old "three weeks, one artefact, no
+ * lock-in" framing was consulting-first. This page now reflects the
+ * product + managed-service reality: products you subscribe to, agents
+ * you hire per month, a sovereign platform we operate for you. The four
+ * phases describe how a typical engagement unfolds for either a net-new
+ * product buildout or an agent onboarding.
  *
+ * Composition:
  *   HeroCentric → StepStack (4 phases with MonoBadge durations) →
  *   Principles grid (6-up mini Cards) → CTAStrip
  *
  * Route mirrors the legacy site: /about/approach.
  *
- * TODO: copy drafted 2026-04-22 — founder to validate tone and specifics
- * of the engagement cadence (weeks 3-6 is a rough scope band; real
- * engagements may flex).
+ * TODO: copy drafted 2026-04-22 — founder to validate tone, durations,
+ * and the specific sovereign-hosting / no-kickbacks / managed-service
+ * commitments.
  */
 
 import SEO from '@/components/SEO';
@@ -19,57 +24,61 @@ import { Layout, Section } from '@/components-v2/layout';
 import { HeroCentric, StepStack, CTAStrip } from '@/components-v2/sections';
 import { Card } from '@/components-v2/ui';
 
-// TODO: founder to validate engagement cadence — durations are placeholder.
-// StepStack's `duration` prop renders as a MonoBadge next to the step title.
+// Four phases that hold across product buildouts and agent onboardings.
+// StepStack auto-prefixes "01 / 02 / ..." numerals, so titles stay as
+// plain nouns here — don't repeat the numeral in the title string.
+// TODO: founder to validate — durations are a rhythm, not a contract.
 const PHASES = [
   {
-    title: 'Discover',
-    body: "We spend a week with your team. No assumptions, no SKU-pitching — we map what's actually happening, what's in the way, and where AI could meaningfully help.",
-    duration: 'Week 1',
+    title: 'Scope',
+    body: "We spend 30-60 minutes on your actual situation — not a sales qualification call. If it's a product you should subscribe to, we route you there. If it's something we should build or an agent configuration we should onboard, we scope it.",
+    duration: 'Week 0',
   },
   {
-    title: 'Design',
-    body: 'We scope the smallest thing that could deliver real value in a quarter, not a year. Co-designed with the people who will own it — not handed down in a slide deck.',
-    duration: 'Week 2',
+    title: 'Prototype',
+    body: 'For new products: we build the smallest thing that proves the thesis, in two weeks. For agent onboarding: we configure, tune, and smoke-test one persona before expanding.',
+    duration: 'Weeks 1-2',
   },
   {
-    title: 'Deliver',
-    body: "Short sprints. You see working code every week, not status slides. We ship to your environment, against your data, with eval harnesses that stick around after we leave.",
-    duration: 'Weeks 3-6',
-  },
-  {
-    title: 'Embed',
-    body: "We train your team to own what we built. Documentation, runbooks, and pairing sessions until the hand-over is real. The artefact stays; we leave.",
+    title: 'Operate',
+    body: 'We run it. Monitoring, tuning, alerts, escalations — the things that make the difference between an AI that works and an AI that embarrasses you. You use the output.',
     duration: 'Ongoing',
+  },
+  {
+    title: 'Expand',
+    body: 'Once one thing is working, we scale the account: more personas, more verticals, the Companion for your execs. Or we leave well enough alone — boutique means knowing when to stop.',
+    duration: 'When it makes sense',
   },
 ];
 
-// TODO: founder to validate principles — drafted 2026-04-22.
-// Six load-bearing principles that underpin how every engagement runs.
+// Six load-bearing principles. Reflect the sovereign + managed-service
+// + no-kickbacks positioning, not the old consulting boilerplate.
+// TODO: founder to validate — the "Australian sovereign infra" claim
+// especially should be tightened once the hosting story is nailed down.
 const PRINCIPLES = [
   {
-    title: 'No junior bait-and-switch',
-    body: 'The person who pitched the work is the person doing the work. No partner-sells-then-disappears.',
+    title: 'Australian sovereign infra',
+    body: "Our hosting stays in Australia by default. For defence and government, that's non-negotiable.",
   },
   {
-    title: 'Ship small, ship often',
-    body: "You see working code every week — not a big-bang reveal at month three. If something's off, we catch it early.",
+    title: 'We operate what we build',
+    body: "Managed service is the default. No hand-offs to a team that didn't build it.",
   },
   {
-    title: 'Write code alongside your team',
-    body: 'We pair with your engineers, not around them. Knowledge transfer is the work, not a phase at the end.',
+    title: 'Products over projects',
+    body: 'Where we can, we sell you a subscription instead of a consulting engagement. Cheaper for you, better margins for us.',
   },
   {
-    title: 'Budget caps, always',
-    body: "Every engagement has a ceiling agreed up front. If we're burning through it, we stop and talk — we don't quietly extend the invoice.",
+    title: 'Human-in-the-loop, always',
+    body: 'Agents run. Humans supervise. The one you call is still a person.',
   },
   {
-    title: 'Vendor-neutral recommendations',
-    body: "No reseller agreements, no rebate schemes. When we recommend a tool it's because it fits your team and your data.",
+    title: 'No kickbacks, ever',
+    body: 'We have no reseller agreements. Vendor recommendations are honest.',
   },
   {
-    title: 'If we don\'t know, we say so',
-    body: "We'd rather tell you the honest answer than invent one. That includes telling you when the right move is to not build something.",
+    title: 'Named practitioners',
+    body: 'You get the senior person for the whole engagement. No junior bait-and-switch.',
   },
 ];
 
@@ -78,19 +87,19 @@ export default function Approach() {
     <Layout>
       <SEO
         title="Our approach"
-        description="Three weeks. One artefact. No lock-in. How we run engagements — a four-phase methodology (Discover, Design, Deliver, Embed) and the principles that sit underneath."
+        description="We build. We operate. You use. How a typical engagement unfolds — four phases that work across product buildouts and managed agent onboarding — plus the principles that sit underneath."
       />
 
       <HeroCentric
         eyebrow="Approach"
-        title="Three weeks. One artefact. No lock-in."
-        lede="Every engagement runs the same four-phase cycle. We scope tight, build in the open, hand over ownership, and get out of the way. No retainers, no rebate kickbacks, no open-ended scope creep."
+        title="We build. We operate. You use."
+        lede="Our model is products you subscribe to, agents you hire per month, and a sovereign platform we run for you. Below is how a typical engagement unfolds when we build or onboard something together."
       />
 
       <StepStack
         eyebrow="The cycle"
-        sectionTitle="Four phases. Roughly six weeks."
-        lede="A shape, not a straitjacket — the specifics flex to the engagement, but the rhythm and the accountability don't."
+        sectionTitle="Four phases. One rhythm."
+        lede="A shape, not a straitjacket — the specifics flex to whether we're building something net-new or onboarding an agent, but the rhythm and the accountability don't."
         steps={PHASES}
       />
 
@@ -116,8 +125,8 @@ export default function Approach() {
 
       <CTAStrip
         tone="paper"
-        title="See if the fit is right."
-        lede="A 20-minute call, free. If the work isn't right for us, we'll tell you who else to talk to."
+        title="Ready to see how we'd work with you?"
+        lede="Twenty-minute scope call. No slides. We figure out what fits and what doesn't."
         primaryCta={{ label: 'Book a call', href: '/book' }}
       />
     </Layout>

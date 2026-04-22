@@ -1,7 +1,10 @@
 /**
- * Smoke tests for the v2 Approach page. Verifies the page composes — hero,
- * four-phase StepStack, principles grid, final CTA. Primitive internals are
- * covered by the StepStack/CTAStrip test suites.
+ * Smoke tests for the v2 Approach page. Strategic pivot (2026-04-22):
+ * verifies the page reflects the product + managed-service model
+ * ("We build. We operate. You use.") with the new four-phase cycle
+ * (Scope / Prototype / Operate / Expand) and the sovereign + managed-
+ * service principles. Primitive internals are covered by the StepStack
+ * and CTAStrip test suites.
  */
 
 import { render, screen } from '@testing-library/react';
@@ -21,43 +24,44 @@ describe('Approach page', () => {
   it('renders hero title', () => {
     renderApproach();
     expect(
-      screen.getByText(/Three weeks\. One artefact\. No lock-in\./i),
+      screen.getByText(/We build\. We operate\. You use\./i),
     ).toBeInTheDocument();
   });
 
   it('renders all four phase titles', () => {
     renderApproach();
     expect(
-      screen.getByRole('heading', { level: 3, name: /^Discover$/ }),
+      screen.getByRole('heading', { level: 3, name: /^Scope$/ }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { level: 3, name: /^Design$/ }),
+      screen.getByRole('heading', { level: 3, name: /^Prototype$/ }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { level: 3, name: /^Deliver$/ }),
+      screen.getByRole('heading', { level: 3, name: /^Operate$/ }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { level: 3, name: /^Embed$/ }),
+      screen.getByRole('heading', { level: 3, name: /^Expand$/ }),
     ).toBeInTheDocument();
   });
 
-  it('renders phase duration badges (Week 1, Weeks 3-6, Ongoing)', () => {
+  it('renders phase duration badges', () => {
     renderApproach();
-    expect(screen.getByText(/Week 1/i)).toBeInTheDocument();
-    expect(screen.getByText(/Weeks 3-6/i)).toBeInTheDocument();
-    expect(screen.getByText(/Ongoing/i)).toBeInTheDocument();
+    expect(screen.getByText(/Week 0/i)).toBeInTheDocument();
+    expect(screen.getByText(/Weeks 1-2/i)).toBeInTheDocument();
+    expect(screen.getByText(/^Ongoing$/i)).toBeInTheDocument();
+    expect(screen.getByText(/When it makes sense/i)).toBeInTheDocument();
   });
 
-  it('renders at least three principles', () => {
+  it('renders at least three principles reflecting sovereign + managed-service positioning', () => {
     renderApproach();
     expect(
-      screen.getByRole('heading', { level: 3, name: /No junior bait-and-switch/i }),
+      screen.getByRole('heading', { level: 3, name: /Australian sovereign infra/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { level: 3, name: /Ship small, ship often/i }),
+      screen.getByRole('heading', { level: 3, name: /We operate what we build/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { level: 3, name: /Vendor-neutral recommendations/i }),
+      screen.getByRole('heading', { level: 3, name: /No kickbacks, ever/i }),
     ).toBeInTheDocument();
   });
 
