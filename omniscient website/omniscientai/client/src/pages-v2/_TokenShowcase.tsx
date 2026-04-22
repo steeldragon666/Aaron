@@ -32,6 +32,7 @@ import {
   RadioCard,
   CheckboxCard,
 } from "@/components-v2/ui";
+import { HeroSplit, HeroCentric } from "@/components-v2/sections";
 
 // =============================================================================
 // Types — small shapes used to keep the data-driven sections tidy
@@ -1247,6 +1248,60 @@ export default function TokenShowcase() {
               description="Policy review, audit trails, red-teaming."
               checked={useCases.includes("risk")}
               onChange={toggleUseCase}
+            />
+          </div>
+        </div>
+      </Section>
+
+      {/* ===============================================================
+          UI / Sections — hero section patterns composed from primitives
+          Gives a direct eyeball of how real marketing pages will feel
+          once Phase 7 wires up the actual routes.
+          =============================================================== */}
+      <Section
+        eyebrow="UI / Sections"
+        title="Hero section patterns"
+        blurb="HeroSplit (asymmetric 55/45) and HeroCentric (centered single column), rendered with realistic home + about copy. Each preview is wrapped in a bordered container so the section's own edges read cleanly."
+      >
+        {/* ------------------------------------------------------------
+            HeroSplit preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;HeroSplit&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Asymmetric home hero — copy left, BrainGraphic right. Stacks on mobile.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <HeroSplit
+              eyebrow="INTELLIGENCE // CONNECTIVITY // INNOVATION"
+              title="Unleashing the power of intelligent connections."
+              lede="Vendor-neutral AI training and consulting for Melbourne SMEs. We work in short engagements with named practitioners — every workshop leaves your team with a shippable artefact."
+              primaryCta={{ label: "Book a 20-minute call", href: "/book" }}
+              secondaryCta={{ label: "See our work", href: "/work" }}
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            HeroCentric preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: 0 }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;HeroCentric&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Centered single-column hero for About / Approach / Contact pages. Optional
+            graphic below CTAs via <code style={{ fontFamily: "var(--font-mono)" }}>showGraphic</code>.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <HeroCentric
+              eyebrow="About us"
+              title="A boutique AI consultancy, built for the real world."
+              lede="Named practitioners. Short engagements. Every workshop ends with a shippable artefact, not a 40-slide deck."
+              primaryCta={{ label: "Meet the team", href: "/about" }}
+              showGraphic
             />
           </div>
         </div>
