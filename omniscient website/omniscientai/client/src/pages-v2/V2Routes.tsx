@@ -30,6 +30,7 @@ import ServiceDetail from "./ServiceDetail";
 import Industries from "./Industries";
 import IndustryDetail from "./IndustryDetail";
 import Workshops from "./Workshops";
+import WorkshopDetail from "./WorkshopDetail";
 import About from "./About";
 import Approach from "./Approach";
 import Contact from "./Contact";
@@ -73,6 +74,11 @@ export default function V2Routes() {
         <Route path="/industries" component={Industries} />
         <Route path="/industries/:slug" component={IndustryDetail} />
         <Route path="/workshops" component={Workshops} />
+        {/* /workshops/custom stays as a placeholder — CustomWorkshop is
+            Task 8.2. Matched before :slug so the dynamic route doesn't
+            swallow it. */}
+        <Route path="/workshops/custom" component={V2Placeholder} />
+        <Route path="/workshops/:slug" component={WorkshopDetail} />
         <Route path="/about" component={About} />
         <Route path="/about/approach" component={Approach} />
         <Route path="/contact" component={Contact} />
