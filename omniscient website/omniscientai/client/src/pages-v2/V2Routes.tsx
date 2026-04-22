@@ -29,7 +29,7 @@ import Services from "./Services";
 import ServiceDetail from "./ServiceDetail";
 import CompanionDetail from "./CompanionDetail";
 import Industries from "./Industries";
-import IndustryDetail from "./IndustryDetail";
+import IndustryRedirect from "./IndustryRedirect";
 import Workshops from "./Workshops";
 import WorkshopDetail from "./WorkshopDetail";
 import About from "./About";
@@ -66,7 +66,11 @@ export default function V2Routes() {
         <Route path="/services/companion" component={CompanionDetail} />
         <Route path="/services/:slug" component={ServiceDetail} />
         <Route path="/industries" component={Industries} />
-        <Route path="/industries/:slug" component={IndustryDetail} />
+        {/* Legacy /industries/:slug deep links redirect to the matching
+            /services/:slug product page (or the services overview if the
+            slug doesn't map). The old IndustryDetail template is retired;
+            industries are folded into Pillar 1 vertical SaaS. */}
+        <Route path="/industries/:slug" component={IndustryRedirect} />
         <Route path="/workshops" component={Workshops} />
         {/* /workshops/custom must be matched before /workshops/:slug so
             the dynamic route doesn't swallow it. */}
