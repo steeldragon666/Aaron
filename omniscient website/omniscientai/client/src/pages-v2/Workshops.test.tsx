@@ -23,7 +23,7 @@ describe('Workshops page', () => {
   it('renders hero title', () => {
     renderWorkshops();
     expect(
-      screen.getByText(/Hands-on\. Vendor-neutral\. Built around your stack\./i),
+      screen.getByText(/Hands-on training, when it makes sense\./i),
     ).toBeInTheDocument();
   });
 

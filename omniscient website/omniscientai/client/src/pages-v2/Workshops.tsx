@@ -91,8 +91,8 @@ export default function Workshops() {
 
       <HeroCentric
         eyebrow="Workshops"
-        title="Hands-on. Vendor-neutral. Built around your stack."
-        lede="Half-day briefings through multi-day deep dives, each scoped around the tools and workflows your team already uses. You walk out with prompts, templates, and at least one working artefact — not a certificate and a coffee mug."
+        title="Hands-on training, when it makes sense."
+        lede="Most customers use our products and agents. Some need their team trained up first — these workshops are for them. Vendor-neutral, named practitioners, shippable artefact."
       />
 
       <WorkshopCardGrid
