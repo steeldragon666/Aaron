@@ -7,8 +7,9 @@
  * CustomCursor and AIOssistant are intentionally absent — the v2 design
  * system forbids floating chat widgets and custom cursors.
  *
- * Currently exposes only the _TokenShowcase at /_tokens; real v2 pages
- * land in Phase 7+. Unmatched paths fall through to a placeholder.
+ * Real page routes land in Phase 7+. `/_showcase` is a dev-only visual
+ * regression surface for the whole design system. `/_tokens` is kept as
+ * a legacy alias pointing at the same page.
  *
  * Mounted two ways:
  *   1. Production (Phase 12): App.tsx renders <V2Routes /> at the app root
@@ -22,7 +23,9 @@
 
 import { Route, Switch } from "wouter";
 import { withV2Scope } from "@/lib/theme-v2";
-import TokenShowcase from "./_TokenShowcase";
+import ComponentShowcase from "./ComponentShowcase";
+
+const IS_DEV = import.meta.env.DEV;
 
 function V2Placeholder() {
   return (
@@ -33,8 +36,8 @@ function V2Placeholder() {
         <p className="lede">
           This route hasn&apos;t been built in the v2 design yet. Real pages
           land in Phase 7. Visit{" "}
-          <a href="/_v2/_tokens" className="underline">
-            /_v2/_tokens
+          <a href="/_v2/_showcase" className="underline">
+            /_v2/_showcase
           </a>{" "}
           to see the design system.
         </p>
@@ -47,7 +50,13 @@ export default function V2Routes() {
   return (
     <div className={withV2Scope("min-h-screen")}>
       <Switch>
-        <Route path="/_tokens" component={TokenShowcase} />
+        {IS_DEV && (
+          <Route path="/_showcase" component={ComponentShowcase} />
+        )}
+        {IS_DEV && (
+          // Legacy alias — early links pointed at /_tokens
+          <Route path="/_tokens" component={ComponentShowcase} />
+        )}
         {/* Phase 7+ routes land here */}
         <Route component={V2Placeholder} />
       </Switch>
