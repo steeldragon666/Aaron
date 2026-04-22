@@ -29,6 +29,7 @@ import Services from "./Services";
 import Industries from "./Industries";
 import Workshops from "./Workshops";
 import About from "./About";
+import Approach from "./Approach";
 
 const IS_DEV = import.meta.env.DEV;
 
@@ -68,6 +69,7 @@ export default function V2Routes() {
         <Route path="/industries" component={Industries} />
         <Route path="/workshops" component={Workshops} />
         <Route path="/about" component={About} />
+        <Route path="/about/approach" component={Approach} />
         <Route component={V2Placeholder} />
       </Switch>
     </div>
