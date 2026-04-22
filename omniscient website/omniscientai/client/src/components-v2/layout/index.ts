@@ -6,3 +6,4 @@
 export { Container } from './Container';
 export { Section } from './Section';
 export { InkSection } from './InkSection';
+export { Nav } from './Nav';
