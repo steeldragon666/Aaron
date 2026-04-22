@@ -28,6 +28,7 @@ import Home from "./Home";
 import Services from "./Services";
 import ServiceDetail from "./ServiceDetail";
 import Industries from "./Industries";
+import IndustryDetail from "./IndustryDetail";
 import Workshops from "./Workshops";
 import About from "./About";
 import Approach from "./Approach";
@@ -70,6 +71,7 @@ export default function V2Routes() {
         <Route path="/services" component={Services} />
         <Route path="/services/:slug" component={ServiceDetail} />
         <Route path="/industries" component={Industries} />
+        <Route path="/industries/:slug" component={IndustryDetail} />
         <Route path="/workshops" component={Workshops} />
         <Route path="/about" component={About} />
         <Route path="/about/approach" component={Approach} />
