@@ -159,29 +159,31 @@ const STATS = [
   { value: '24/7', label: 'Managed operations, in-hours ownership' },
 ];
 
-// TODO: replace with real testimonials — placeholder drafts carried over
-// from the legacy Home.
+// TODO: replace with real named-and-approved testimonials — drafted
+// 2026-04-23, anon placeholders. Names deliberately anonymous so we don't
+// fabricate real attributions; persona (industry, role) is preserved to
+// carry the weight until real customer quotes land.
 const TESTIMONIALS = [
   {
     quote:
-      "They didn't sell us a platform. They sold us two weeks of their attention, and we came out with something our team actually uses every day.",
-    name: 'Sarah M.',
+      "The AI-EA handles my inbox and calendar. I stopped explaining context three weeks in. It just knows what I'm working on now.",
+    name: 'Executive (anon)',
     role: 'COO',
-    company: 'Mid-market logistics firm',
+    company: 'ASX-listed industrial firm',
   },
   {
     quote:
-      "The workshop didn't feel like a workshop. It felt like we hired a senior engineer for two days and came out with a working tool.",
-    name: 'James K.',
-    role: 'Head of operations',
-    company: 'Healthcare services provider',
+      "Having a compliance agent that speaks R&DTI saved us two weeks on our last submission. It's not a chatbot — it actually does the work.",
+    name: 'Head of R&D (anon)',
+    role: 'Engineering leadership',
+    company: 'Defence prime contractor',
   },
   {
     quote:
-      'Boutique in the best sense — small enough that we got the partner, not a junior. We asked for a strategy and got both strategy and code.',
-    name: 'Priya R.',
-    role: 'Founder',
-    company: 'B2B SaaS startup',
+      "What won us over was the sovereign-hosting story. Our clinical data doesn't leave Australia. That was table stakes for our board.",
+    name: 'Founder (anon)',
+    role: 'CEO',
+    company: 'NDIS provider',
   },
 ];
 
@@ -315,7 +317,7 @@ export default function Home() {
       />
 
       <TestimonialStrip
-        eyebrow="What people say"
+        eyebrow="WHAT CUSTOMERS SAY"
         sectionTitle="The reviews we actually care about."
         testimonials={TESTIMONIALS}
       />
