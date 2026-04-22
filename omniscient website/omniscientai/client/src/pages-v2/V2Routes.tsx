@@ -26,6 +26,7 @@ import { withV2Scope } from "@/lib/theme-v2";
 import ComponentShowcase from "./ComponentShowcase";
 import Home from "./Home";
 import Services from "./Services";
+import Industries from "./Industries";
 
 const IS_DEV = import.meta.env.DEV;
 
@@ -62,6 +63,7 @@ export default function V2Routes() {
         {/* Phase 7+ routes land here */}
         <Route path="/" component={Home} />
         <Route path="/services" component={Services} />
+        <Route path="/industries" component={Industries} />
         <Route component={V2Placeholder} />
       </Switch>
     </div>
