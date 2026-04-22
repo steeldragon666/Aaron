@@ -45,6 +45,8 @@ import {
   CTAStrip,
   BookingForm,
   ContactForm,
+  ArticleHeader,
+  ArticleBody,
 } from "@/components-v2/sections";
 import { GraduationCap, Activity, Shield, Bot } from "lucide-react";
 
@@ -1719,7 +1721,7 @@ export default function TokenShowcase() {
         {/* ------------------------------------------------------------
             ContactForm preview
             ------------------------------------------------------------ */}
-        <div style={{ marginBottom: 0 }}>
+        <div style={{ marginBottom: "var(--space-8)" }}>
           <div style={{ marginBottom: "var(--space-3)" }}>
             <MonoBadge>&lt;ContactForm&gt;</MonoBadge>
           </div>
@@ -1735,6 +1737,85 @@ export default function TokenShowcase() {
                 await new Promise((r) => setTimeout(r, 1000));
               }}
             />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            ArticleHeader preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;ArticleHeader&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Top-of-article block on Insights pages. Category eyebrow,
+            Display title, optional lede, and author/date/read-time
+            metadata chips. Max-width ~800px to keep headings readable.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <ArticleHeader
+              category="Field notes"
+              title="Why we don’t recommend starting with a chatbot"
+              lede="The fastest AI wins for SMEs aren’t customer-facing. They’re in the back office — where small speed-ups compound quickly and nobody’s measuring your response time."
+              author="Aaron"
+              publishDate="22 April 2026"
+              readTime="7 min read"
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            ArticleBody preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: 0 }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;ArticleBody&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Long-form content wrapper. Max-width 65ch for ideal reading
+            line-length; the <code>.article-body</code> utility in
+            omniscient.css styles nested h2/h3/p/ul/blockquote/code/a
+            elements so authors can write plain JSX.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <ArticleBody>
+              <p>
+                Most SMEs we meet want to start with a customer-facing
+                chatbot. It’s the most visible form of AI, so it feels
+                like the right place to plant a flag. Our experience
+                says otherwise — almost always.
+              </p>
+              <h2>The backoffice is where the wins are</h2>
+              <p>
+                Customer-facing work has a hard floor: if the bot is
+                ninety-five percent right, the five percent of wrong
+                answers are loud and public. Backoffice work has no
+                such floor.
+              </p>
+              <ul>
+                <li>Nobody is measuring your contract-review cycle time publicly</li>
+                <li>Mistakes get caught by the same human who was doing it before</li>
+                <li>Small speed-ups compound — ten minutes a day, five days a week</li>
+              </ul>
+              <h3>A worked example</h3>
+              <p>
+                One recent engagement automated a weekly reporting
+                bundle with <a href="#">a retrieval-backed agent</a>.
+                The team that used to spend Friday afternoons running{" "}
+                <code>SELECT</code> queries now runs a single command
+                and edits the draft.
+              </p>
+              <blockquote>
+                We didn’t change what the team does. We changed how
+                long it takes, and that gave two people their Fridays
+                back.
+              </blockquote>
+              <p>
+                The chatbot can come later — once the team is already
+                comfortable shipping production AI and has an eval
+                harness they trust.
+              </p>
+            </ArticleBody>
           </div>
         </div>
       </Section>
