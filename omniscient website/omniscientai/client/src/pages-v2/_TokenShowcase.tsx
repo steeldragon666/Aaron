@@ -14,7 +14,24 @@
  * so this page MUST be wrapped with `withV2Scope()` at its root.
  */
 
+import { useState } from "react";
 import { withV2Scope } from "@/lib/theme-v2";
+import {
+  Button,
+  Card,
+  FeaturedCard,
+  Eyebrow,
+  Display,
+  Lede,
+  MonoBadge,
+  CTALink,
+  Input,
+  Textarea,
+  Select,
+  Slider,
+  RadioCard,
+  CheckboxCard,
+} from "@/components-v2/ui";
 
 // =============================================================================
 // Types — small shapes used to keep the data-driven sections tidy
@@ -361,6 +378,19 @@ function Swatch({ swatch }: SwatchProps) {
 // =============================================================================
 
 export default function TokenShowcase() {
+  // Local state for interactive primitives. Keeping these uncontrolled would
+  // freeze the visuals (e.g. Slider fill-bar wouldn't track the thumb).
+  const [teamSize, setTeamSize] = useState(50);
+  const [hourlyRate, setHourlyRate] = useState(180);
+  const [aiMaturity, setAiMaturity] = useState("pilot");
+  const [useCases, setUseCases] = useState<string[]>(["ops"]);
+
+  const toggleUseCase = (value: string, checked: boolean) => {
+    setUseCases((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value),
+    );
+  };
+
   return (
     <div
       className={withV2Scope("min-h-screen bg-paper text-ink")}
@@ -811,6 +841,416 @@ export default function TokenShowcase() {
           `}</style>
         </Section>
       </div>
+
+      {/* ===============================================================
+          UI Primitives — every component shipped in Phase 2
+          This is the canonical visual-regression surface for the redesign.
+          Phase 3+ components will append further subsections here.
+          =============================================================== */}
+      <Section
+        eyebrow="UI / Primitives"
+        title="UI Primitives"
+        blurb="Every component shipped in Phase 2. Each category renders its full variant matrix so visual regressions show up here first. All imports from @/components-v2/ui."
+      >
+        {/* -----------------------------------------------------------------
+            Buttons — 3 variants × 2 sizes, plus arrow + disabled examples
+            ----------------------------------------------------------------- */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <Eyebrow style={{ marginBottom: "var(--space-2)", display: "block" }}>
+            Buttons
+          </Eyebrow>
+          <h3 style={{ margin: 0, marginBottom: "var(--space-2)" }}>Button</h3>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Three variants (primary, secondary, ghost) at two sizes (md, lg), plus
+            the arrow affordance and disabled state.
+          </p>
+          <div
+            style={{
+              background: "var(--paper-100)",
+              padding: "var(--space-6)",
+              borderRadius: "var(--radius-lg)",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "var(--space-4)",
+              alignItems: "center",
+            }}
+          >
+            <Button variant="primary" size="md">Primary md</Button>
+            <Button variant="primary" size="lg">Primary lg</Button>
+            <Button variant="secondary" size="md">Secondary md</Button>
+            <Button variant="secondary" size="lg">Secondary lg</Button>
+            <Button variant="ghost" size="md">Ghost md</Button>
+            <Button variant="ghost" size="lg">Ghost lg</Button>
+            <Button variant="primary" size="lg" arrow>
+              With arrow
+            </Button>
+            <Button variant="primary" size="lg" disabled>
+              Disabled
+            </Button>
+          </div>
+        </div>
+
+        {/* -----------------------------------------------------------------
+            Cards — paper, paper-2, linked, featured
+            ----------------------------------------------------------------- */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <Eyebrow style={{ marginBottom: "var(--space-2)", display: "block" }}>
+            Cards
+          </Eyebrow>
+          <h3 style={{ margin: 0, marginBottom: "var(--space-2)" }}>Card &amp; FeaturedCard</h3>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Two tones plus an ink-flipped featured variant. Cards can also render
+            as an anchor tag via <code style={{ fontFamily: "var(--font-mono)" }}>as=&quot;a&quot;</code>.
+          </p>
+          <div
+            style={{
+              background: "var(--paper-100)",
+              padding: "var(--space-6)",
+              borderRadius: "var(--radius-lg)",
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              gap: "var(--space-5)",
+            }}
+            className="card-grid"
+          >
+            <Card tone="paper">
+              <Eyebrow>Paper tone</Eyebrow>
+              <h4 style={{ margin: "var(--space-2) 0 var(--space-2)" }}>
+                Default card surface
+              </h4>
+              <p style={{ margin: 0, color: "var(--fg-2)" }}>
+                Lives on --paper-100 to show its own --paper background.
+                Elevates on hover via --shadow-1.
+              </p>
+            </Card>
+            <Card tone="paper-2">
+              <Eyebrow>Paper-2 tone</Eyebrow>
+              <h4 style={{ margin: "var(--space-2) 0 var(--space-2)" }}>
+                Alt card surface
+              </h4>
+              <p style={{ margin: 0, color: "var(--fg-2)" }}>
+                Uses --paper-2 for a subtly tinted variant when paper tone would
+                vanish against the parent surface.
+              </p>
+            </Card>
+            <Card as="a" href="#primitives-cards" tone="paper">
+              <Eyebrow>Linked card</Eyebrow>
+              <h4 style={{ margin: "var(--space-2) 0 var(--space-2)" }}>
+                Rendered as &lt;a&gt;
+              </h4>
+              <p style={{ margin: 0, color: "var(--fg-2)" }}>
+                Cursor changes to pointer and focus-visible gets the blue-glow
+                outline. Anchor props pass through unchanged.
+              </p>
+            </Card>
+            <FeaturedCard>
+              <Eyebrow>Featured card</Eyebrow>
+              <h4 style={{ margin: "var(--space-2) 0 var(--space-2)" }}>
+                Ink-flipped emphasis
+              </h4>
+              <p style={{ margin: 0 }}>
+                Uses --ink background with --paper text. Stronger hover shadow
+                for headline placement in a grid.
+              </p>
+            </FeaturedCard>
+          </div>
+          <style>{`
+            @media (max-width: 767px) {
+              .card-grid { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
+        </div>
+
+        {/* -----------------------------------------------------------------
+            Typography primitives — Eyebrow, Display, Lede, MonoBadge
+            ----------------------------------------------------------------- */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <Eyebrow style={{ marginBottom: "var(--space-2)", display: "block" }}>
+            Typography
+          </Eyebrow>
+          <h3 style={{ margin: 0, marginBottom: "var(--space-2)" }}>
+            Eyebrow, Display, Lede, MonoBadge
+          </h3>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Typed wrappers over the utility classes in omniscient.css. Each has a
+            small constrained <code style={{ fontFamily: "var(--font-mono)" }}>as</code> prop
+            for semantic flexibility.
+          </p>
+          <div
+            style={{
+              background: "var(--paper-100)",
+              padding: "var(--space-6)",
+              borderRadius: "var(--radius-lg)",
+              display: "grid",
+              rowGap: "var(--space-6)",
+            }}
+          >
+            <div>
+              <div style={{ marginBottom: "var(--space-2)" }}>
+                <MonoBadge>&lt;Eyebrow&gt;</MonoBadge>
+              </div>
+              <Eyebrow>Featured</Eyebrow>
+            </div>
+            <div>
+              <div style={{ marginBottom: "var(--space-2)" }}>
+                <MonoBadge>&lt;Display&gt;</MonoBadge>
+              </div>
+              <Display as="div">Unleashing intelligent connections</Display>
+            </div>
+            <div>
+              <div style={{ marginBottom: "var(--space-2)" }}>
+                <MonoBadge>&lt;Lede&gt;</MonoBadge>
+              </div>
+              <Lede>
+                Vendor-neutral AI training and consulting for Melbourne SMEs.
+              </Lede>
+            </div>
+            <div>
+              <div style={{ marginBottom: "var(--space-2)" }}>
+                <MonoBadge>&lt;MonoBadge&gt;</MonoBadge>
+              </div>
+              <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
+                <MonoBadge>$4,995 AUD</MonoBadge>
+                <MonoBadge>2 hours</MonoBadge>
+                <MonoBadge>Intermediate</MonoBadge>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* -----------------------------------------------------------------
+            Links — CTALink (internal + external)
+            ----------------------------------------------------------------- */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <Eyebrow style={{ marginBottom: "var(--space-2)", display: "block" }}>
+            Links
+          </Eyebrow>
+          <h3 style={{ margin: 0, marginBottom: "var(--space-2)" }}>CTALink</h3>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Inline call-to-action anchor with arrow glyph. <code style={{ fontFamily: "var(--font-mono)" }}>external</code>
+            swaps the glyph to ↗ and sets target/rel attributes.
+          </p>
+          <div
+            style={{
+              background: "var(--paper-100)",
+              padding: "var(--space-6)",
+              borderRadius: "var(--radius-lg)",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "var(--space-6)",
+              alignItems: "center",
+            }}
+          >
+            <CTALink href="#primitives-links">Read the case study</CTALink>
+            <CTALink href="https://example.com" external>
+              Visit Anthropic
+            </CTALink>
+          </div>
+        </div>
+
+        {/* -----------------------------------------------------------------
+            Form fields — Input, Textarea, Select
+            Wrapped in a paper-2 card so --paper backgrounds show.
+            ----------------------------------------------------------------- */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <Eyebrow style={{ marginBottom: "var(--space-2)", display: "block" }}>
+            Forms
+          </Eyebrow>
+          <h3 style={{ margin: 0, marginBottom: "var(--space-2)" }}>
+            Input, Textarea, Select
+          </h3>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Shared API: optional label, hint, and error. Error state swaps the
+            hint for a red message and flips the border token. Rendered on
+            paper-2 to expose the field&rsquo;s --paper background.
+          </p>
+          <div
+            style={{
+              background: "var(--paper-100)",
+              padding: "var(--space-6)",
+              borderRadius: "var(--radius-lg)",
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              gap: "var(--space-5)",
+            }}
+            className="form-grid"
+          >
+            <Input label="Work email" placeholder="name@company.com" />
+            <Input label="Role" hint="Your position, if applicable" />
+            <Input
+              label="Password"
+              type="password"
+              error="Must be at least 8 characters"
+            />
+            <Select label="Industry" defaultValue="">
+              <option value="" disabled>
+                Select an industry
+              </option>
+              <option value="healthcare">Healthcare</option>
+              <option value="finance">Finance</option>
+              <option value="retail">Retail</option>
+              <option value="logistics">Logistics</option>
+              <option value="government">Government</option>
+            </Select>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <Textarea
+                label="Project goals"
+                placeholder="Describe what success looks like in six months..."
+                rows={4}
+              />
+            </div>
+          </div>
+          <style>{`
+            @media (max-width: 767px) {
+              .form-grid { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
+        </div>
+
+        {/* -----------------------------------------------------------------
+            Slider — with live state so fill-bar tracks the thumb
+            ----------------------------------------------------------------- */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <Eyebrow style={{ marginBottom: "var(--space-2)", display: "block" }}>
+            Slider
+          </Eyebrow>
+          <h3 style={{ margin: 0, marginBottom: "var(--space-2)" }}>Slider</h3>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Range input with a linear-gradient fill that tracks the value. The
+            second example supplies a <code style={{ fontFamily: "var(--font-mono)" }}>valueDisplay</code>
+            formatter for currency.
+          </p>
+          <div
+            style={{
+              background: "var(--paper-100)",
+              padding: "var(--space-6)",
+              borderRadius: "var(--radius-lg)",
+              display: "grid",
+              rowGap: "var(--space-6)",
+            }}
+          >
+            <Slider
+              label="Team size"
+              min={1}
+              max={200}
+              value={teamSize}
+              onChange={(e) =>
+                setTeamSize(Number((e.target as HTMLInputElement).value))
+              }
+            />
+            <Slider
+              label="Hourly rate"
+              min={50}
+              max={500}
+              value={hourlyRate}
+              onChange={(e) =>
+                setHourlyRate(Number((e.target as HTMLInputElement).value))
+              }
+              valueDisplay={(v) => `$${v}`}
+            />
+          </div>
+        </div>
+
+        {/* -----------------------------------------------------------------
+            RadioCard — single-select group with state
+            ----------------------------------------------------------------- */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <Eyebrow style={{ marginBottom: "var(--space-2)", display: "block" }}>
+            Selection — single
+          </Eyebrow>
+          <h3 style={{ margin: 0, marginBottom: "var(--space-2)" }}>RadioCard group</h3>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Radio-card selection surface used throughout the AI-readiness quiz.
+            Click any card to select; the other two deselect automatically.
+          </p>
+          <div
+            style={{
+              background: "var(--paper-100)",
+              padding: "var(--space-6)",
+              borderRadius: "var(--radius-lg)",
+              display: "grid",
+              rowGap: "var(--space-3)",
+            }}
+            role="radiogroup"
+            aria-label="AI maturity"
+          >
+            <RadioCard
+              name="ai-maturity"
+              value="exploring"
+              label="Our team is exploring AI for the first time"
+              description="Curiosity-driven — no production models yet."
+              checked={aiMaturity === "exploring"}
+              onChange={setAiMaturity}
+            />
+            <RadioCard
+              name="ai-maturity"
+              value="pilot"
+              label="We've done a pilot or two"
+              description="Early traction; scoping the next step."
+              checked={aiMaturity === "pilot"}
+              onChange={setAiMaturity}
+            />
+            <RadioCard
+              name="ai-maturity"
+              value="core"
+              label="AI is part of our core product"
+              description="Models in production, iterating on evaluation."
+              checked={aiMaturity === "core"}
+              onChange={setAiMaturity}
+            />
+          </div>
+        </div>
+
+        {/* -----------------------------------------------------------------
+            CheckboxCard — multi-select group with array state
+            ----------------------------------------------------------------- */}
+        <div style={{ marginBottom: 0 }}>
+          <Eyebrow style={{ marginBottom: "var(--space-2)", display: "block" }}>
+            Selection — multi
+          </Eyebrow>
+          <h3 style={{ margin: 0, marginBottom: "var(--space-2)" }}>CheckboxCard group</h3>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Multi-select sibling of RadioCard. Each card toggles independently;
+            selected state is tracked as a string array.
+          </p>
+          <div
+            style={{
+              background: "var(--paper-100)",
+              padding: "var(--space-6)",
+              borderRadius: "var(--radius-lg)",
+              display: "grid",
+              rowGap: "var(--space-3)",
+            }}
+            role="group"
+            aria-label="AI use cases"
+          >
+            <CheckboxCard
+              name="use-cases"
+              value="ops"
+              label="Internal operations"
+              description="Back-office automation, knowledge retrieval, ticket triage."
+              checked={useCases.includes("ops")}
+              onChange={toggleUseCase}
+            />
+            <CheckboxCard
+              name="use-cases"
+              value="product"
+              label="Customer-facing products"
+              description="Assistants, copilots, generative features in the product."
+              checked={useCases.includes("product")}
+              onChange={toggleUseCase}
+            />
+            <CheckboxCard
+              name="use-cases"
+              value="risk"
+              label="Compliance and risk"
+              description="Policy review, audit trails, red-teaming."
+              checked={useCases.includes("risk")}
+              onChange={toggleUseCase}
+            />
+          </div>
+        </div>
+      </Section>
 
       {/* ===============================================================
           9. Font families
