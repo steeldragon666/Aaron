@@ -1,8 +1,12 @@
 /**
- * Smoke tests for the v2 Services overview page. Per the pattern established
- * in Home.test.tsx, we don't re-validate primitives here — only the load-
- * bearing composition bits: hero landing, every service from lib/data.ts
- * rendering with the correct slug link, pillar grid presence, and final CTA.
+ * Smoke tests for the v2 Services overview page.
+ *
+ * Updated 2026-04-22 for the sovereign applied AI positioning pivot. The
+ * page now surfaces three pillars (vertical SaaS, Workforce, Companion)
+ * with consulting/workshops retained as a de-emphasised tail section.
+ *
+ * Per the pattern established in Home.test.tsx, we don't re-validate
+ * primitives here — only the load-bearing composition bits.
  */
 
 import { render, screen } from '@testing-library/react';
@@ -23,45 +27,88 @@ describe('Services page', () => {
   it('renders hero title', () => {
     renderServices();
     expect(
-      screen.getByText(/Short engagements\. Named practitioners\. An artefact at the end\./i),
+      screen.getByText(
+        /Products, platforms, and agents — operated as managed services\./i,
+      ),
     ).toBeInTheDocument();
   });
 
-  it('renders all services from lib/data.ts', () => {
+  it('renders all three vertical SaaS products', () => {
     renderServices();
-    for (const svc of SERVICES) {
-      expect(screen.getByText(svc.title)).toBeInTheDocument();
-    }
+    const bioenergy = SERVICES.find((s) => s.slug === 'bioenergy');
+    const defence = SERVICES.find((s) => s.slug === 'defence');
+    const mentalHealth = SERVICES.find((s) => s.slug === 'mental-health');
+    expect(bioenergy).toBeDefined();
+    expect(defence).toBeDefined();
+    expect(mentalHealth).toBeDefined();
+    expect(screen.getByText(bioenergy!.title)).toBeInTheDocument();
+    expect(screen.getByText(defence!.title)).toBeInTheDocument();
+    expect(screen.getByText(mentalHealth!.title)).toBeInTheDocument();
   });
 
-  it('links each service to /services/{slug}', () => {
+  it('links each vertical SaaS product to /services/{slug}', () => {
     renderServices();
     const links = screen.getAllByRole('link', { name: /Learn more/i });
-    // At minimum there's one Learn more per service plus pillar links
-    expect(links.length).toBeGreaterThanOrEqual(SERVICES.length);
-    for (const svc of SERVICES) {
+    for (const slug of ['bioenergy', 'defence', 'mental-health']) {
       expect(
-        links.some((link) => link.getAttribute('href') === `/services/${svc.slug}`),
+        links.some((link) => link.getAttribute('href') === `/services/${slug}`),
       ).toBe(true);
     }
   });
 
-  it('renders pillar grid with four practice areas', () => {
-    renderServices();
-    expect(screen.getByText('AI training')).toBeInTheDocument();
-    expect(screen.getByText('Health technologies')).toBeInTheDocument();
-    expect(screen.getByText('Defense hardware & software')).toBeInTheDocument();
-    expect(screen.getByText('Agentic ops')).toBeInTheDocument();
-  });
-
-  it('renders the approach InkSection', () => {
+  it('renders the Workforce pillar with persona cards', () => {
     renderServices();
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: /Three weeks\. One artefact\. No lock-in\./i,
+        name: /The Omniscient Workforce\./i,
       }),
     ).toBeInTheDocument();
+    // Spot-check that the personas render as h3 cards.
+    expect(screen.getByRole('heading', { level: 3, name: /AI-EA/i }))
+      .toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 3, name: /AI Compliance Officer/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('renders the Companion pillar with a link to /services/companion', () => {
+    renderServices();
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /The Companion\..*pocket/i,
+      }),
+    ).toBeInTheDocument();
+    const omniLinks = screen.getAllByRole('link', {
+      name: /Learn more about Omni/i,
+    });
+    expect(
+      omniLinks.some(
+        (link) => link.getAttribute('href') === '/services/companion',
+      ),
+    ).toBe(true);
+  });
+
+  it('renders the de-emphasised consulting/workshops tail section', () => {
+    renderServices();
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /Consulting \+ workshops, when you need them\./i,
+      }),
+    ).toBeInTheDocument();
+    // Legacy consulting services still need to be linkable from here.
+    const legacy = SERVICES.find((s) => s.slug === 'ai-strategy-consulting');
+    expect(legacy).toBeDefined();
+    expect(screen.getByText(legacy!.title)).toBeInTheDocument();
+    // Workshops link still present.
+    const workshopLinks = screen.getAllByRole('link', {
+      name: /See the workshops/i,
+    });
+    expect(
+      workshopLinks.some((link) => link.getAttribute('href') === '/workshops'),
+    ).toBe(true);
   });
 
   it('renders the final CTA link to /book', () => {
