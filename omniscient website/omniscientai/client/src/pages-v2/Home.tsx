@@ -149,14 +149,14 @@ const CASES = [
   },
 ];
 
-// TODO: validate numbers with founder — these are placeholder and still
-// training/workshop flavoured. Swap for SaaS-flavoured metrics (ARR, seats,
-// verticals served) before launch.
+// TODO: replace with real ARR / seat / customer metrics once we have them
+// — drafted 2026-04-23. Swapped from workshop-flavoured metrics to match
+// the sovereign applied AI positioning.
 const STATS = [
-  { value: '50+', label: 'Workshops delivered' },
-  { value: '12', label: 'Industries served' },
-  { value: '4.9/5', label: 'Participant satisfaction' },
-  { value: '8hrs', label: 'Avg. time saved weekly' },
+  { value: '3', label: 'Product lines in flight' },
+  { value: '6', label: 'Workforce personas shipped' },
+  { value: '100%', label: 'Australian-hosted infrastructure' },
+  { value: '24/7', label: 'Managed operations, in-hours ownership' },
 ];
 
 // TODO: replace with real testimonials — placeholder drafts carried over
@@ -308,8 +308,8 @@ export default function Home() {
       />
 
       <StatsRow
-        eyebrow="By the numbers"
-        sectionTitle="Real outcomes, not slide deck numbers."
+        eyebrow="BY THE NUMBERS"
+        sectionTitle="Sovereign by default. Boutique by design."
         stats={STATS}
         tone="paper-2"
       />
