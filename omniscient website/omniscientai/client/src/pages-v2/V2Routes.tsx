@@ -36,6 +36,7 @@ import Approach from "./Approach";
 import Contact from "./Contact";
 import Book from "./Book";
 import CustomWorkshop from "./CustomWorkshop";
+import Insights from "./Insights";
 
 const IS_DEV = import.meta.env.DEV;
 
@@ -84,6 +85,7 @@ export default function V2Routes() {
         <Route path="/about/approach" component={Approach} />
         <Route path="/contact" component={Contact} />
         <Route path="/book" component={Book} />
+        <Route path="/insights" component={Insights} />
         <Route component={V2Placeholder} />
       </Switch>
     </div>
