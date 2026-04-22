@@ -12,3 +12,4 @@ export { StatsRow } from './StatsRow';
 export { StepStack } from './StepStack';
 export { FAQAccordion } from './FAQAccordion';
 export { TestimonialStrip } from './TestimonialStrip';
+export { CTAStrip } from './CTAStrip';
