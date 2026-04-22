@@ -32,7 +32,15 @@ import {
   RadioCard,
   CheckboxCard,
 } from "@/components-v2/ui";
-import { HeroSplit, HeroCentric } from "@/components-v2/sections";
+import {
+  HeroSplit,
+  HeroCentric,
+  PillarGrid,
+  CaseGrid,
+  WorkshopCardGrid,
+  StatsRow,
+} from "@/components-v2/sections";
+import { GraduationCap, Activity, Shield, Bot } from "lucide-react";
 
 // =============================================================================
 // Types — small shapes used to keep the data-driven sections tidy
@@ -1302,6 +1310,193 @@ export default function TokenShowcase() {
               lede="Named practitioners. Short engagements. Every workshop ends with a shippable artefact, not a 40-slide deck."
               primaryCta={{ label: "Meet the team", href: "/about" }}
               showGraphic
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            PillarGrid preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginTop: "var(--space-8)", marginBottom: "var(--space-8)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;PillarGrid&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            4-up practice area grid. Each pillar has a Lucide icon, title,
+            description, and an optional "Learn more" CTA when an href is
+            supplied.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <PillarGrid
+              eyebrow="WHAT WE DO"
+              sectionTitle="Four practice areas, one consultancy."
+              lede="Every engagement draws on the same vendor-neutral playbook — scoped tight, run by named practitioners, and closed with a shippable artefact."
+              pillars={[
+                {
+                  icon: GraduationCap,
+                  title: "AI Training",
+                  description:
+                    "Hands-on workshops that leave your team with a working prototype, not a slide deck.",
+                  href: "/services/training",
+                },
+                {
+                  icon: Activity,
+                  title: "Health Technologies",
+                  description:
+                    "Clinical AI adoption patterns for regulated healthcare and aged-care settings.",
+                  href: "/services/health",
+                },
+                {
+                  icon: Shield,
+                  title: "Defense Systems",
+                  description:
+                    "Hardened agentic systems for defence primes and sovereign-data workloads.",
+                  href: "/services/defense",
+                },
+                {
+                  icon: Bot,
+                  title: "Agentic Ops",
+                  description:
+                    "Production-grade marketing and ops agents that actually ship and observe themselves.",
+                  href: "/services/agentic-ops",
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            CaseGrid preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;CaseGrid&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            3-up case study grid. First tile is a FeaturedCard on ink; the
+            remaining two are standard paper Cards.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <CaseGrid
+              eyebrow="SELECTED WORK"
+              sectionTitle="Where we've shipped."
+              cases={[
+                {
+                  industry: "Healthcare provider",
+                  title: "Radiology triage agent",
+                  outcome:
+                    "40% faster first-read on priority scans across three Melbourne hospitals.",
+                  href: "/work/radiology",
+                },
+                {
+                  industry: "Financial services",
+                  title: "KYC onboarding pipeline",
+                  outcome:
+                    "Cut manual review from 45 minutes to 8 minutes per applicant with a human-in-the-loop.",
+                  href: "/work/kyc",
+                },
+                {
+                  industry: "Industrial automation",
+                  title: "Predictive maintenance co-pilot",
+                  outcome:
+                    "Reduced unplanned downtime by 27% across 14 processing sites in six months.",
+                  href: "/work/maintenance",
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            WorkshopCardGrid preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;WorkshopCardGrid&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            3-up workshop catalog grid. Meta row (duration · format · price),
+            title, description, and a full-width "Book this workshop" CTA per
+            card.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <WorkshopCardGrid
+              eyebrow="UPCOMING WORKSHOPS"
+              sectionTitle="Hands-on training for Melbourne SMEs."
+              workshops={[
+                {
+                  slug: "ai-fundamentals-sme",
+                  title: "AI Fundamentals for SMEs",
+                  description:
+                    "A two-day foundation covering LLMs, RAG, and agentic patterns with a prototype you'll take home.",
+                  duration: "2 days",
+                  format: "In-person, Melbourne",
+                  price: "$4,995 AUD",
+                },
+                {
+                  slug: "clinical-ai-primer",
+                  title: "Clinical AI Primer",
+                  description:
+                    "Safe adoption patterns and governance scaffolding for regulated healthcare environments.",
+                  duration: "1 day",
+                  format: "Hybrid",
+                  price: "From $2,495",
+                },
+                {
+                  slug: "agentic-ops-lab",
+                  title: "Agentic Ops Lab",
+                  description:
+                    "Build an internal agent that actually ships — observability, guardrails, and evals included.",
+                  duration: "3 days",
+                  format: "In-person, Sydney",
+                  price: "$6,995 AUD",
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            StatsRow preview (paper + ink variants)
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: "var(--space-5)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;StatsRow&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            4-column row of big numbers + short labels. Paper tone (default)
+            and ink tone shown so the dramatic pacing variant is visible.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <StatsRow
+              eyebrow="IMPACT"
+              sectionTitle="By the numbers."
+              stats={[
+                { value: "50+", label: "Workshops delivered" },
+                { value: "12", label: "Industries" },
+                { value: "4.9/5", label: "Satisfaction" },
+                { value: "8hrs", label: "Saved per week" },
+              ]}
+            />
+          </div>
+        </div>
+        <div style={{ marginBottom: 0 }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;StatsRow tone="ink"&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Ink-toned pacing variant — rendered via InkSection for full-bleed
+            drama in the middle of a long page.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <StatsRow
+              tone="ink"
+              stats={[
+                { value: "50+", label: "Workshops delivered" },
+                { value: "12", label: "Industries" },
+                { value: "4.9/5", label: "Satisfaction" },
+                { value: "8hrs", label: "Saved per week" },
+              ]}
             />
           </div>
         </div>
