@@ -4,3 +4,4 @@
  */
 
 export { Button } from './Button';
+export { Card, FeaturedCard } from './Card';
