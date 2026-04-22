@@ -24,6 +24,7 @@
 import { Route, Switch } from "wouter";
 import { withV2Scope } from "@/lib/theme-v2";
 import ComponentShowcase from "./ComponentShowcase";
+import Home from "./Home";
 
 const IS_DEV = import.meta.env.DEV;
 
@@ -58,6 +59,7 @@ export default function V2Routes() {
           <Route path="/_tokens" component={ComponentShowcase} />
         )}
         {/* Phase 7+ routes land here */}
+        <Route path="/" component={Home} />
         <Route component={V2Placeholder} />
       </Switch>
     </div>
