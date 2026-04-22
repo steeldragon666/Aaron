@@ -38,27 +38,11 @@ import Book from "./Book";
 import CustomWorkshop from "./CustomWorkshop";
 import Insights from "./Insights";
 import InsightArticle from "./InsightArticle";
+import PrivacyPolicy from "./PrivacyPolicy";
+import Terms from "./Terms";
+import NotFound from "./NotFound";
 
 const IS_DEV = import.meta.env.DEV;
-
-function V2Placeholder() {
-  return (
-    <main className="min-h-screen grid place-items-center bg-paper text-ink">
-      <div className="max-w-md text-center px-6">
-        <div className="eyebrow mb-4">v2 redesign</div>
-        <h1 className="display mb-4">Coming soon</h1>
-        <p className="lede">
-          This route hasn&apos;t been built in the v2 design yet. Real pages
-          land in Phase 7. Visit{" "}
-          <a href="/_v2/_showcase" className="underline">
-            /_v2/_showcase
-          </a>{" "}
-          to see the design system.
-        </p>
-      </div>
-    </main>
-  );
-}
 
 export default function V2Routes() {
   return (
@@ -88,7 +72,10 @@ export default function V2Routes() {
         <Route path="/book" component={Book} />
         <Route path="/insights" component={Insights} />
         <Route path="/insights/:slug" component={InsightArticle} />
-        <Route component={V2Placeholder} />
+        <Route path="/privacy-policy" component={PrivacyPolicy} />
+        <Route path="/terms" component={Terms} />
+        {/* Catchall — NotFound replaces the prior V2Placeholder stand-in. */}
+        <Route component={NotFound} />
       </Switch>
     </div>
   );
