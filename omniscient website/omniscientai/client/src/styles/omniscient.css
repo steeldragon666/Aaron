@@ -280,3 +280,46 @@
   background: var(--blue);
   color: var(--paper);
 }
+
+/* =====================================================================
+   Slider primitive — native range input pseudo-elements
+   Scoped under .v2 so legacy range inputs stay unstyled.
+   ===================================================================== */
+
+.v2 input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+}
+.v2 input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -5px; /* center thumb on track */
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgb(15 17 21 / 0.06), 0 1px 1px rgb(15 17 21 / 0.04);
+  cursor: pointer;
+  transition: transform var(--dur-base) var(--ease-brand);
+}
+.v2 input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.05);
+}
+.v2 input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(0.95);
+}
+
+.v2 input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+}
+.v2 input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  box-shadow: 0 1px 2px rgb(15 17 21 / 0.06), 0 1px 1px rgb(15 17 21 / 0.04);
+  cursor: pointer;
+}
