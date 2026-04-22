@@ -63,6 +63,19 @@
   --font-heading: 'Space Grotesk', system-ui, sans-serif;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'Roboto Mono', ui-monospace, monospace;
+
+  /* Omniscient v2 — Tailwind utility aliases */
+  --color-ink: var(--ink, #0F1115);
+  --color-ink-2: var(--ink-600, #2A2F37);
+  --color-ink-3: var(--ink-400, #5B6270);
+  --color-blue: var(--blue, #2F7BFF);
+  --color-blue-deep: var(--blue-deep, #1C4FD6);
+  --color-blue-glow: var(--blue-glow, #7AA8FF);
+  --color-paper: var(--paper, #FFFFFF);
+  --color-paper-2: var(--paper-2, #F4F6F9);
+  --color-line: var(--line, #E4E7EC);
+  --font-display: var(--font-display, 'Inter', sans-serif);
+  --font-mono: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace);
 }
 
 :root {
