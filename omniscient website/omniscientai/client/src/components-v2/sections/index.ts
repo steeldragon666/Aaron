@@ -10,3 +10,4 @@ export { CaseGrid } from './CaseGrid';
 export { WorkshopCardGrid } from './WorkshopCardGrid';
 export { StatsRow } from './StatsRow';
 export { StepStack } from './StepStack';
+export { FAQAccordion } from './FAQAccordion';
