@@ -39,6 +39,7 @@ import CustomWorkshop from "./CustomWorkshop";
 import Insights from "./Insights";
 import InsightArticle from "./InsightArticle";
 import AIReadinessQuiz from "./AIReadinessQuiz";
+import ROICalculator from "./ROICalculator";
 import PrivacyPolicy from "./PrivacyPolicy";
 import Terms from "./Terms";
 import NotFound from "./NotFound";
@@ -74,6 +75,7 @@ export default function V2Routes() {
         <Route path="/insights" component={Insights} />
         <Route path="/insights/:slug" component={InsightArticle} />
         <Route path="/ai-readiness-quiz" component={AIReadinessQuiz} />
+        <Route path="/roi-calculator" component={ROICalculator} />
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/terms" component={Terms} />
         {/* Catchall — NotFound replaces the prior V2Placeholder stand-in. */}
