@@ -134,6 +134,108 @@ export const WORKSHOPS = [
 ];
 
 export const SERVICES = [
+  // -------------------------------------------------------------------------
+  // Pillar 1 — Vertical SaaS for consequential industries.
+  // TODO: founder to flesh out features/process per vertical — 2026-04-22
+  // seed entries so /services/:slug links resolve instead of 404ing.
+  // -------------------------------------------------------------------------
+  {
+    slug: "bioenergy",
+    title: "Bioenergy & agribusiness intelligence",
+    subtitle: "Bloomberg for bioenergy. The wedge is ABFI.",
+    description: "ABFI — bankability assessment, feedstock matching, CORSIA compliance, and R&D grant pipeline for producers, financiers, and regulators. A vertical SaaS built on deep feedstock and CORSIA domain knowledge, not a generic dashboard.",
+    features: [
+      "Bankability assessment — project-level economics against lender-ready benchmarks",
+      "Feedstock matching — connect producers with available residues, crops, and offtakers",
+      "CORSIA compliance tooling — emissions accounting and reporting tailored to bioenergy",
+      "R&D grant pipeline — AusIndustry and R&DTI workflows built into the platform",
+      "Market intelligence — pricing, policy, and project data for financiers and regulators",
+    ],
+    process: [
+      { step: "Placeholder", description: "TODO: founder to define onboarding and platform setup workflow for ABFI customers." },
+    ],
+  },
+  {
+    slug: "defence",
+    title: "Sovereign defence & industrial supply chain",
+    subtitle: "Speaks ASCA, DIDG, and R&DTI natively.",
+    description: "For prime contractors, defence-supply SMEs, and government buyers. Sovereign by default — built, hosted, and operated in Australia. Knows the acronyms, knows the forms, knows the pace.",
+    features: [
+      "ASCA and DIDG programme workflows — built-in, not bolted on",
+      "R&DTI capture and evidence — aligned with the sovereign industrial base",
+      "Supply chain mapping and compliance for defence-adjacent SMEs",
+      "Sovereign hosting — data resident in Australia, no offshore dependencies",
+      "Procurement workflows tailored to prime contractors and government buyers",
+    ],
+    process: [
+      { step: "Placeholder", description: "TODO: founder to define onboarding and deployment model for defence customers." },
+    ],
+  },
+  {
+    slug: "mental-health",
+    title: "Mental health & NDIS-funded care",
+    subtitle: "Check-ys is the wedge.",
+    description: "Built for NDIS providers, allied health practitioners, and participants. Check-ys, our in-flight wedge product, is designed around the realities of funded care — session notes, goals, progress, and the paperwork that pays the bills.",
+    features: [
+      "Session notes and plan-goal tracking built for NDIS reporting",
+      "Practitioner tooling — drafting, summarisation, billing-ready documentation",
+      "Participant-facing experiences that respect autonomy and dignity",
+      "Privacy-first architecture — data stays where it should",
+      "Allied-health-specific workflows, not a generic EHR shoehorned in",
+    ],
+    process: [
+      { step: "Placeholder", description: "TODO: founder to define onboarding and deployment for NDIS providers." },
+    ],
+  },
+  // -------------------------------------------------------------------------
+  // Pillar 2 — Business Agents as a Service (The Omniscient Workforce).
+  // Single SERVICES entry for the umbrella; per-persona pages are a
+  // follow-up. TODO: founder to flesh out — 2026-04-22.
+  // -------------------------------------------------------------------------
+  {
+    slug: "workforce",
+    title: "The Omniscient Workforce",
+    subtitle: "A managed workforce of AI agents.",
+    description: "Not a chatbot. Not a prompt template. A managed workforce of AI agents, each specialised to a real role — executive assistant, analyst, operator, BDR, compliance officer, engineer. Hosted on sovereign infrastructure. Tuned by humans. Billed per seat, per month.",
+    features: [
+      "AI-EA — calendar, email, drafting, and scheduling, done in the background",
+      "AI Associate — brief synthesis, desk research, memo writing",
+      "AI Operator — workflow execution, tickets, updates, reporting loops",
+      "AI BDR — inbound qualification and outbound sequencing",
+      "AI Compliance Officer — audits, reporting, grants",
+      "AI Engineer — code, devops, reviews",
+      "Sovereign hosting — not Azure-dependent, not Microsoft Copilot",
+      "Human-in-the-loop ops — we monitor and tune the agents; you operate the business",
+    ],
+    process: [
+      { step: "Placeholder", description: "TODO: founder to define onboarding, provisioning, and tuning cadence for Workforce customers." },
+    ],
+  },
+  // -------------------------------------------------------------------------
+  // Pillar 3 — The Companion (Omni). Phone-native, voice-first,
+  // persistent-memory. TODO: founder to flesh out — 2026-04-22.
+  // -------------------------------------------------------------------------
+  {
+    slug: "companion",
+    title: "The Companion — Omni",
+    subtitle: "An AI that lives in your pocket, not in a chat window.",
+    description: "Omni is phone-native. Voice-first. Remembers your life. Makes your calls, books your day, runs your errands. Integrates with your OS — calls, SMS, calendar, contacts, accessibility services. Yours alone — not Sam Altman's, not Sundar's.",
+    features: [
+      "Phone-native, Android-hosted agent — not a chat window on a laptop",
+      "Voice-first interaction, with text and UI fallbacks",
+      "Persistent memory — knows your life, your people, your habits",
+      "OS integrations — calls, SMS, calendar, contacts, accessibility services",
+      "Sovereign option — for defence and government users, your data stays in Australia",
+      "B2C subscription, plus an enterprise perk for executives at platform customers",
+    ],
+    process: [
+      { step: "Placeholder", description: "TODO: founder to define device provisioning, memory bootstrapping, and onboarding flow." },
+    ],
+  },
+  // -------------------------------------------------------------------------
+  // Legacy consulting service lines — de-emphasised but retained. Exist so
+  // the "we also consult" option is still linkable for folks who need it.
+  // -------------------------------------------------------------------------
   {
     slug: "ai-strategy-consulting",
     title: "AI Strategy Consulting",

@@ -28,8 +28,12 @@ function renderAt(path: string) {
   );
 }
 
-const VALID_SLUG = SERVICES[0].slug; // 'ai-strategy-consulting'
-const VALID_SERVICE = SERVICES[0];
+// Pin the test to 'ai-strategy-consulting' by slug rather than SERVICES[0]
+// so re-ordering entries in lib/data.ts (e.g. the 2026-04-22 pivot that
+// added vertical SaaS entries ahead of legacy consulting) doesn't silently
+// shift which service the pricing/steps assertions run against.
+const VALID_SLUG = 'ai-strategy-consulting';
+const VALID_SERVICE = SERVICES.find((s) => s.slug === VALID_SLUG)!;
 
 describe('ServiceDetail page', () => {
   it('renders the service title as the hero h1 when the slug is valid', () => {
