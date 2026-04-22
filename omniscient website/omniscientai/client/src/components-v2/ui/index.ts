@@ -12,3 +12,4 @@ export { Textarea } from './Textarea';
 export { Select } from './Select';
 export { Slider } from './Slider';
 export { RadioCard } from './RadioCard';
+export { CheckboxCard } from './CheckboxCard';
