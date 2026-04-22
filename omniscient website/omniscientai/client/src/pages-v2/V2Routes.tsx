@@ -27,6 +27,7 @@ import ComponentShowcase from "./ComponentShowcase";
 import Home from "./Home";
 import Services from "./Services";
 import Industries from "./Industries";
+import Workshops from "./Workshops";
 
 const IS_DEV = import.meta.env.DEV;
 
@@ -64,6 +65,7 @@ export default function V2Routes() {
         <Route path="/" component={Home} />
         <Route path="/services" component={Services} />
         <Route path="/industries" component={Industries} />
+        <Route path="/workshops" component={Workshops} />
         <Route component={V2Placeholder} />
       </Switch>
     </div>
