@@ -70,6 +70,12 @@
   --accent-fg:   var(--paper);
   --focus-ring:  var(--blue-300);
 
+  /* Shadcn alias remap — keeps global `* @apply border-border / outline-ring`
+     (from index.css) using v2 tokens inside any .v2 subtree. */
+  --border: var(--line);
+  --input:  var(--line);
+  --ring:   var(--focus-ring);
+
   /* -------------------------------------------------------------------
      TYPE
      ------------------------------------------------------------------- */
@@ -154,7 +160,7 @@
   color: var(--fg-1);
   font-family: var(--font-text);
   font-size: var(--type-body);
-  line-height: 1.55;
+  line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -163,8 +169,6 @@
    Base element styling — scoped to `.v2` so it never leaks into the
    legacy dark theme.
    ===================================================================== */
-
-.v2 * { box-sizing: border-box; }
 
 .v2 h1,
 .v2 h2,
