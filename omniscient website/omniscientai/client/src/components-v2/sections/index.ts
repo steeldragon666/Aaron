@@ -16,3 +16,4 @@ export { CTAStrip } from './CTAStrip';
 export { BookingForm } from './BookingForm';
 export { ContactForm } from './ContactForm';
 export { ArticleHeader } from './ArticleHeader';
+export { ArticleBody } from './ArticleBody';
