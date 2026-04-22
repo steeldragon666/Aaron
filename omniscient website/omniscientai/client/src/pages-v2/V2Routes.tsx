@@ -38,6 +38,7 @@ import Book from "./Book";
 import CustomWorkshop from "./CustomWorkshop";
 import Insights from "./Insights";
 import InsightArticle from "./InsightArticle";
+import AIReadinessQuiz from "./AIReadinessQuiz";
 import PrivacyPolicy from "./PrivacyPolicy";
 import Terms from "./Terms";
 import NotFound from "./NotFound";
@@ -72,6 +73,7 @@ export default function V2Routes() {
         <Route path="/book" component={Book} />
         <Route path="/insights" component={Insights} />
         <Route path="/insights/:slug" component={InsightArticle} />
+        <Route path="/ai-readiness-quiz" component={AIReadinessQuiz} />
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/terms" component={Terms} />
         {/* Catchall — NotFound replaces the prior V2Placeholder stand-in. */}
