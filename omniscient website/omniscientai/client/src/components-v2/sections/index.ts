@@ -4,3 +4,4 @@
  */
 
 export { HeroSplit } from './HeroSplit';
+export { HeroCentric } from './HeroCentric';
