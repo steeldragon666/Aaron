@@ -1,3 +1,4 @@
+import { Link } from 'wouter';
 import { cn } from '@/lib/utils';
 import { Card, MonoBadge } from '@/components-v2/ui';
 import { Section } from '@/components-v2/layout';
@@ -78,9 +79,9 @@ export function WorkshopCardGrid({
               </h3>
               <p className="mt-3 text-ink-2">{workshop.description}</p>
               <div className="mt-auto pt-6">
-                <a href={`/workshops/${workshop.slug}`} className={primaryCtaClass}>
+                <Link href={`/workshops/${workshop.slug}`} className={primaryCtaClass}>
                   Book this workshop <span aria-hidden>→</span>
-                </a>
+                </Link>
               </div>
             </div>
           </Card>

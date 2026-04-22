@@ -23,7 +23,7 @@
  * copy is authored, add a `content` field to INSIGHTS and render it here.
  */
 
-import { useParams } from 'wouter';
+import { Link, useParams } from 'wouter';
 import SEO from '@/components/SEO';
 import { Layout, Section } from '@/components-v2/layout';
 import {
@@ -126,12 +126,12 @@ export default function InsightArticle() {
             body copy, replace this block with the real render path. */}
         <p>
           This article is being written. In the meantime, the{' '}
-          <a href="/insights">field notes index</a> has our published
+          <Link href="/insights">field notes index</Link> has our published
           pieces.
         </p>
         <p>
           If you&apos;d like to chat about what&apos;s covered here,{' '}
-          <a href="/book">book a 20-minute call</a> -- we&apos;re happy
+          <Link href="/book">book a 20-minute call</Link> -- we&apos;re happy
           to walk through the specifics.
         </p>
       </ArticleBody>
@@ -170,24 +170,21 @@ export default function InsightArticle() {
             data-testid="related-articles"
           >
             {related.map((relatedInsight) => (
-              <Card
-                key={relatedInsight.slug}
-                as="a"
-                href={`/insights/${relatedInsight.slug}`}
-                className="flex flex-col"
-              >
-                <div className="flex items-center gap-2">
-                  <Eyebrow>{relatedInsight.categoryLabel}</Eyebrow>
-                  <span aria-hidden className="text-ink-3">
-                    ·
-                  </span>
-                  <MonoBadge>{relatedInsight.readTime}</MonoBadge>
-                </div>
-                <h3 className="mt-4 font-semibold text-[22px] leading-tight text-ink">
-                  {relatedInsight.title}
-                </h3>
-                <p className="mt-3 text-ink-2">{relatedInsight.excerpt}</p>
-              </Card>
+              <Link key={relatedInsight.slug} href={`/insights/${relatedInsight.slug}`} asChild>
+                <Card as="a" className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <Eyebrow>{relatedInsight.categoryLabel}</Eyebrow>
+                    <span aria-hidden className="text-ink-3">
+                      ·
+                    </span>
+                    <MonoBadge>{relatedInsight.readTime}</MonoBadge>
+                  </div>
+                  <h3 className="mt-4 font-semibold text-[22px] leading-tight text-ink">
+                    {relatedInsight.title}
+                  </h3>
+                  <p className="mt-3 text-ink-2">{relatedInsight.excerpt}</p>
+                </Card>
+              </Link>
             ))}
           </div>
         </Section>

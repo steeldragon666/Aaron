@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'wouter';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -6,9 +7,16 @@ import { cn } from '@/lib/utils';
  * Top-level site nav. Sticky translucent header on desktop with a
  * full-screen ink-section drawer on mobile (<768px).
  *
- * Uses a plain anchor for the "Book a call" CTA styled to match the
- * primary Button (Button is button-only; wrapping it in <a> would nest
- * interactive controls). Keep styling in sync with Button.tsx primary.
+ * Uses wouter's `<Link>` for all internal navigation — under the
+ * `/_v2` nested router in dev preview it auto-prefixes hrefs, so
+ * `href="/workshops"` resolves to `/_v2/workshops` without us
+ * hardcoding the base anywhere. In production (USE_V2=true, no nest)
+ * `<Link>` is identity. Same component, both modes.
+ *
+ * The "Book a call" CTA is styled to match Button primary+md. We don't
+ * render a <Button> inside a Link (that would nest interactive
+ * controls) — instead Link renders as <a> and we apply the button
+ * classes directly. Keep styling in sync with Button.tsx primary.
  *
  * The 32px circle next to the wordmark is a stand-in for the upcoming
  * Phase 4 Logo component.
@@ -64,35 +72,35 @@ export function Nav() {
       <header className="sticky top-0 z-50 bg-paper/70 backdrop-blur-xl backdrop-saturate-150 border-b border-line">
         <div className="mx-auto max-w-[1240px] flex h-16 items-center justify-between px-6 lg:px-[72px]">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2.5 shrink-0">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <span className="h-8 w-8 rounded-full bg-ink" aria-hidden />
             <span className="text-[18px] font-bold text-ink" style={wordmarkStyle}>
               Omniscient AI
             </span>
-          </a>
+          </Link>
 
           {/* Desktop links */}
           <nav className="hidden md:flex items-center gap-7 text-[14px] font-medium text-ink-2">
             {links.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="transition-colors hover:text-ink"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* Desktop CTA + Mobile hamburger */}
           <div className="flex items-center gap-2">
-            <a
+            <Link
               href="/book"
               className={cn('hidden md:inline-flex', ctaBase, 'px-4 py-2 text-[14px]')}
             >
               Book a call
               <span aria-hidden>→</span>
-            </a>
+            </Link>
             <button
               type="button"
               className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-line text-ink hover:bg-paper-2 focus-visible:outline-2 focus-visible:outline-blue-glow focus-visible:outline-offset-2 cursor-pointer"
@@ -129,18 +137,18 @@ export function Nav() {
           </div>
           <nav className="flex flex-col gap-6 p-6 text-[22px] font-semibold">
             {links.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className="hover:text-blue-glow transition-colors"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
           <div className="mt-auto p-6 border-t border-white/10">
-            <a
+            <Link
               href="/book"
               onClick={() => setOpen(false)}
               className={cn(
@@ -150,7 +158,7 @@ export function Nav() {
             >
               Book a call
               <span aria-hidden>→</span>
-            </a>
+            </Link>
           </div>
         </div>
       )}

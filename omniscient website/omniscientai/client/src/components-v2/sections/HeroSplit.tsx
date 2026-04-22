@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Link } from 'wouter';
 import { cn } from '@/lib/utils';
 import { Display, Eyebrow, Lede } from '@/components-v2/ui';
 import { BrainGraphic } from '@/components-v2/brand';
@@ -12,9 +13,11 @@ import { Container } from '@/components-v2/layout';
  * a single column and the graphic stacks below the copy.
  *
  * CTAs: primary (filled blue, with → arrow) + optional secondary
- * (ink-outline, no arrow). Both render as plain `<a>` elements because
- * Button is button-only — the primary styling mirrors Button's primary+lg
- * variant and the same pattern used in Nav.tsx.
+ * (ink-outline, no arrow). Both render as wouter `<Link>` elements
+ * (which renders an `<a>` under the hood) so internal navigation stays
+ * within the `/_v2` preview in dev and is identity in production.
+ * Button is button-only — the primary styling mirrors Button's
+ * primary+lg variant and the same pattern used in Nav.tsx.
  */
 
 interface CtaProps {
@@ -71,14 +74,14 @@ export function HeroSplit({
             {(primaryCta || secondaryCta) && (
               <div className="mt-8 flex flex-wrap gap-3">
                 {primaryCta && (
-                  <a href={primaryCta.href} className={primaryCtaClass}>
+                  <Link href={primaryCta.href} className={primaryCtaClass}>
                     {primaryCta.label} <span aria-hidden>→</span>
-                  </a>
+                  </Link>
                 )}
                 {secondaryCta && (
-                  <a href={secondaryCta.href} className={secondaryCtaClass}>
+                  <Link href={secondaryCta.href} className={secondaryCtaClass}>
                     {secondaryCta.label}
-                  </a>
+                  </Link>
                 )}
               </div>
             )}

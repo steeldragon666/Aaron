@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { Link } from 'wouter';
 import { cn } from '@/lib/utils';
 import {
   Card,
@@ -116,12 +117,12 @@ export function ContactForm({ onSubmit, className }: ContactFormProps) {
             We&apos;ll be in touch within 2 business days.
           </Lede>
           <div className="mt-4">
-            <a
+            <Link
               href="/services"
               className="text-blue font-semibold hover:underline"
             >
               Explore our services →
-            </a>
+            </Link>
           </div>
         </Card>
       </div>

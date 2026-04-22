@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Link } from 'wouter';
 import { cn } from '@/lib/utils';
 import { Display, Eyebrow, Lede } from '@/components-v2/ui';
 import { BrainGraphic } from '@/components-v2/brand';
@@ -70,14 +71,14 @@ export function HeroCentric({
           {(primaryCta || secondaryCta) && (
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               {primaryCta && (
-                <a href={primaryCta.href} className={primaryCtaClass}>
+                <Link href={primaryCta.href} className={primaryCtaClass}>
                   {primaryCta.label} <span aria-hidden>→</span>
-                </a>
+                </Link>
               )}
               {secondaryCta && (
-                <a href={secondaryCta.href} className={secondaryCtaClass}>
+                <Link href={secondaryCta.href} className={secondaryCtaClass}>
                   {secondaryCta.label}
-                </a>
+                </Link>
               )}
             </div>
           )}

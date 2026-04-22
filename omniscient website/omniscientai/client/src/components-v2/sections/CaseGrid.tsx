@@ -1,3 +1,4 @@
+import { Link } from 'wouter';
 import { cn } from '@/lib/utils';
 import { Card, FeaturedCard, Eyebrow, CTALink } from '@/components-v2/ui';
 import { Section } from '@/components-v2/layout';
@@ -58,9 +59,9 @@ export function CaseGrid({ eyebrow, sectionTitle, cases, className }: CaseGridPr
                 <Eyebrow className="text-paper/70">{study.industry}</Eyebrow>
                 {titleHeading}
                 <p className="mt-3 text-paper/80">{study.outcome}</p>
-                <a href={study.href} className={cn('mt-5', inkCtaClass)}>
+                <Link href={study.href} className={cn('mt-5', inkCtaClass)}>
                   Read the case study <span aria-hidden>→</span>
-                </a>
+                </Link>
               </FeaturedCard>
             );
           }

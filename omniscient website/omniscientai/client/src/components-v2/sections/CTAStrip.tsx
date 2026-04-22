@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Link } from 'wouter';
 import { cn } from '@/lib/utils';
 import { Section, InkSection } from '@/components-v2/layout';
 import { Lede } from '@/components-v2/ui';
@@ -14,8 +15,10 @@ import { Lede } from '@/components-v2/ui';
  * Secondary CTA is an outline link; on ink tone, the outline flips to
  * paper-bordered text-on-ink.
  *
- * Button is rendered as a plain <a> with button-matching styles since the
- * Button primitive is a <button>-only element.
+ * CTAs render as wouter `<Link>` (which renders an `<a>` under the hood)
+ * with button-matching styles, since the Button primitive is a
+ * `<button>`-only element. `<Link>` keeps internal navigation inside the
+ * `/_v2` preview in dev and is identity in production.
  */
 
 interface CTAStripProps {
@@ -66,17 +69,17 @@ export function CTAStrip({
         <Lede className="mt-4 mx-auto max-w-2xl">{lede}</Lede>
       )}
       <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-        <a href={primaryCta.href} className={primaryCtaClass}>
+        <Link href={primaryCta.href} className={primaryCtaClass}>
           {primaryCta.label}
           <span aria-hidden>→</span>
-        </a>
+        </Link>
         {secondaryCta && (
-          <a
+          <Link
             href={secondaryCta.href}
             className={tone === 'ink' ? secondaryCtaInkClass : secondaryCtaPaperClass}
           >
             {secondaryCta.label}
-          </a>
+          </Link>
         )}
       </div>
     </div>

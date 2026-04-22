@@ -1,4 +1,5 @@
 import { Linkedin, Twitter } from 'lucide-react';
+import { Link } from 'wouter';
 import { Container } from './Container';
 import { Eyebrow } from '@/components-v2/ui';
 
@@ -50,22 +51,22 @@ export function Footer() {
           {/* Col 2: Nav + legal links */}
           <nav className="flex flex-col gap-2 text-[14px] font-medium text-ink-2">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="transition-colors hover:text-ink w-fit"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             {legalLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="transition-colors hover:text-ink w-fit"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 

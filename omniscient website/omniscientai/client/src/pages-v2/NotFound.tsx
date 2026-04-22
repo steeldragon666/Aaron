@@ -11,6 +11,7 @@
  *             corner BrainGraphic.
  */
 
+import { Link } from 'wouter';
 import SEO from '@/components/SEO';
 import { Layout } from '@/components-v2/layout';
 import { Display, Eyebrow, Lede } from '@/components-v2/ui';
@@ -62,12 +63,12 @@ export default function NotFound() {
             The page you&apos;re looking for doesn&apos;t exist or has moved.
           </Lede>
           <div className="flex flex-wrap justify-center gap-3">
-            <a href="/" className={primaryCtaClass}>
+            <Link href="/" className={primaryCtaClass}>
               Back to home <span aria-hidden>→</span>
-            </a>
-            <a href="/workshops" className={secondaryCtaClass}>
+            </Link>
+            <Link href="/workshops" className={secondaryCtaClass}>
               Browse workshops
-            </a>
+            </Link>
           </div>
         </div>
       </section>
