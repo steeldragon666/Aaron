@@ -1,6 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Route } from "wouter";
+import { Route, useLocation } from "wouter";
 import { HelmetProvider } from "react-helmet-async";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -10,6 +10,28 @@ import LegacyRoutes from "@/pages-v2/LegacyRoutes";
 
 const IS_DEV = import.meta.env.DEV;
 
+function AppRouter() {
+  const [location] = useLocation();
+
+  // Production flip or dev preview routed to /_v2 → v2 surface only.
+  // Otherwise legacy. Critical: we do NOT render LegacyRoutes alongside
+  // the v2 preview — LegacyRoutes' catchall NotFound would double-render
+  // on top of the v2 content.
+  if (USE_V2) {
+    return <V2Routes />;
+  }
+
+  if (IS_DEV && location.startsWith("/_v2")) {
+    return (
+      <Route path="/_v2" nest>
+        <V2Routes />
+      </Route>
+    );
+  }
+
+  return <LegacyRoutes />;
+}
+
 function App() {
   return (
     <HelmetProvider>
@@ -17,22 +39,7 @@ function App() {
         <ThemeProvider defaultTheme="dark">
           <TooltipProvider>
             <div className="relative">
-              {USE_V2 ? (
-                <V2Routes />
-              ) : (
-                <>
-                  <LegacyRoutes />
-                  {IS_DEV && (
-                    // Dev-only preview: wouter's `nest` prop matches any
-                    // path starting with /_v2 and strips that prefix from
-                    // the inner routing context, so V2Routes' internal
-                    // Switch matches /_v2/_tokens against `/_tokens`.
-                    <Route path="/_v2" nest>
-                      <V2Routes />
-                    </Route>
-                  )}
-                </>
-              )}
+              <AppRouter />
               <Toaster position="top-center" richColors />
             </div>
           </TooltipProvider>
