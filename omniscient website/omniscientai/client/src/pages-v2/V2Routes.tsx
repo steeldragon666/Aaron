@@ -26,6 +26,7 @@ import { withV2Scope } from "@/lib/theme-v2";
 import ComponentShowcase from "./ComponentShowcase";
 import Home from "./Home";
 import Services from "./Services";
+import ServiceDetail from "./ServiceDetail";
 import Industries from "./Industries";
 import Workshops from "./Workshops";
 import About from "./About";
@@ -67,6 +68,7 @@ export default function V2Routes() {
         {/* Phase 7+ routes land here */}
         <Route path="/" component={Home} />
         <Route path="/services" component={Services} />
+        <Route path="/services/:slug" component={ServiceDetail} />
         <Route path="/industries" component={Industries} />
         <Route path="/workshops" component={Workshops} />
         <Route path="/about" component={About} />
