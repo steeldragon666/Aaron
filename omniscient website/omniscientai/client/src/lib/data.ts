@@ -136,61 +136,74 @@ export const WORKSHOPS = [
 export const SERVICES = [
   // -------------------------------------------------------------------------
   // Pillar 1 — Vertical SaaS for consequential industries.
-  // TODO: founder to flesh out features/process per vertical — 2026-04-22
-  // seed entries so /services/:slug links resolve instead of 404ing.
+  // Seed content drafted 2026-04-22. TODO: founder to validate claims,
+  // especially pricing, regulatory references, and integration specifics.
   // -------------------------------------------------------------------------
   {
     slug: "bioenergy",
     title: "Bioenergy & agribusiness intelligence",
     subtitle: "Bloomberg for bioenergy. The wedge is ABFI.",
-    description: "ABFI — bankability assessment, feedstock matching, CORSIA compliance, and R&D grant pipeline for producers, financiers, and regulators. A vertical SaaS built on deep feedstock and CORSIA domain knowledge, not a generic dashboard.",
+    description: "ABFI is our applied AI platform for bioenergy and agribusiness — bankability assessment, feedstock matching, CORSIA compliance, and R&D grants. For producers raising capital, financiers underwriting deals, and regulators managing the energy transition.",
     features: [
-      "Bankability assessment — project-level economics against lender-ready benchmarks",
-      "Feedstock matching — connect producers with available residues, crops, and offtakers",
-      "CORSIA compliance tooling — emissions accounting and reporting tailored to bioenergy",
-      "R&D grant pipeline — AusIndustry and R&DTI workflows built into the platform",
-      "Market intelligence — pricing, policy, and project data for financiers and regulators",
+      "Bankability reports that speak the language lenders and equity actually read",
+      "Feedstock supply-and-demand matching across producers, aggregators, and offtakers",
+      "CORSIA compliance monitoring and attestation workflows",
+      "R&D tax incentive, CEFC, and ARENA grant fit assessment",
+      "Sovereign data hosting — your yield, supply, and financial models stay in Australia",
+      "White-label reporting for your own clients where applicable",
     ],
     process: [
-      { step: "Placeholder", description: "TODO: founder to define onboarding and platform setup workflow for ABFI customers." },
+      { step: "Data audit", description: "We connect to your existing systems — ERP, sensors, GIS, accounting — in week 1 and map your data against ABFI's domain model." },
+      { step: "Pilot", description: "One reporting flow live in production in weeks 2-4, scoped to the outcome that matters most to your team right now." },
+      { step: "Scale", description: "Additional flows, custom integrations, and multi-site rollout as the platform proves itself against your operating reality." },
+      { step: "Operate", description: "We run the platform as a managed service — you see the output, not the plumbing. Tuning, alerts, and escalations are on us." },
     ],
   },
   {
     slug: "defence",
     title: "Sovereign defence & industrial supply chain",
     subtitle: "Speaks ASCA, DIDG, and R&DTI natively.",
-    description: "For prime contractors, defence-supply SMEs, and government buyers. Sovereign by default — built, hosted, and operated in Australia. Knows the acronyms, knows the forms, knows the pace.",
+    description: "For prime contractors, defence-supply SMEs, and government buyers who can't send their data to California. Sovereign by default — built, hosted, and operated in Australia. Knows the acronyms, knows the forms, knows the pace.",
     features: [
       "ASCA and DIDG programme workflows — built-in, not bolted on",
-      "R&DTI capture and evidence — aligned with the sovereign industrial base",
-      "Supply chain mapping and compliance for defence-adjacent SMEs",
-      "Sovereign hosting — data resident in Australia, no offshore dependencies",
+      "R&DTI capture and evidence aligned with the sovereign industrial base",
+      "Supply chain mapping, supplier attestation, and compliance for defence-adjacent SMEs",
+      "On-shore hosting only — no US or Azure-region fallback, no offshore data processing",
       "Procurement workflows tailored to prime contractors and government buyers",
+      "Auditable agent actions — every decision leaves a trail that survives an IRAP review",
     ],
     process: [
-      { step: "Placeholder", description: "TODO: founder to define onboarding and deployment model for defence customers." },
+      { step: "Security briefing", description: "A week 0 session to cover data handling, hosting posture, and the audit trail your contracts require. Free, under NDA." },
+      { step: "Onboarding", description: "Sovereign tenancy provisioned on Australian-hosted infrastructure. We map one programme (ASCA, DIDG, or R&DTI) end-to-end in weeks 1-3." },
+      { step: "Expand", description: "Additional programmes, supplier network, and procurement workflows added as the tenancy proves out against your compliance posture." },
+      { step: "Operate", description: "Managed service with named Australian-based practitioners. Escalation paths, audit reports, and hosting attestations included." },
     ],
   },
   {
     slug: "mental-health",
     title: "Mental health & NDIS-funded care",
     subtitle: "Check-ys is the wedge.",
-    description: "Built for NDIS providers, allied health practitioners, and participants. Check-ys, our in-flight wedge product, is designed around the realities of funded care — session notes, goals, progress, and the paperwork that pays the bills.",
+    description: "Check-ys is built around the realities of NDIS-funded care — not bolted onto a general-purpose tool. For NDIS providers, allied health practitioners, and participants who deserve software that respects how funded care actually works.",
     features: [
-      "Session notes and plan-goal tracking built for NDIS reporting",
+      "Session notes and plan-goal tracking built for NDIS reporting cycles",
       "Practitioner tooling — drafting, summarisation, billing-ready documentation",
-      "Participant-facing experiences that respect autonomy and dignity",
-      "Privacy-first architecture — data stays where it should",
-      "Allied-health-specific workflows, not a generic EHR shoehorned in",
+      "Participant-facing experiences that respect autonomy, dignity, and consent",
+      "Privacy-first architecture with Australian data residency by default",
+      "Allied-health-specific workflows — occupational therapy, psychology, support coordination — not a generic EHR",
+      "Per-seat billing that scales with your practice, not a platform-vendor tax",
     ],
     process: [
-      { step: "Placeholder", description: "TODO: founder to define onboarding and deployment for NDIS providers." },
+      { step: "Clinical fit check", description: "A 30-minute call with a practitioner from your team to confirm Check-ys maps to how you actually document and bill." },
+      { step: "Seat provisioning", description: "Per-user setup with role-based access, plan-goal templates, and NDIS price-guide codes pre-loaded. Usually a single afternoon." },
+      { step: "Go-live", description: "First real session notes inside week 1. We shadow the first week of billing cycles and correct anything that looks off before it hits the NDIA." },
+      { step: "Operate", description: "Ongoing managed support, price-guide updates, and regulatory change tracking handled for you." },
     ],
   },
   // -------------------------------------------------------------------------
   // Pillar 2 — Business Agents as a Service (The Omniscient Workforce).
   // Single SERVICES entry for the umbrella; per-persona pages are a
-  // follow-up. TODO: founder to flesh out — 2026-04-22.
+  // follow-up. Seed content drafted 2026-04-22. TODO: founder to validate
+  // per-agent pricing and the AI-EA onboarding specifics.
   // -------------------------------------------------------------------------
   {
     slug: "workforce",
@@ -198,38 +211,46 @@ export const SERVICES = [
     subtitle: "A managed workforce of AI agents.",
     description: "Not a chatbot. Not a prompt template. A managed workforce of AI agents, each specialised to a real role — executive assistant, analyst, operator, BDR, compliance officer, engineer. Hosted on sovereign infrastructure. Tuned by humans. Billed per seat, per month.",
     features: [
-      "AI-EA — calendar, email, drafting, and scheduling, done in the background",
-      "AI Associate — brief synthesis, desk research, memo writing",
-      "AI Operator — workflow execution, tickets, updates, reporting loops",
-      "AI BDR — inbound qualification and outbound sequencing",
-      "AI Compliance Officer — audits, reporting, grants",
-      "AI Engineer — code, devops, reviews",
-      "Sovereign hosting — not Azure-dependent, not Microsoft Copilot",
-      "Human-in-the-loop ops — we monitor and tune the agents; you operate the business",
+      "AI-EA — calendar, email, drafting, and scheduling, run in the background for founders and executives",
+      "AI Associate — brief synthesis, desk research, memo writing for analyst-heavy teams",
+      "AI Operator — ticketed workflow execution, status updates, reporting loops that have to happen anyway",
+      "AI BDR — inbound qualification and outbound sequencing, tuned to your ICP and tone",
+      "AI Compliance Officer — audit trails, grant applications, regulatory reporting",
+      "AI Engineer — pair programming, code review, devops tickets",
+      "Sovereign hosting — not Azure Copilot, not Google Workspace AI. Your agents run on infrastructure you can point at on a map.",
+      "Human-in-the-loop operations — we monitor and tune the agents; you operate the business",
     ],
     process: [
-      { step: "Placeholder", description: "TODO: founder to define onboarding, provisioning, and tuning cadence for Workforce customers." },
+      { step: "Persona scoping", description: "A 60-minute call to pick the one persona that gives you the fastest ROI — usually AI-EA for founders, AI BDR for revenue teams, AI Compliance for regulated businesses." },
+      { step: "Onboarding", description: "For AI-EA: calendar and email connection, voice-and-tone training on 20 of your historical drafts, escalation rules defined. Usually week 1." },
+      { step: "Smoke-test", description: "A week of supervised operation — the agent drafts, a human approves. We catch tone and judgement drift before it hits an external party." },
+      { step: "Scale", description: "Autonomous on the tasks that are proven, supervised on the ones that aren't, and additional personas added once the first is reliable." },
     ],
   },
   // -------------------------------------------------------------------------
   // Pillar 3 — The Companion (Omni). Phone-native, voice-first,
-  // persistent-memory. TODO: founder to flesh out — 2026-04-22.
+  // persistent-memory. Seed content drafted 2026-04-22. TODO: founder
+  // to validate consumer/pro pricing and the Android-only positioning.
   // -------------------------------------------------------------------------
   {
     slug: "companion",
     title: "The Companion — Omni",
     subtitle: "An AI that lives in your pocket, not in a chat window.",
-    description: "Omni is phone-native. Voice-first. Remembers your life. Makes your calls, books your day, runs your errands. Integrates with your OS — calls, SMS, calendar, contacts, accessibility services. Yours alone — not Sam Altman's, not Sundar's.",
+    description: "Omni is phone-native. Voice-first. Remembers your life. Makes your calls, books your days, runs your errands. Integrates with your Android OS — calls, SMS, calendar, contacts, accessibility services. Yours alone — not Sam Altman's, not Sundar's.",
     features: [
-      "Phone-native, Android-hosted agent — not a chat window on a laptop",
-      "Voice-first interaction, with text and UI fallbacks",
-      "Persistent memory — knows your life, your people, your habits",
-      "OS integrations — calls, SMS, calendar, contacts, accessibility services",
-      "Sovereign option — for defence and government users, your data stays in Australia",
-      "B2C subscription, plus an enterprise perk for executives at platform customers",
+      "Android-hosted agent that lives on-device, not in a tab on your laptop",
+      "Voice-first interaction with text and full-UI fallbacks when you need them",
+      "Persistent memory — knows your people, your habits, your recurring decisions",
+      "Deep OS integrations — calls, SMS, calendar, contacts, accessibility services, shortcuts",
+      "On-device inference where possible, with a sovereign Australian cloud fallback",
+      "Sovereign edition for defence and government users — no data leaves Australia, ever",
+      "Consumer subscription plus an enterprise perk for executives at Pillar 1 and 2 customers",
     ],
     process: [
-      { step: "Placeholder", description: "TODO: founder to define device provisioning, memory bootstrapping, and onboarding flow." },
+      { step: "Device setup", description: "A one-time sideload onto your Android device. Takes about ten minutes. iOS is on the roadmap but not available yet." },
+      { step: "Memory seeding", description: "A guided 20-minute session where Omni learns your people, your calendar rhythm, your recurring errands, and your do-not-disturb rules." },
+      { step: "Voice training", description: "Fifteen minutes of voice samples so Omni recognises you in any room and can match your tone when it drafts on your behalf." },
+      { step: "Daily use", description: "Voice commands, background automations, and proactive suggestions. Tune the memory and rules as your life changes." },
     ],
   },
   // -------------------------------------------------------------------------

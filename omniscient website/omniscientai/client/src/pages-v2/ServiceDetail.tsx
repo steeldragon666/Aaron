@@ -59,6 +59,8 @@ const ENGAGEMENT_PHASES = [
 // TODO: service pricing drafted 2026-04-22 — founder to validate.
 // SERVICES in lib/data.ts doesn't carry price yet; starts-at values land
 // here per slug. Falls through to a generic "Custom quote" line if absent.
+// New pillar pricing is indicative — tighten the consumer/pro split on
+// companion and the per-agent tier on workforce before launch.
 const SERVICE_PRICING: Record<string, { from: string; format: string; duration: string }> = {
   'ai-strategy-consulting': {
     from: 'From $12,500 AUD',
@@ -69,6 +71,31 @@ const SERVICE_PRICING: Record<string, { from: string; format: string; duration: 
     from: 'From $7,500 AUD',
     format: 'Fixed-scope engagement',
     duration: '2 weeks',
+  },
+  bioenergy: {
+    from: 'From $5,000 AUD / month',
+    format: 'SaaS + managed service',
+    duration: 'Monthly subscription',
+  },
+  defence: {
+    from: 'From $10,000 AUD / month',
+    format: 'SaaS + managed service (on-shore hosting)',
+    duration: 'Annual contract',
+  },
+  'mental-health': {
+    from: 'From $500 AUD / user / month',
+    format: 'Per-seat SaaS',
+    duration: 'Monthly subscription',
+  },
+  workforce: {
+    from: 'From $300 AUD / agent / month',
+    format: 'Per-agent subscription + consumption',
+    duration: 'Monthly',
+  },
+  companion: {
+    from: '$30 AUD / month (consumer) — $80 (pro)',
+    format: 'Mobile app',
+    duration: 'Monthly subscription',
   },
 };
 
