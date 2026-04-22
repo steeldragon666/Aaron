@@ -43,6 +43,8 @@ import {
   FAQAccordion,
   TestimonialStrip,
   CTAStrip,
+  BookingForm,
+  ContactForm,
 } from "@/components-v2/sections";
 import { GraduationCap, Activity, Shield, Bot } from "lucide-react";
 
@@ -1671,6 +1673,67 @@ export default function TokenShowcase() {
               lede="Short engagements, named practitioners, every workshop ends with a shippable artefact."
               primaryCta={{ label: "Book a 20-minute call", href: "/book" }}
               secondaryCta={{ label: "See our work", href: "/work" }}
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            BookingForm preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;BookingForm&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            3-step booking wizard used on the Book page and as a sticky
+            sidebar on Workshop Detail. Interactive — pick a service,
+            step through, and watch the success state.
+          </p>
+          <div className="border border-line rounded-lg p-6">
+            <BookingForm
+              services={[
+                {
+                  value: "ai-readiness",
+                  label: "AI Readiness Workshop · 2 days",
+                  description: "For teams exploring AI",
+                },
+                {
+                  value: "custom-training",
+                  label: "Custom team training · Bespoke",
+                  description: "Scoped to your workflow",
+                },
+                {
+                  value: "exec-briefing",
+                  label: "Executive briefing · Half-day",
+                  description: "For leadership alignment",
+                },
+              ]}
+              onSubmit={async (data) => {
+                console.log(data);
+                await new Promise((r) => setTimeout(r, 1000));
+              }}
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            ContactForm preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: 0 }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;ContactForm&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Single-page contact form on the Contact page. Sits in a
+            paper-2 Card so it stands out on the paper canvas. Validates
+            required fields, email format, and a 20-char message minimum.
+          </p>
+          <div className="border border-line rounded-lg p-6">
+            <ContactForm
+              onSubmit={async (data) => {
+                console.log(data);
+                await new Promise((r) => setTimeout(r, 1000));
+              }}
             />
           </div>
         </div>
