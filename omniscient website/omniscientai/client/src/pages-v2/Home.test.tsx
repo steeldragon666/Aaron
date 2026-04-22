@@ -3,6 +3,10 @@
  * primitive here (those have their own test suites) — we only assert that
  * the page composes together and the load-bearing copy lands on screen.
  *
+ * Updated 2026-04-22 for the sovereign applied AI positioning pivot. The
+ * page now surfaces three pillars: vertical SaaS (bioenergy, defence,
+ * mental health), the Omniscient Workforce, and the Companion (Omni).
+ *
  * `HelmetProvider` wraps the render so react-helmet-async inside the SEO
  * component doesn't warn. The Layout's Nav and Footer render with plain
  * anchors, so no Router context is required.
@@ -22,32 +26,73 @@ function renderHome() {
 }
 
 describe('Home page', () => {
-  it('renders hero title', () => {
+  it('renders the sovereign applied AI hero title', () => {
     renderHome();
-    expect(screen.getByText(/Unleashing the power of intelligent connections/i))
+    expect(
+      screen.getByText(/Australia's sovereign applied AI company\./i),
+    ).toBeInTheDocument();
+  });
+
+  it('renders all three vertical SaaS pillar titles', () => {
+    renderHome();
+    expect(
+      screen.getByText('Bioenergy & agribusiness intelligence'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Sovereign defence & industrial supply chain'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Mental health & NDIS-funded care'),
+    ).toBeInTheDocument();
+  });
+
+  it('renders the Omniscient Workforce pillar heading', () => {
+    renderHome();
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /The Omniscient Workforce\./i,
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('renders the Companion / Omni pillar heading', () => {
+    renderHome();
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /The Companion\..*pocket/i,
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('renders at least a few workforce personas', () => {
+    renderHome();
+    // Spot-check three of the six personas render — the full list is
+    // rendered inline in Home.tsx, so if one fails they all fail.
+    expect(screen.getByRole('heading', { level: 3, name: /AI-EA/i }))
+      .toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: /AI Associate/i }))
+      .toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: /AI Engineer/i }))
       .toBeInTheDocument();
   });
 
-  it('renders all pillar titles', () => {
+  it('renders the de-emphasised consulting + workshops section', () => {
     renderHome();
-    expect(screen.getByText('AI training')).toBeInTheDocument();
-    expect(screen.getByText('Health technologies')).toBeInTheDocument();
-    // "Defense" alone appears in multiple places (e.g. pillar description as
-    // well as the heading). Match the full pillar title to disambiguate.
-    expect(screen.getByText('Defense hardware & software')).toBeInTheDocument();
-    expect(screen.getByText('Agentic ops')).toBeInTheDocument();
-  });
-
-  it('renders the vendor-neutral manifesto heading', () => {
-    renderHome();
-    expect(screen.getByText(/don't take kickbacks/i)).toBeInTheDocument();
-  });
-
-  it('renders workshop cards', () => {
-    renderHome();
-    expect(screen.getByText('AI Readiness Workshop')).toBeInTheDocument();
-    expect(screen.getByText('Executive AI Briefing')).toBeInTheDocument();
-    expect(screen.getByText('Custom team training')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /Consulting \+ workshops, when you need them\./i,
+      }),
+    ).toBeInTheDocument();
+    // At least one link to /workshops should exist.
+    const workshopLinks = screen.getAllByRole('link', {
+      name: /See the workshops/i,
+    });
+    expect(
+      workshopLinks.some((link) => link.getAttribute('href') === '/workshops'),
+    ).toBe(true);
   });
 
   it('renders the final CTA link to /book', () => {
