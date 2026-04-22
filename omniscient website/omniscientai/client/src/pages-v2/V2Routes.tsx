@@ -35,6 +35,7 @@ import About from "./About";
 import Approach from "./Approach";
 import Contact from "./Contact";
 import Book from "./Book";
+import CustomWorkshop from "./CustomWorkshop";
 
 const IS_DEV = import.meta.env.DEV;
 
@@ -75,10 +76,9 @@ export default function V2Routes() {
         <Route path="/industries" component={Industries} />
         <Route path="/industries/:slug" component={IndustryDetail} />
         <Route path="/workshops" component={Workshops} />
-        {/* /workshops/custom stays as a placeholder — CustomWorkshop is
-            Task 8.2. Matched before :slug so the dynamic route doesn't
-            swallow it. */}
-        <Route path="/workshops/custom" component={V2Placeholder} />
+        {/* /workshops/custom must be matched before /workshops/:slug so
+            the dynamic route doesn't swallow it. */}
+        <Route path="/workshops/custom" component={CustomWorkshop} />
         <Route path="/workshops/:slug" component={WorkshopDetail} />
         <Route path="/about" component={About} />
         <Route path="/about/approach" component={Approach} />
