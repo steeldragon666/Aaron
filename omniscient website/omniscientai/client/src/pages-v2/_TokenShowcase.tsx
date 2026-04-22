@@ -39,6 +39,10 @@ import {
   CaseGrid,
   WorkshopCardGrid,
   StatsRow,
+  StepStack,
+  FAQAccordion,
+  TestimonialStrip,
+  CTAStrip,
 } from "@/components-v2/sections";
 import { GraduationCap, Activity, Shield, Bot } from "lucide-react";
 
@@ -1497,6 +1501,176 @@ export default function TokenShowcase() {
                 { value: "4.9/5", label: "Satisfaction" },
                 { value: "8hrs", label: "Saved per week" },
               ]}
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            StepStack preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginTop: "var(--space-8)", marginBottom: "var(--space-8)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;StepStack&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Numbered vertical list of steps. Large JetBrains Mono numerals on
+            the left, h3 title + body + optional duration MonoBadge on the
+            right. Used on Approach (4-phase methodology) and Workshop Detail
+            (module agenda).
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <StepStack
+              eyebrow="OUR METHODOLOGY"
+              sectionTitle="Four phases, one consultancy."
+              lede="Every engagement runs the same scoped path — short, named, and closed with a shippable artefact, not a slide deck."
+              steps={[
+                {
+                  title: "Discover",
+                  body:
+                    "Map the current workflow end-to-end with the team who runs it. Surface the blockers, not the wishlist.",
+                  duration: "1 week",
+                },
+                {
+                  title: "Design",
+                  body:
+                    "Co-design the target-state workflow and the evaluation harness it'll be measured against.",
+                  duration: "2 weeks",
+                },
+                {
+                  title: "Deliver",
+                  body:
+                    "Ship the first production agent alongside its eval harness. No prototypes that die in a Notion doc.",
+                  duration: "4 weeks",
+                },
+                {
+                  title: "Embed",
+                  body:
+                    "Hand the keys over with a playbook, observability already wired, and a named practitioner on call.",
+                  duration: "2 weeks",
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            FAQAccordion preview
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;FAQAccordion&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Single-open vertical accordion of questions. Button-based toggle
+            gets native Enter/Space for free; Plus/Minus icons reflect state.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <FAQAccordion
+              eyebrow="QUESTIONS"
+              sectionTitle="Frequently asked."
+              items={[
+                {
+                  q: "How long does a typical engagement take?",
+                  a: "Between six and ten weeks end-to-end — short enough that the team running the workflow stays present, long enough that what we ship is actually production-grade.",
+                },
+                {
+                  q: "Is this vendor-neutral?",
+                  a: "Yes. We take no kickbacks from model or cloud vendors. If the right answer is a 7B open-weight model on your own GPU, that's what we'll ship.",
+                },
+                {
+                  q: "Do you work with smaller teams?",
+                  a: "Most of our engagements are with Melbourne SMEs under 200 people. Short, named, shippable — that's the whole shape of the practice.",
+                },
+                {
+                  q: "What happens after the workshop?",
+                  a: "A named practitioner stays on call for a month of embedding support at no extra cost. If you need deeper work beyond that, we'll scope it honestly rather than stretching.",
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            TestimonialStrip preview
+            NOTE: placeholder copy — real testimonials land in Phase 7
+            content porting. Names and companies are fictional.
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;TestimonialStrip&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Horizontal 3-up row of quotes. No star ratings — design system
+            rule. Placeholder copy below; real testimonials land in Phase 7.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <TestimonialStrip
+              eyebrow="CLIENTS"
+              sectionTitle="What the people who shipped it say."
+              testimonials={[
+                {
+                  quote:
+                    "They moved faster than any consultancy we've worked with. The first agent was in production before our security review had even finished.",
+                  name: "Priya Shah",
+                  role: "COO",
+                  company: "Acme Health",
+                },
+                {
+                  quote:
+                    "Named practitioners, short engagement, no forty-slide deck. Exactly what we needed at our size.",
+                  name: "Tom Whitaker",
+                  role: "Head of Operations",
+                  company: "Northbridge Group",
+                },
+                {
+                  quote:
+                    "The eval harness alone was worth the engagement. Our team ships with confidence now — that's the real artefact.",
+                  name: "Mei Lin",
+                  role: "Engineering Lead",
+                  company: "Harbour Freight AU",
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------
+            CTAStrip preview (paper + ink variants)
+            ------------------------------------------------------------ */}
+        <div style={{ marginBottom: "var(--space-5)" }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;CTAStrip&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Centered book-a-call prompt. Paper tone (default) below; ink tone
+            variant follows for the closing pacing moment at the end of a
+            long page.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <CTAStrip
+              eyebrow="LET'S TALK"
+              title="Ready to ship something real?"
+              lede="Short engagements, named practitioners, every workshop ends with a shippable artefact."
+              primaryCta={{ label: "Book a 20-minute call", href: "/book" }}
+              secondaryCta={{ label: "See our work", href: "/work" }}
+            />
+          </div>
+        </div>
+        <div style={{ marginBottom: 0 }}>
+          <div style={{ marginBottom: "var(--space-3)" }}>
+            <MonoBadge>&lt;CTAStrip tone="ink"&gt;</MonoBadge>
+          </div>
+          <p style={{ margin: 0, marginBottom: "var(--space-5)", color: "var(--fg-2)" }}>
+            Ink-toned closing variant — wraps in InkSection for the dramatic
+            pacing moment at the bottom of long marketing pages.
+          </p>
+          <div className="border border-line rounded-lg overflow-hidden">
+            <CTAStrip
+              tone="ink"
+              title="Ready to ship something real?"
+              lede="Short engagements, named practitioners, every workshop ends with a shippable artefact."
+              primaryCta={{ label: "Book a 20-minute call", href: "/book" }}
+              secondaryCta={{ label: "See our work", href: "/work" }}
             />
           </div>
         </div>
