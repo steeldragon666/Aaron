@@ -7,3 +7,4 @@ export { HeroSplit } from './HeroSplit';
 export { HeroCentric } from './HeroCentric';
 export { PillarGrid } from './PillarGrid';
 export { CaseGrid } from './CaseGrid';
+export { WorkshopCardGrid } from './WorkshopCardGrid';
