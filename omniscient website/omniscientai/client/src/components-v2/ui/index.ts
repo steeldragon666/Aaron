@@ -6,3 +6,4 @@
 export { Button } from './Button';
 export { Card, FeaturedCard } from './Card';
 export { Eyebrow, Display, Lede, MonoBadge } from './Typography';
+export { CTALink } from './CTALink';
