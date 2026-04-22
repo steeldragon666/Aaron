@@ -14,3 +14,4 @@ export { FAQAccordion } from './FAQAccordion';
 export { TestimonialStrip } from './TestimonialStrip';
 export { CTAStrip } from './CTAStrip';
 export { BookingForm } from './BookingForm';
+export { ContactForm } from './ContactForm';
