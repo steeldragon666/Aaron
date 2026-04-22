@@ -5,3 +5,4 @@
 
 export { Logo } from './Logo';
 export { BrainGraphic } from './BrainGraphic';
+export { TaglineBar } from './TaglineBar';
