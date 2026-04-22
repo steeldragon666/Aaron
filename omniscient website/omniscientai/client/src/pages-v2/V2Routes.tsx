@@ -27,6 +27,7 @@ import ComponentShowcase from "./ComponentShowcase";
 import Home from "./Home";
 import Services from "./Services";
 import ServiceDetail from "./ServiceDetail";
+import CompanionDetail from "./CompanionDetail";
 import Industries from "./Industries";
 import IndustryDetail from "./IndustryDetail";
 import Workshops from "./Workshops";
@@ -60,6 +61,9 @@ export default function V2Routes() {
         {/* Phase 7+ routes land here */}
         <Route path="/" component={Home} />
         <Route path="/services" component={Services} />
+        {/* Companion gets a bespoke detail page — must match before the
+            generic /services/:slug route below. */}
+        <Route path="/services/companion" component={CompanionDetail} />
         <Route path="/services/:slug" component={ServiceDetail} />
         <Route path="/industries" component={Industries} />
         <Route path="/industries/:slug" component={IndustryDetail} />
