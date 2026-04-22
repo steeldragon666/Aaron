@@ -1,67 +1,60 @@
 /**
  * Industries.tsx — v2 Industries overview page.
  *
- * Catalog page listing the industries we work in. Each card drives to the
- * industry detail page (Phase 7+). Composed from existing section primitives
- * and data from `lib/data.ts`:
+ * Strategic pivot (2026-04-22): drops the generic industry catalog in favour
+ * of the three verticals we actually serve via Pillar 1 (Vertical SaaS) —
+ * bioenergy & agribusiness, sovereign defence & industrial supply chain, and
+ * mental health & NDIS-funded care. The page still acknowledges that our
+ * Pillar 2 workforce and Pillar 3 Companion work horizontally, so non-vertical
+ * prospects still have a route in.
  *
- *   HeroCentric → Industries card grid (derived from INDUSTRIES) →
- *   CaseGrid (tagged-industry featured cases) → CTAStrip (ink tone)
+ * Composition:
+ *   HeroCentric → 3-up vertical card grid (paper) →
+ *   InkSection "Why these" (single pacer) →
+ *   "Not your industry?" Section → CTAStrip
  *
- * `INDUSTRIES` in `lib/data.ts` does not carry Lucide icon names, so we map
- * each slug to an icon inline (adapter pattern — don't modify lib/data.ts).
- * The mapping mirrors the legacy Industries page's icon order.
+ * Each vertical card links directly to its `/services/:slug` detail page,
+ * not a separate `/industries/:slug` — they're the same wedges.
  *
- * TODO: industry copy drafted 2026-04-22 — founder to validate
+ * TODO: copy drafted 2026-04-22 — founder to validate claims, especially
+ * the ABFI / Check-ys / ASCA specifics and any regulatory references.
  */
 
+import { Link } from 'wouter';
 import SEO from '@/components/SEO';
-import { Layout } from '@/components-v2/layout';
-import { HeroCentric, CaseGrid, CTAStrip } from '@/components-v2/sections';
-import { Card, CTALink } from '@/components-v2/ui';
-import {
-  Briefcase,
-  HeartPulse,
-  Factory,
-  ShoppingBag,
-  Building2,
-  type LucideIcon,
-} from 'lucide-react';
-import { INDUSTRIES } from '@/lib/data';
+import { Layout, InkSection, Section } from '@/components-v2/layout';
+import { HeroCentric, CTAStrip } from '@/components-v2/sections';
+import { Card, CTALink, Eyebrow, Lede } from '@/components-v2/ui';
+import { Sprout, Shield, HeartHandshake, type LucideIcon } from 'lucide-react';
 
-// Adapter: map industry slug → Lucide icon. INDUSTRIES entries in lib/data.ts
-// don't carry an icon field. Fallback is a generic Building2.
-const INDUSTRY_ICONS: Record<string, LucideIcon> = {
-  'professional-services': Briefcase,
-  healthcare: HeartPulse,
-  manufacturing: Factory,
-  retail: ShoppingBag,
-};
-
-// TODO: replace with real industry-tagged case studies before launch.
-// Same placeholder pattern as Home — tagged to industries present on the
-// page so the signal reads as "here's what we've done in these sectors".
-const CASES = [
+// The three verticals Pillar 1 goes deep in. Each `href` resolves to the
+// matching SERVICES entry in lib/data.ts so "Learn more →" doesn't 404.
+const VERTICALS: Array<{
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  href: string;
+}> = [
   {
-    industry: 'Healthcare',
-    title: 'Clinical note summarisation that practitioners actually trust',
-    outcome:
-      'Built with the clinicians, not for them — the key to the adoption curve going vertical.',
-    href: '/insights/clinical-notes',
+    icon: Sprout,
+    title: 'Bioenergy & agribusiness',
+    description:
+      'Bankability, feedstock matching, CORSIA compliance, R&D grants. For producers, financiers, and regulators moving billions through the energy transition.',
+    href: '/services/bioenergy',
   },
   {
-    industry: 'Professional services',
-    title: 'Cut underwriting review time by 60% with a targeted internal agent',
-    outcome:
-      'A 2-week pilot turned into a standing tool used by the whole underwriting team.',
-    href: '/insights/financial-services-underwriting',
+    icon: Shield,
+    title: 'Sovereign defence & industrial supply chain',
+    description:
+      "Speaks ASCA, DIDG, R&DTI. For prime contractors, defence-supply SMEs, and government buyers who can't send their data to California.",
+    href: '/services/defence',
   },
   {
-    industry: 'Manufacturing',
-    title: 'From Excel chaos to a single source of operational truth',
-    outcome:
-      'Six months of work, most of it process design. The AI part was the last 10%.',
-    href: '/insights/manufacturing-ops',
+    icon: HeartHandshake,
+    title: 'Mental health & NDIS-funded care',
+    description:
+      'Built around the realities of funded care — not an afterthought bolted onto a general-purpose tool. For NDIS providers, allied health practitioners, and participants.',
+    href: '/services/mental-health',
   },
 ];
 
@@ -70,53 +63,90 @@ export default function Industries() {
     <Layout>
       <SEO
         title="Industries"
-        description="AI training and consulting tuned to the realities of your sector. Healthcare, professional services, manufacturing, retail — we tailor workshops and engagements to the regulation and workflow you actually work under."
+        description="Three verticals we go deep in: bioenergy & agribusiness, sovereign defence & industrial supply chain, and mental health & NDIS-funded care."
       />
 
       <HeroCentric
         eyebrow="Industries"
-        title="AI that knows the floor it's walking on."
-        lede="Every industry has its own data, its own regulation, and its own ways of working. We tailor workshops and engagements to the reality you're already operating in — no generic case studies, no trying to make your business fit a template."
+        title="Three verticals we go deep in."
+        lede="We don't try to be horizontal. We pick industries where we have unfair advantage, then build the products, data, and tooling they actually need."
       />
 
-      {/* Industries card grid — 4-up on lg, 2-up on md. Derived from
-          INDUSTRIES in lib/data.ts. Icon comes from the local adapter. */}
-      <section className="py-12 lg:py-24">
-        <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {INDUSTRIES.map((industry) => {
-              const Icon = INDUSTRY_ICONS[industry.slug] ?? Building2;
-              return (
-                <Card key={industry.slug} className="flex flex-col">
-                  <Icon className="h-8 w-8 text-ink" aria-hidden />
-                  <h3 className="mt-5 font-semibold text-[22px] leading-tight text-ink">
-                    {industry.title}
-                  </h3>
-                  <p className="mt-3 text-ink-2">{industry.subtitle}</p>
-                  <CTALink
-                    href={`/industries/${industry.slug}`}
-                    className="mt-5 text-blue"
-                  >
-                    See how we work here
-                  </CTALink>
-                </Card>
-              );
-            })}
-          </div>
+      {/* 3-up vertical card grid — collapses to 1-col on mobile. Each card
+          links to its /services/:slug detail page, not /industries/:slug. */}
+      <Section>
+        <div className="grid md:grid-cols-3 gap-6">
+          {VERTICALS.map((vertical) => {
+            const Icon = vertical.icon;
+            return (
+              <Card key={vertical.title} className="flex flex-col">
+                <Icon className="h-8 w-8 text-ink" aria-hidden />
+                <h3 className="mt-5 font-semibold text-[22px] leading-tight text-ink">
+                  {vertical.title}
+                </h3>
+                <p className="mt-3 text-ink-2">{vertical.description}</p>
+                <CTALink
+                  href={vertical.href}
+                  className="mt-5 text-blue"
+                >
+                  Learn more
+                </CTALink>
+              </Card>
+            );
+          })}
         </div>
-      </section>
+      </Section>
 
-      <CaseGrid
-        eyebrow="In practice"
-        sectionTitle="What it looks like on the ground."
-        cases={CASES}
-      />
+      {/* Why these — the page's one InkSection, per the design-system rule
+          of at most one per page. Acts as a mid-page pacer. */}
+      <InkSection
+        eyebrow="WHY THESE"
+        title="Consequential, regulated, underserved."
+      >
+        <div className="max-w-3xl mx-auto">
+          <p className="text-paper/85 text-[18px] leading-relaxed mb-4">
+            Every one of these industries carries real-world weight — energy
+            transition, national security, mental health outcomes. None of
+            them are well served by generic AI tooling that treats their
+            compliance, data, and workflow realities as edge cases.
+          </p>
+          <p className="text-paper/85 text-[18px] leading-relaxed">
+            That&apos;s the wedge. Build the tool that actually speaks the
+            language. Operate it as a managed service so the customer
+            doesn&apos;t carry the ML ops burden. Let the industry keep its
+            sovereignty.
+          </p>
+        </div>
+      </InkSection>
+
+      {/* Not your industry? — short, honest off-ramp for horizontal prospects
+          toward Pillars 2 and 3. Centered in a paper-2 tone for pacing. */}
+      <Section tone="paper-2">
+        <div className="max-w-3xl mx-auto text-center">
+          <Eyebrow className="mb-3 block">NOT YOUR INDUSTRY?</Eyebrow>
+          <h2 className="font-semibold text-[32px] leading-tight text-ink mb-4">
+            The Workforce and the Companion work everywhere.
+          </h2>
+          <Lede className="mb-6">
+            Our Pillar 2 agents (AI-EA, Associate, Operator, BDR, Compliance,
+            Engineer) and Pillar 3 Companion (Omni) aren&apos;t vertical-bound.
+            They work for any organisation that wants real AI agency without
+            being locked into Microsoft or Google.
+          </Lede>
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 text-ink font-medium border-b border-ink/20 hover:border-ink pb-1 transition-colors"
+          >
+            See all services <span aria-hidden>→</span>
+          </Link>
+        </div>
+      </Section>
 
       <CTAStrip
-        tone="ink"
+        tone="paper"
         title="Does your industry fit?"
-        lede="If you're not sure, ask. A 20-minute call is free and we'll tell you honestly whether the work is a fit — and who else to talk to if it isn't."
-        primaryCta={{ label: 'Talk to us', href: '/contact' }}
+        lede="Twenty minutes. We'll tell you whether we should build something for you, or point you at someone who should."
+        primaryCta={{ label: 'Book a call', href: '/book' }}
       />
     </Layout>
   );
