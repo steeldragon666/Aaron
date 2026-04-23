@@ -21,19 +21,19 @@ steps:
       - --build-arg
       - VITE_USE_V2=${_VITE_USE_V2}
       - -t
-      - gcr.io/$PROJECT_ID/omniscientai-service:$SHORT_SHA
+      - gcr.io/$PROJECT_ID/omniscientai-service:$BUILD_ID
       - -t
       - gcr.io/$PROJECT_ID/omniscientai-service:latest
       - .
 
   - name: gcr.io/cloud-builders/docker
-    args: [push, gcr.io/$PROJECT_ID/omniscientai-service:$SHORT_SHA]
+    args: [push, gcr.io/$PROJECT_ID/omniscientai-service:$BUILD_ID]
 
   - name: gcr.io/cloud-builders/docker
     args: [push, gcr.io/$PROJECT_ID/omniscientai-service:latest]
 
 images:
-  - gcr.io/$PROJECT_ID/omniscientai-service:$SHORT_SHA
+  - gcr.io/$PROJECT_ID/omniscientai-service:$BUILD_ID
   - gcr.io/$PROJECT_ID/omniscientai-service:latest
 
 options:
