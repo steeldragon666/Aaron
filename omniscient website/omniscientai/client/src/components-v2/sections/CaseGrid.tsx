@@ -47,6 +47,11 @@ export function CaseGrid({ eyebrow, sectionTitle, cases, className }: CaseGridPr
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cases.map((study, idx) => {
           const isFeatured = idx === 0;
+          // Multiple cases may share the same href (e.g. the CaseStudies
+          // overview points three workforce stories at /services/workforce),
+          // so we key off (title + href) rather than href alone to avoid
+          // React's "same key" warning when a pillar grid duplicates.
+          const key = `${study.title}|${study.href}`;
           const titleHeading = (
             <h3 className="mt-3 font-semibold text-[22px] leading-tight">
               {study.title}
@@ -55,7 +60,7 @@ export function CaseGrid({ eyebrow, sectionTitle, cases, className }: CaseGridPr
 
           if (isFeatured) {
             return (
-              <FeaturedCard key={study.href} className="flex flex-col">
+              <FeaturedCard key={key} className="flex flex-col">
                 <Eyebrow className="text-paper/70">{study.industry}</Eyebrow>
                 {titleHeading}
                 <p className="mt-3 text-paper/80">{study.outcome}</p>
@@ -67,7 +72,7 @@ export function CaseGrid({ eyebrow, sectionTitle, cases, className }: CaseGridPr
           }
 
           return (
-            <Card key={study.href} className="flex flex-col">
+            <Card key={key} className="flex flex-col">
               <Eyebrow>{study.industry}</Eyebrow>
               {titleHeading}
               <p className="mt-3 text-ink-2">{study.outcome}</p>

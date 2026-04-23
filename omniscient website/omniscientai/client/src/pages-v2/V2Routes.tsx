@@ -37,6 +37,7 @@ import Approach from "./Approach";
 import Contact from "./Contact";
 import Book from "./Book";
 import CustomWorkshop from "./CustomWorkshop";
+import CaseStudies from "./CaseStudies";
 import Insights from "./Insights";
 import InsightArticle from "./InsightArticle";
 import AIReadinessQuiz from "./AIReadinessQuiz";
@@ -80,6 +81,7 @@ export default function V2Routes() {
         <Route path="/about/approach" component={Approach} />
         <Route path="/contact" component={Contact} />
         <Route path="/book" component={Book} />
+        <Route path="/case-studies" component={CaseStudies} />
         <Route path="/insights" component={Insights} />
         <Route path="/insights/:slug" component={InsightArticle} />
         <Route path="/ai-readiness-quiz" component={AIReadinessQuiz} />
