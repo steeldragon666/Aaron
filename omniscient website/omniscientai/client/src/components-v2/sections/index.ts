@@ -5,6 +5,7 @@
 
 export { HeroSplit } from './HeroSplit';
 export { HeroCentric } from './HeroCentric';
+export { IntroVideoHero } from './IntroVideoHero';
 export { PillarGrid } from './PillarGrid';
 export { CaseGrid } from './CaseGrid';
 export { WorkshopCardGrid } from './WorkshopCardGrid';

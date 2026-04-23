@@ -31,7 +31,7 @@ import SEO from '@/components/SEO';
 import { Layout, InkSection, Section } from '@/components-v2/layout';
 import { TaglineBar, BrainGraphic } from '@/components-v2/brand';
 import {
-  HeroSplit,
+  IntroVideoHero,
   PillarGrid,
   CaseGrid,
   StatsRow,
@@ -195,13 +195,14 @@ export default function Home() {
         description="We build the products, platforms, and agents that modernise our most consequential industries — and operate them as managed services so our customers don't have to."
       />
 
-      <HeroSplit
-        eyebrow="INTELLIGENCE // CONNECTIVITY // INNOVATION"
-        title="Australia's sovereign applied AI company."
-        lede="We build the products, platforms, and agents that modernise our most consequential industries — and operate them as managed services so our customers don't have to."
+      {/* Hero is the designer-delivered intro video — autoplay, skippable.
+          Post-video title/lede below continues the sovereign-applied-AI
+          framing. Animation lives in /public/video/intro.html. */}
+      <IntroVideoHero
+        postVideoTitle="Australia's sovereign applied AI company."
+        postVideoLede="We build the products, platforms, and agents that modernise our most consequential industries — and operate them as managed services so our customers don't have to."
         primaryCta={{ label: 'See what we build', href: '/services' }}
         secondaryCta={{ label: 'Book a call', href: '/book' }}
-        graphic="circles"
       />
 
       <TaglineBar align="center" className="mt-4 mb-4" />
