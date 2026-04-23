@@ -2,6 +2,14 @@
 FROM node:20-slim AS builder
 WORKDIR /app
 COPY . .
+
+# Vite embeds VITE_* env vars at build time. Must be ARG, not just ENV,
+# so Cloud Build can pass a value via --build-arg / cloudbuild.yaml
+# substitutions. Default is `false` — dark deploy. Override to `true`
+# to route production traffic to the v2 redesign.
+ARG VITE_USE_V2=false
+ENV VITE_USE_V2=$VITE_USE_V2
+
 RUN npm install -g pnpm && pnpm install && pnpm run build
 
 # Production stage

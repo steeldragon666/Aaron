@@ -1,0 +1,40 @@
+# Cloud Build config for omniscientai-service (Cloud Run).
+#
+# Default: dark-deploys v2 code with VITE_USE_V2=false. Override via:
+#   gcloud builds submit --substitutions=_VITE_USE_V2=true
+#
+# After the build succeeds the image is pushed to gcr.io/$PROJECT_ID
+# and can be rolled out to Cloud Run with:
+#   gcloud run deploy omniscientai-service \
+#     --image=gcr.io/$PROJECT_ID/omniscientai-service:$SHORT_SHA \
+#     --project=omniscientai-website \
+#     --region=australia-southeast1 \
+#     --allow-unauthenticated
+
+substitutions:
+  _VITE_USE_V2: 'false'
+
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - --build-arg
+      - VITE_USE_V2=${_VITE_USE_V2}
+      - -t
+      - gcr.io/$PROJECT_ID/omniscientai-service:$SHORT_SHA
+      - -t
+      - gcr.io/$PROJECT_ID/omniscientai-service:latest
+      - .
+
+  - name: gcr.io/cloud-builders/docker
+    args: [push, gcr.io/$PROJECT_ID/omniscientai-service:$SHORT_SHA]
+
+  - name: gcr.io/cloud-builders/docker
+    args: [push, gcr.io/$PROJECT_ID/omniscientai-service:latest]
+
+images:
+  - gcr.io/$PROJECT_ID/omniscientai-service:$SHORT_SHA
+  - gcr.io/$PROJECT_ID/omniscientai-service:latest
+
+options:
+  logging: CLOUD_LOGGING_ONLY
