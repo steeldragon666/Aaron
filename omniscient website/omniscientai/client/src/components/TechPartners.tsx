@@ -1,6 +1,6 @@
 /**
- * TechPartners — "We Train Across All Major AI Platforms" logo bar
- * Design: Luminous Depth — glass surface, infinite horizontal scroll, monochrome logos that colorize on hover
+ * TechPartners — Premium logo marquee with fade edges and smooth animation
+ * Design: 21st.dev-inspired, polished with proper sizing and spacing
  */
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -84,22 +84,23 @@ function LogoItem({ partner }: { partner: Partner }) {
       href={partner.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex flex-col items-center justify-center gap-2 px-6 md:px-8 shrink-0 group cursor-pointer"
+      className="flex flex-col items-center justify-center gap-3 px-8 md:px-10 shrink-0 group cursor-pointer"
       title={partner.name}
     >
       <div
         className={`
-          w-14 h-14 md:w-16 md:h-16 flex items-center justify-center
+          w-12 h-12 md:w-14 md:h-14 flex items-center justify-center
           ${partner.roundedFull ? "rounded-full overflow-hidden" : ""}
-          grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100
-          transition-all duration-500
+          grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-90
+          transition-all duration-500 ease-out
+          group-hover:scale-110
         `}
       >
         <img
           src={partner.logo}
           alt={partner.name}
-          width={64}
-          height={64}
+          width={56}
+          height={56}
           loading="lazy"
           className={`
             max-w-full max-h-full object-contain
@@ -108,7 +109,7 @@ function LogoItem({ partner }: { partner: Partner }) {
           `}
         />
       </div>
-      <span className="text-[11px] md:text-xs font-mono tracking-wider text-muted-foreground/60 group-hover:text-cyan whitespace-nowrap transition-colors duration-300">
+      <span className="text-[10px] md:text-[11px] font-mono tracking-wider text-white/30 group-hover:text-[#12B5CB] whitespace-nowrap transition-colors duration-300">
         {partner.name}
       </span>
     </a>
@@ -120,13 +121,13 @@ export default function TechPartners() {
   const doubled = [...PARTNERS, ...PARTNERS];
 
   return (
-    <section className="relative py-16 md:py-20 overflow-hidden">
-      {/* Subtle top/bottom borders */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan/20 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyan/20 to-transparent" />
+    <section className="relative py-16 md:py-24 overflow-hidden">
+      {/* Subtle dividers */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#12B5CB]/15 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#12B5CB]/15 to-transparent" />
 
       {/* Section header */}
-      <div className="container mb-10 md:mb-14">
+      <div className="container mb-12 md:mb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -134,26 +135,27 @@ export default function TechPartners() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <span className="inline-block text-xs md:text-sm font-mono tracking-[0.2em] uppercase text-cyan/80 mb-3">
+          <span className="inline-block text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase text-[#12B5CB]/60 mb-3">
             Platform Expertise
           </span>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-foreground">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
             We train across{" "}
-            <span className="text-cyan text-glow-cyan">all major AI platforms</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#12B5CB] to-[#12B5CB]/60">
+              all major AI platforms
+            </span>
           </h2>
-          <p className="mt-3 text-sm md:text-base text-white/60 max-w-2xl mx-auto">
-            Vendor-neutral means we know every platform inside out. Our workshops cover the tools that matter — so you get unbiased, practical guidance.
+          <p className="mt-3 text-sm md:text-base text-white/40 max-w-xl mx-auto">
+            Vendor-neutral means we know every platform inside out — so you get unbiased, practical guidance.
           </p>
         </motion.div>
       </div>
 
-      {/* Logo display */}
+      {/* Logo marquee */}
       <div className="relative">
-        {/* Fade edges */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 z-10 bg-gradient-to-r from-background to-transparent pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 z-10 bg-gradient-to-l from-background to-transparent pointer-events-none" />
+        {/* Fade edges — wider and smoother */}
+        <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 z-10 bg-gradient-to-r from-background via-background/80 to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 z-10 bg-gradient-to-l from-background via-background/80 to-transparent pointer-events-none" />
 
-        {/* Scrolling track — static grid for reduced motion */}
         {prefersReducedMotion ? (
           <div className="flex flex-wrap justify-center gap-4 px-8">
             {PARTNERS.map((partner) => (
