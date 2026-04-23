@@ -1,18 +1,25 @@
 # Cloud Build config for omniscientai-service (Cloud Run).
 #
-# Default: dark-deploys v2 code with VITE_USE_V2=false. Override via:
-#   gcloud builds submit --substitutions=_VITE_USE_V2=true
+# Target registry: Artifact Registry in australia-southeast1. The repo
+# "omniscientai-repo" and image "web-app" already exist and are what
+# the live Cloud Run service pulls from. We push a new tag per build,
+# plus update :latest for easier reference.
 #
-# After the build succeeds the image is pushed to gcr.io/$PROJECT_ID
-# and can be rolled out to Cloud Run with:
+# Default: dark-deploys v2 code with VITE_USE_V2=false. Override via:
+#   gcloud builds submit --substitutions=_VITE_USE_V2=true --config=cloudbuild.yaml .
+#
+# After the build succeeds, roll the new image out to Cloud Run with:
 #   gcloud run deploy omniscientai-service \
-#     --image=gcr.io/$PROJECT_ID/omniscientai-service:$SHORT_SHA \
+#     --image=australia-southeast1-docker.pkg.dev/omniscientai-website/omniscientai-repo/web-app:$BUILD_ID \
 #     --project=omniscientai-website \
 #     --region=australia-southeast1 \
 #     --allow-unauthenticated
 
 substitutions:
   _VITE_USE_V2: 'false'
+  _REGION: 'australia-southeast1'
+  _REPO: 'omniscientai-repo'
+  _IMAGE: 'web-app'
 
 steps:
   - name: gcr.io/cloud-builders/docker
@@ -21,20 +28,20 @@ steps:
       - --build-arg
       - VITE_USE_V2=${_VITE_USE_V2}
       - -t
-      - gcr.io/$PROJECT_ID/omniscientai-service:$BUILD_ID
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_IMAGE}:$BUILD_ID
       - -t
-      - gcr.io/$PROJECT_ID/omniscientai-service:latest
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_IMAGE}:latest
       - .
 
   - name: gcr.io/cloud-builders/docker
-    args: [push, gcr.io/$PROJECT_ID/omniscientai-service:$BUILD_ID]
+    args: [push, '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_IMAGE}:$BUILD_ID']
 
   - name: gcr.io/cloud-builders/docker
-    args: [push, gcr.io/$PROJECT_ID/omniscientai-service:latest]
+    args: [push, '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_IMAGE}:latest']
 
 images:
-  - gcr.io/$PROJECT_ID/omniscientai-service:$BUILD_ID
-  - gcr.io/$PROJECT_ID/omniscientai-service:latest
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_IMAGE}:$BUILD_ID
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_IMAGE}:latest
 
 options:
   logging: CLOUD_LOGGING_ONLY
