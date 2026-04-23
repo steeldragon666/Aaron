@@ -80,7 +80,7 @@ export default function Industries() {
             const Icon = vertical.icon;
             return (
               <Card key={vertical.title} className="flex flex-col">
-                <Icon className="h-8 w-8 text-ink" aria-hidden />
+                <Icon className="h-8 w-8 text-blue" aria-hidden />
                 <h3 className="mt-5 font-semibold text-[22px] leading-tight text-ink">
                   {vertical.title}
                 </h3>

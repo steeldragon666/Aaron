@@ -15,9 +15,14 @@ type CardProps = (CardAsDiv | CardAsAnchor) & {
   tone?: Tone;
 };
 
+// 2026-04-23 style pass: on hover, cards now shift their border from
+// --line to --blue alongside the existing shadow bump, so the hover gives
+// a subtle colour signal in addition to elevation. Transition targets both
+// box-shadow and border-color so the fade stays smooth.
 const base =
   'block border border-line rounded-lg p-6 ' +
-  'transition-shadow duration-[180ms] ease-[cubic-bezier(0.2,0.9,0.2,1)] ' +
+  'transition-[box-shadow,border-color] duration-[180ms] ease-[cubic-bezier(0.2,0.9,0.2,1)] ' +
+  'hover:border-blue ' +
   'hover:shadow-[0_1px_2px_rgb(15_17_21_/_0.06),_0_1px_1px_rgb(15_17_21_/_0.04)]';
 
 const tones: Record<Tone, string> = {

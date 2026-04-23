@@ -68,7 +68,15 @@ export function HeroSplit({
       <Container>
         <div className="grid lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-16 items-center">
           <div className="max-w-[640px]">
-            {eyebrow && <Eyebrow className="mb-5 block">{eyebrow}</Eyebrow>}
+            {eyebrow && (
+              <>
+                <Eyebrow className="mb-3 block">{eyebrow}</Eyebrow>
+                {/* Blue accent bar — 2026-04-23 style pass. Thin anchor
+                    under the eyebrow to visually tie the hero to the brand
+                    blue without exceeding the ~10% proportion rule. */}
+                <div aria-hidden className="h-[3px] w-16 bg-blue mb-6" />
+              </>
+            )}
             <Display as="h1">{title}</Display>
             {lede && <Lede className="mt-6">{lede}</Lede>}
             {(primaryCta || secondaryCta) && (
@@ -87,7 +95,15 @@ export function HeroSplit({
             )}
           </div>
           <div className="flex justify-center lg:justify-end">
-            <BrainGraphic variant={graphic} size="hero" />
+            {/* Bigger hero graphic — 2026-04-23 style pass. The connectome
+                IS the brand, so we give it more weight by overriding the
+                BrainGraphic `hero` size tokens (w-[40vw] max-w-[540px]) with
+                a larger cap (w-[45vw] max-w-[600px]). */}
+            <BrainGraphic
+              variant={graphic}
+              size="hero"
+              className="w-[45vw] max-w-[600px]"
+            />
           </div>
         </div>
       </Container>

@@ -63,7 +63,15 @@ export function HeroCentric({
     <section className={cn('py-16 lg:py-24 text-center', className)}>
       <Container>
         <div className="flex flex-col items-center">
-          {eyebrow && <Eyebrow className="mb-5 block">{eyebrow}</Eyebrow>}
+          {eyebrow && (
+            <>
+              <Eyebrow className="mb-3 block">{eyebrow}</Eyebrow>
+              {/* Blue accent bar — 2026-04-23 style pass. Thin anchor
+                  under the eyebrow to visually tie the hero to the brand
+                  blue. Centered here to match the centric layout. */}
+              <div aria-hidden className="h-[3px] w-16 bg-blue mb-6" />
+            </>
+          )}
           <Display as="h1" className="max-w-4xl mx-auto">
             {title}
           </Display>

@@ -138,7 +138,7 @@ export default function Services() {
             const Icon = VERTICAL_SAAS_ICONS[service.slug] ?? Sprout;
             return (
               <Card key={service.slug} className="flex flex-col">
-                <Icon className="h-8 w-8 text-ink" aria-hidden />
+                <Icon className="h-8 w-8 text-blue" aria-hidden />
                 <h3 className="mt-5 font-semibold text-[22px] leading-tight text-ink">
                   {service.title}
                 </h3>
@@ -169,7 +169,7 @@ export default function Services() {
             const Icon = persona.icon;
             return (
               <Card key={persona.title} className="flex flex-col">
-                <Icon className="h-6 w-6 text-ink mb-4" aria-hidden />
+                <Icon className="h-6 w-6 text-blue mb-4" aria-hidden />
                 <h3 className="font-semibold text-[22px] leading-tight text-ink mb-1">
                   {persona.title}
                 </h3>

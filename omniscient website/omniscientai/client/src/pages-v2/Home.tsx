@@ -224,13 +224,23 @@ export default function Home() {
         title="The Omniscient Workforce."
         lede="A managed workforce of AI agents, each specialised to a real role. Not a chatbot. Not a prompt template. A specialist you hire per month."
         tone="paper-2"
+        className="relative overflow-hidden bg-[var(--blue-100)]"
       >
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Corner BrainGraphic decoration — 2026-04-23 style pass. Absolute
+            top-right, opacity-20, purely decorative (aria-hidden via
+            BrainGraphic primitive). Gives the workforce section a brain-
+            connectome feel without stealing focus. */}
+        <BrainGraphic
+          variant="circles"
+          size="corner"
+          className="absolute top-8 right-8 opacity-20 pointer-events-none"
+        />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
           {WORKFORCE_PERSONAS.map((persona) => {
             const Icon = persona.icon;
             return (
               <Card key={persona.title} className="flex flex-col">
-                <Icon className="h-6 w-6 text-ink mb-4" aria-hidden />
+                <Icon className="h-6 w-6 text-blue mb-4" aria-hidden />
                 <h3 className="font-semibold text-[22px] leading-tight text-ink mb-1">
                   {persona.title}
                 </h3>
@@ -308,6 +318,18 @@ export default function Home() {
         sectionTitle="What it looks like in practice."
         cases={CASES}
       />
+
+      {/* Visual break above StatsRow — 2026-04-23 style pass. A short
+          horizontal BrainGraphic band (~80px tall visually) that adds a bit
+          of brand rhythm without stealing focus. aria-hidden via
+          BrainGraphic. */}
+      <div className="flex justify-center py-6">
+        <BrainGraphic
+          variant="horizontal"
+          size="section"
+          className="opacity-40 w-full max-w-[720px] h-[80px] object-cover"
+        />
+      </div>
 
       <StatsRow
         eyebrow="BY THE NUMBERS"

@@ -26,6 +26,7 @@ import {
   CTAStrip,
 } from '@/components-v2/sections';
 import { Card, CTALink } from '@/components-v2/ui';
+import { BrainGraphic } from '@/components-v2/brand';
 import { WORKSHOPS } from '@/lib/data';
 
 // Adapter: map the legacy WORKSHOPS item shape to the `Workshop` prop shape
@@ -89,11 +90,22 @@ export default function Workshops() {
         description="Hands-on, vendor-neutral AI workshops built around your actual workflow. Every workshop leaves your team with a shippable artefact, not a slide deck."
       />
 
-      <HeroCentric
-        eyebrow="Workshops"
-        title="Hands-on training, when it makes sense."
-        lede="Most customers use our products and agents. Some need their team trained up first — these workshops are for them. Vendor-neutral, named practitioners, shippable artefact."
-      />
+      {/* Hero + subtle decorative BrainGraphic on the right edge —
+          2026-04-23 style pass. The graphic sits absolutely over the hero's
+          trailing gutter so it reads as decoration, not a second column.
+          aria-hidden via BrainGraphic. */}
+      <div className="relative">
+        <HeroCentric
+          eyebrow="Workshops"
+          title="Hands-on training, when it makes sense."
+          lede="Most customers use our products and agents. Some need their team trained up first — these workshops are for them. Vendor-neutral, named practitioners, shippable artefact."
+        />
+        <BrainGraphic
+          variant="horizontal"
+          size="corner"
+          className="hidden lg:block absolute right-6 bottom-6 opacity-40 pointer-events-none"
+        />
+      </div>
 
       <WorkshopCardGrid
         eyebrow="Catalog"

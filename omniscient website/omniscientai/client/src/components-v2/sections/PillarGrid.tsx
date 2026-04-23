@@ -50,7 +50,11 @@ export function PillarGrid({
           const Icon = pillar.icon;
           return (
             <Card key={pillar.title} className="flex flex-col">
-              <Icon className="h-8 w-8 text-ink" aria-hidden />
+              {/* Blue pillar icons — 2026-04-23 style pass. Ink title/body
+                  unchanged, only the icon mark shifts to --blue to give the
+                  cards a bit more colour pop without breaking the design
+                  system's ~10% blue proportion rule. */}
+              <Icon className="h-8 w-8 text-blue" aria-hidden />
               <h3 className="mt-5 font-semibold text-[22px] leading-tight text-ink">
                 {pillar.title}
               </h3>
