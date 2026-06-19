@@ -188,6 +188,33 @@ h1.hero-title .line2{color:var(--text)}
 .cta-mail{font-family:'IBM Plex Mono'; font-size:13px; color:var(--dim); margin-top:30px}
 .cta-mail a{color:var(--teal); border-bottom:1px solid transparent; transition:.2s}
 .cta-mail a:hover{border-bottom-color:var(--teal)}
+/* contact form */
+.contact-form{max-width:640px; margin:44px auto 0; text-align:left}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+@media(max-width:560px){.field-row{grid-template-columns:1fr}}
+.field{margin-bottom:18px; display:flex; flex-direction:column}
+.field label{font-family:'IBM Plex Mono'; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:9px}
+.field label .opt{color:var(--dim); text-transform:none; letter-spacing:.02em}
+.field input,.field textarea{
+  font-family:'IBM Plex Sans'; font-size:15px; color:var(--text);
+  background:var(--panel); border:1px solid var(--line2); border-radius:10px;
+  padding:13px 15px; transition:.2s; width:100%; resize:vertical;
+}
+.field input:focus,.field textarea:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px var(--teal-dim)}
+.field.invalid input,.field.invalid textarea{border-color:var(--ochre2)}
+.field-err{font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--ochre); margin-top:7px; display:none}
+.field.invalid .field-err{display:block}
+.form-actions{display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-top:6px}
+.form-note{font-size:12px; color:var(--dim); letter-spacing:.03em}
+.form-success{
+  margin-top:22px; padding:18px 20px; border:1px solid var(--teal2); border-radius:12px;
+  background:var(--teal-dim); display:flex; flex-direction:column; gap:6px;
+}
+.form-success[hidden]{display:none}
+.form-success strong{color:var(--teal); font-size:15px}
+.form-success span{color:var(--muted); font-size:13.5px; line-height:1.55}
+.form-success a{color:var(--teal); border-bottom:1px solid transparent}
+.form-success a:hover{border-bottom-color:var(--teal)}
 
 /* ---------- FOOTER ---------- */
 footer{padding:46px 0; border-top:1px solid var(--line)}
@@ -338,17 +365,46 @@ footer .fmeta{font-family:'IBM Plex Mono'; font-size:11px; color:var(--dim); let
   </div>
 </section>
 
-<!-- CTA -->
+<!-- CTA / CONTACT -->
 <section class="cta" id="contact">
   <div class="wrap">
     <div class="eyebrow reveal" style="justify-content:center">05 · Partner with us</div>
     <h2 class="reveal">Put <span class="accent">Actual Intelligence</span> in charge of your entity.</h2>
-    <p class="reveal">We work with a small number of operators and partners to bring AIT to entities where the whole is worth far more than the sum of its parts.</p>
-    <div class="cta-actions reveal">
-      <a href="#contact" class="btn btn-primary">Request a briefing <span class="ar">→</span></a>
-      <a href="#top" class="btn">Back to top</a>
-    </div>
-    <div class="cta-mail reveal">Direct line · <a href="mailto:aaron@carbonproject.com.au">aaron@carbonproject.com.au</a></div>
+    <p class="reveal">We work with a small number of operators and partners to bring AIT to entities where the whole is worth far more than the sum of its parts. Tell us about yours.</p>
+
+    <form class="contact-form reveal" id="contactForm" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="cf-name">Name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required>
+          <span class="field-err" data-for="cf-name">Please enter your name.</span>
+        </div>
+        <div class="field">
+          <label for="cf-org">Company / organisation</label>
+          <input id="cf-org" name="org" type="text" autocomplete="organization" required>
+          <span class="field-err" data-for="cf-org">Please enter your organisation.</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="cf-email">Work email</label>
+        <input id="cf-email" name="email" type="email" autocomplete="email" required>
+        <span class="field-err" data-for="cf-email">Please enter a valid email address.</span>
+      </div>
+      <div class="field">
+        <label for="cf-msg">What entity are you running — and what's the prize? <span class="opt">(optional)</span></label>
+        <textarea id="cf-msg" name="message" rows="4"></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Request a briefing <span class="ar">→</span></button>
+        <span class="form-note mono">We reply within two business days.</span>
+      </div>
+      <div class="form-success" id="formSuccess" hidden>
+        <strong>Thank you — your briefing request is ready to send.</strong>
+        <span>Your email client should now be open with the details filled in. If it didn't open, write to <a href="mailto:aaron@carbonproject.com.au">aaron@carbonproject.com.au</a>.</span>
+      </div>
+    </form>
+
+    <div class="cta-mail reveal">Prefer email? · <a href="mailto:aaron@carbonproject.com.au">aaron@carbonproject.com.au</a></div>
   </div>
 </section>
 
@@ -460,6 +516,40 @@ document.querySelectorAll('.toggle button').forEach(b=>{
   });
 });
 renderCompare('artificial');
+
+/* ---------- contact form ---------- */
+const form=document.getElementById('contactForm');
+const emailRe=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function validateField(input){
+  const field=input.closest('.field');
+  let ok=true;
+  if(input.required && !input.value.trim()) ok=false;
+  if(input.type==='email' && input.value.trim() && !emailRe.test(input.value.trim())) ok=false;
+  field.classList.toggle('invalid',!ok);
+  return ok;
+}
+form.querySelectorAll('input').forEach(inp=>{
+  inp.addEventListener('blur',()=>validateField(inp));
+  inp.addEventListener('input',()=>{ if(inp.closest('.field').classList.contains('invalid')) validateField(inp); });
+});
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const inputs=[...form.querySelectorAll('input')];
+  const allOk=inputs.map(validateField).every(Boolean);
+  if(!allOk){ form.querySelector('.field.invalid input')?.focus(); return; }
+  const v=id=>document.getElementById(id).value.trim();
+  const subject=`AIT briefing request — ${v('cf-org')}`;
+  const body=
+`Name: ${v('cf-name')}
+Company / organisation: ${v('cf-org')}
+Email: ${v('cf-email')}
+
+${v('cf-msg') || '(no message provided)'}`;
+  window.location.href=`mailto:aaron@carbonproject.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const ok=document.getElementById('formSuccess');
+  ok.hidden=false;
+  form.querySelector('.form-actions button').textContent='Request sent';
+});
 
 /* ---------- nav scroll state ---------- */
 const nav=document.getElementById('nav');
