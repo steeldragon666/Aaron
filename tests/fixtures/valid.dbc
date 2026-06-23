@@ -1,0 +1,9 @@
+BO_ 576 Chiller_Telemetry: 3 VCU
+ SG_ FluidTemp : 0|16@1+ (0.1,0) [0|200] "degC" AGENT
+ SG_ CompressorRPM : 16|8@1+ (100,0) [0|25500] "rpm" AGENT
+
+BO_ 784 FuelCell_Status: 4 VCU
+ SG_ Stack1Temp : 0|16@1+ (0.1,0) [0|150] "degC" AGENT
+ SG_ Stack2Temp : 16|16@1+ (0.1,0) [0|150] "degC" AGENT
+
+CM_ "Reverse-engineered telemetry map for tri-brid UGV";

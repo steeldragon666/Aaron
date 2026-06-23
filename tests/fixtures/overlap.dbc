@@ -1,0 +1,3 @@
+BO_ 784 FuelCell_Status: 4 VCU
+ SG_ Stack1Temp : 0|16@1+ (0.1,0) [0|150] "degC" AGENT
+ SG_ HighTempWarn : 8|8@1+ (1,0) [0|1] "flag" AGENT

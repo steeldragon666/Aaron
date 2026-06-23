@@ -1,0 +1,5 @@
+BO_ notanumber Broken_Message: 8 VCU
+ SG_ GoodSignal : 0|8@1+ (1,0) [0|255] "unit" AGENT
+
+BO_ 512 OrphanScope: 2 VCU
+ SG_ BadScaling : 0|8@1+ 1,0 0|255 "unit" AGENT
