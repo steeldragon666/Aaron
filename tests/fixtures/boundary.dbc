@@ -1,0 +1,2 @@
+BO_ 576 Chiller_Telemetry: 3 VCU
+ SG_ FluidTemp : 16|16@1+ (0.1,0) [0|200] "degC" AGENT

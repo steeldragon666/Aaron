@@ -1,0 +1,57 @@
+name: Validate CAN Tooling
+
+# Blocks corrupted DBC dictionaries or mismatched encode/decode logic from
+# being pushed toward the vehicle's VCU runtime.
+on:
+  push:
+    paths:
+      - 'scripts/**'
+      - 'network/**'
+      - 'tests/**'
+      - '**/*.dbc'
+      - '.github/workflows/validate-can.yml'
+  pull_request:
+    paths:
+      - 'scripts/**'
+      - 'network/**'
+      - 'tests/**'
+      - '**/*.dbc'
+      - '.github/workflows/validate-can.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Compile-check all scripts
+        run: |
+          python3 -m py_compile \
+            scripts/validate_dbc.py \
+            network/can_listener.py \
+            network/can_injector.py \
+            tests/test_can_roundtrip.py
+
+      - name: Validate the known-good DBC fixture
+        run: python3 scripts/validate_dbc.py tests/fixtures/valid.dbc
+
+      - name: Confirm the validator rejects each defect class
+        run: |
+          set +e
+          fail=0
+          for f in overlap badid boundary malformed orphan; do
+            python3 scripts/validate_dbc.py "tests/fixtures/$f.dbc"
+            if [ $? -eq 0 ]; then
+              echo "::error::Validator failed to reject tests/fixtures/$f.dbc"
+              fail=1
+            fi
+          done
+          exit $fail
+
+      - name: Injector <-> listener round-trip tests
+        run: python3 tests/test_can_roundtrip.py
