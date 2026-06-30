@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Omniscient AI — Intro Video</title>
+  <link rel="stylesheet" href="colors_and_type.css">
+  <style>
+    html, body { height: 100%; margin: 0; background: #0a0a0a; overflow: hidden; }
+    #root { position: absolute; inset: 0; }
+
+    /* When loaded with ?embed=1 (Home page iframe), hide all chrome:
+       playback bar, tweaks panel, page borders. Leaves just the canvas. */
+    body.embed #intro-playback-bar,
+    body.embed .tweaks { display: none !important; }
+    body.embed { background: #FFFFFF; }
+
+    /* Tweaks panel */
+    .tweaks {
+      position: fixed;
+      right: 16px; top: 16px;
+      width: 260px;
+      z-index: 9999;
+      background: rgba(15, 17, 21, 0.92);
+      backdrop-filter: saturate(1.2) blur(12px);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 13px;
+      padding: 14px 16px 16px;
+      display: none;
+    }
+    .tweaks.open { display: block; }
+    .tweaks h4 {
+      margin: 0 0 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #7AA8FF;
+    }
+    .tweaks .row {
+      display: flex; flex-direction: column; gap: 6px;
+      margin-bottom: 14px;
+    }
+    .tweaks label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+    .tweaks .seg {
+      display: flex; gap: 0;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .tweaks .seg button {
+      flex: 1;
+      background: transparent;
+      color: #fff;
+      border: 0;
+      padding: 8px 10px;
+      font-family: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 160ms;
+    }
+    .tweaks .seg button.active {
+      background: #2F7BFF;
+    }
+    .tweaks .seg button:hover:not(.active) {
+      background: rgba(255,255,255,0.06);
+    }
+    .tweaks .note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.4;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- Tweaks panel -->
+<div id="tweaks" class="tweaks">
+  <h4>Tweaks</h4>
+
+  <div class="row">
+    <label>Buyer variant</label>
+    <div class="seg" id="seg-variant">
+      <button data-v="owners">Owners</button>
+      <button data-v="operators">Operators</button>
+    </div>
+    <div class="note" id="variant-note"></div>
+  </div>
+
+  <div class="row">
+    <label>Playback speed</label>
+    <div class="seg" id="seg-speed">
+      <button data-s="0.5">0.5×</button>
+      <button data-s="1">1×</button>
+      <button data-s="1.5">1.5×</button>
+      <button data-s="2">2×</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <label>Eyebrow labels</label>
+    <div class="seg" id="seg-eyebrows">
+      <button data-e="on">Show</button>
+      <button data-e="off">Hide</button>
+    </div>
+    <div class="note">Mono tags like "01 / The problem".</div>
+  </div>
+</div>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Animation primitives -->
+<script type="text/babel" src="animations.jsx"></script>
+
+<!-- Scenes -->
+<script type="text/babel" src="scenes/hook.jsx"></script>
+<script type="text/babel" src="scenes/problem.jsx"></script>
+<script type="text/babel" src="scenes/turn.jsx"></script>
+<script type="text/babel" src="scenes/thesis.jsx"></script>
+<script type="text/babel" src="scenes/pillars.jsx"></script>
+<script type="text/babel" src="scenes/manifesto_cta.jsx"></script>
+
+<!-- Tweaks defaults (host can rewrite this block on disk) -->
+<script>
+  window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "variant": "owners",
+    "speed": 1,
+    "showEyebrows": true
+  }/*EDITMODE-END*/;
+</script>
+
+<!-- Main composition -->
+<script type="text/babel">
+  const initialTweaks = (() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('omniscient-video-tweaks') || 'null');
+      return { ...window.TWEAK_DEFAULTS, ...(stored || {}) };
+    } catch { return window.TWEAK_DEFAULTS; }
+  })();
+
+  function Video({ variant, showEyebrows }) {
+    // Total duration 120s
+    return (
+      <Stage width={1920} height={1080} duration={120} background="#FFFFFF"
+             persistKey="omniscient-intro-v1">
+        <SceneHook />
+        <SceneProblem />
+        <SceneTurn />
+        <SceneThesis />
+        <ScenePillarAdmin />
+        <ScenePillarMarketing />
+        <ScenePillarFinance />
+        <SceneManifesto />
+        <SceneCTA variant={variant} />
+
+        {/* Persistent brand mark bottom-left through all paper scenes */}
+        <BottomMark />
+
+        {!showEyebrows && <style>{`
+          /* Hide mono eyebrows when toggled off */
+        `}</style>}
+      </Stage>
+    );
+  }
+
+  function BottomMark() {
+    const { time } = useTimeline();
+    // Show only on paper-background scenes (not ink block 32.5-108, not CTA 116+)
+    const inInk = time > 32.5 && time < 108;
+    const inCTA = time > 116;
+    if (inInk || inCTA) return null;
+
+    // Fade on scene boundaries
+    let opacity = 0.75;
+    if (time < 0.4) opacity *= time / 0.4;
+    if (time > 31.8 && time < 32.5) opacity *= (32.5 - time) / 0.7;
+    if (time > 107.3 && time < 108) opacity *= 0;
+    if (time > 108 && time < 108.5) opacity *= (time - 108) / 0.5;
+    if (time > 115.6 && time < 116) opacity *= (116 - time) / 0.4;
+
+    return (
+      <div style={{
+        position: 'absolute',
+        right: 80, bottom: 72,
+        display: 'flex', alignItems: 'center', gap: 12,
+        fontFamily: 'Inter, sans-serif',
+        opacity,
+        pointerEvents: 'none',
+      }}>
+        <div style={{
+          width: 24, height: 24, borderRadius: 999, background: '#0F1115',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <div style={{ width: 10, height: 10, borderRadius: 999, background: '#FFFFFF' }}/>
+        </div>
+        <div style={{
+          fontSize: 18, fontWeight: 700, color: '#0F1115', letterSpacing: '-0.02em',
+        }}>
+          Omniscient AI
+        </div>
+      </div>
+    );
+  }
+
+  function App() {
+    const [tweaks, setTweaks] = React.useState(initialTweaks);
+
+    React.useEffect(() => {
+      try {
+        localStorage.setItem('omniscient-video-tweaks', JSON.stringify(tweaks));
+      } catch {}
+    }, [tweaks]);
+
+    // Apply playback speed via rAF monkey-patch-free trick:
+    // We just use CSS animation-duration? No — Stage uses rAF dt. We'll
+    // re-scale dt by speed via a wrapper over requestAnimationFrame.
+    React.useEffect(() => {
+      if (!window.__originalRAF) window.__originalRAF = window.requestAnimationFrame;
+      const speed = tweaks.speed || 1;
+      let lastReal = null;
+      let virtual = null;
+      // Patch rAF to stretch time for Stage
+      window.requestAnimationFrame = (cb) => {
+        return window.__originalRAF((ts) => {
+          if (lastReal == null) { lastReal = ts; virtual = ts; }
+          else {
+            virtual += (ts - lastReal) * speed;
+            lastReal = ts;
+          }
+          cb(virtual);
+        });
+      };
+      return () => {
+        window.requestAnimationFrame = window.__originalRAF;
+      };
+    }, [tweaks.speed]);
+
+    // Expose setter for Tweaks panel
+    React.useEffect(() => {
+      window.__setTweaks = setTweaks;
+      window.__getTweaks = () => tweaks;
+    }, [tweaks]);
+
+    return <Video variant={tweaks.variant} showEyebrows={tweaks.showEyebrows} />;
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+<!-- Embed-mode: when loaded with ?embed=1, hide all chrome and emit
+     a postMessage to the parent window when the video finishes so the
+     parent can dismiss its overlay. -->
+<script>
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var isEmbed = params.get('embed') === '1';
+  if (!isEmbed) return;
+
+  document.body.classList.add('embed');
+
+  // Poll playhead. When it hits the end, notify parent.
+  // Stage exposes duration via tweak context, but the simplest reliable
+  // read is the playback bar's time field text — but in embed mode that
+  // element is display:none. Use a periodic check on a sentinel:
+  // the Stage's 'playing' becomes false once time reaches duration.
+  var totalDuration = 120; // matches Stage duration in the App component
+  var notified = false;
+  var start = performance.now();
+  function tick() {
+    if (notified) return;
+    var elapsed = (performance.now() - start) / 1000;
+    if (elapsed >= totalDuration) {
+      notified = true;
+      try { window.parent.postMessage({ type: 'omniscient-intro-done' }, '*'); } catch (e) {}
+      return;
+    }
+    requestAnimationFrame(tick);
+  }
+  // Defer start so React has time to mount and the rAF-stretch wrapper
+  // isn't fighting with us for the first frame.
+  setTimeout(function() { requestAnimationFrame(tick); }, 500);
+
+  // Also allow parent to skip via postMessage — not strictly needed but
+  // symmetric and useful for debugging.
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'omniscient-intro-skip') {
+      notified = true;
+      try { window.parent.postMessage({ type: 'omniscient-intro-done' }, '*'); } catch (er) {}
+    }
+  });
+})();
+</script>
+
+<!-- Tweaks wiring -->
+<script>
+(function() {
+  const panel = document.getElementById('tweaks');
+  const variantNote = document.getElementById('variant-note');
+
+  const variantNotes = {
+    owners: 'Ends on "Stop prompting. Start profiting." Margin pitch for SME owners.',
+    operators: 'Ends on "Stop prompting. Start reclaiming hours." Hours pitch for ops/finance/HR managers.',
+  };
+
+  function refresh() {
+    const t = (window.__getTweaks && window.__getTweaks()) || window.TWEAK_DEFAULTS;
+    document.querySelectorAll('#seg-variant button').forEach(b =>
+      b.classList.toggle('active', b.dataset.v === t.variant));
+    document.querySelectorAll('#seg-speed button').forEach(b =>
+      b.classList.toggle('active', parseFloat(b.dataset.s) === t.speed));
+    document.querySelectorAll('#seg-eyebrows button').forEach(b =>
+      b.classList.toggle('active', (b.dataset.e === 'on') === !!t.showEyebrows));
+    variantNote.textContent = variantNotes[t.variant] || '';
+  }
+
+  function apply(patch) {
+    const cur = (window.__getTweaks && window.__getTweaks()) || window.TWEAK_DEFAULTS;
+    const next = { ...cur, ...patch };
+    window.__setTweaks && window.__setTweaks(next);
+    // Persist via host
+    try {
+      window.parent.postMessage({ type: '__edit_mode_set_keys', edits: patch }, '*');
+    } catch {}
+    setTimeout(refresh, 20);
+  }
+
+  document.querySelectorAll('#seg-variant button').forEach(b => {
+    b.onclick = () => apply({ variant: b.dataset.v });
+  });
+  document.querySelectorAll('#seg-speed button').forEach(b => {
+    b.onclick = () => apply({ speed: parseFloat(b.dataset.s) });
+  });
+  document.querySelectorAll('#seg-eyebrows button').forEach(b => {
+    b.onclick = () => apply({ showEyebrows: b.dataset.e === 'on' });
+  });
+
+  // Register listener BEFORE announcing availability
+  window.addEventListener('message', (e) => {
+    const data = e.data || {};
+    if (data.type === '__activate_edit_mode') {
+      panel.classList.add('open');
+      refresh();
+    } else if (data.type === '__deactivate_edit_mode') {
+      panel.classList.remove('open');
+    }
+  });
+  // Announce availability
+  try {
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+  } catch {}
+
+  // Delay initial refresh until React has set __getTweaks
+  setTimeout(refresh, 200);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,410 @@
+/* =====================================================================
+   Omniscient AI — core tokens (v2 redesign)
+   Ported from docs/design-system/colors_and_type.css.
+
+   All tokens and base element styles are scoped to `.v2` so they do not
+   collide with the legacy dark-theme tokens defined in index.css (:root).
+   Wrap any v2 page/tree in <div className="v2"> to opt in.
+   ===================================================================== */
+
+/* ---------- Webfonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+.v2 {
+  /* -------------------------------------------------------------------
+     COLOR
+     ------------------------------------------------------------------- */
+
+  /* Core tri-tone */
+  --ink:        #0F1115;  /* near-black; primary text and illustration disc */
+  --blue:       #2F7BFF;  /* signature electric blue */
+  --paper:      #FFFFFF;  /* canvas */
+
+  /* Blue scale — built around --blue */
+  --blue-deep:  #1C4FD6;  /* pressed / small-type blue on light */
+  --blue-600:   #2567E8;
+  --blue-500:   #2F7BFF;  /* = --blue */
+  --blue-400:   #5693FF;
+  --blue-300:   #7AA8FF;  /* = --blue-glow; node glow, focus rings */
+  --blue-200:   #B8CFFF;
+  --blue-100:   #E6EEFF;  /* subtle blue tint bg */
+  --blue-glow:  var(--blue-300);
+
+  /* Ink scale — warm-neutral greys, near-black at top */
+  --ink-900:    #0F1115;  /* = --ink */
+  --ink-800:    #161A20;
+  --ink-700:    #1E232B;
+  --ink-600:    #2A2F37;  /* = --ink-2 */
+  --ink-500:    #3D434D;
+  --ink-400:    #5B6270;  /* = --ink-3 */
+  --ink-300:    #8A909C;
+  --ink-200:    #BEC3CC;
+  --ink-100:    #E4E7EC;  /* = --line */
+  --ink-2:      var(--ink-600);
+  --ink-3:      var(--ink-400);
+
+  /* Paper scale — surfaces */
+  --paper-50:   #FAFBFC;
+  --paper-100:  #F4F6F9;  /* = --paper-2 */
+  --paper-2:    var(--paper-100);
+
+  /* Semantic (product UI only — never in marketing) */
+  --success:    #1EA97C;
+  --success-bg: #E4F7EF;
+  --warn:       #E8A23A;
+  --warn-bg:    #FDF1DE;
+  --danger:     #D94B4B;
+  --danger-bg:  #FCE7E7;
+
+  /* Semantic roles */
+  --fg-1:        var(--ink-900);
+  --fg-2:        var(--ink-600);
+  --fg-3:        var(--ink-400);
+  --fg-inverse:  var(--paper);
+  --bg-1:        var(--paper);
+  --bg-2:        var(--paper-100);
+  --bg-inverse:  var(--ink-900);
+  --line:        var(--ink-100);
+  --line-strong: var(--ink-900);
+  --accent:      var(--blue);
+  --accent-fg:   var(--paper);
+  --focus-ring:  var(--blue-300);
+
+  /* Shadcn alias remap — keeps global `* @apply border-border / outline-ring`
+     (from index.css) using v2 tokens inside any .v2 subtree. */
+  --border: var(--line);
+  --input:  var(--line);
+  --ring:   var(--focus-ring);
+
+  /* -------------------------------------------------------------------
+     TYPE
+     ------------------------------------------------------------------- */
+  --font-display: 'Inter', 'Neue Haas Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-text:    'Inter', 'Neue Haas Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Type scale (px-anchored; hero fluid) */
+  --type-hero:       clamp(48px, 7vw, 96px);
+  --type-display-1:  64px;
+  --type-display-2:  48px;
+  --type-h1:         56px;
+  --type-h2:         36px;
+  --type-h3:         22px;
+  --type-h4:         18px;
+  --type-body:       17px;
+  --type-body-sm:    15px;
+  --type-small:      14px;
+  --type-micro:      12px;
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semi:    600;
+  --weight-bold:    700;
+  --weight-black:   800;
+
+  --track-tight:   -0.03em;
+  --track-snug:    -0.02em;
+  --track-normal:   0;
+  --track-wide:     0.06em;
+  --track-xwide:    0.14em;
+
+  --leading-display: 0.95;
+  --leading-heading: 1.1;
+  --leading-body:    1.55;
+  --leading-tight:   1.2;
+
+  /* -------------------------------------------------------------------
+     SPACING (4pt base)
+     ------------------------------------------------------------------- */
+  --space-0:  0;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+  --space-10: 128px;
+
+  /* Layout */
+  --container:  1240px;
+  --gutter-lg:  72px;
+  --gutter-sm:  24px;
+
+  /* -------------------------------------------------------------------
+     RADIUS & SHADOW
+     ------------------------------------------------------------------- */
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   6px;   /* buttons, inputs */
+  --radius-lg:   8px;   /* cards */
+  --radius-xl:   12px;  /* modals only */
+  --radius-pill: 999px;
+
+  --shadow-1: 0 1px 2px rgb(15 17 21 / 0.06), 0 1px 1px rgb(15 17 21 / 0.04);
+  --shadow-2: 0 10px 24px rgb(15 17 21 / 0.08), 0 2px 6px rgb(15 17 21 / 0.06);
+  --shadow-focus: 0 0 0 2px var(--paper), 0 0 0 4px var(--focus-ring);
+
+  /* -------------------------------------------------------------------
+     MOTION
+     ------------------------------------------------------------------- */
+  --ease-brand: cubic-bezier(0.2, 0.9, 0.2, 1);
+  --dur-fast:   120ms;
+  --dur-base:   180ms;
+  --dur-slow:   280ms;
+
+  /* Apply tokens as defaults on the .v2 root */
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-text);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* =====================================================================
+   Base element styling — scoped to `.v2` so it never leaks into the
+   legacy dark theme.
+   ===================================================================== */
+
+.v2 h1,
+.v2 h2,
+.v2 h3,
+.v2 h4,
+.v2 h5 {
+  font-family: var(--font-display);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-4);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--track-snug);
+  line-height: var(--leading-heading);
+  text-wrap: pretty;
+}
+
+.v2 h1 { font-size: var(--type-h1); letter-spacing: -0.025em; line-height: 1.05; }
+.v2 h2 { font-size: var(--type-h2); }
+.v2 h3 { font-size: var(--type-h3); font-weight: var(--weight-semi); }
+.v2 h4 { font-size: var(--type-h4); font-weight: var(--weight-semi); letter-spacing: var(--track-normal); }
+
+.v2 p { margin: 0 0 var(--space-4); color: var(--fg-2); }
+
+.v2 a {
+  color: var(--ink-900);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-base) var(--ease-brand), color var(--dur-base) var(--ease-brand);
+}
+.v2 a:hover { border-bottom-color: currentColor; }
+.v2 a.blue { color: var(--blue-deep); }
+
+.v2 code,
+.v2 pre,
+.v2 .mono { font-family: var(--font-mono); font-size: 0.92em; }
+.v2 pre {
+  background: var(--paper-100);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  overflow: auto;
+}
+
+/* =====================================================================
+   Utility classes
+   ===================================================================== */
+
+.v2 .eyebrow {
+  font-size: var(--type-micro);
+  font-weight: var(--weight-semi);
+  letter-spacing: var(--track-xwide);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.v2 .display {
+  font-size: var(--type-hero);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--track-tight);
+  line-height: var(--leading-display);
+}
+
+.v2 .lede {
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--fg-2);
+}
+
+.v2 .small {
+  font-size: var(--type-small);
+  color: var(--fg-3);
+}
+
+.v2 .mono-badge {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--fg-2);
+  display: inline-block;
+}
+
+/* =====================================================================
+   Section-flip pattern — primary way to pace a long page.
+   Swap a section to near-black and invert its content.
+   ===================================================================== */
+
+.v2 .ink-section {
+  background: var(--bg-inverse);
+  color: var(--fg-inverse);
+}
+.v2 .ink-section h1,
+.v2 .ink-section h2,
+.v2 .ink-section h3,
+.v2 .ink-section h4 { color: var(--paper); }
+.v2 .ink-section p { color: color-mix(in oklab, var(--paper) 82%, transparent); }
+.v2 .ink-section .eyebrow { color: color-mix(in oklab, var(--paper) 64%, transparent); }
+
+/* =====================================================================
+   Focus and selection
+   ===================================================================== */
+
+.v2 :focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.v2 ::selection {
+  background: var(--blue);
+  color: var(--paper);
+}
+
+/* =====================================================================
+   Slider primitive — native range input pseudo-elements
+   Scoped under .v2 so legacy range inputs stay unstyled.
+   ===================================================================== */
+
+.v2 input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+}
+.v2 input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -5px; /* center thumb on track */
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgb(15 17 21 / 0.06), 0 1px 1px rgb(15 17 21 / 0.04);
+  cursor: pointer;
+  transition: transform var(--dur-base) var(--ease-brand);
+}
+.v2 input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.05);
+}
+.v2 input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(0.95);
+}
+
+.v2 input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+}
+.v2 input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  box-shadow: 0 1px 2px rgb(15 17 21 / 0.06), 0 1px 1px rgb(15 17 21 / 0.04);
+  cursor: pointer;
+}
+
+/* =====================================================================
+   Article body — long-form typography styling
+   Scoped under `.v2 .article-body` so it only applies inside the
+   <ArticleBody> wrapper. Nested elements (h2, h3, p, ul, blockquote,
+   code, pre, a, img, hr) are styled directly so downstream authors
+   can write plain JSX/markdown without per-element className soup.
+   ===================================================================== */
+
+.v2 .article-body h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: var(--space-7) 0 var(--space-4);
+  line-height: 1.2;
+}
+.v2 .article-body h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: var(--space-6) 0 var(--space-3);
+  line-height: 1.3;
+}
+.v2 .article-body p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink-600);
+  margin: 0 0 var(--space-4);
+}
+.v2 .article-body ul,
+.v2 .article-body ol {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-5);
+}
+.v2 .article-body li {
+  margin-bottom: var(--space-2);
+  line-height: 1.6;
+  color: var(--ink-600);
+}
+.v2 .article-body blockquote {
+  border-left: 3px solid var(--blue);
+  padding-left: var(--space-4);
+  margin: var(--space-6) 0;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--ink);
+  font-style: italic;
+}
+.v2 .article-body code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--paper-100);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+.v2 .article-body pre {
+  background: var(--paper-100);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  margin: var(--space-5) 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.v2 .article-body pre code {
+  background: transparent;
+  padding: 0;
+}
+.v2 .article-body a {
+  color: var(--blue-deep);
+  border-bottom: 1px solid var(--blue-glow);
+}
+.v2 .article-body a:hover {
+  border-bottom-color: var(--blue-deep);
+}
+.v2 .article-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  margin: var(--space-6) 0;
+}
+.v2 .article-body hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: var(--space-7) 0;
+}

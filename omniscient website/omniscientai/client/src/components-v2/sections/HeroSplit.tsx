@@ -1,0 +1,112 @@
+import { ReactNode } from 'react';
+import { Link } from 'wouter';
+import { cn } from '@/lib/utils';
+import { Display, Eyebrow, Lede } from '@/components-v2/ui';
+import { BrainGraphic } from '@/components-v2/brand';
+import { Container } from '@/components-v2/layout';
+
+/**
+ * HeroSplit — 55/45 asymmetric hero.
+ *
+ * Copy occupies the left 1.3fr column, the decorative BrainGraphic
+ * fills the 1fr column on the right. On mobile the grid collapses to
+ * a single column and the graphic stacks below the copy.
+ *
+ * CTAs: primary (filled blue, with → arrow) + optional secondary
+ * (ink-outline, no arrow). Both render as wouter `<Link>` elements
+ * (which renders an `<a>` under the hood) so internal navigation stays
+ * within the `/_v2` preview in dev and is identity in production.
+ * Button is button-only — the primary styling mirrors Button's
+ * primary+lg variant and the same pattern used in Nav.tsx.
+ */
+
+interface CtaProps {
+  label: string;
+  href: string;
+}
+
+interface HeroSplitProps {
+  eyebrow?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  primaryCta?: CtaProps;
+  secondaryCta?: CtaProps;
+  graphic?: 'circles' | 'horizontal';
+  className?: string;
+}
+
+// Matches Button primary+lg — keep aligned with
+// client/src/components-v2/ui/Button.tsx if its primary styling changes.
+const primaryCtaClass =
+  'inline-flex items-center gap-2 rounded-md bg-blue text-paper ' +
+  'px-[22px] py-[14px] text-[15px] font-semibold ' +
+  'transition-[transform,background-color,filter] duration-[180ms] ' +
+  'ease-[cubic-bezier(0.2,0.9,0.2,1)] ' +
+  'hover:-translate-y-px hover:bg-blue-deep active:translate-y-0 active:brightness-[.96] ' +
+  'focus-visible:outline-2 focus-visible:outline-blue-glow focus-visible:outline-offset-2';
+
+// Matches Button secondary+lg.
+const secondaryCtaClass =
+  'inline-flex items-center gap-2 rounded-md bg-paper text-ink ' +
+  'border-[1.5px] border-ink px-[21px] py-[13px] text-[15px] font-semibold ' +
+  'transition-[transform,background-color] duration-[180ms] ' +
+  'ease-[cubic-bezier(0.2,0.9,0.2,1)] ' +
+  'hover:-translate-y-px hover:bg-paper-2 active:translate-y-0 ' +
+  'focus-visible:outline-2 focus-visible:outline-blue-glow focus-visible:outline-offset-2';
+
+export function HeroSplit({
+  eyebrow,
+  title,
+  lede,
+  primaryCta,
+  secondaryCta,
+  graphic = 'circles',
+  className,
+}: HeroSplitProps) {
+  return (
+    <section className={cn('py-16 lg:py-24', className)}>
+      <Container>
+        <div className="grid lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-16 items-center">
+          <div className="max-w-[640px]">
+            {eyebrow && (
+              <>
+                <Eyebrow className="mb-3 block">{eyebrow}</Eyebrow>
+                {/* Blue accent bar — 2026-04-23 style pass. Thin anchor
+                    under the eyebrow to visually tie the hero to the brand
+                    blue without exceeding the ~10% proportion rule. */}
+                <div aria-hidden className="h-[3px] w-16 bg-blue mb-6" />
+              </>
+            )}
+            <Display as="h1">{title}</Display>
+            {lede && <Lede className="mt-6">{lede}</Lede>}
+            {(primaryCta || secondaryCta) && (
+              <div className="mt-8 flex flex-wrap gap-3">
+                {primaryCta && (
+                  <Link href={primaryCta.href} className={primaryCtaClass}>
+                    {primaryCta.label} <span aria-hidden>→</span>
+                  </Link>
+                )}
+                {secondaryCta && (
+                  <Link href={secondaryCta.href} className={secondaryCtaClass}>
+                    {secondaryCta.label}
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
+          <div className="flex justify-center lg:justify-end">
+            {/* Bigger hero graphic — 2026-04-23 style pass. The connectome
+                IS the brand, so we give it more weight by overriding the
+                BrainGraphic `hero` size tokens (w-[40vw] max-w-[540px]) with
+                a larger cap (w-[45vw] max-w-[600px]). */}
+            <BrainGraphic
+              variant={graphic}
+              size="hero"
+              className="w-[45vw] max-w-[600px]"
+            />
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}

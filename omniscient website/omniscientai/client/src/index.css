@@ -63,6 +63,21 @@
   --font-heading: 'Space Grotesk', system-ui, sans-serif;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'Roboto Mono', ui-monospace, monospace;
+
+  /* Omniscient v2 — Tailwind utility aliases */
+  --color-ink: var(--ink, #0F1115);
+  --color-ink-2: var(--ink-600, #2A2F37);
+  --color-ink-3: var(--ink-400, #5B6270);
+  --color-blue: var(--blue, #2F7BFF);
+  --color-blue-deep: var(--blue-deep, #1C4FD6);
+  --color-blue-glow: var(--blue-glow, #7AA8FF);
+  --color-paper: var(--paper, #FFFFFF);
+  --color-paper-2: var(--paper-2, #F4F6F9);
+  --color-line: var(--line, #E4E7EC);
+  --font-display: var(--font-display, 'Inter', sans-serif);
+  /* NOTE: --font-mono already defined above (Roboto Mono for legacy pages).
+     v2 components use `font-family: var(--font-mono)` directly, which
+     resolves to 'JetBrains Mono' inside .v2 scope (see omniscient.css). */
 }
 
 :root {
@@ -215,7 +230,7 @@
   color: #E8E8E8;
 }
 
-/* Infinite marquee scroll */
+/* Infinite marquee scroll — smoother timing */
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -225,7 +240,20 @@
   }
 }
 .animate-marquee {
-  animation: marquee 40s linear infinite;
+  animation: marquee 45s linear infinite;
+}
+
+/* RetroGrid animation for hero */
+@keyframes grid {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(calc(var(--cell-size, 60px)));
+  }
+}
+.animate-grid {
+  animation: grid 15s linear infinite;
 }
 
 /* Reduced motion: disable all non-essential animations */

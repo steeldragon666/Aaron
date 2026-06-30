@@ -1,0 +1,231 @@
+/* =====================================================================
+   Omniscient AI — core tokens
+   Import this file once at the top of any HTML page:
+     <link rel="stylesheet" href="/colors_and_type.css">
+   ===================================================================== */
+
+/* ---------- Webfonts ---------- */
+/* Substitution: Inter (Google Fonts) standing in for Omniscient's display face.
+   Swap this @import for self-hosted files in fonts/ if a purchased face arrives. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* -------------------------------------------------------------------
+     COLOR
+     Sampled from the supplied brand assets; tuned for on-screen contrast.
+     ------------------------------------------------------------------- */
+
+  /* Core tri-tone */
+  --ink:        #0F1115;  /* near-black; primary text and illustration disc */
+  --blue:       #2F7BFF;  /* signature electric blue */
+  --paper:      #FFFFFF;  /* canvas */
+
+  /* Blue scale — built around --blue */
+  --blue-deep:  #1C4FD6;  /* pressed / small-type blue on light */
+  --blue-600:   #2567E8;
+  --blue-500:   #2F7BFF;  /* = --blue */
+  --blue-400:   #5693FF;
+  --blue-300:   #7AA8FF;  /* = --blue-glow; node glow, focus rings */
+  --blue-200:   #B8CFFF;
+  --blue-100:   #E6EEFF;  /* subtle blue tint bg */
+  --blue-glow:  var(--blue-300);
+
+  /* Ink scale — warm-neutral greys, near-black at top */
+  --ink-900:    #0F1115;  /* = --ink */
+  --ink-800:    #161A20;
+  --ink-700:    #1E232B;
+  --ink-600:    #2A2F37;  /* = --ink-2 */
+  --ink-500:    #3D434D;
+  --ink-400:    #5B6270;  /* = --ink-3 */
+  --ink-300:    #8A909C;
+  --ink-200:    #BEC3CC;
+  --ink-100:    #E4E7EC;  /* = --line */
+  --ink-2:      var(--ink-600);
+  --ink-3:      var(--ink-400);
+
+  /* Paper scale — surfaces */
+  --paper-50:   #FAFBFC;
+  --paper-100:  #F4F6F9;  /* = --paper-2 */
+  --paper-2:    var(--paper-100);
+
+  /* Semantic */
+  --success:    #1EA97C;
+  --success-bg: #E4F7EF;
+  --warn:       #E8A23A;
+  --warn-bg:    #FDF1DE;
+  --danger:     #D94B4B;
+  --danger-bg:  #FCE7E7;
+
+  /* Semantic roles */
+  --fg-1:       var(--ink-900);
+  --fg-2:       var(--ink-600);
+  --fg-3:       var(--ink-400);
+  --fg-inverse: var(--paper);
+  --bg-1:       var(--paper);
+  --bg-2:       var(--paper-100);
+  --bg-inverse: var(--ink-900);
+  --line:       var(--ink-100);
+  --line-strong: var(--ink-900);
+  --accent:     var(--blue);
+  --accent-fg:  var(--paper);
+  --focus-ring: var(--blue-300);
+
+  /* -------------------------------------------------------------------
+     TYPE
+     ------------------------------------------------------------------- */
+  --font-display: 'Inter', 'Neue Haas Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-text:    'Inter', 'Neue Haas Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Type scale (px-anchored; hero fluid) */
+  --type-hero:       clamp(48px, 7vw, 96px);
+  --type-display-1:  64px;
+  --type-display-2:  48px;
+  --type-h1:         56px;
+  --type-h2:         36px;
+  --type-h3:         22px;
+  --type-h4:         18px;
+  --type-body:       17px;
+  --type-body-sm:    15px;
+  --type-small:      14px;
+  --type-micro:      12px;
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semi:    600;
+  --weight-bold:    700;
+  --weight-black:   800;
+
+  --track-tight:   -0.03em;
+  --track-snug:    -0.02em;
+  --track-normal:   0;
+  --track-wide:     0.06em;
+  --track-xwide:    0.14em;
+
+  --leading-display: 0.95;
+  --leading-heading: 1.1;
+  --leading-body:    1.55;
+  --leading-tight:   1.2;
+
+  /* -------------------------------------------------------------------
+     SPACING (4pt base)
+     ------------------------------------------------------------------- */
+  --space-0:  0;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+  --space-10: 128px;
+
+  /* Layout */
+  --container:   1240px;
+  --gutter-lg:   72px;
+  --gutter-sm:   24px;
+
+  /* -------------------------------------------------------------------
+     RADIUS & SHADOW
+     ------------------------------------------------------------------- */
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   6px;   /* buttons, inputs */
+  --radius-lg:   8px;   /* cards */
+  --radius-xl:   12px;  /* modals only */
+  --radius-pill: 999px;
+
+  --shadow-1: 0 1px 2px rgb(15 17 21 / 0.06), 0 1px 1px rgb(15 17 21 / 0.04);
+  --shadow-2: 0 10px 24px rgb(15 17 21 / 0.08), 0 2px 6px rgb(15 17 21 / 0.06);
+  --shadow-focus: 0 0 0 2px var(--paper), 0 0 0 4px var(--focus-ring);
+
+  /* -------------------------------------------------------------------
+     MOTION
+     ------------------------------------------------------------------- */
+  --ease-brand: cubic-bezier(0.2, 0.9, 0.2, 1);
+  --dur-fast:   120ms;
+  --dur-base:   180ms;
+  --dur-slow:   280ms;
+}
+
+/* =====================================================================
+   Base element styling — apply by pulling in this file.
+   ===================================================================== */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-text);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-4);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--track-snug);
+  line-height: var(--leading-heading);
+  text-wrap: pretty;
+}
+
+h1 { font-size: var(--type-h1); letter-spacing: -0.025em; line-height: 1.05; }
+h2 { font-size: var(--type-h2); }
+h3 { font-size: var(--type-h3); font-weight: var(--weight-semi); }
+h4 { font-size: var(--type-h4); font-weight: var(--weight-semi); letter-spacing: var(--track-normal); }
+
+p { margin: 0 0 var(--space-4); color: var(--fg-2); }
+
+a {
+  color: var(--ink-900);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-base) var(--ease-brand), color var(--dur-base) var(--ease-brand);
+}
+a:hover { border-bottom-color: currentColor; }
+a.blue { color: var(--blue-deep); }
+
+code, pre, .mono { font-family: var(--font-mono); font-size: 0.92em; }
+pre { background: var(--paper-100); padding: var(--space-4); border-radius: var(--radius-lg); overflow: auto; }
+
+/* Utility classes */
+.eyebrow {
+  font-size: var(--type-micro);
+  font-weight: var(--weight-semi);
+  letter-spacing: var(--track-xwide);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.display { font-size: var(--type-hero); font-weight: var(--weight-bold); letter-spacing: var(--track-tight); line-height: var(--leading-display); }
+.lede { font-size: 20px; line-height: 1.45; color: var(--fg-2); }
+.small { font-size: var(--type-small); color: var(--fg-3); }
+.mono-badge {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--fg-2);
+}
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--blue);
+  color: var(--paper);
+}

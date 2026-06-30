@@ -1,23 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Home -->
   <url>
     <loc>https://omniscientai.io/</loc>
     <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Marketing core -->
+  <url>
+    <loc>https://omniscientai.io/services</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://omniscientai.io/industries</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://omniscientai.io/workshops</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://omniscientai.io/services</loc>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://omniscientai.io/about</loc>
     <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://omniscientai.io/about/approach</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://omniscientai.io/contact</loc>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <changefreq>yearly</changefreq>
   </url>
+
+  <!-- Conversion actions -->
+  <url>
+    <loc>https://omniscientai.io/book</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://omniscientai.io/workshops/custom</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Content -->
+  <url>
+    <loc>https://omniscientai.io/insights</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Lead-gen tools -->
+  <url>
+    <loc>https://omniscientai.io/ai-readiness-quiz</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://omniscientai.io/roi-calculator</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Legal -->
+  <url>
+    <loc>https://omniscientai.io/privacy-policy</loc>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://omniscientai.io/terms</loc>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+
+  <!--
+    Dynamic slug pages (services/:slug, industries/:slug, workshops/:slug,
+    insights/:slug) are not listed here individually. Regenerate or
+    template this sitemap to include each slug once concrete content is
+    locked in. Search Console can still discover them via internal links.
+  -->
 </urlset>
