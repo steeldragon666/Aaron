@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIT — Actual Intelligence Technology</title>
+<meta name="description" content="Actual Intelligence Technology — the integrated industrial intelligence that operates, optimises and safeguards an entire entity as one system.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0D13; --bg2:#0C1118; --panel:#111824; --panel2:#141C29;
+  --line:#1C2735; --line2:#293749;
+  --teal:#2BC0A6; --teal2:#16937E; --teal-dim:rgba(43,192,166,.10);
+  --ochre:#D29455; --ochre2:#B5762F;
+  --text:#EAF1F8; --muted:#94A4B6; --dim:#5E6F84;
+  --maxw:1200px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  background:var(--bg); color:var(--text);
+  line-height:1.6; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.mono{font-family:'IBM Plex Mono',monospace}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px}
+a{color:inherit; text-decoration:none}
+h1,h2,h3{font-weight:700; letter-spacing:-.02em; line-height:1.08}
+section{position:relative; padding:120px 0; border-top:1px solid var(--line); scroll-margin-top:84px}
+.eyebrow{
+  font-family:'IBM Plex Mono'; font-size:11.5px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--teal); margin-bottom:20px;
+  display:flex; align-items:center; gap:12px;
+}
+.eyebrow::before{content:""; width:24px; height:1px; background:var(--teal); opacity:.6}
+h2.title{font-size:clamp(28px,4vw,46px); max-width:18ch; margin-bottom:22px}
+.lead{color:var(--muted); font-size:clamp(16px,1.5vw,19px); max-width:62ch; line-height:1.65}
+.accent{background:linear-gradient(100deg,var(--teal),var(--ochre)); -webkit-background-clip:text; background-clip:text; color:transparent}
+
+/* ---------- NAV ---------- */
+nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 32px; transition:.3s ease;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{background:rgba(10,13,19,.78); backdrop-filter:blur(14px); border-bottom-color:var(--line)}
+.brand{display:flex; align-items:center; gap:13px; font-weight:600; letter-spacing:-.01em}
+.logo{
+  width:34px; height:34px; position:relative; flex:0 0 auto;
+  border:1.5px solid var(--teal); border-radius:8px;
+  display:grid; place-items:center;
+}
+.logo::before{content:""; width:11px; height:11px; border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--ochre));
+  box-shadow:0 0 14px 1px rgba(43,192,166,.55)}
+.brand .bt{font-size:15.5px}
+.brand .bs{font-family:'IBM Plex Mono'; font-size:10px; letter-spacing:.18em; color:var(--dim); text-transform:uppercase; display:block; margin-top:-3px}
+.navlinks{display:flex; gap:30px; align-items:center}
+.navlinks a{font-size:13.5px; color:var(--muted); transition:.2s}
+.navlinks a:hover{color:var(--text)}
+.btn{
+  font-family:'IBM Plex Mono'; font-size:12.5px; letter-spacing:.04em;
+  padding:11px 20px; border-radius:9px; cursor:pointer; transition:.2s; border:1px solid var(--line2);
+  display:inline-flex; align-items:center; gap:9px; background:transparent; color:var(--text);
+}
+.btn:hover{border-color:var(--teal); color:var(--teal)}
+.btn-primary{background:var(--teal); border-color:var(--teal); color:#04130F; font-weight:600}
+.btn-primary:hover{background:#3ad3b8; border-color:#3ad3b8; color:#04130F}
+.btn .ar{transition:transform .2s}
+.btn:hover .ar{transform:translateX(3px)}
+@media(max-width:860px){.navlinks{display:none}}
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100vh; display:flex; align-items:center; border-top:none;
+  padding:140px 0 100px; position:relative; overflow:hidden;
+}
+#grid-canvas{position:absolute; inset:0; z-index:0; opacity:.5}
+.hero::after{
+  content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    radial-gradient(900px 540px at 78% 8%,rgba(43,192,166,.12),transparent 60%),
+    radial-gradient(760px 520px at 12% 96%,rgba(210,148,85,.09),transparent 58%),
+    linear-gradient(180deg,transparent 55%,var(--bg) 100%);
+}
+.hero .wrap{position:relative; z-index:2}
+.hero-kicker{
+  display:inline-flex; align-items:center; gap:10px; padding:7px 15px;
+  border:1px solid var(--line2); border-radius:100px; background:rgba(17,24,36,.6);
+  font-family:'IBM Plex Mono'; font-size:11.5px; letter-spacing:.14em; color:var(--muted); margin-bottom:30px;
+}
+.hero-kicker .dot{width:7px; height:7px; border-radius:50%; background:var(--teal); box-shadow:0 0 10px var(--teal); animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1.hero-title{font-size:clamp(38px,6.6vw,82px); letter-spacing:-.03em; max-width:16ch}
+h1.hero-title .line2{color:var(--text)}
+.hero-sub{margin-top:26px; font-size:clamp(16px,1.6vw,20px); color:var(--muted); max-width:58ch; line-height:1.6}
+.hero-cta{display:flex; gap:14px; margin-top:38px; flex-wrap:wrap}
+.disciplines{display:flex; gap:10px; flex-wrap:wrap; margin-top:54px; max-width:720px}
+.disc{
+  font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--dim); padding:7px 13px; border:1px solid var(--line); border-radius:7px;
+  transition:.25s;
+}
+.disc:hover{color:var(--teal); border-color:var(--teal2)}
+
+/* ---------- PARADIGM / TOGGLE ---------- */
+.toggle-wrap{display:flex; justify-content:center; margin:50px 0 44px}
+.toggle{
+  display:inline-flex; padding:5px; border:1px solid var(--line2); border-radius:12px; background:var(--panel); gap:4px;
+  font-family:'IBM Plex Mono'; font-size:13px;
+}
+.toggle button{
+  border:none; background:transparent; color:var(--muted); cursor:pointer;
+  padding:11px 26px; border-radius:8px; transition:.25s; font-family:inherit; font-size:inherit; letter-spacing:.02em;
+}
+.toggle button.active{color:var(--text)}
+.toggle button[data-mode="artificial"].active{background:var(--line2)}
+.toggle button[data-mode="actual"].active{background:linear-gradient(100deg,var(--teal2),var(--ochre2)); color:#04130F; font-weight:600}
+.compare{max-width:960px; margin:0 auto; border:1px solid var(--line); border-radius:18px; background:var(--panel); overflow:hidden; transition:.4s}
+.compare.actual{border-color:var(--teal2); box-shadow:0 0 0 1px rgba(43,192,166,.18),0 30px 80px -40px rgba(43,192,166,.25)}
+.compare-head{padding:26px 32px; border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:14px; flex-wrap:wrap}
+.compare-head .tag{font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim)}
+.compare-head h3{font-size:clamp(20px,2.4vw,28px)}
+.compare-grid{display:grid; grid-template-columns:repeat(3,1fr)}
+.compare-grid .cell{padding:26px 32px; border-right:1px solid var(--line); border-top:1px solid var(--line)}
+.compare-grid .cell:nth-child(3n){border-right:none}
+.compare-grid .ct{font-family:'IBM Plex Mono'; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin-bottom:9px}
+.compare.artificial .ct{color:var(--dim)}
+.compare-grid .cv{font-size:14.5px; color:var(--muted); line-height:1.55}
+@media(max-width:760px){.compare-grid{grid-template-columns:1fr}.compare-grid .cell{border-right:none}}
+
+/* ---------- CONVERGENCE DIAGRAM ---------- */
+.entity{display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; margin-top:30px}
+@media(max-width:900px){.entity{grid-template-columns:1fr; gap:36px}}
+.diagram{position:relative; aspect-ratio:1/1; max-width:520px; width:100%; margin:0 auto}
+.diagram svg{width:100%; height:100%; overflow:visible}
+.node-core{fill:url(#coreGrad); filter:drop-shadow(0 0 24px rgba(43,192,166,.4))}
+.spoke{stroke:var(--line2); stroke-width:1.4; transition:.3s}
+.spoke.lit{stroke:var(--teal); stroke-width:2.2}
+.disc-node{cursor:pointer}
+.disc-node circle{fill:var(--panel2); stroke:var(--line2); stroke-width:1.4; transition:.3s}
+.disc-node:hover circle,.disc-node.lit circle{stroke:var(--teal); fill:#10201D}
+.disc-node text{fill:var(--muted); font-family:'IBM Plex Mono'; font-size:9.5px; letter-spacing:.04em; text-anchor:middle; transition:.3s; text-transform:uppercase}
+.disc-node:hover text,.disc-node.lit text{fill:var(--text)}
+.core-label{fill:var(--text); font-family:'IBM Plex Sans'; font-weight:700; font-size:15px; text-anchor:middle}
+.core-sub{fill:var(--teal); font-family:'IBM Plex Mono'; font-size:8px; letter-spacing:.2em; text-anchor:middle; text-transform:uppercase}
+.entity-readout{min-height:170px}
+.entity-readout .rt{font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ochre); margin-bottom:12px}
+.entity-readout h3{font-size:24px; margin-bottom:14px}
+.entity-readout p{color:var(--muted); font-size:16px; line-height:1.6; max-width:46ch}
+.entity-hint{font-family:'IBM Plex Mono'; font-size:11px; color:var(--dim); margin-top:20px; letter-spacing:.04em}
+
+/* ---------- DISCIPLINE CARDS ---------- */
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:14px}
+@media(max-width:900px){.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.grid3{grid-template-columns:1fr}}
+.card{
+  background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:28px 26px;
+  transition:.3s; position:relative; overflow:hidden;
+}
+.card::before{content:""; position:absolute; top:0; left:0; width:100%; height:2px;
+  background:linear-gradient(90deg,var(--teal),transparent); transform:scaleX(0); transform-origin:left; transition:.35s}
+.card:hover{border-color:var(--line2); transform:translateY(-4px); background:var(--panel2)}
+.card:hover::before{transform:scaleX(1)}
+.card .idx{font-family:'IBM Plex Mono'; font-size:11px; color:var(--dim); letter-spacing:.1em}
+.card h3{font-size:18.5px; margin:14px 0 9px}
+.card p{color:var(--muted); font-size:14.5px; line-height:1.6}
+
+/* ---------- PRINCIPLES (split list) ---------- */
+.principles{display:grid; grid-template-columns:repeat(2,1fr); gap:0; margin-top:20px; border:1px solid var(--line); border-radius:16px; overflow:hidden}
+@media(max-width:760px){.principles{grid-template-columns:1fr}}
+.principle{padding:34px 32px; border-right:1px solid var(--line); border-bottom:1px solid var(--line)}
+.principle:nth-child(2n){border-right:none}
+.principle .pn{font-family:'IBM Plex Mono'; font-size:12px; color:var(--teal); letter-spacing:.1em; margin-bottom:14px}
+.principle h3{font-size:21px; margin-bottom:10px}
+.principle p{color:var(--muted); font-size:15px; line-height:1.62; max-width:48ch}
+
+/* ---------- CTA ---------- */
+.cta{text-align:center; border-top:1px solid var(--line)}
+.cta .wrap{max-width:760px}
+.cta h2{font-size:clamp(30px,4.5vw,52px); margin-bottom:20px; letter-spacing:-.03em}
+.cta p{color:var(--muted); font-size:18px; margin-bottom:36px; max-width:46ch; margin-left:auto; margin-right:auto}
+.cta-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
+.cta-mail{font-family:'IBM Plex Mono'; font-size:13px; color:var(--dim); margin-top:30px}
+.cta-mail a{color:var(--teal); border-bottom:1px solid transparent; transition:.2s}
+.cta-mail a:hover{border-bottom-color:var(--teal)}
+/* contact form */
+.contact-form{max-width:640px; margin:44px auto 0; text-align:left}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+@media(max-width:560px){.field-row{grid-template-columns:1fr}}
+.field{margin-bottom:18px; display:flex; flex-direction:column}
+.field label{font-family:'IBM Plex Mono'; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:9px}
+.field label .opt{color:var(--dim); text-transform:none; letter-spacing:.02em}
+.field input,.field textarea{
+  font-family:'IBM Plex Sans'; font-size:15px; color:var(--text);
+  background:var(--panel); border:1px solid var(--line2); border-radius:10px;
+  padding:13px 15px; transition:.2s; width:100%; resize:vertical;
+}
+.field input:focus,.field textarea:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px var(--teal-dim)}
+.field.invalid input,.field.invalid textarea{border-color:var(--ochre2)}
+.field-err{font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--ochre); margin-top:7px; display:none}
+.field.invalid .field-err{display:block}
+.form-actions{display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-top:6px}
+.form-note{font-size:12px; color:var(--dim); letter-spacing:.03em}
+.form-success{
+  margin-top:22px; padding:18px 20px; border:1px solid var(--teal2); border-radius:12px;
+  background:var(--teal-dim); display:flex; flex-direction:column; gap:6px;
+}
+.form-success[hidden]{display:none}
+.form-success strong{color:var(--teal); font-size:15px}
+.form-success span{color:var(--muted); font-size:13.5px; line-height:1.55}
+.form-success a{color:var(--teal); border-bottom:1px solid transparent}
+.form-success a:hover{border-bottom-color:var(--teal)}
+
+/* ---------- FOOTER ---------- */
+footer{padding:46px 0; border-top:1px solid var(--line)}
+footer .wrap{display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap}
+footer .fb{display:flex; align-items:center; gap:12px; color:var(--muted); font-size:13px}
+footer .fmeta{font-family:'IBM Plex Mono'; font-size:11px; color:var(--dim); letter-spacing:.06em}
+
+/* ---------- REVEAL (progressive enhancement: hidden only when JS active) ---------- */
+.js .reveal{opacity:0; transform:translateY(22px); transition:.7s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1; transform:none}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js');</script>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="brand" href="#top">
+    <span class="logo"></span>
+    <span><span class="bt">AIT</span><span class="bs">Actual Intelligence</span></span>
+  </a>
+  <div class="navlinks">
+    <a href="#paradigm">Paradigm</a>
+    <a href="#entity">The System</a>
+    <a href="#disciplines">Disciplines</a>
+    <a href="#principles">Principles</a>
+  </div>
+  <a href="#contact" class="btn btn-primary">Request a briefing <span class="ar">→</span></a>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <canvas id="grid-canvas"></canvas>
+  <div class="wrap">
+    <span class="hero-kicker"><span class="dot"></span>ACTUAL INTELLIGENCE TECHNOLOGY · INTEGRATED INDUSTRIAL INTELLIGENCE</span>
+    <h1 class="hero-title">Artificial intelligence advises.<br><span class="accent">Actual Intelligence</span> <span class="line2">runs the whole entity.</span></h1>
+    <p class="hero-sub">AIT is the integrated control-and-analysis system that operates, optimises and safeguards an entire industrial entity as one coupled system — the convergence of every engineering discipline into a single, governable intelligence.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">Request a briefing <span class="ar">→</span></a>
+      <a href="#paradigm" class="btn">See the paradigm</a>
+    </div>
+    <div class="disciplines" id="discStrip">
+      <span class="disc">Process</span>
+      <span class="disc">Control</span>
+      <span class="disc">Functional Safety</span>
+      <span class="disc">Modelling &amp; Data</span>
+      <span class="disc">Cryptographic Assurance</span>
+      <span class="disc">Autonomy</span>
+    </div>
+  </div>
+</header>
+
+<!-- PARADIGM -->
+<section id="paradigm">
+  <div class="wrap">
+    <div class="eyebrow reveal">01 · The paradigm shift</div>
+    <h2 class="title reveal">From a row of clever parts to a single intelligence that owns the outcome.</h2>
+    <p class="lead reveal">For decades, industrial software has bolted point solutions onto isolated units — each locally optimal, none aware of the whole. AIT inverts the model: it treats the entire entity as one non-linear, coupled system and engineers its behaviour end to end. Toggle the two worlds.</p>
+
+    <div class="toggle-wrap reveal">
+      <div class="toggle">
+        <button data-mode="artificial" class="active">Conventional</button>
+        <button data-mode="actual">Actual Intelligence</button>
+      </div>
+    </div>
+
+    <div class="compare artificial reveal" id="compare">
+      <div class="compare-head">
+        <span class="tag" id="cmpTag">The conventional stack</span>
+        <h3 id="cmpTitle">Many tools. No owner of the whole.</h3>
+      </div>
+      <div class="compare-grid" id="cmpGrid"><!-- filled by JS --></div>
+    </div>
+  </div>
+</section>
+
+<!-- THE SYSTEM / CONVERGENCE -->
+<section id="entity">
+  <div class="wrap">
+    <div class="eyebrow reveal">02 · The integrated system</div>
+    <h2 class="title reveal">Every discipline, converged into one operating core.</h2>
+    <div class="entity">
+      <div class="diagram reveal">
+        <svg viewBox="0 0 400 400" role="img" aria-label="Disciplines converging into one core">
+          <defs>
+            <radialGradient id="coreGrad" cx="50%" cy="45%" r="60%">
+              <stop offset="0%" stop-color="#2BC0A6"/>
+              <stop offset="60%" stop-color="#16937E"/>
+              <stop offset="100%" stop-color="#0C5648"/>
+            </radialGradient>
+          </defs>
+          <g id="spokes"><!-- spokes drawn by JS --></g>
+          <circle class="node-core" cx="200" cy="200" r="58"/>
+          <text class="core-label" x="200" y="196">ENTITY</text>
+          <text class="core-sub" x="200" y="214">ONE SYSTEM</text>
+          <g id="discNodes"><!-- discipline nodes drawn by JS --></g>
+        </svg>
+      </div>
+      <div>
+        <div class="entity-readout reveal" id="readout">
+          <div class="rt" id="roTag">Whole-entity intelligence</div>
+          <h3 id="roTitle">Six disciplines. One coupled model.</h3>
+          <p id="roBody">AIT fuses the disciplines that have always been engineered in isolation — and runs them as a single live model of the entity. Hover or tap a node to see what each layer contributes to the whole.</p>
+        </div>
+        <div class="entity-hint reveal">→ Interactive · select a discipline</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCIPLINES -->
+<section id="disciplines">
+  <div class="wrap">
+    <div class="eyebrow reveal">03 · Multidisciplinary engineering</div>
+    <h2 class="title reveal">A category that only exists where disciplines meet.</h2>
+    <p class="lead reveal">Actual Intelligence is not a model or a dashboard. It is an engineering discipline in its own right — the deliberate synthesis of fields that rarely share a control room.</p>
+    <div class="grid3" id="discCards"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section id="principles">
+  <div class="wrap">
+    <div class="eyebrow reveal">04 · Engineering principles</div>
+    <h2 class="title reveal">Intelligence you can put in charge — and still trust.</h2>
+    <div class="principles reveal">
+      <div class="principle">
+        <div class="pn">P-01</div>
+        <h3>Whole-entity, non-linear</h3>
+        <p>Value hides in the couplings between units. AIT optimises the entity as one non-convex system, not a stack of locally tuned islands — capturing the outcomes no single subsystem can reach alone.</p>
+      </div>
+      <div class="principle">
+        <div class="pn">P-02</div>
+        <h3>Bounded autonomy</h3>
+        <p>Intelligence proposes; certified safety disposes. Every action is held inside hard engineered envelopes, with deterministic protection that no probabilistic system can override.</p>
+      </div>
+      <div class="principle">
+        <div class="pn">P-03</div>
+        <h3>Provable by design</h3>
+        <p>Nothing acts unauthenticated and nothing is altered undetectably. Cryptographic assurance and an immutable record make every decision attributable, auditable and defensible.</p>
+      </div>
+      <div class="principle">
+        <div class="pn">P-04</div>
+        <h3>Sovereign &amp; portable</h3>
+        <p>One architecture, many entities. AIT is built to be owned and operated under its operator's control, and to federate across sites, sectors and industries.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section class="cta" id="contact">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="justify-content:center">05 · Partner with us</div>
+    <h2 class="reveal">Put <span class="accent">Actual Intelligence</span> in charge of your entity.</h2>
+    <p class="reveal">We work with a small number of operators and partners to bring AIT to entities where the whole is worth far more than the sum of its parts. Tell us about yours.</p>
+
+    <form class="contact-form reveal" id="contactForm" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="cf-name">Name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required>
+          <span class="field-err" data-for="cf-name">Please enter your name.</span>
+        </div>
+        <div class="field">
+          <label for="cf-org">Company / organisation</label>
+          <input id="cf-org" name="org" type="text" autocomplete="organization" required>
+          <span class="field-err" data-for="cf-org">Please enter your organisation.</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="cf-email">Work email</label>
+        <input id="cf-email" name="email" type="email" autocomplete="email" required>
+        <span class="field-err" data-for="cf-email">Please enter a valid email address.</span>
+      </div>
+      <div class="field">
+        <label for="cf-msg">What entity are you running — and what's the prize? <span class="opt">(optional)</span></label>
+        <textarea id="cf-msg" name="message" rows="4"></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Request a briefing <span class="ar">→</span></button>
+        <span class="form-note mono">We reply within two business days.</span>
+      </div>
+      <div class="form-success" id="formSuccess" hidden>
+        <strong>Thank you — your briefing request is ready to send.</strong>
+        <span>Your email client should now be open with the details filled in. If it didn't open, write to <a href="mailto:aaron@carbonproject.com.au">aaron@carbonproject.com.au</a>.</span>
+      </div>
+    </form>
+
+    <div class="cta-mail reveal">Prefer email? · <a href="mailto:aaron@carbonproject.com.au">aaron@carbonproject.com.au</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fb"><span class="logo" style="width:26px;height:26px"></span> AIT · Actual Intelligence Technology</div>
+    <div class="fmeta">Integrated industrial intelligence · © 2026</div>
+  </div>
+</footer>
+
+<script>
+/* ---------- discipline data (shared by diagram + cards) ---------- */
+const DISCIPLINES = [
+  {key:'process',   short:'Process',   title:'Process engineering', tag:'Domain physics',
+    body:'The physical reality of the plant — flows, reactions, thermodynamics — encoded as the ground truth the intelligence reasons over.'},
+  {key:'control',   short:'Control',   title:'Control engineering', tag:'Real-time action',
+    body:'Deterministic, real-time regulation. AIT sets the targets; certified control turns intent into stable, physical action.'},
+  {key:'safety',    short:'Safety',    title:'Functional safety', tag:'The hard boundary',
+    body:'Independent, certified protection that reads physical state and bounds everything above it — autonomy is granted, never assumed.'},
+  {key:'data',      short:'Modelling', title:'Modelling & data', tag:'The living twin',
+    body:'Differentiable surrogates, soft-sensing and forecasting turn raw signals into a fast, queryable model of the whole entity.'},
+  {key:'crypto',    short:'Assurance', title:'Cryptographic assurance', tag:'Trust, proven',
+    body:'Hardware-rooted signing and an immutable record make every action authentic, attributable and impossible to quietly rewrite.'},
+  {key:'autonomy',  short:'Autonomy',  title:'Autonomous systems', tag:'Hands off the danger',
+    body:'Coordinated machines and fleets execute the plan continuously — keeping people out of harm and the entity running around the clock.'},
+];
+
+/* ---------- build discipline cards ---------- */
+const cardWrap = document.getElementById('discCards');
+DISCIPLINES.forEach((d,i)=>{
+  const el=document.createElement('div');
+  el.className='card reveal';
+  el.innerHTML=`<div class="idx">D-${String(i+1).padStart(2,'0')}</div><h3>${d.title}</h3><p>${d.body}</p>`;
+  cardWrap.appendChild(el);
+});
+
+/* ---------- convergence diagram ---------- */
+const cx=200, cy=200, R=150;
+const spokes=document.getElementById('spokes');
+const nodes=document.getElementById('discNodes');
+const N=DISCIPLINES.length;
+DISCIPLINES.forEach((d,i)=>{
+  const ang=(-90 + i*(360/N)) * Math.PI/180;
+  const x=cx+R*Math.cos(ang), y=cy+R*Math.sin(ang);
+  const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+  line.setAttribute('class','spoke'); line.dataset.key=d.key;
+  line.setAttribute('x1',cx); line.setAttribute('y1',cy);
+  line.setAttribute('x2',x);   line.setAttribute('y2',y);
+  spokes.appendChild(line);
+
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('class','disc-node'); g.dataset.key=d.key;
+  const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r',30);
+  const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+  t.setAttribute('x',x); t.setAttribute('y',y+3); t.textContent=d.short;
+  g.appendChild(c); g.appendChild(t); nodes.appendChild(g);
+
+  const activate=()=>{
+    document.querySelectorAll('.disc-node').forEach(n=>n.classList.remove('lit'));
+    document.querySelectorAll('.spoke').forEach(s=>s.classList.remove('lit'));
+    g.classList.add('lit'); line.classList.add('lit');
+    document.getElementById('roTag').textContent=d.tag;
+    document.getElementById('roTitle').textContent=d.title;
+    document.getElementById('roBody').textContent=d.body;
+  };
+  g.addEventListener('mouseenter',activate);
+  g.addEventListener('click',activate);
+});
+
+/* ---------- artificial / actual toggle ---------- */
+const COMPARE={
+  artificial:{
+    tag:'The conventional stack', title:'Many tools. No owner of the whole.',
+    cells:[
+      ['Scope','Point solutions per unit — each optimised in isolation, blind to the rest.'],
+      ['Role of AI','Advisory dashboards and reports. Insight is generated; action stays manual.'],
+      ['Disciplines','Engineered in separate silos — control, safety, data and operations rarely meet.'],
+      ['Optimum','Local. The sum of locally efficient parts, which is rarely the best whole.'],
+      ['Trust','Logs and screenshots. Hard to prove what acted, why, and on whose authority.'],
+      ['Outcome','Incremental efficiency on top of how the plant already runs.'],
+    ]},
+  actual:{
+    tag:'Actual Intelligence Technology', title:'One system that owns the outcome.',
+    cells:[
+      ['Scope','The entire entity modelled as one coupled, non-linear system.'],
+      ['Role of AI','Operates. It forecasts, simulates, proposes and acts — within hard limits.'],
+      ['Disciplines','Converged by design — every field engineered into a single intelligence.'],
+      ['Optimum','Global. The whole-entity optimum, including the gains no part can see.'],
+      ['Trust','Cryptographically assured. Every action authentic, attributable and immutable.'],
+      ['Outcome','A step change in how the entity is operated, not a marginal add-on.'],
+    ]},
+};
+function renderCompare(mode){
+  const data=COMPARE[mode];
+  document.getElementById('cmpTag').textContent=data.tag;
+  document.getElementById('cmpTitle').textContent=data.title;
+  const grid=document.getElementById('cmpGrid');
+  grid.innerHTML=data.cells.map(c=>`<div class="cell"><div class="ct">${c[0]}</div><div class="cv">${c[1]}</div></div>`).join('');
+  const box=document.getElementById('compare');
+  box.classList.toggle('actual',mode==='actual');
+  box.classList.toggle('artificial',mode==='artificial');
+}
+document.querySelectorAll('.toggle button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.toggle button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderCompare(b.dataset.mode);
+  });
+});
+renderCompare('artificial');
+
+/* ---------- contact form ---------- */
+const form=document.getElementById('contactForm');
+const emailRe=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function validateField(input){
+  const field=input.closest('.field');
+  let ok=true;
+  if(input.required && !input.value.trim()) ok=false;
+  if(input.type==='email' && input.value.trim() && !emailRe.test(input.value.trim())) ok=false;
+  field.classList.toggle('invalid',!ok);
+  return ok;
+}
+form.querySelectorAll('input').forEach(inp=>{
+  inp.addEventListener('blur',()=>validateField(inp));
+  inp.addEventListener('input',()=>{ if(inp.closest('.field').classList.contains('invalid')) validateField(inp); });
+});
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const inputs=[...form.querySelectorAll('input')];
+  const allOk=inputs.map(validateField).every(Boolean);
+  if(!allOk){ form.querySelector('.field.invalid input')?.focus(); return; }
+  const v=id=>document.getElementById(id).value.trim();
+  const subject=`AIT briefing request — ${v('cf-org')}`;
+  const body=
+`Name: ${v('cf-name')}
+Company / organisation: ${v('cf-org')}
+Email: ${v('cf-email')}
+
+${v('cf-msg') || '(no message provided)'}`;
+  window.location.href=`mailto:aaron@carbonproject.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const ok=document.getElementById('formSuccess');
+  ok.hidden=false;
+  form.querySelector('.form-actions button').textContent='Request sent';
+});
+
+/* ---------- nav scroll state ---------- */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40));
+
+/* ---------- reveal on scroll ---------- */
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- hero blueprint canvas ---------- */
+const cv=document.getElementById('grid-canvas'), ctx=cv.getContext('2d');
+let W,H,pts;
+function init(){
+  W=cv.width=innerWidth; H=cv.height=Math.max(innerHeight,640);
+  const n=Math.min(48,Math.floor(W/34));
+  pts=Array.from({length:n},()=>({
+    x:Math.random()*W, y:Math.random()*H,
+    vx:(Math.random()-.5)*.22, vy:(Math.random()-.5)*.22
+  }));
+}
+function frame(){
+  ctx.clearRect(0,0,W,H);
+  // faint blueprint grid
+  ctx.strokeStyle='rgba(41,55,73,.35)'; ctx.lineWidth=1;
+  const g=46;
+  for(let x=0;x<W;x+=g){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=g){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  // nodes + links
+  for(const p of pts){
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
+  }
+  for(let i=0;i<pts.length;i++){
+    for(let j=i+1;j<pts.length;j++){
+      const a=pts[i],b=pts[j], d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<150){
+        ctx.strokeStyle=`rgba(43,192,166,${(1-d/150)*.18})`; ctx.lineWidth=1;
+        ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+      }
+    }
+  }
+  for(const p of pts){
+    ctx.fillStyle='rgba(43,192,166,.7)';
+    ctx.beginPath();ctx.arc(p.x,p.y,1.6,0,7);ctx.fill();
+  }
+  requestAnimationFrame(frame);
+}
+init(); frame();
+addEventListener('resize',init);
+</script>
+</body>
+</html>
