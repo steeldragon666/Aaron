@@ -1,0 +1,166 @@
+#!/usr/bin/env python3
+"""no-mistakes — the verification gate.
+
+CLAUDE.md §7: this gates every push, no exceptions, including for "trivial"
+changes. Every run carries ``--intent`` pointing at the decision or spec ID
+that motivated the work — ``D-11``, ``A-4``, ``S-13``, or a section reference.
+Once Action Requests exist, ``--intent`` points at AR ids instead.
+
+That is what produces the unbroken chain from decision through commit to scored
+outcome, and it is also the audit trail the product sells.
+
+    tools/no-mistakes --intent S-4
+    tools/no-mistakes --intent ar_01M0... --fast
+
+Every run appends to ``.no-mistakes/runs.jsonl``: the intent, the checks that
+ran, the result, and the commit the tree was at. Nothing in that log is
+client material, so it is committed rather than ignored.
+
+Provenance note: ``no-mistakes`` is referred to in CLAUDE.md as an existing
+tool but was not part of the handoff pack. This is a local implementation of
+the gate it describes. If the original exists elsewhere, point ``NO_MISTAKES``
+at it — this script will hand off to it and add the intent bookkeeping around
+it rather than duplicating its checks.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+from dataclasses import dataclass
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+REGISTER = ROOT / "register"
+LOG_DIR = ROOT / ".no-mistakes"
+LOG = LOG_DIR / "runs.jsonl"
+
+# A decision id (D-11), an open question (Q8), a spec item (S-13, A-4), a
+# section reference (BUILD_BRIEF §3.2), or an Action Request id.
+INTENT = re.compile(
+    r"^(?:[DASQ]-?\d+|ar_[0-9A-Z]+|[A-Z_]+\s*§[\d.]+|§[\d.]+)$"
+)
+
+
+@dataclass
+class Check:
+    name: str
+    command: list[str]
+    cwd: Path
+    fast: bool = True  # runs in --fast mode too
+
+
+def _venv_python() -> str:
+    candidate = REGISTER / ".venv" / "bin" / "python"
+    return str(candidate) if candidate.exists() else sys.executable
+
+
+def checks() -> list[Check]:
+    python = _venv_python()
+    return [
+        Check("ruff-format", [python, "-m", "ruff", "format", "--check", "."], REGISTER),
+        Check("ruff-lint", [python, "-m", "ruff", "check", "."], REGISTER),
+        Check("mypy", [python, "-m", "mypy"], REGISTER, fast=False),
+        Check("pytest", [python, "-m", "pytest"], REGISTER),
+    ]
+
+
+def run(check: Check) -> tuple[bool, str]:
+    started = time.monotonic()
+    try:
+        result = subprocess.run(
+            check.command, cwd=check.cwd, capture_output=True, text=True, timeout=900
+        )
+    except FileNotFoundError as exc:
+        return False, f"{check.name}: not runnable — {exc}"
+    elapsed = time.monotonic() - started
+    if result.returncode == 0:
+        return True, f"{check.name}: ok ({elapsed:.1f}s)"
+    tail = (result.stdout + result.stderr).strip().splitlines()[-25:]
+    return False, f"{check.name}: FAILED ({elapsed:.1f}s)\n" + "\n".join(tail)
+
+
+def head_commit() -> str:
+    try:
+        return subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True
+        ).stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return "unknown"
+
+
+def record(intent: str, passed: bool, names: list[str], note: str) -> None:
+    LOG_DIR.mkdir(exist_ok=True)
+    with LOG.open("a", encoding="utf-8") as handle:
+        handle.write(
+            json.dumps(
+                {
+                    "at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+                    "intent": intent,
+                    "commit": head_commit(),
+                    "checks": names,
+                    "result": "pass" if passed else "fail",
+                    "note": note,
+                },
+                separators=(",", ":"),
+            )
+            + "\n"
+        )
+
+
+def delegate(binary: str, argv: list[str]) -> int:
+    """Hand off to the real tool if one is configured."""
+    return subprocess.run([binary, *argv], cwd=ROOT).returncode
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="no-mistakes", description=__doc__)
+    parser.add_argument(
+        "--intent",
+        required=True,
+        help="the decision, spec item, section or AR id that motivated this work",
+    )
+    parser.add_argument("--fast", action="store_true", help="skip the slower checks")
+    parser.add_argument("--note", default="", help="one line for the run log")
+    args = parser.parse_args(argv)
+
+    if not INTENT.match(args.intent):
+        print(
+            f"--intent {args.intent!r} is not a recognisable id. Expected a decision "
+            "(D-11), an open question (Q8), a spec item (S-13, A-4), a section "
+            "(BUILD_BRIEF §3.2), or an AR id (ar_…).",
+            file=sys.stderr,
+        )
+        return 2
+
+    external = os.environ.get("NO_MISTAKES")
+    if external:
+        code = delegate(external, ["--intent", args.intent] + (["--fast"] if args.fast else []))
+        record(args.intent, code == 0, [f"delegated:{external}"], args.note)
+        return code
+
+    selected = [c for c in checks() if c.fast or not args.fast]
+    failures: list[str] = []
+    for check in selected:
+        ok, message = run(check)
+        print(message)
+        if not ok:
+            failures.append(check.name)
+
+    passed = not failures
+    record(args.intent, passed, [c.name for c in selected], args.note)
+
+    if passed:
+        print(f"\nno-mistakes: pass  ·  intent {args.intent}")
+        return 0
+    print(f"\nno-mistakes: FAIL  ·  intent {args.intent}  ·  {', '.join(failures)}", file=sys.stderr)
+    return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
