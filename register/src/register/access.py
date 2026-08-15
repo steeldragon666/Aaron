@@ -29,6 +29,7 @@ from typing import Any
 
 from .errors import AccessDenied, CrossContextViolation
 from .invariants import parse_shareable_with
+from .redaction import assert_no_secrets
 
 # Reader roles, per A-6: principal, EA, and relevant direct reports.
 ROLES: tuple[str, ...] = ("principal", "ea", "leadership", "user")
@@ -276,6 +277,9 @@ def widen_shareable_with(
         raise AccessDenied("only the principal may widen shareable_with")
     if not reason.strip():
         raise ValueError("widening requires a reason — it is the audit trail")
+    # The reason is human free text and lands in the access log. CLAUDE.md §3:
+    # no credential in plaintext in the register, the ledger, or any log.
+    assert_no_secrets(reason, "access_log.reason")
 
     record = read_one(conn, reader, entity, record_id)
     if record is None:

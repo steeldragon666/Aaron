@@ -149,6 +149,21 @@ its path and this script delegates to it while keeping the intent bookkeeping.
 and never read; `entities.may_chase()` returns the verdict a send path would
 consult but nothing sends. Both are there so the send path is built against a
 check that already exists and is already tested, rather than the reverse.
+`CLAUDE.md` §5 — class H blocked at T4 forever, class G never above T1 — is
+enforced in the send path, so it is Sprint 2 by construction. Nothing here can
+send, which is the only enforcement available until there is a send to block.
+
+**`person.last_substantive_contact` has no writer.** The column exists and is
+queryable, but nothing populates it: deciding which inbound message counts as
+*substantive* is a classification question the brief does not settle, and
+guessing at it would put a wrong date in front of a cadence alert. Manual entry
+can set it today; the automatic path wants a rule written down first.
+
+**No as-of date on AR claims.** `CLAUDE.md` conventions ask that every
+world-fact claim carry one. There are no system prompts yet and no agent
+writing claims, and the AR payload is JSON rather than columns — so adding the
+field when the first agent lands is a payload change, not the expensive
+migration class. Flagged rather than pre-built.
 
 ---
 
@@ -163,6 +178,10 @@ In the brief's order of consequence.
 | 3 · Hash chain integrity | `test_ledger.py` | Tamper, delete and reorder — each after dropping the append-only trigger, which is what an attacker with host access would do. |
 | 4 · Supersession | `test_supersession.py` | Chains, cycles, voiding, and `gap_flag` suppressing a chase on a commitment that a dark meeting could have superseded. |
 | 5 · Provenance | `test_provenance.py` | Nothing marked `inferred` is actionable, and there is no in-place promotion — confirming an inference writes a new record and supersedes the old one. |
+
+Plus one the brief does not list, added after an audit against `CLAUDE.md` §3:
+
+| — · Log hygiene | `test_log_hygiene.py` | The human free-text fields — a rejection reason, a widening justification, a gap-reconciliation note, an AR status or scoring note. Each writes through raw SQL or the ledger rather than the store, so each needs the secret check named at its own call site. A refused write leaves the record untouched rather than half-applied. |
 
 ---
 

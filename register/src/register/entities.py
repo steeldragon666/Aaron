@@ -23,6 +23,7 @@ from typing import Any
 from .errors import GapSuppressed, ProvenanceError, RegisterError
 from .ids import new_id
 from .invariants import default_visibility, is_actionable, parse_shareable_with
+from .redaction import assert_no_secrets
 from .store import insert, now, update
 
 # --- tenancy ----------------------------------------------------------------
@@ -478,6 +479,7 @@ def reconcile_gap(conn: sqlite3.Connection, meeting_id: str, note: str) -> None:
     """
     if not note.strip():
         raise ValueError("reconciling a gap requires a note saying how it was recovered")
+    assert_no_secrets(note, "meeting.capture_reason")
     conn.execute(
         """
         UPDATE meeting

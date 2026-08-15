@@ -95,6 +95,17 @@ def head_commit() -> str:
 
 
 def record(intent: str, passed: bool, names: list[str], note: str) -> None:
+    # runs.jsonl is committed, so it is a log in the sense CLAUDE.md §3 means.
+    # The note is free text a human typed; run it through the same redaction the
+    # register uses rather than trusting the typist.
+    sys.path.insert(0, str(REGISTER / "src"))
+    try:
+        from register.redaction import redact
+
+        note = redact(note).text
+    except ImportError:
+        pass
+
     LOG_DIR.mkdir(exist_ok=True)
     with LOG.open("a", encoding="utf-8") as handle:
         handle.write(

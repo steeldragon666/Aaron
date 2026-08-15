@@ -1,3 +1,5 @@
 {"at":"2026-08-15T11:52:42+0000","intent":"S-4","commit":"65e91033b1b6b345dc9ac82441d3ad5f80c960da","checks":["ruff-format","ruff-lint","mypy","pytest"],"result":"pass","note":"Sprint 1 register and AR ledger"}
 {"at":"2026-08-15T11:53:40+0000","intent":"\u00a73.2","commit":"65e91033b1b6b345dc9ac82441d3ad5f80c960da","checks":["ruff-format","ruff-lint","mypy","pytest"],"result":"pass","note":"sprint 1 close-out"}
 {"at":"2026-08-15T11:56:35+0000","intent":"S-4","commit":"65e91033b1b6b345dc9ac82441d3ad5f80c960da","checks":["ruff-format","ruff-lint","mypy","pytest"],"result":"pass","note":"sprint 1: register + AR ledger, tenant zero"}
+{"at":"2026-08-15T11:59:59+0000","intent":"S-4","commit":"3bc2e56e36453da29ea4a5cc2bf0f4e62f034075","checks":["ruff-format","ruff-lint","mypy","pytest"],"result":"pass","note":"audit against CLAUDE.md; [REDACTED:labelled_secret]"}
+{"at":"2026-08-15T12:00:38+0000","intent":"\u00a73","commit":"3bc2e56e36453da29ea4a5cc2bf0f4e62f034075","checks":["ruff-format","ruff-lint","mypy","pytest"],"result":"pass","note":"log hygiene audit against CLAUDE.md constraint 3"}
