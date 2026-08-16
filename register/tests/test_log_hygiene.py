@@ -1,14 +1,22 @@
 """CLAUDE.md §3 — no credential in plaintext in the register, the ledger, or any log.
 
 `test_ingest.py` covers redaction on the ingest path. This file covers the
-other half, which is easier to miss: the human free-text fields that reach
-persistence through a named function rather than through the ingest pipeline.
+other half: text that reaches persistence through a named function rather than
+through the ingest pipeline.
 
-A rejection reason, a widening justification, a gap-reconciliation note, an AR
-status note — each is a box a human types into, and a human pasting a
-credential into a box is the ordinary case, not the adversarial one. Each of
-these writes through raw SQL or through the ledger, so each needs the check
-named at its own call site; there is no single choke point that catches them.
+The two classes get different treatment, and the split is the point.
+
+**Human free-text is redacted in place and the action succeeds.** A rejection
+reason, a widening justification, a gap-reconciliation note, an AR status note
+— each is a box a human types into. Blocking the action over a false positive
+does not protect anything: the person still needs to reject the proposal, so
+they do it by another route, and the behaviour leaves the audited path
+entirely. A guardrail that teaches people to avoid it is worse than none.
+
+**Machine-generated text is refused.** A credential in an extractor's candidate
+or a model's Action Request is a defect in the producer, not a typist's slip.
+There is no one to inconvenience and nothing worth preserving, so the write
+fails at the point the defect was introduced.
 """
 
 from __future__ import annotations
@@ -25,6 +33,11 @@ from register.entities import (
 from register.ledger import ActionRequest, Prediction, append_ar, score, set_status
 
 SECRET = "the staging password is hunter2hunter2"
+
+# The false positive that must not block anyone. The matcher is deliberately
+# aggressive, so this trips it — and a rejection reason is exactly where a
+# person would write it.
+FALSE_POSITIVE = "rejected because the password is wrong in their instructions"
 
 
 def _commitment(world) -> str:
@@ -62,20 +75,7 @@ def _ar(**overrides) -> ActionRequest:
     return ActionRequest(**base)
 
 
-def test_a_widening_reason_cannot_carry_a_credential_into_the_access_log(world):
-    commitment_id = _commitment(world)
-    principal = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
-
-    with pytest.raises(ValueError, match="refusing to persist"):
-        widen_shareable_with(
-            world.conn, principal, "commitment", commitment_id, [world.veldt], reason=SECRET
-        )
-
-    rows = world.conn.execute("SELECT reason FROM access_log").fetchall()
-    assert all("hunter2hunter2" not in row["reason"] for row in rows)
-
-
-def test_a_rejection_reason_cannot_carry_a_credential(world):
+def _queued_proposal(world) -> str:
     from register.extract import EXTRACTOR_ID
     from register.ids import new_id
     from register.store import insert
@@ -98,29 +98,69 @@ def test_a_rejection_reason_cannot_carry_a_credential(world):
             "produced_by": EXTRACTOR_ID,
         },
     )
-    with pytest.raises(ValueError, match="refusing to persist"):
-        reject(world.conn, world.tenant, proposal_id, actor="aaron", reason=SECRET)
+    return proposal_id
+
+
+# --- human free-text: redacted in place, action succeeds --------------------
+
+
+def test_a_widening_reason_is_redacted_but_the_widening_happens(world):
+    commitment_id = _commitment(world)
+    principal = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+
+    widening = widen_shareable_with(
+        world.conn, principal, "commitment", commitment_id, [world.veldt], reason=SECRET
+    )
+
+    assert widening.added == [world.veldt]  # the act was not blocked
+    reasons = [r["reason"] for r in world.conn.execute("SELECT reason FROM access_log")]
+    assert all("hunter2hunter2" not in r for r in reasons)
+    assert any("[REDACTED:" in r for r in reasons)
+
+
+def test_a_rejection_reason_is_redacted_but_the_rejection_happens(world):
+    proposal_id = _queued_proposal(world)
+
+    reject(world.conn, world.tenant, proposal_id, actor="aaron", reason=SECRET)
 
     row = world.conn.execute(
         "SELECT state, resolved_by FROM curator_proposal WHERE id = ?", (proposal_id,)
     ).fetchone()
-    assert row["state"] == "queued"  # the write did not happen at all
-    assert row["resolved_by"] is None
+    assert row["state"] == "rejected"  # the action completed
+    assert "hunter2hunter2" not in row["resolved_by"]
+    assert "[REDACTED:" in row["resolved_by"]
 
 
-def test_an_undo_reason_cannot_carry_a_credential(world):
+def test_a_false_positive_does_not_block_the_action(world):
+    """The case the redact-in-place rule exists for.
+
+    "the password is wrong" trips an aggressive matcher and contains no secret.
+    The reason loses a span and keeps its meaning; the rejection still happens.
+    """
+    proposal_id = _queued_proposal(world)
+
+    reject(world.conn, world.tenant, proposal_id, actor="aaron", reason=FALSE_POSITIVE)
+
+    row = world.conn.execute(
+        "SELECT state, resolved_by FROM curator_proposal WHERE id = ?", (proposal_id,)
+    ).fetchone()
+    assert row["state"] == "rejected"
+    assert "rejected because" in row["resolved_by"]  # the sense survives
+
+
+def test_an_undo_reason_is_redacted_but_the_undo_happens(world):
     commitment_id = _commitment(world)
-    with pytest.raises(ValueError, match="refusing to persist"):
-        undo(world.conn, world.tenant, commitment_id, actor="aaron", reason=SECRET)
+
+    undo(world.conn, world.tenant, commitment_id, actor="aaron", reason=SECRET)
 
     row = world.conn.execute(
         "SELECT status, last_action FROM commitment WHERE id = ?", (commitment_id,)
     ).fetchone()
-    assert row["status"] == "open"
-    assert row["last_action"] is None
+    assert row["status"] == "void"  # the undo completed
+    assert "hunter2hunter2" not in row["last_action"]
 
 
-def test_a_gap_reconciliation_note_cannot_carry_a_credential(world):
+def test_a_gap_reconciliation_note_is_redacted_but_the_gap_clears(world):
     meeting_id = record_dark_meeting(
         world.conn,
         tenant_id=world.tenant,
@@ -130,42 +170,118 @@ def test_a_gap_reconciliation_note_cannot_carry_a_credential(world):
         known_topics=["price"],
         produced_by="human:calendar-sync",
     )
-    with pytest.raises(ValueError, match="refusing to persist"):
-        reconcile_gap(world.conn, meeting_id, SECRET)
 
-    row = world.conn.execute("SELECT gap_flag FROM meeting WHERE id = ?", (meeting_id,)).fetchone()
-    assert row["gap_flag"] == 1  # the gap did not clear on a refused write
+    reconcile_gap(world.conn, meeting_id, SECRET)
+
+    row = world.conn.execute(
+        "SELECT gap_flag, capture_reason FROM meeting WHERE id = ?", (meeting_id,)
+    ).fetchone()
+    assert row["gap_flag"] == 0  # the gap cleared
+    assert "hunter2hunter2" not in row["capture_reason"]
 
 
-def test_an_ar_status_note_cannot_carry_a_credential(world):
+def test_an_ar_status_note_is_redacted_but_the_status_changes(world):
     ar_id = append_ar(world.conn, world.tenant, _ar())
-    with pytest.raises(ValueError, match="refusing to persist"):
-        set_status(world.conn, world.tenant, ar_id, "accepted", actor="aaron", note=SECRET)
 
-    payloads = [
-        row["payload"] for row in world.conn.execute("SELECT payload FROM ar_ledger").fetchall()
-    ]
-    assert all("hunter2hunter2" not in payload for payload in payloads)
+    set_status(world.conn, world.tenant, ar_id, "accepted", actor="aaron", note=SECRET)
+
+    from register.ledger import fold
+
+    assert fold(world.conn, world.tenant, ar_id)["status"] == "accepted"
+    payloads = [r["payload"] for r in world.conn.execute("SELECT payload FROM ar_ledger")]
+    assert all("hunter2hunter2" not in p for p in payloads)
 
 
-def test_an_ar_scoring_note_cannot_carry_a_credential(world):
+def test_an_ar_scoring_note_is_redacted_but_the_score_lands(world):
     ar_id = append_ar(world.conn, world.tenant, _ar())
+
+    score(world.conn, world.tenant, ar_id, outcome="correct", actor="aaron", note=SECRET)
+
+    row = world.conn.execute("SELECT outcome FROM prediction WHERE ar_id = ?", (ar_id,)).fetchone()
+    assert row["outcome"] == "correct"
+    payloads = [r["payload"] for r in world.conn.execute("SELECT payload FROM ar_ledger")]
+    assert all("hunter2hunter2" not in p for p in payloads)
+
+
+def test_a_commitment_statement_typed_by_a_human_is_redacted_not_refused(world):
+    commitment_id = create_commitment(
+        world.conn,
+        tenant_id=world.tenant,
+        direction="by_principal",
+        statement=f"I'll set up their access — {SECRET}.",
+        made_at="2026-08-10T09:00:00+00:00",
+        source_type="manual",
+        provenance="verbatim",
+        produced_by="human:manual",
+    )
+    row = world.conn.execute(
+        "SELECT statement FROM commitment WHERE id = ?", (commitment_id,)
+    ).fetchone()
+    assert "hunter2hunter2" not in row["statement"]
+    assert "set up their access" in row["statement"]
+
+
+# --- machine-generated: refused ---------------------------------------------
+
+
+def test_an_extractor_candidate_carrying_a_secret_is_refused(world):
+    """A credential in a candidate is a bug in the extractor, not a typo."""
+    from register.extract import EXTRACTOR_ID
+    from register.ids import new_id
+    from register.store import insert
+
     with pytest.raises(ValueError, match="refusing to persist"):
-        score(world.conn, world.tenant, ar_id, outcome="correct", actor="aaron", note=SECRET)
+        insert(
+            world.conn,
+            "curator_proposal",
+            {
+                "id": new_id("curator_proposal"),
+                "tenant_id": world.tenant,
+                "target_entity": "commitment",
+                "candidate": f'{{"statement": "{SECRET}"}}',
+                "confidence": 0.5,
+                "source_ref": "ie_x",
+                "state": "queued",
+                "visibility": "principal_and_ea",
+                "shareable_with": [],
+                "provenance": "inferred",
+                "produced_by": EXTRACTOR_ID,
+            },
+        )
 
 
-def test_a_refused_write_leaves_the_record_untouched(world):
-    """The check runs before the write, so a refusal is not a partial update."""
-    ar_id = append_ar(world.conn, world.tenant, _ar())
+def test_an_ar_claim_carrying_a_secret_is_refused(world):
+    """The claim is model output. A secret there is a defect at the source."""
+    with pytest.raises(ValueError, match="refusing to persist"):
+        append_ar(world.conn, world.tenant, _ar(claim=f"Their staging box is open — {SECRET}."))
+
+
+def test_a_refused_machine_write_leaves_the_ledger_untouched(world):
+    append_ar(world.conn, world.tenant, _ar())
     before = world.conn.execute("SELECT count(*) AS n FROM ar_ledger").fetchone()["n"]
     with pytest.raises(ValueError):
-        set_status(world.conn, world.tenant, ar_id, "accepted", actor="aaron", note=SECRET)
+        append_ar(world.conn, world.tenant, _ar(claim=f"Second claim — {SECRET}."))
     after = world.conn.execute("SELECT count(*) AS n FROM ar_ledger").fetchone()["n"]
     assert before == after
 
 
-def test_an_ordinary_reason_still_writes(world):
-    """The guard must not make the honest path unusable."""
+def test_a_prediction_carrying_a_secret_is_refused(world):
+    with pytest.raises(ValueError, match="refusing to persist"):
+        append_ar(
+            world.conn,
+            world.tenant,
+            _ar(
+                prediction=Prediction(
+                    f"They rotate it — {SECRET}.", "2026-09-01", "the audit log", confidence=0.5
+                )
+            ),
+        )
+
+
+# --- the honest path is unchanged -------------------------------------------
+
+
+def test_an_ordinary_reason_still_writes_verbatim(world):
     commitment_id = _commitment(world)
     principal = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
     widening = widen_shareable_with(
@@ -177,3 +293,8 @@ def test_an_ordinary_reason_still_writes(world):
         reason="disclosed in the data room on 14 Aug",
     )
     assert widening.added == [world.veldt]
+    row = world.conn.execute(
+        "SELECT reason FROM access_log WHERE reason LIKE 'widened%' ORDER BY id DESC LIMIT 1"
+    ).fetchone()
+    assert "disclosed in the data room on 14 Aug" in row["reason"]
+    assert "[REDACTED:" not in row["reason"]

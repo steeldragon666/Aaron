@@ -38,11 +38,21 @@ from .errors import (
 )
 from .ids import new_id
 from .invariants import default_visibility, normalise_shareable_with, validate_invariants
-from .redaction import assert_no_secrets
+from .redaction import assert_no_secrets, redact
 from .routing import assert_may_produce
 from .store import now
 
 MAX_OPEN_ARS_PER_AGENT = 5
+
+# The shape of the AR payload. Bumped whenever a field is added, removed or
+# changes meaning; every entry records the version it was written under, so a
+# reader never has to infer the shape from what happens to be present.
+#
+# It exists now, while one caller writes the payload and the shape is obvious,
+# precisely because that is the only time it is cheap. Once four agents are
+# writing unversioned JSON, adding it is the same retrofit as a missing
+# invariant: every entry already written is ambiguous and cannot be fixed.
+PAYLOAD_SCHEMA_VERSION = 1
 
 OPEN_STATUSES = frozenset({"proposed", "accepted", "in_progress"})
 TERMINAL_STATUSES = frozenset({"executed", "rejected", "expired", "void"})
@@ -157,6 +167,9 @@ def _append(
     provenance: str,
     produced_by: str,
 ) -> str:
+    # The version goes inside the payload so the hash covers it, and into its
+    # own column so it is queryable without parsing every entry.
+    payload = {**payload, "payload_schema_version": PAYLOAD_SCHEMA_VERSION}
     payload_json = canonical_json(payload)
     assert_no_secrets(payload_json, "ar_ledger.payload")
 
@@ -181,9 +194,10 @@ def _append(
     conn.execute(
         """
         INSERT INTO ar_ledger
-            (seq, tenant_id, ar_id, entry_kind, agent, payload, prev_hash, entry_hash,
-             appended_at, visibility, shareable_with, provenance, produced_by)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (seq, tenant_id, ar_id, entry_kind, agent, payload, payload_schema_version,
+             prev_hash, entry_hash, appended_at, visibility, shareable_with,
+             provenance, produced_by)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             seq,
@@ -192,6 +206,7 @@ def _append(
             row["entry_kind"],
             row["agent"],
             row["payload"],
+            PAYLOAD_SCHEMA_VERSION,
             prev_hash,
             entry_hash,
             now(),
@@ -299,6 +314,10 @@ def set_status(
     note: str = "",
 ) -> str:
     """Append a status change. The previous entry is left untouched."""
+    # The note is human free text inside an otherwise machine-generated
+    # payload, so it is redacted here rather than refused by the payload check
+    # downstream — the rest of the entry is not the typist's fault.
+    note = redact(note).text
     if status not in ALL_STATUSES:
         raise LedgerError(f"unknown AR status {status!r}")
     state = fold(conn, tenant_id, ar_id)
@@ -341,6 +360,7 @@ def score(
     and the only thing that distinguishes an agent that is right from one that
     has learned what gets approved.
     """
+    note = redact(note).text  # human free text; see set_status
     if outcome not in ("correct", "incorrect", "unresolved", "void"):
         raise LedgerError(f"unknown outcome {outcome!r}")
 

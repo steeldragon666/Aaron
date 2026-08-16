@@ -18,23 +18,59 @@ from .invariants import (
     normalise_shareable_with,
     validate_invariants,
 )
-from .redaction import assert_no_secrets
+from .redaction import assert_no_secrets, redact
 from .routing import assert_may_produce
 
-# Columns whose free text could carry a credential out of a source system and
-# into the register. Checked on every write, per table.
-_TEXT_COLUMNS: Mapping[str, tuple[str, ...]] = {
+# Every column whose free text could carry a credential into the register is
+# checked on write — but the two classes get different treatment, and the
+# difference matters more than the check does.
+#
+# **Human free-text is redacted in place.** Someone typing "the password is
+# wrong" into a rejection reason must not have their action blocked. People who
+# get blocked learn to route around the check, and a guardrail that trains
+# people to avoid it is worse than no guardrail: it removes the behaviour from
+# the audited path entirely. The matched span is replaced and the rest of the
+# sentence persists, so the field keeps its meaning and the log keeps its
+# evidence.
+_HUMAN_TEXT_COLUMNS: Mapping[str, tuple[str, ...]] = {
     "person": ("display_name", "relationship", "tenant_scoped_note"),
     "meeting": ("title", "capture_reason", "known_topics"),
     "thread": ("subject",),
-    "commitment": ("statement", "last_action", "evidence_ref"),
+    "commitment": ("statement", "last_action"),
     "decision": ("statement", "reasoning_at_time"),
     "exposure": ("description",),
+    # Already redacted by the ingest pipeline; this is the backstop, and a
+    # backstop that refuses would drop a whole message over one false positive.
+    "ingest_event": ("summary", "body"),
+}
+
+# **Machine-generated text is refused.** A secret here is not a typo, it is a
+# bug in whatever produced the value — an extractor that swept a credential
+# into a candidate, or a model that emitted one into an Action Request. There
+# is no user to inconvenience and nothing to preserve, so the write fails loudly
+# and the caller finds out at the point the defect was introduced.
+_MACHINE_TEXT_COLUMNS: Mapping[str, tuple[str, ...]] = {
+    "commitment": ("evidence_ref",),
     "prediction": ("statement", "falsifiable_by"),
     "curator_proposal": ("candidate",),
-    "ingest_event": ("summary", "body"),
     "ar_ledger": ("payload",),
 }
+
+
+def _scrub(row: dict[str, Any], table: str) -> int:
+    """Redact human columns in place, refuse machine ones. Returns redactions."""
+    redactions = 0
+    for column in _HUMAN_TEXT_COLUMNS.get(table, ()):
+        value = row.get(column)
+        if isinstance(value, str) and value:
+            outcome = redact(value)
+            if not outcome.clean:
+                row[column] = outcome.text
+                redactions += outcome.count
+    for column in _MACHINE_TEXT_COLUMNS.get(table, ()):
+        if column in row:
+            assert_no_secrets(row.get(column), f"{table}.{column}")
+    return redactions
 
 
 def now() -> str:
@@ -53,8 +89,7 @@ def prepare(
     validate_invariants(table, row)
     assert_may_produce(str(row["produced_by"]), artifact)
 
-    for column in _TEXT_COLUMNS.get(table, ()):
-        assert_no_secrets(row.get(column), f"{table}.{column}")
+    _scrub(row, table)
 
     stamp = now()
     row.setdefault("created_at", stamp)
@@ -103,9 +138,7 @@ def update(
         )
 
     row = dict(changes)
-    for column in _TEXT_COLUMNS.get(table, ()):
-        if column in row:
-            assert_no_secrets(row[column], f"{table}.{column}")
+    _scrub(row, table)
     row["updated_at"] = now()
 
     assignments = ", ".join(f"{column} = ?" for column in row)

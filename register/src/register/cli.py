@@ -14,7 +14,14 @@ from pathlib import Path
 from .coverage import load_known, measure
 from .curator import auto_confirm, confirm, principal_emails, propose_from_events, queued, reject
 from .db import open_register
-from .entities import create_person, create_tenant, dark_periods, open_loops
+from .entities import (
+    cadence_alerts,
+    create_person,
+    create_tenant,
+    dark_periods,
+    open_loops,
+    refresh_last_substantive_contact,
+)
 from .errors import LedgerError
 from .ingest import ingest, unprocessed_events
 from .ingest.calendar import CalendarAdapter
@@ -160,6 +167,21 @@ def cmd_digest(args: argparse.Namespace) -> int:
                 f"due {item['due'] or '—':<12} {item['statement'][:80]}"
             )
     print(f"{digest.still_queued} still waiting for a human")
+
+    # Cadence is advisory and lives here rather than anywhere near an action.
+    # The refresh writes `person.last_substantive_contact` from records that
+    # already exist; the alerts are read-only and end at this print statement.
+    # Nothing in the send path reads them, and a cadence gap is not a
+    # commitment — there is nothing to chase, and the silence is the finding.
+    refresh_last_substantive_contact(conn, args.tenant)
+    alerts = cadence_alerts(conn, args.tenant, as_of=args.as_of)
+    if alerts:
+        print(
+            f"\nQuieter than their stated cadence ({len(alerts)}) — for your eye, not for a chase:"
+        )
+        for alert in alerts:
+            since = "no recorded contact" if alert.never_contacted else f"{alert.days_since}d ago"
+            print(f"  every {alert.cadence_days:>3}d  {alert.display_name:<28} {since}")
     return 0
 
 
@@ -322,6 +344,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("digest", help="auto-confirm above threshold and print the daily digest")
     p.add_argument("--threshold", type=float, default=0.85)
+    p.add_argument("--as-of", default=None, help="date to measure cadence against (default today)")
     p.set_defaults(func=cmd_digest)
 
     p = sub.add_parser("loops", help="open commitments, both directions, plus dark periods")

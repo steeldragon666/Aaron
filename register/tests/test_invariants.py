@@ -79,13 +79,29 @@ def test_an_unregistered_table_is_refused(world):
 
 
 def test_every_record_table_is_reachable_through_the_write_boundary():
-    from register.store import _TEXT_COLUMNS
+    """Each record table must be classified for the secret check.
 
-    unchecked = RECORD_TABLES - set(_TEXT_COLUMNS)
+    Human free-text is redacted in place, machine-generated text is refused. A
+    table in neither map is a table nobody decided about, which in practice
+    means its text is unchecked.
+    """
+    from register.store import _HUMAN_TEXT_COLUMNS, _MACHINE_TEXT_COLUMNS
+
+    classified = set(_HUMAN_TEXT_COLUMNS) | set(_MACHINE_TEXT_COLUMNS)
+    unchecked = RECORD_TABLES - classified
     assert not unchecked, (
-        f"{sorted(unchecked)} have no columns registered for the secret check — "
-        "add them, even if the tuple is empty, so the omission is deliberate"
+        f"{sorted(unchecked)} are classified as neither human free-text nor "
+        "machine-generated. Decide which, so the omission is deliberate."
     )
+
+
+def test_no_column_is_both_human_and_machine():
+    """A column cannot be redacted and refused at once."""
+    from register.store import _HUMAN_TEXT_COLUMNS, _MACHINE_TEXT_COLUMNS
+
+    for table in set(_HUMAN_TEXT_COLUMNS) & set(_MACHINE_TEXT_COLUMNS):
+        overlap = set(_HUMAN_TEXT_COLUMNS[table]) & set(_MACHINE_TEXT_COLUMNS[table])
+        assert not overlap, f"{table}: {sorted(overlap)} classified as both"
 
 
 def test_shareable_with_normalises_to_a_sorted_deduplicated_array():

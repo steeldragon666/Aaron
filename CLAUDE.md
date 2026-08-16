@@ -87,7 +87,7 @@ Every run carries `--intent` pointing at the decision or spec ID that motivated 
 | Q8 | Compute window | 2am–6am for the eight-card block; a small resident model on 1–2 cards serves briefs and the 2–5 min response target during business hours |
 | Q11 | Shared-harness promotion | **Build for KEEP** — it is the superset. Dropping later is free; retrofitting is not |
 | — | Day-7 deliverable and billing start | Register plus coverage statement at day 7; billing start unresolved |
-| — | Connectivity to M365 / Google / CRM | Unresolved |
+| — | Connectivity to M365 / Google / CRM | **Settled for tenant zero, open for client one.** Tenant zero syncs a local Maildir over IMAP with `mbsync` on the farm: outbound-only, nothing inbound, no vendor integration, data on-prem. See `docs/TENANT_ZERO_MAILBOX.md`. OAuth and per-tenant credential design wait for client one |
 
 ---
 

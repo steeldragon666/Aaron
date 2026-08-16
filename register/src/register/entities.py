@@ -18,12 +18,13 @@ import json
 import sqlite3
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
+from datetime import UTC, date, datetime
 from typing import Any
 
 from .errors import GapSuppressed, ProvenanceError, RegisterError
 from .ids import new_id
 from .invariants import default_visibility, is_actionable, parse_shareable_with
-from .redaction import assert_no_secrets
+from .redaction import redact
 from .store import insert, now, update
 
 # --- tenancy ----------------------------------------------------------------
@@ -479,7 +480,7 @@ def reconcile_gap(conn: sqlite3.Connection, meeting_id: str, note: str) -> None:
     """
     if not note.strip():
         raise ValueError("reconciling a gap requires a note saying how it was recovered")
-    assert_no_secrets(note, "meeting.capture_reason")
+    note = redact(note).text
     conn.execute(
         """
         UPDATE meeting
@@ -626,3 +627,140 @@ def open_loops(
 
 def shareable_counterparties(record: dict[str, Any]) -> list[str]:
     return parse_shareable_with(record.get("shareable_with"))
+
+
+# --- contact cadence --------------------------------------------------------
+#
+# `person.last_substantive_contact` is derived, never classified.
+#
+# The tempting version is a classifier over inbound mail deciding what counts
+# as "substantive". That is a judgement the brief does not settle, and a wrong
+# one fires a cadence alert on a relationship that is perfectly healthy —
+# telling the principal to chase someone they spoke to on Tuesday. The cost of
+# being wrong is asymmetric and lands on the principal's credibility.
+#
+# So it is computed from records that are already first-class and already carry
+# provenance: a meeting they attended, or a commitment created or resolved with
+# them. Both are things that demonstrably happened. The failure mode is that
+# the date is older than reality — the register says "no substantive contact
+# since June" when there was a corridor conversation in July — and silence in
+# that direction is the right way to be wrong.
+
+
+def derived_last_substantive_contact(
+    conn: sqlite3.Connection, tenant_id: str, person_id: str
+) -> str | None:
+    """The most recent trusted contact date, or ``None`` if there is none.
+
+    Sources, both of which are records rather than inferences:
+
+    * a meeting the person attended — including a dark one, because attendance
+      is known from the calendar even when the content is not
+    * a commitment with them, at the point it was made or last acted on
+    """
+    row = conn.execute(
+        """
+        SELECT MAX(at) AS at FROM (
+            SELECT m.starts_at AS at
+            FROM meeting m
+            JOIN meeting_attendee a ON a.meeting_id = m.id
+            WHERE m.tenant_id = ? AND a.person_id = ?
+            UNION ALL
+            SELECT c.made_at AS at
+            FROM commitment c
+            WHERE c.tenant_id = ? AND c.counterparty_id = ? AND c.status != 'void'
+            UNION ALL
+            SELECT c.last_action_at AS at
+            FROM commitment c
+            WHERE c.tenant_id = ? AND c.counterparty_id = ?
+              AND c.status != 'void' AND c.last_action_at IS NOT NULL
+        )
+        """,
+        (tenant_id, person_id, tenant_id, person_id, tenant_id, person_id),
+    ).fetchone()
+    return str(row["at"]) if row and row["at"] else None
+
+
+def refresh_last_substantive_contact(conn: sqlite3.Connection, tenant_id: str) -> int:
+    """Recompute the cached column for every person. Returns rows changed.
+
+    The column is a cache of :func:`derived_last_substantive_contact`, kept so
+    that a brief does not have to run the union query per person. Nothing reads
+    it that could not recompute it.
+    """
+    changed = 0
+    for row in conn.execute(
+        "SELECT id, last_substantive_contact FROM person WHERE tenant_id = ?", (tenant_id,)
+    ).fetchall():
+        derived = derived_last_substantive_contact(conn, tenant_id, str(row["id"]))
+        if derived != row["last_substantive_contact"]:
+            conn.execute(
+                "UPDATE person SET last_substantive_contact = ?, updated_at = ? WHERE id = ?",
+                (derived, now(), row["id"]),
+            )
+            changed += 1
+    return changed
+
+
+@dataclass(frozen=True)
+class CadenceAlert:
+    """A relationship that has gone quiet for longer than its stated cadence.
+
+    Advisory only, and structurally so. This is a read-side computation that
+    produces no record and touches no status; nothing in the send path consults
+    it, and :func:`may_chase` does not know it exists. A quiet relationship is
+    something to put in front of the principal in a digest, not a reason for an
+    agent to contact anyone — the whole point of tracking cadence is to prompt a
+    human judgement about whether the silence means anything.
+    """
+
+    person_id: str
+    display_name: str
+    cadence_days: int
+    last_contact: str | None
+    days_since: int | None
+
+    @property
+    def never_contacted(self) -> bool:
+        return self.last_contact is None
+
+
+def cadence_alerts(
+    conn: sqlite3.Connection, tenant_id: str, *, as_of: str | None = None
+) -> list[CadenceAlert]:
+    """People overdue against their stated cadence, for the digest.
+
+    Only people with an explicit ``cadence_days`` are considered: a cadence
+    nobody set is not a cadence the register gets to invent.
+    """
+    today = date.fromisoformat(as_of) if as_of else datetime.now(UTC).date()
+    out: list[CadenceAlert] = []
+
+    for row in conn.execute(
+        """
+        SELECT id, display_name, cadence_days, last_substantive_contact
+        FROM person
+        WHERE tenant_id = ? AND cadence_days IS NOT NULL AND is_principal = 0
+        ORDER BY display_name
+        """,
+        (tenant_id,),
+    ).fetchall():
+        last = row["last_substantive_contact"]
+        days_since: int | None = None
+        if last:
+            try:
+                days_since = (today - datetime.fromisoformat(last).date()).days
+            except ValueError:
+                days_since = None
+            if days_since is not None and days_since <= int(row["cadence_days"]):
+                continue
+        out.append(
+            CadenceAlert(
+                person_id=str(row["id"]),
+                display_name=str(row["display_name"]),
+                cadence_days=int(row["cadence_days"]),
+                last_contact=str(last) if last else None,
+                days_since=days_since,
+            )
+        )
+    return out

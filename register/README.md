@@ -29,6 +29,7 @@ register ingest --mailbox ~/mail/Inbox --calendar ~/calendars/
 register propose --senders senders.json
 register queue                       # what is waiting for a human
 register digest --threshold 0.85     # auto-confirm the confident ones, print the digest
+                                     # (and, advisory only, who has gone quieter than their cadence)
 register loops                       # open commitments, both directions, plus dark periods
 register coverage known.json         # the day-7 artifact
 register reads                       # the access log
@@ -53,7 +54,11 @@ Every push goes through the gate:
 
 ```bash
 tools/no-mistakes --intent S-4
+tools/no-mistakes --intent-from-commit   # reads the id out of HEAD's subject
 ```
+
+It also runs in CI on every push and every pull request, which is the version
+that counts — see "The gate, and where it runs" below.
 
 ---
 
@@ -65,7 +70,7 @@ tools/no-mistakes --intent S-4
 | `invariants.py` | The invariant field set, the visibility defaults, and what "actionable" means. |
 | `store.py` | The write boundary: invariant check, secret check, model boundary. Nothing writes around it. |
 | `access.py` | Visibility, the cross-context rule, the access log, and the one path that widens `shareable_with`. |
-| `entities.py` | The seven entities, supersession, dark meetings, gap suppression, open loops. |
+| `entities.py` | The seven entities, supersession, dark meetings, gap suppression, open loops, derived contact and cadence. |
 | `ledger.py` | The hash-chained AR ledger and the three rules it enforces. |
 | `ingest/` | Adapter interface plus mailbox, calendar and manual. Read-only, local, no sockets. |
 | `redaction.py` | Runs before persistence, never after. |
@@ -76,7 +81,7 @@ tools/no-mistakes --intent S-4
 
 ### Decisions taken here, where the spec was silent
 
-Four choices the spec did not settle. Each is cheap to reverse except the
+Six choices the spec did not settle. Each is cheap to reverse except the
 first, which is noted for that reason.
 
 **Python 3.11 and SQLite, standard library only.** No runtime dependency, so
@@ -106,7 +111,48 @@ extractor is a swap of `extract.py`, not a schema change.
 Google Workspace or a CRM to an on-prem farm is an open item in both CLAUDE.md
 and ACTION_TIER §7. Until it is settled, the sync that lands mail on local disk
 is the boundary. An adapter that opens a socket is a decision, not an
-implementation detail.
+implementation detail. `docs/TENANT_ZERO_MAILBOX.md` is the tenant-zero version
+of that sync: `mbsync` over IMAP, outbound-only, no vendor integration.
+
+**The secret check has two classes, and they get opposite treatment.** The
+matcher is deliberately aggressive, so a policy of one response for everything
+had to be wrong in one direction or the other.
+
+*Human free-text is redacted in place and the write succeeds.* A rejection
+reason, a widening justification, a gap note, an AR status note — all boxes a
+person types into. Refusing the write means someone typing "the password is
+wrong in their instructions" into a rejection reason has their action blocked,
+and people who get blocked learn to route around checks. That is a strictly
+worse outcome than a lost span: the rejection still needs to happen, so it
+happens somewhere the audit trail cannot see.
+
+*Machine-generated text is refused outright.* A credential in an extractor
+candidate, an AR claim or a prediction is a defect in the producer, not a
+typist's slip. There is nobody to inconvenience and nothing worth preserving,
+so the write fails at the point the defect was introduced.
+
+`store._HUMAN_TEXT_COLUMNS` and `store._MACHINE_TEXT_COLUMNS` are the
+classification, and `test_invariants.py` fails if a record table is in neither
+— so a new table's text is a decision someone makes rather than a check
+someone forgets.
+
+**`last_substantive_contact` is derived, not classified.** Deciding which
+inbound message counts as "substantive" is a rule the brief never settled, and
+a classifier guessing at it would put an invented date in front of a cadence
+alert. Instead it is a `MAX` over records that are already first-class and
+already carry provenance: meetings attended, and commitments made or acted on
+with that person. Dark meetings count — the register knows they were in a room
+together even when it does not know what was said. Voided commitments do not.
+
+The derived version's failure mode is a date *older* than reality, which
+produces an alert the principal dismisses. The classifier's failure mode is a
+date *newer* than reality, which produces silence about a relationship that has
+actually gone cold — the exact thing tracking cadence was for. Erring toward
+noise is correct here.
+
+Cadence is advisory and structurally cannot become an action:
+`cadence_alerts()` writes nothing, and `may_chase()` does not consult it. Both
+are asserted in `test_cadence.py` rather than left as intent.
 
 ---
 
@@ -116,8 +162,8 @@ Against `docs/BUILD_BRIEF_SPRINT_1.md` §3.
 
 | # | Criterion | State |
 |---|---|---|
-| 1 | Register holds real commitments from a live mailbox and calendar | **Mechanism built, not connected.** Adapters, ingest, dedupe and redaction are done and tested against fixtures. Pointing them at the real mailbox is a connection this repository does not have — see below. |
-| 2 | Coverage ≥80% against a manually compiled list | **Instrument built, number not yet measurable.** `register coverage` computes and renders it, and the matcher is tested for not being generous. The figure itself follows criterion 1. |
+| 1 | Register holds real commitments from a live mailbox and calendar | **Mechanism built; sync specified, not yet run.** Adapters, ingest, dedupe and redaction are done and tested against fixtures. The connection is no longer an open question — `docs/TENANT_ZERO_MAILBOX.md` is the tenant-zero sync, and it is an afternoon on the farm host, not a code change here. |
+| 2 | Coverage ≥80% against a manually compiled list | **Instrument built, number not yet measured.** `register coverage` computes and renders it, and the matcher is tested for not being generous. Expect the first real figure to be well under 80% — see below, because what you do about that is the part that matters. |
 | 3 | Both directions tracked | Done — `direction` on every commitment, `open_loops()` splits by it, tested. |
 | 4 | Create, supersede and void with the chain intact and queryable | Done — `supersession_chain()`, `live_commitment()`, cycle-refused, tested. |
 | 5 | Ledger accepts an AR, rejects one without a falsifiable prediction, rejects a sixth open AR | Done, tested. |
@@ -125,18 +171,30 @@ Against `docs/BUILD_BRIEF_SPRINT_1.md` §3.
 | 7 | `principal_only` provably invisible to an `all_users` reader | Done — the full four-by-four matrix is asserted, not sampled. |
 | 8 | Cross-context test passes | Done — `tests/test_cross_context.py`, adversarial across single reads, scoped queries, constructor defaults, widening and tenancy. |
 | 9 | Every record carries all invariant fields; a retrofitting migration fails review | Done — and "fails review" is mechanical: `tests/test_migration_guard.py` parses every migration and fails any that adds an invariant column to an existing table. |
-| 10 | `no-mistakes` passes with `--intent` on every run | Gate implemented at `tools/no-mistakes`, run log at `.no-mistakes/runs.jsonl`. See the provenance note below. |
+| 10 | `no-mistakes` passes with `--intent` on every run | Gate implemented at `tools/no-mistakes`, run log at `.no-mistakes/runs.jsonl`, and run in CI on every push and pull request. See "The gate, and where it runs" below — where it runs turned out to matter more than what it checks. |
 
 ### What is not done, and why
 
-**Criteria 1 and 2 need a mailbox this repository cannot reach.** Everything
+**Criteria 1 and 2 need a mailbox nobody has pointed at this yet.** Everything
 upstream of the connection is built and tested: adapters, idempotent ingest,
 redaction before persistence, extraction, the curator queue, the coverage
-instrument. What is missing is the sync that puts The Carbon Project's mail and
-calendar on local disk — and how M365 or Google Workspace reaches an on-prem
-farm is listed as unresolved in CLAUDE.md and ACTION_TIER §7.4. That is a
-decision, not a gap in this code. Once a Maildir exists, `register ingest`
-through `register coverage` produces the number without further code.
+instrument. The connection itself is now specified —
+`docs/TENANT_ZERO_MAILBOX.md` — as `mbsync` pulling IMAP into a local Maildir
+on the farm: outbound-only, no vendor integration, no OAuth app, on-prem data.
+That is deliberately not the connectivity design for client one, which needs
+OAuth and per-tenant credential storage; it is the smallest thing that produces
+a real coverage number. Once the Maildir exists, `register ingest` through
+`register coverage` produces the number without further code.
+
+**Expect that number to be well under 80%, and do not tune the rules to move
+it.** The extraction rules were written against fixtures. Real mail is worse,
+and a low figure is the first honest measurement this system has produced.
+Tuning rules against one mailbox until it goes green is overfitting to one
+person's writing habits — the rules stop generalising, client one is worse than
+the honest number here, and the metric has stopped measuring anything. It is
+sycophancy in a different costume: optimising the score instead of the thing
+the score stood in for. `docs/TENANT_ZERO_MAILBOX.md` §4 has what to do
+instead.
 
 **`no-mistakes` was referred to but not supplied.** CLAUDE.md names it as an
 existing tool; the handoff pack does not contain it. `tools/no-mistakes` is a
@@ -144,6 +202,33 @@ local implementation of the gate as described — intent required and validated,
 format, lint, types and tests, every run appended to a JSONL log with the
 commit it ran against. If the original exists elsewhere, set `NO_MISTAKES` to
 its path and this script delegates to it while keeping the intent bookkeeping.
+
+### The gate, and where it runs
+
+A verification gate that runs only where the author chooses to run it is a
+convention with a CLI attached. Whoever pushes decides whether it ran, and an
+agent pushing its own work is deciding about itself. The original point of
+CLAUDE.md §7 is that the gate is a *mechanism* — something the author cannot
+route around — and running it locally does not deliver that.
+
+`.github/workflows/no-mistakes.yml` runs the same checks on a clean checkout,
+on every push and every pull request, and reports against the commit whether or
+not anyone asked. It reads the intent id out of the commit subject via
+`--intent-from-commit`, which makes the other half of the convention
+machine-checked too: a commit whose subject carries no decision, spec item or
+AR id fails the gate.
+
+**Branch protection.** CI is necessary and not sufficient. Until
+`no-mistakes / gate` is a *required* status check on the default branch, a red
+run is a red badge rather than a closed door. That setting lives in repository
+settings, not in this repository, so it is the one part of §7 that a commit
+cannot deliver:
+
+> Settings → Branches → add a rule for the default branch → Require status
+> checks to pass before merging → select `gate`. Also tick "Do not allow
+> bypassing the above settings", or an administrator — including an
+> administrator acting on an agent's behalf — is exactly the route-around the
+> rule exists to close.
 
 **Sprint 2 hooks that exist but do nothing.** `thread.authority_tier` is stored
 and never read; `entities.may_chase()` returns the verdict a send path would
@@ -153,17 +238,17 @@ check that already exists and is already tested, rather than the reverse.
 enforced in the send path, so it is Sprint 2 by construction. Nothing here can
 send, which is the only enforcement available until there is a send to block.
 
-**`person.last_substantive_contact` has no writer.** The column exists and is
-queryable, but nothing populates it: deciding which inbound message counts as
-*substantive* is a classification question the brief does not settle, and
-guessing at it would put a wrong date in front of a cadence alert. Manual entry
-can set it today; the automatic path wants a rule written down first.
-
 **No as-of date on AR claims.** `CLAUDE.md` conventions ask that every
 world-fact claim carry one. There are no system prompts yet and no agent
-writing claims, and the AR payload is JSON rather than columns — so adding the
-field when the first agent lands is a payload change, not the expensive
-migration class. Flagged rather than pre-built.
+writing claims, so the field is deferred to the first agent that writes one.
+
+What is *not* deferred is the ability to add it safely.
+`ar_ledger.payload_schema_version` exists from migration 0001 and every append
+stamps `PAYLOAD_SCHEMA_VERSION` into the payload itself. "It's only a payload
+change" is true exactly until the payload is unversioned JSON written by four
+agents, at which point telling a v1 body from a v2 body means guessing at its
+shape — the same retrofit class as a missing invariant, arriving through a
+door nobody was watching. One integer now buys the migration later.
 
 ---
 
@@ -181,7 +266,8 @@ In the brief's order of consequence.
 
 Plus one the brief does not list, added after an audit against `CLAUDE.md` §3:
 
-| — · Log hygiene | `test_log_hygiene.py` | The human free-text fields — a rejection reason, a widening justification, a gap-reconciliation note, an AR status or scoring note. Each writes through raw SQL or the ledger rather than the store, so each needs the secret check named at its own call site. A refused write leaves the record untouched rather than half-applied. |
+| — · Log hygiene | `test_log_hygiene.py` | Both halves of the secret check. Human free-text — a rejection reason, a widening justification, a gap note, an AR status or scoring note — is redacted in place and the action still completes, including on a deliberate false positive. Machine-generated text — an extractor candidate, an AR claim, a prediction — is refused, and a refused write leaves the record untouched rather than half-applied. |
+| — · Cadence | `test_cadence.py` | That `last_substantive_contact` comes from records rather than a classifier, and that a cadence alert writes nothing and cannot make anything chaseable. |
 
 ---
 
@@ -190,8 +276,12 @@ Plus one the brief does not list, added after an audit against `CLAUDE.md` §3:
 Sprint 2 is the action tier and the send path, fully specced in
 `docs/ACTION_TIER_AND_REGISTER_SPEC.md` §1–2. Before that:
 
-1. **Settle the mailbox connection.** It blocks acceptance 1 and 2, and those
-   two are the day-7 client artifact.
+1. **Run the mailbox sync.** `docs/TENANT_ZERO_MAILBOX.md`, on the farm host.
+   It unblocks acceptance 1 and 2, which are the day-7 client artifact, and it
+   is the only remaining item that produces a number rather than more code.
+   Record whatever coverage comes back. Do not tune toward it.
+1b. **Turn on branch protection.** One repository setting, and without it the
+   gate is advisory. See "The gate, and where it runs".
 2. **Run the abstention eval on GLM-5.2** — the ten insufficient-data questions
    and five tax-referral questions from `AGENT_CHARTERS`. A day's work, and it
    de-risks everything above it. If the model will not abstain, nothing built

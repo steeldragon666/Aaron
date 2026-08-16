@@ -273,6 +273,13 @@ CREATE TABLE ar_ledger (
     entry_kind      TEXT NOT NULL CHECK (entry_kind IN ('open','status','outcome','void')),
     agent           TEXT NOT NULL,
     payload         TEXT NOT NULL,            -- canonical JSON, the AR body or the delta
+    -- The payload is unversioned JSON today because one caller writes it. It
+    -- will not stay that way: four agents writing an unversioned payload is the
+    -- same retrofit class as a missing invariant, and by then every entry
+    -- already written is ambiguous. The version travels inside the payload too,
+    -- so it is covered by the hash; this column exists so "which entries are on
+    -- v1" is a query rather than a scan.
+    payload_schema_version INTEGER NOT NULL DEFAULT 1,
     prev_hash       TEXT NOT NULL,
     entry_hash      TEXT NOT NULL UNIQUE,
     appended_at     TEXT NOT NULL,

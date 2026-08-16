@@ -31,7 +31,7 @@ from .extract import EXTRACTOR_ID, Candidate, extract_from_event
 from .ids import new_id
 from .ingest import unprocessed_events
 from .invariants import default_visibility
-from .redaction import assert_no_secrets
+from .redaction import redact
 from .store import insert, now
 
 # Above this, a proposal confirms itself and appears in the digest. Below it,
@@ -301,7 +301,7 @@ def reject(
     rejected to confirmed proposals per pattern is how the extractor's rules
     get tuned, and it is the only signal that a rule has started over-firing.
     """
-    assert_no_secrets(reason, "curator_proposal.resolved_by")
+    reason = redact(reason).text
     conn.execute(
         """
         UPDATE curator_proposal
@@ -369,7 +369,7 @@ def undo(
     """
     from .entities import void_commitment
 
-    assert_no_secrets(reason, "curator_proposal.resolved_by")
+    reason = redact(reason).text
     void_commitment(conn, commitment_id, f"{reason} (undone by {actor})")
     conn.execute(
         """

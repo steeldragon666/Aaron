@@ -85,6 +85,32 @@ def run(check: Check) -> tuple[bool, str]:
     return False, f"{check.name}: FAILED ({elapsed:.1f}s)\n" + "\n".join(tail)
 
 
+def commit_subject() -> str:
+    try:
+        return subprocess.run(
+            ["git", "log", "-1", "--pretty=%s"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return ""
+
+
+def intent_in(text: str) -> str | None:
+    """First token of ``text`` that is a valid intent id.
+
+    Commits reference an intent ID in the subject line, matching the --intent
+    passed to no-mistakes (CLAUDE.md, conventions). Reading it back out is what
+    turns that convention into something CI can check.
+    """
+    for token in re.split(r"[\s:,()\[\]]+", text):
+        if token and INTENT.match(token):
+            return token
+    return None
+
+
 def head_commit() -> str:
     try:
         return subprocess.run(
@@ -133,12 +159,32 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="no-mistakes", description=__doc__)
     parser.add_argument(
         "--intent",
-        required=True,
         help="the decision, spec item, section or AR id that motivated this work",
+    )
+    parser.add_argument(
+        "--intent-from-commit",
+        action="store_true",
+        help="read the intent id out of HEAD's commit subject instead of --intent",
     )
     parser.add_argument("--fast", action="store_true", help="skip the slower checks")
     parser.add_argument("--note", default="", help="one line for the run log")
     args = parser.parse_args(argv)
+
+    if args.intent_from_commit:
+        subject = commit_subject()
+        found = intent_in(subject)
+        if found is None:
+            print(
+                "no intent id in the commit subject:\n"
+                f"  {subject}\n"
+                "Commits reference the decision, spec item or AR that motivated them "
+                "(CLAUDE.md, conventions). Prefix the subject, e.g. 'S-4: ...'.",
+                file=sys.stderr,
+            )
+            return 2
+        args.intent = found
+    if not args.intent:
+        parser.error("one of --intent or --intent-from-commit is required")
 
     if not INTENT.match(args.intent):
         print(
