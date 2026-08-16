@@ -12,6 +12,7 @@ from collections.abc import Mapping
 from datetime import UTC, datetime
 from typing import Any
 
+from .db import table_columns
 from .errors import InvariantError
 from .invariants import (
     RECORD_TABLES,
@@ -77,6 +78,42 @@ def now() -> str:
     return datetime.now(UTC).isoformat(timespec="seconds")
 
 
+def _assert_real_columns(conn: sqlite3.Connection, table: str, row: Mapping[str, Any]) -> None:
+    """Every key must name a real column of ``table``.
+
+    A column name cannot be a bound parameter — SQL binds values, not
+    identifiers — so both statements below interpolate their keys, and the only
+    defence is checking them against a set the caller does not control.
+
+    There was no such check. `update` built its SET list straight from the keys
+    of the caller's mapping, so a crafted key closed the assignment list early
+    and supplied its own predicate::
+
+        update(conn, "commitment", "no_such_id",
+               {"last_action = ?, statement = ? WHERE 1=1 OR ? = ? --": "OWNED"},
+               tenant_id=mine)
+
+    That returned *normally* and overwrote `last_action` and `statement` on
+    every commitment in the database, in every tenant — through the module the
+    README calls the write boundary. It also skipped `_scrub`, since a key
+    nobody recognises is in neither text-column map.
+
+    Found by an independent reviewer, who named it as the same structural shape
+    as the `order_by` defect: a global table allowlist checked, and the
+    identifier for the selected table not checked against that table. The set
+    comes from `PRAGMA table_info` (`db.table_columns`), so it is the schema
+    rather than a constant somebody has to remember to update.
+    """
+    real = table_columns(conn, table)
+    unknown = sorted(set(row) - real)
+    if unknown:
+        raise InvariantError(
+            f"{table}: {unknown} are not columns of this table. "
+            "A column name is interpolated into SQL and cannot be bound, so "
+            "anything unrecognised is refused before the statement is built."
+        )
+
+
 def prepare(
     table: str, values: Mapping[str, Any], *, artifact: str = "register_record"
 ) -> dict[str, Any]:
@@ -107,6 +144,7 @@ def insert(
 ) -> str:
     """Insert one record and return its id."""
     row = prepare(table, values, artifact=artifact)
+    _assert_real_columns(conn, table, row)
     columns = ", ".join(row)
     placeholders = ", ".join("?" for _ in row)
     conn.execute(
@@ -160,6 +198,7 @@ def update(
         )
 
     row = dict(changes)
+    _assert_real_columns(conn, table, row)
     _scrub(row, table)
     row["updated_at"] = now()
 

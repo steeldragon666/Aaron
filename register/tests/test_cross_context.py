@@ -479,3 +479,22 @@ def test_widening_carries_the_tenant_in_its_predicate(world):
 
     source = inspect.getsource(access.widen_shareable_with)
     assert "WHERE id = ? AND tenant_id = ?" in source
+
+
+def test_many_individually_legal_in_filters_cannot_exceed_the_bind_ceiling(world):
+    """`MAX_IN_VALUES` bounds one filter and said nothing about a query.
+
+    `filters` is an unbounded sequence, so 66 legal 500-value `IN` filters bind
+    33,001 variables and fail at the driver — the opaque error the per-filter
+    cap existed to prevent, reached by a different route. Raised by an
+    independent reviewer as an incomplete fix, which it was.
+    """
+    from register.access import MAX_BOUND_PARAMS, MAX_IN_VALUES, Filter, Reader, query
+    from register.errors import InvariantError
+
+    reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+    each = [f"cm_{n}" for n in range(MAX_IN_VALUES)]
+    filters = [Filter("id", "in", each)] * (MAX_BOUND_PARAMS // MAX_IN_VALUES + 2)
+
+    with pytest.raises(InvariantError, match="more than the"):
+        query(world.conn, reader, "commitment", filters=filters)

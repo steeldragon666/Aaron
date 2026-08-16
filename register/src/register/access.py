@@ -27,6 +27,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
 
+from .db import table_columns
 from .errors import AccessDenied, CrossContextViolation, InvariantError
 from .invariants import parse_shareable_with
 from .redaction import redact
@@ -230,10 +231,13 @@ _FILTER_OPS: Mapping[str, str] = {
 # leave room for the tenant predicate and any sibling filters.
 MAX_IN_VALUES = 500
 
-
-def _table_columns(conn: sqlite3.Connection, table: str) -> frozenset[str]:
-    """Column names from the schema itself, so the allowlist cannot drift."""
-    return frozenset(str(row["name"]) for row in conn.execute(f"PRAGMA table_info({table})"))
+# The per-filter cap above bounds one filter and says nothing about a query.
+# `filters` is an unbounded sequence, so 66 individually-legal `IN` filters of
+# 500 values each bind 33,001 variables and fail at the driver — the opaque
+# error the per-filter cap was added to prevent, reached by a different route.
+# A build with a lower SQLITE_MAX_VARIABLE_NUMBER fails sooner. Counted across
+# the whole statement, tenant parameter included.
+MAX_BOUND_PARAMS = 5000
 
 
 def query(
@@ -263,7 +267,7 @@ def query(
     guard, because it stops anyone asking.
 
     So the fragment is gone. Every piece of the statement below now comes from
-    the schema (`_table_columns`) or from a fixed map (`_FILTER_OPS`); every
+    the schema (`db.table_columns`) or from a fixed map (`_FILTER_OPS`); every
     caller-supplied value is a bound parameter. There is nothing left to
     escape from.
     """
@@ -271,7 +275,7 @@ def query(
     if order_by not in _ORDER_COLUMNS:
         raise InvariantError(f"order_by must be one of {sorted(_ORDER_COLUMNS)}, not {order_by!r}")
 
-    columns = _table_columns(conn, table)
+    columns = table_columns(conn, table)
     # `_ORDER_COLUMNS` is the union across entities, so passing it is necessary
     # and not sufficient: `made_at` is a real commitment column and no column of
     # `person`. Checked against the *selected* table too, so an invalid request
@@ -311,6 +315,12 @@ def query(
         else:
             clauses.append(f"{spec.column} {sql_op} ?")
             params.append(spec.value)
+
+    if len(params) > MAX_BOUND_PARAMS:
+        raise InvariantError(
+            f"this query binds {len(params)} parameters, more than the "
+            f"{MAX_BOUND_PARAMS} it will submit — narrow the filters or batch it"
+        )
 
     rows = conn.execute(
         f"SELECT * FROM {table} WHERE {' AND '.join(clauses)} ORDER BY {order_by}",

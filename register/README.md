@@ -298,6 +298,53 @@ register that no confirmed record referred to. "Proposal before record" has to
 mean everything the proposal creates. Verified the regression test fails
 against the old ordering.
 
+#### Fourth round — the worst one, found by asking for siblings
+
+The third round's `order_by` defect had a shape: *a global allowlist checked,
+and the identifier for the selected entity never checked against that entity.*
+The fourth review was asked to look for siblings of that shape rather than to
+re-check the fix. It found one, in `store.py` — the module this README calls
+the write boundary.
+
+**`store.update` interpolated the keys of the caller's mapping.** A column name
+cannot be a bound parameter — SQL binds values, not identifiers — so the SET
+list was built from caller text with nothing checking it. This call returned
+*normally*:
+
+```python
+update(
+    conn,
+    "commitment",
+    "cm_does_not_exist",
+    {"last_action = ?, statement = ? WHERE 1=1 OR ? = ? --": "OWNED"},
+    tenant_id=mine,
+)
+```
+
+and overwrote `last_action` and `statement` on every commitment in the
+database, in every tenant. The placeholder count is the trick: a naive `--`
+injection comments out the remaining `?` and dies on the binding count, while
+this one leaves exactly four and executes cleanly. It also skipped `_scrub`,
+because a key nobody recognises is in neither text-column map.
+
+`insert` built its column list the same way and had the same hole.
+
+Both now call `_assert_real_columns`, which checks every key against
+`db.table_columns` — read from `PRAGMA table_info`, so it is the schema rather
+than a constant somebody has to remember to update. The proof of concept is
+kept verbatim in `test_invariants.py`.
+
+**`MAX_IN_VALUES` bounded a filter, not a query.** The third round's cap
+limited one `IN` list to 500 values; `filters` is an unbounded sequence, so 66
+legal filters bind 33,001 variables and fail at the driver — the opaque error
+the cap was added to prevent, reached by another route. `MAX_BOUND_PARAMS` now
+counts the whole statement.
+
+This round is the argument for the whole exercise in one finding. Three prior
+rounds, 249 passing tests and a README calling `store.py` the write boundary
+did not surface a cross-tenant mass write sitting in it. Asking a second reader
+for *the shape's siblings* rather than *is this fix correct* is what found it.
+
 #### Third round
 
 The `Filter` rewrite was itself put up for attack, since answering a walkable

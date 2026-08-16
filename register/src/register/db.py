@@ -102,3 +102,22 @@ def transaction(conn: sqlite3.Connection) -> Iterator[sqlite3.Connection]:
         # transaction" and the real error was buried under an unrelated one.
         conn.execute("ROLLBACK")
         raise
+
+
+def table_columns(conn: sqlite3.Connection, table: str) -> frozenset[str]:
+    """The column names of ``table``, read from the schema itself.
+
+    The single source of truth for "is this a real column", used by every place
+    that has to put an identifier into SQL — `store.insert`, `store.update` and
+    `access.query`. Derived from `PRAGMA table_info` rather than from a
+    hand-maintained constant so it cannot drift away from the migrations, and
+    never from caller input.
+
+    Identifiers cannot be bound as parameters, so anywhere one is interpolated
+    the only defence is checking it against a set the caller does not control.
+    An independent reviewer found `store.update` interpolating the keys of a
+    caller-supplied mapping with no such check, which made a crafted key a
+    cross-tenant mass update through the write boundary. Centralised here so
+    the next identifier-bearing statement has an obvious thing to call.
+    """
+    return frozenset(str(row["name"]) for row in conn.execute(f"PRAGMA table_info({table})"))

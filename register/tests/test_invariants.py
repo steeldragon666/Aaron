@@ -270,3 +270,87 @@ def test_the_module_documents_that_it_is_not_a_boundary():
     doc = (routing.__doc__ or "") + (routing.assert_may_produce.__doc__ or "")
     assert "labelling" in doc.lower()
     assert "routing layer" in doc.lower()
+
+
+# --- a column name is interpolated, so it must be checked --------------------
+#
+# The most serious defect found in the whole review sequence, and it was in the
+# module the README calls the write boundary. `store.update` built its SET list
+# from the keys of the caller's mapping. A column name cannot be a bound
+# parameter — SQL binds values, not identifiers — so those keys reached the
+# statement as text with nothing checking them.
+#
+# Found by an independent reviewer after being asked whether the `order_by`
+# defect had siblings. It named the shape correctly: a global table allowlist
+# checked, and the identifier for the selected table never checked against that
+# table.
+
+
+def test_a_crafted_change_key_cannot_rewrite_the_predicate(world):
+    """The proof of concept, kept as a test so it cannot come back.
+
+    This exact call used to return *normally* and overwrite `last_action` and
+    `statement` on every commitment in the database, in every tenant. The
+    placeholder count is deliberate: a naive `--` injection breaks the binding
+    count and fails loudly, while this one keeps four placeholders and so
+    executes cleanly.
+    """
+    from register.entities import create_commitment, create_tenant
+    from register.store import update
+
+    theirs = create_tenant(world.conn, "Theirs", tenant_id="tn_theirs_inj")
+    victim = create_commitment(
+        world.conn,
+        tenant_id=theirs,
+        direction="to_principal",
+        statement="Their confidential commitment.",
+        made_at="2026-08-10T09:00:00+00:00",
+        source_type="email",
+        provenance="verbatim",
+        produced_by="human:manual",
+    )
+
+    crafted = "last_action = ?, statement = ? WHERE 1=1 OR ? = ? --"
+    with pytest.raises(InvariantError, match="not columns of this table"):
+        update(
+            world.conn,
+            "commitment",
+            "cm_does_not_exist",
+            {crafted: "OWNED"},
+            tenant_id=world.tenant,
+        )
+
+    row = world.conn.execute(
+        "SELECT statement, last_action FROM commitment WHERE id = ?", (victim,)
+    ).fetchone()
+    assert row["statement"] == "Their confidential commitment."
+    assert row["last_action"] is None
+
+
+def test_an_unknown_change_key_is_refused_even_when_harmless(world):
+    """No cleverness required — anything not a real column is refused."""
+    from register.store import insert, update
+
+    insert(world.conn, "commitment", _valid(world))
+    with pytest.raises(InvariantError, match="not columns of this table"):
+        update(world.conn, "commitment", "cm_test", {"nonexistent": 1}, tenant_id=world.tenant)
+
+
+def test_insert_refuses_a_crafted_column_too(world):
+    """`insert` builds its column list the same way and needed the same check."""
+    from register.store import insert
+
+    values = _valid(world)
+    values["id"] = "cm_inject"
+    values["statement) VALUES ('x'); --"] = "OWNED"
+    with pytest.raises(InvariantError, match="not columns of this table"):
+        insert(world.conn, "commitment", values)
+
+
+def test_an_ordinary_update_still_works(world):
+    from register.store import insert, update
+
+    insert(world.conn, "commitment", _valid(world))
+    update(world.conn, "commitment", "cm_test", {"status": "met"}, tenant_id=world.tenant)
+    row = world.conn.execute("SELECT status FROM commitment WHERE id = 'cm_test'").fetchone()
+    assert row["status"] == "met"
