@@ -298,6 +298,33 @@ register that no confirmed record referred to. "Proposal before record" has to
 mean everything the proposal creates. Verified the regression test fails
 against the old ordering.
 
+#### Third round
+
+The `Filter` rewrite was itself put up for attack, since answering a walkable
+guard by replacing it with a larger surface trades a known hole for an unknown
+one. The structured path held — no caller-controlled text is interpolated, the
+`_safe_entity` chain covers the `PRAGMA` table name, `LIKE` is a wildcard
+rather than an injection, and the `reconcile_gap` and `confirm` fixes are
+complete. One real finding and one suggestion:
+
+**`order_by` was checked against the union, not the entity.** `_ORDER_COLUMNS`
+is every entity's natural ordering, so `made_at` is on it — it is a real
+`commitment` column and no column of `person`. `query(conn, reader, "person",
+order_by="made_at")` passed the allowlist and came back as a bare
+`sqlite3.OperationalError` from a statement the caller never wrote. Not a
+security hole, since the allowlist is a fixed frozenset and nothing was
+injectable, but an API whose contract for an invalid request is decided by
+whatever SQLite happens to do. Now checked against the selected table too.
+
+**`widen_shareable_with` updates by id, and now asks for the tenant anyway.**
+It was already safe: `read_one` above it establishes ownership. Taken as
+defence in depth because every other write path carries `tenant_id`, and a
+write that is safe only because of what a caller did twenty lines earlier is
+the one a later refactor breaks silently.
+
+Also added while there: an `IN` list longer than `MAX_IN_VALUES` is refused
+with a number rather than failing at SQLite's bind ceiling.
+
 **`produced_by` cannot enforce the model boundary — accepted, not fixed.** The
 first round fixed the ordering so `human:deepseek-v4-pro` no longer passes. The
 reviewer's second point goes deeper and is correct: `produced_by` is a

@@ -226,6 +226,11 @@ _FILTER_OPS: Mapping[str, str] = {
 }
 
 
+# SQLite's default SQLITE_MAX_VARIABLE_NUMBER is 32766; stay well under it and
+# leave room for the tenant predicate and any sibling filters.
+MAX_IN_VALUES = 500
+
+
 def _table_columns(conn: sqlite3.Connection, table: str) -> frozenset[str]:
     """Column names from the schema itself, so the allowlist cannot drift."""
     return frozenset(str(row["name"]) for row in conn.execute(f"PRAGMA table_info({table})"))
@@ -267,6 +272,13 @@ def query(
         raise InvariantError(f"order_by must be one of {sorted(_ORDER_COLUMNS)}, not {order_by!r}")
 
     columns = _table_columns(conn, table)
+    # `_ORDER_COLUMNS` is the union across entities, so passing it is necessary
+    # and not sufficient: `made_at` is a real commitment column and no column of
+    # `person`. Checked against the *selected* table too, so an invalid request
+    # is refused here rather than surfacing as a bare sqlite3.OperationalError
+    # from a statement the caller never wrote.
+    if order_by not in columns:
+        raise InvariantError(f"{entity} has no column {order_by!r} to order by")
     clauses = ["tenant_id = ?"]
     params: list[Any] = [reader.tenant_id]
 
@@ -284,6 +296,16 @@ def query(
             values = list(spec.value or ())
             if not values:  # `IN ()` is a syntax error, and means nothing matches
                 return []
+            if len(values) > MAX_IN_VALUES:
+                # Past SQLite's bind-variable ceiling this fails as an opaque
+                # OperationalError deep in the driver. Refuse it here with a
+                # number the caller can act on. Every caller is inside this
+                # package today, so this is a bound on a mistake rather than on
+                # an attacker.
+                raise InvariantError(
+                    f"filter on {spec.column!r} has {len(values)} values, "
+                    f"more than the {MAX_IN_VALUES} this API will bind — batch it"
+                )
             clauses.append(f"{spec.column} IN ({','.join('?' * len(values))})")
             params.extend(values)
         else:
@@ -387,9 +409,21 @@ def widen_shareable_with(
         return Widening(entity, record_id, [], reason)
 
     updated = normalise_shareable_with(existing + added)
+    # `read_one` above already established that this record belongs to the
+    # reader's tenant, so the predicate here is redundant — and it goes in
+    # anyway. Every other write path in the package carries `tenant_id`, and a
+    # single exception that is safe only because of what a caller did twenty
+    # lines earlier is the one a later refactor breaks silently. Raised as
+    # defence in depth by an independent reviewer; agreed.
     conn.execute(
-        f"UPDATE {_safe_entity(entity)} SET shareable_with = ?, updated_at = ? WHERE id = ?",
-        (updated, datetime.now(UTC).isoformat(timespec="seconds"), record_id),
+        f"UPDATE {_safe_entity(entity)} SET shareable_with = ?, updated_at = ? "
+        "WHERE id = ? AND tenant_id = ?",
+        (
+            updated,
+            datetime.now(UTC).isoformat(timespec="seconds"),
+            record_id,
+            reader.tenant_id,
+        ),
     )
     conn.execute(
         """

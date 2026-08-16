@@ -408,3 +408,74 @@ def test_reconcile_gap_still_works_inside_its_own_tenant(world):
     reconcile_gap(world.conn, meeting_id, "voice dump, 90s", tenant_id=world.tenant)
     row = world.conn.execute("SELECT gap_flag FROM meeting WHERE id = ?", (meeting_id,)).fetchone()
     assert row["gap_flag"] == 0
+
+
+# --- order_by is checked against the entity, not just the union --------------
+
+
+def test_order_by_must_be_a_column_of_this_entity(world):
+    """Passing the global allowlist is necessary and not sufficient.
+
+    `_ORDER_COLUMNS` is the union of natural orderings across every entity, so
+    `made_at` is on it — it is a real `commitment` column. It is not a `person`
+    column, and ordering a person query by it used to reach SQLite and come
+    back as a bare `OperationalError` from a statement the caller never wrote.
+
+    Raised by an independent reviewer. Not a security hole — the allowlist is a
+    fixed frozenset, so nothing was injectable — but an API that answers an
+    invalid request with a driver error is one whose contract is decided by
+    whatever SQLite happens to do.
+    """
+    import sqlite3
+
+    from register.access import Reader, query
+    from register.errors import InvariantError
+
+    reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+
+    with pytest.raises(InvariantError, match="no column 'made_at' to order by"):
+        query(world.conn, reader, "person", order_by="made_at")
+
+    # And the failure is ours, not the driver's.
+    try:
+        query(world.conn, reader, "person", order_by="made_at")
+    except sqlite3.OperationalError:  # pragma: no cover - the regression
+        pytest.fail("an invalid order_by reached SQLite")
+    except InvariantError:
+        pass
+
+
+def test_an_entity_specific_order_column_still_works(world):
+    from register.access import Reader, query
+
+    reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+    query(world.conn, reader, "commitment", order_by="made_at")  # commitment has it
+    query(world.conn, reader, "person", order_by="created_at")  # everything has it
+
+
+def test_an_oversized_in_list_is_refused_with_a_number(world):
+    """Past SQLite's bind ceiling this failed as an opaque driver error."""
+    from register.access import MAX_IN_VALUES, Filter, Reader, query
+    from register.errors import InvariantError
+
+    reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+    too_many = [f"cm_{n}" for n in range(MAX_IN_VALUES + 1)]
+    with pytest.raises(InvariantError, match=f"more than the {MAX_IN_VALUES}"):
+        query(world.conn, reader, "commitment", filters=[Filter("id", "in", too_many)])
+
+    at_the_limit = [f"cm_{n}" for n in range(MAX_IN_VALUES)]
+    assert query(world.conn, reader, "commitment", filters=[Filter("id", "in", at_the_limit)]) == []
+
+
+def test_widening_carries_the_tenant_in_its_predicate(world):
+    """Defence in depth: `read_one` already proved ownership, and this asks again.
+
+    A write that is safe only because of what a caller did twenty lines earlier
+    is the one a later refactor breaks silently.
+    """
+    import inspect
+
+    from register import access
+
+    source = inspect.getsource(access.widen_shareable_with)
+    assert "WHERE id = ? AND tenant_id = ?" in source
