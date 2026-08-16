@@ -132,6 +132,37 @@ def test_visibility_cannot_be_changed_by_a_generic_field_update(world):
     from register.store import update
 
     commitment_id = _commitment(world, "principal_only")
-    for forbidden in ("tenant_id", "shareable_with", "provenance", "produced_by"):
+    # `visibility` was missing from this list, and from the forbidden set in
+    # `store.update` that it was meant to be checking. The test named the
+    # invariant in its title and then did not test it, so the hole and the
+    # test that should have caught it shipped together.
+    for forbidden in ("tenant_id", "visibility", "shareable_with", "provenance", "produced_by"):
         with pytest.raises(InvariantError):
-            update(world.conn, "commitment", commitment_id, {forbidden: "anything"})
+            update(
+                world.conn,
+                "commitment",
+                commitment_id,
+                {forbidden: "anything"},
+                tenant_id=world.tenant,
+            )
+
+
+def test_a_generic_update_cannot_reach_another_tenants_record(world):
+    """`update` used to key on id alone, so an id was enough to write anywhere."""
+    from register.errors import InvariantError
+    from register.store import update
+
+    commitment_id = _commitment(world, "principal_only")
+    with pytest.raises(InvariantError, match="not found in tenant"):
+        update(
+            world.conn,
+            "commitment",
+            commitment_id,
+            {"last_action": "reached across"},
+            tenant_id="tn_someone_else",
+        )
+
+    row = world.conn.execute(
+        "SELECT last_action FROM commitment WHERE id = ?", (commitment_id,)
+    ).fetchone()
+    assert row["last_action"] != "reached across"

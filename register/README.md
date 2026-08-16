@@ -233,6 +233,38 @@ decision someone records. `UNGUARDED_READS` is also the work list for Sprint 2:
 everything in it that the send path wants has to be re-expressed through a
 Reader first.
 
+### What the second reader found
+
+A full CodeRabbit review was run on the PR rather than accepting the draft
+skip. Two constraints here are enforced by code written and tested by the same
+agent, and single-party verification is the failure mode this product is sold
+against. It found things the tests did not.
+
+Fixed, with a regression test for each:
+
+| | What was wrong |
+|---|---|
+| `routing.py` | The `human:` / `rules:` escape ran *before* the code-only check and returned early, so `human:deepseek-v4-pro` wrote Action Requests. `produced_by` is caller-supplied free text, so a prefix is a label anyone can type — it cannot be the thing that decides. Capability check first now. |
+| `store.update` | `visibility` was absent from the forbidden set the docstring promised, so a routine field update could widen a `principal_only` record to `all_users` with no role check, no reason and no audit line. The test that should have caught it named the invariant in its title and then did not check it. |
+| `store.update`, `supersede_commitment`, `void_commitment` | Keyed on record id alone. An id was enough to mutate another tenant's record. `tenant_id` is now a required keyword and part of the predicate. |
+| `supersede_commitment` | Selected `status` and never read it, so superseding an already-superseded commitment silently overwrote the link and made a branch of the chain unreachable. |
+| `curator.confirm` | Two independent writes on an autocommit connection. A failure between them left the commitment written and the proposal still queued, so the next `auto_confirm` wrote a *second* commitment for the same sentence. One transaction, plus a `state = 'queued'` predicate. |
+| `ledger.score`, `append_ar` | Projection written before the ledger entry. See "the ledger and its projection" in `test_ledger.py`. |
+| `extract.py` | Emitted naive local timestamps into `made_at` while `store.now()` emits UTC-aware. `derived_last_substantive_contact` takes a `MAX` over exactly those columns as text — so it could return a date *newer* than reality, silently suppressing the cadence alert the derivation exists to raise. |
+| `parse_shareable_with` | Unguarded `json.loads` raised `JSONDecodeError` out of the middle of an access decision. An unreadable sharing list now denies, like the sibling branch for an unknown `visibility`. |
+| `access.query` | `where` and `order_by` are interpolated. `"1=1) OR (1=1"` closed the tenant scope's brackets early. Nothing foreign was returned — `filter_readable` still denied on the tenant check — but every foreign record id landed in this tenant's `access_log`. `order_by` is an allowlist; `where` must balance. |
+| `db.transaction` | A failed `COMMIT` left the transaction open, so the next `BEGIN` raised an unrelated error over the real one. |
+
+Raised and **not** taken, with reasons: routing every read through a `Reader`
+(see "The unguarded reads" above — the send path it would protect is Sprint 2,
+and the classification guard is the proportionate half); a required as-of date
+on AR claims (deferred deliberately, with `payload_schema_version` in place so
+adding it later is a payload change rather than a retrofit); and the
+documentation reconciliations it found across the handoff pack — persona names,
+pricing status, hardware baselines. Those last are real inconsistencies in the
+source documents and are listed in the PR thread, but resolving them is a
+product decision rather than a code change.
+
 ### The gate, and where it runs
 
 A verification gate that runs only where the author chooses to run it is a

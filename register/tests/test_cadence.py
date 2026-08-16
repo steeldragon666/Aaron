@@ -130,7 +130,7 @@ def test_a_voided_commitment_does_not_count(world):
         produced_by="human:manual",
         counterparty_id=person,
     )
-    void_commitment(world.conn, commitment_id, "never said")
+    void_commitment(world.conn, commitment_id, "never said", tenant_id=world.tenant)
     assert derived_last_substantive_contact(world.conn, world.tenant, person) is None
 
 

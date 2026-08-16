@@ -251,39 +251,56 @@ def confirm(
         for addr in candidate.get("shareable_with_emails", [])
     ]
 
-    commitment_id = create_commitment(
-        conn,
-        tenant_id=tenant_id,
-        direction=candidate["direction"],
-        statement=candidate["statement"],
-        made_at=candidate["made_at"],
-        source_type=candidate["source_type"],
-        provenance=candidate["provenance"],
-        produced_by=EXTRACTOR_ID,
-        counterparty_id=counterparty_id,
-        confidence=float(row["confidence"]),
-        due=candidate.get("due"),
-        made_in=str(row["source_ref"]),
-        made_in_kind="thread" if candidate["source_type"] == "email" else "manual",
-        evidence_ref=str(row["source_ref"]),
-        shareable_with=shareable,
-    )
+    from .db import transaction
 
-    conn.execute(
-        """
-        UPDATE curator_proposal
-        SET state = ?, resolved_by = ?, resolved_at = ?, written_record_id = ?, updated_at = ?
-        WHERE id = ?
-        """,
-        (
-            "auto_confirmed" if auto else "confirmed",
-            actor,
-            now(),
-            commitment_id,
-            now(),
-            proposal_id,
-        ),
-    )
+    # One transaction, and the UPDATE requires the proposal to still be queued.
+    #
+    # Two independent writes on an autocommit connection meant a failure
+    # between them left the commitment written and the proposal still queued —
+    # so the next `auto_confirm` run confirmed the same sentence again and the
+    # register held two commitments for one statement. Duplicate commitments
+    # are worse than a failed confirmation: the coverage number counts them,
+    # and a chase would go out twice.
+    #
+    # The `state = 'queued'` predicate closes the same race between two
+    # concurrent confirmations of one proposal.
+    with transaction(conn):
+        commitment_id = create_commitment(
+            conn,
+            tenant_id=tenant_id,
+            direction=candidate["direction"],
+            statement=candidate["statement"],
+            made_at=candidate["made_at"],
+            source_type=candidate["source_type"],
+            provenance=candidate["provenance"],
+            produced_by=EXTRACTOR_ID,
+            counterparty_id=counterparty_id,
+            confidence=float(row["confidence"]),
+            due=candidate.get("due"),
+            made_in=str(row["source_ref"]),
+            made_in_kind="thread" if candidate["source_type"] == "email" else "manual",
+            evidence_ref=str(row["source_ref"]),
+            shareable_with=shareable,
+        )
+
+        cursor = conn.execute(
+            """
+            UPDATE curator_proposal
+            SET state = ?, resolved_by = ?, resolved_at = ?, written_record_id = ?, updated_at = ?
+            WHERE id = ? AND tenant_id = ? AND state = 'queued'
+            """,
+            (
+                "auto_confirmed" if auto else "confirmed",
+                actor,
+                now(),
+                commitment_id,
+                now(),
+                proposal_id,
+                tenant_id,
+            ),
+        )
+        if cursor.rowcount == 0:
+            raise RegisterError(f"proposal {proposal_id} was no longer queued — nothing written")
     return commitment_id
 
 
@@ -367,15 +384,21 @@ def undo(
     history, including its mistakes, because "why did it think that" is a
     question worth being able to answer.
     """
+    from .db import transaction
     from .entities import void_commitment
 
     reason = redact(reason).text
-    void_commitment(conn, commitment_id, f"{reason} (undone by {actor})")
-    conn.execute(
-        """
-        UPDATE curator_proposal
-        SET state = 'rejected', resolved_by = ?, resolved_at = ?, updated_at = ?
-        WHERE tenant_id = ? AND written_record_id = ?
-        """,
-        (f"{actor}: undo — {reason}", now(), now(), tenant_id, commitment_id),
-    )
+    # One transaction: a voided commitment whose proposal is still marked
+    # confirmed, or the reverse, is a state the register's own invariants say
+    # cannot happen. `void_commitment` now scopes by tenant, so a caller
+    # holding an id from another tenant gets a miss rather than a write.
+    with transaction(conn):
+        void_commitment(conn, commitment_id, f"{reason} (undone by {actor})", tenant_id=tenant_id)
+        conn.execute(
+            """
+            UPDATE curator_proposal
+            SET state = 'rejected', resolved_by = ?, resolved_at = ?, updated_at = ?
+            WHERE tenant_id = ? AND written_record_id = ?
+            """,
+            (f"{actor}: undo — {reason}", now(), now(), tenant_id, commitment_id),
+        )

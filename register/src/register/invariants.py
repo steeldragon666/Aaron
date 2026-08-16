@@ -114,9 +114,27 @@ def normalise_shareable_with(value: Any) -> str:
 
 
 def parse_shareable_with(value: str | None) -> list[str]:
+    """Read a stored ``shareable_with`` column.
+
+    Raises rather than returning a partial answer. `access.evaluate` calls this
+    with a value read straight off a row, so an unguarded `json.loads` meant a
+    corrupt column raised `JSONDecodeError` out of `evaluate` and out of
+    `filter_readable` — an unhandled decode error in the middle of an access
+    decision, where the sibling branch for an unrecognised `visibility`
+    deliberately denies instead.
+
+    Denying is what an unreadable sharing list has to mean: the column is the
+    record of who a fact may be shown to, and a value nobody can parse is not
+    evidence that anybody may see it.
+    """
     if not value:
         return []
-    parsed = json.loads(value)
+    try:
+        parsed = json.loads(value)
+    except json.JSONDecodeError as exc:
+        raise InvariantError(f"shareable_with is not valid JSON: {exc}") from exc
+    if not isinstance(parsed, list):
+        raise InvariantError("shareable_with must be a JSON array of counterparty ids")
     return [str(item) for item in parsed]
 
 

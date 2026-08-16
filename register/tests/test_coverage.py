@@ -120,7 +120,7 @@ def test_voided_entries_do_not_inflate_coverage(world):
     from register.entities import void_commitment
 
     commitment_id = _seed(world, "Ruth will send the revised figures.")
-    void_commitment(world.conn, commitment_id, "never said")
+    void_commitment(world.conn, commitment_id, "never said", tenant_id=world.tenant)
     known = [KnownCommitment("Ruth sends revised figures", "to_principal")]
     assert measure(world.conn, world.tenant, known).matched == 0
 

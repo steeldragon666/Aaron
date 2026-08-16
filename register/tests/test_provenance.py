@@ -62,7 +62,13 @@ def test_confirming_an_inferred_commitment_is_an_explicit_rewrite(world):
 
     inferred = _commitment(world, "inferred")
     with pytest.raises(InvariantError):
-        update(world.conn, "commitment", inferred["id"], {"provenance": "verbatim"})
+        update(
+            world.conn,
+            "commitment",
+            inferred["id"],
+            {"provenance": "verbatim"},
+            tenant_id=world.tenant,
+        )
 
     confirmed_id = create_commitment(
         world.conn,
@@ -75,7 +81,9 @@ def test_confirming_an_inferred_commitment_is_an_explicit_rewrite(world):
         produced_by="human:manual",
         counterparty_id=world.henderson,
     )
-    supersede_commitment(world.conn, old_id=inferred["id"], new_id_=confirmed_id)
+    supersede_commitment(
+        world.conn, tenant_id=world.tenant, old_id=inferred["id"], new_id_=confirmed_id
+    )
 
     live = live_commitment(world.conn, inferred["id"])
     assert live["id"] == confirmed_id

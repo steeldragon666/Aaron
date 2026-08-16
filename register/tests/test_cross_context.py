@@ -249,3 +249,43 @@ def test_every_denied_read_leaves_a_deny_line(world):
     assert row["decision"] == "deny"
     assert row["reason"].startswith("cross_context_denied")
     assert row["counterparty_scope"] == world.veldt
+
+
+# --- the tenant scope in `query` cannot be closed early ----------------------
+
+
+def test_a_where_fragment_cannot_escape_the_tenant_predicate(world):
+    """`where` is interpolated, and the tenant scope lives inside brackets.
+
+    `"1=1) OR (1=1"` closes them early, turning the predicate into
+    `tenant_id = ? AND (1=1) OR (1=1)` — every tenant's rows. `filter_readable`
+    still denies them on the tenant check, so nothing foreign is returned, but
+    every foreign record id lands in this tenant's access_log as a deny line.
+    An audit log that can be filled with another tenant's identifiers is its
+    own disclosure, so the fragment is refused before it reaches SQL.
+    """
+    from register.access import Reader, query
+    from register.errors import InvariantError
+
+    reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+    for escape in ("1=1) OR (1=1", "1=1)) OR ((1=1", "1=1) --"):
+        with pytest.raises(InvariantError, match=r"parenthesis|unbalanced"):
+            query(world.conn, reader, "commitment", where=escape)
+
+
+def test_an_ordinary_where_fragment_still_works(world):
+    from register.access import Reader, query
+
+    reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+    assert query(world.conn, reader, "commitment", where="status = ?", params=("open",)) == []
+    query(world.conn, reader, "commitment", where="(status = 'open' OR status = 'void')")
+
+
+def test_order_by_is_an_allowlist_not_a_fragment(world):
+    from register.access import Reader, query
+    from register.errors import InvariantError
+
+    reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+    with pytest.raises(InvariantError, match="order_by"):
+        query(world.conn, reader, "commitment", order_by="created_at; DROP TABLE commitment")
+    query(world.conn, reader, "commitment", order_by="made_at")

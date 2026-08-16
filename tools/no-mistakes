@@ -76,6 +76,11 @@ def run(check: Check) -> tuple[bool, str]:
         result = subprocess.run(
             check.command, cwd=check.cwd, capture_output=True, text=True, timeout=900
         )
+    except subprocess.TimeoutExpired:
+        # A raise here would skip `record`, so a hung check would leave no line
+        # in the run log — the gate's own audit trail silently missing the one
+        # run someone would want to look at.
+        return False, f"{check.name}: TIMED OUT after 900s"
     except FileNotFoundError as exc:
         return False, f"{check.name}: not runnable — {exc}"
     elapsed = time.monotonic() - started

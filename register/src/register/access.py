@@ -27,7 +27,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
 
-from .errors import AccessDenied, CrossContextViolation
+from .errors import AccessDenied, CrossContextViolation, InvariantError
 from .invariants import parse_shareable_with
 from .redaction import redact
 
@@ -212,13 +212,73 @@ def query(
 
     ``tenant_id`` is applied here rather than left to the caller. A caller that
     forgets it should get an empty result, not another tenant's rows.
+
+    ``where`` and ``order_by`` are SQL fragments, and both are constrained.
+    ``order_by`` must name a column on the allowlist. ``where`` must balance
+    its parentheses, because the tenant scope above is only a guarantee while
+    the caller's fragment stays inside the brackets it was given: a fragment
+    such as ``"1=1) OR (1=1"`` closes them early and turns the predicate into
+    ``tenant_id = ? AND (1=1) OR (1=1)``, which selects every tenant's rows.
+
+    `filter_readable` still denies those rows on the tenant check in
+    `evaluate`, so nothing foreign is returned — but every foreign record id
+    lands in this tenant's `access_log` as a deny line, and the read scans the
+    whole table. An audit log that can be filled with another tenant's
+    identifiers is its own disclosure.
     """
     table = _safe_entity(entity)
+    if order_by not in _ORDER_COLUMNS:
+        raise InvariantError(f"order_by must be one of {sorted(_ORDER_COLUMNS)}, not {order_by!r}")
+    _assert_balanced(where)
     rows = conn.execute(
         f"SELECT * FROM {table} WHERE tenant_id = ? AND ({where}) ORDER BY {order_by}",
         (reader.tenant_id, *params),
     ).fetchall()
     return filter_readable(conn, reader, entity, rows)
+
+
+# Columns a caller may sort by. Every record table carries the first two; the
+# rest are the natural orderings of specific entities. Interpolated into SQL,
+# so this is an allowlist rather than an escaping problem.
+_ORDER_COLUMNS = frozenset(
+    {
+        "created_at",
+        "updated_at",
+        "made_at",
+        "due",
+        "starts_at",
+        "at",
+        "confidence",
+        "id",
+    }
+)
+
+
+def _assert_balanced(where: str) -> None:
+    """Refuse a fragment that could close the tenant scope's parentheses.
+
+    Not a SQL parser, and not claimed as one — `where` remains a fragment a
+    caller composes, so the real protection is that callers are inside this
+    package. This closes the specific escape that makes the tenant predicate
+    stop meaning what its docstring says.
+    """
+    depth = 0
+    quoted = False
+    for char in where:
+        if char == "'":
+            quoted = not quoted
+        elif not quoted:
+            if char == "(":
+                depth += 1
+            elif char == ")":
+                depth -= 1
+                if depth < 0:
+                    raise InvariantError(
+                        "where fragment closes a parenthesis it did not open — "
+                        "it would escape the tenant scope"
+                    )
+    if depth != 0 or quoted:
+        raise InvariantError("where fragment has unbalanced parentheses or quotes")
 
 
 _ALLOWED_ENTITIES = frozenset(

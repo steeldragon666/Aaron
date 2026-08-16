@@ -94,4 +94,11 @@ def transaction(conn: sqlite3.Connection) -> Iterator[sqlite3.Connection]:
     except Exception:
         conn.execute("ROLLBACK")
         raise
-    conn.execute("COMMIT")
+    try:
+        conn.execute("COMMIT")
+    except Exception:
+        # A failed COMMIT used to leave the transaction open, so the next
+        # caller's BEGIN raised "cannot start a transaction within a
+        # transaction" and the real error was buried under an unrelated one.
+        conn.execute("ROLLBACK")
+        raise

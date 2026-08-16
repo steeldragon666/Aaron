@@ -64,11 +64,15 @@ def assert_may_produce(produced_by: str, artifact: str) -> None:
     if artifact in VERIFIABLE_ARTIFACTS:
         return
 
-    # Humans and deterministic rule extractors are always permitted to assert;
-    # the boundary is about model capability, not about provenance class.
-    if _HUMAN.match(produced_by) or _RULES.match(produced_by):
-        return
-
+    # Order matters here, and it used to be the other way round.
+    #
+    # `produced_by` is caller-supplied free text at every call site. When the
+    # `human:` / `rules:` escape ran first, `human:deepseek-v4-pro` and
+    # `rules:deepseek-extractor@1` both returned early and a code-only model
+    # could write an Action Request, a prediction or a claim about the world.
+    # A prefix is a label anyone can type, so it cannot be the thing that
+    # decides. Establish that the identifier does not name a code-only model
+    # first; only then does the provenance class get to speak.
     if is_code_only(produced_by):
         raise ModelBoundaryError(
             f"{produced_by} may not produce {artifact!r}. It generates code, tests, "
@@ -76,3 +80,9 @@ def assert_may_produce(produced_by: str, artifact: str) -> None:
             "an Action Request, an evidence block, a claim about the world, a "
             "prediction, or client-facing prose (CLAUDE.md §6)."
         )
+
+    # Humans and deterministic rule extractors may assert. The boundary is
+    # about model capability, not provenance class, so this is an allow rather
+    # than the gate — and it is now unreachable for a code-only identifier.
+    if _HUMAN.match(produced_by) or _RULES.match(produced_by):
+        return

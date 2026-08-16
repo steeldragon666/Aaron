@@ -111,11 +111,37 @@ def test_commit_subject_defaults_to_head():
     assert gate.commit_subject() == expected
 
 
+def _commit_with_an_intent() -> str | None:
+    """A commit in the fetched history whose subject carries an intent id.
+
+    Found rather than hardcoded, and HEAD is never assumed to be one. On a
+    `pull_request` run HEAD is the merge commit Actions built, whose subject is
+    "Merge <head> into <base>" and carries nothing — an earlier version of this
+    file assumed otherwise and turned CI red on a tree that was fine.
+    """
+    log = subprocess.run(
+        ["git", "log", "--format=%H%x00%s", "-20"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    if log.returncode != 0:
+        return None
+    for line in log.stdout.splitlines():
+        sha, _, subject = line.partition("\0")
+        if gate.intent_in(subject):
+            return sha
+    return None
+
+
 def test_commit_subject_reads_the_ref_it_is_given():
     """The bug that shipped: the ref reached the flag but never the call."""
-    head = gate.commit_subject("HEAD")
-    parent = gate.commit_subject("HEAD~1")
-    assert parent and parent != head, "HEAD~1 must not resolve to HEAD"
+    revs = subprocess.run(
+        ["git", "rev-list", "-2", "HEAD"], cwd=ROOT, capture_output=True, text=True
+    ).stdout.split()
+    if len(revs) < 2:
+        pytest.skip("shallow history: no second commit to distinguish from HEAD")
+    assert gate.commit_subject(revs[1]) != gate.commit_subject(revs[0])
 
 
 def test_an_unknown_ref_is_empty_rather_than_an_exception():
@@ -148,27 +174,44 @@ def test_intent_from_commit_uses_the_ref_argument_not_head():
     `commit_subject` accepted a ref — and still read HEAD, because nothing
     connected them. Only a test that spans both catches it.
     """
-    head = _run("--intent-from-commit")
-    parent = _run("--intent-from-commit", "HEAD~1")
+    sha = _commit_with_an_intent()
+    if sha is None:
+        pytest.skip("no commit in the fetched history carries an intent id")
 
-    assert head.returncode == 0, head.stderr
-    assert parent.returncode == 0, parent.stderr
-    assert head.stdout.strip() != parent.stdout.strip(), (
-        f"both runs resolved to {head.stdout.strip()!r} — the ref argument is ignored"
-    )
+    named = _run("--intent-from-commit", sha)
+    assert named.returncode == 0, named.stderr
+    assert named.stdout.strip() == gate.intent_in(gate.commit_subject(sha))
+
+    # And the ref genuinely selects: a commit with no intent must fail even
+    # when HEAD has one, and vice versa. Whichever way round this checkout is,
+    # the two refs must not produce the same answer.
+    head = _run("--intent-from-commit")
+    if gate.commit_subject("HEAD") != gate.commit_subject(sha):
+        assert (head.returncode, head.stdout.strip()) != (
+            named.returncode,
+            named.stdout.strip(),
+        ), "HEAD and a different named ref resolved identically — the ref is ignored"
 
 
 def test_intent_only_runs_no_checks_and_writes_no_log():
     """It is a parser, not a gate. A run it did not perform must not be logged."""
     log = ROOT / ".no-mistakes" / "runs.jsonl"
-    before = log.read_text(encoding="utf-8") if log.exists() else ""
+    sentinel = "Q97"  # nothing else ever runs under this intent
 
-    result = _run("--intent", "S-4")
+    def entries() -> int:
+        if not log.exists():
+            return 0
+        # Counted by intent rather than by comparing the whole file: a real
+        # gate run in another process appends here too, and this test should
+        # fail for the reason it names rather than for someone else's write.
+        return sum(1 for line in log.read_text(encoding="utf-8").splitlines() if sentinel in line)
+
+    before = entries()
+    result = _run("--intent", sentinel)
 
     assert result.returncode == 0
-    assert result.stdout.strip() == "S-4"
-    after = log.read_text(encoding="utf-8") if log.exists() else ""
-    assert after == before, "--intent-only appended to the run log"
+    assert result.stdout.strip() == sentinel
+    assert entries() == before, "--intent-only appended to the run log"
 
 
 def test_a_commit_with_no_intent_id_fails_the_gate():

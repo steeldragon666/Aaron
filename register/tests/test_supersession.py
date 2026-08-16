@@ -43,14 +43,14 @@ def _commitment(world, statement: str, *, made_at="2026-08-10T09:00:00+00:00", *
 def test_create_supersede_void_with_the_chain_intact(world):
     first = _commitment(world, "Ruth will send figures by Friday.")
     second = _commitment(world, "Ruth will send figures by the following Tuesday.")
-    supersede_commitment(world.conn, old_id=first, new_id_=second)
+    supersede_commitment(world.conn, tenant_id=world.tenant, old_id=first, new_id_=second)
 
     chain = supersession_chain(world.conn, first)
     assert [row["id"] for row in chain] == [first, second]
     assert chain[0]["status"] == "superseded"
     assert live_commitment(world.conn, first)["id"] == second
 
-    void_commitment(world.conn, second, "Ruth left the company")
+    void_commitment(world.conn, second, "Ruth left the company", tenant_id=world.tenant)
     assert live_commitment(world.conn, first)["status"] == "void"
     # Nothing was deleted — the history is still walkable.
     assert len(supersession_chain(world.conn, first)) == 2
@@ -60,8 +60,8 @@ def test_a_three_link_chain_resolves_to_the_last(world):
     a = _commitment(world, "Draft by Monday.")
     b = _commitment(world, "Draft by Wednesday.")
     c = _commitment(world, "Draft by Friday.")
-    supersede_commitment(world.conn, old_id=a, new_id_=b)
-    supersede_commitment(world.conn, old_id=b, new_id_=c)
+    supersede_commitment(world.conn, tenant_id=world.tenant, old_id=a, new_id_=b)
+    supersede_commitment(world.conn, tenant_id=world.tenant, old_id=b, new_id_=c)
     assert [row["id"] for row in supersession_chain(world.conn, a)] == [a, b, c]
     assert live_commitment(world.conn, a)["id"] == c
 
@@ -70,17 +70,17 @@ def test_a_commitment_cannot_supersede_itself_or_form_a_cycle(world):
     a = _commitment(world, "One.")
     b = _commitment(world, "Two.")
     with pytest.raises(RegisterError):
-        supersede_commitment(world.conn, old_id=a, new_id_=a)
+        supersede_commitment(world.conn, tenant_id=world.tenant, old_id=a, new_id_=a)
 
-    supersede_commitment(world.conn, old_id=a, new_id_=b)
+    supersede_commitment(world.conn, tenant_id=world.tenant, old_id=a, new_id_=b)
     with pytest.raises(RegisterError):
-        supersede_commitment(world.conn, old_id=b, new_id_=a)
+        supersede_commitment(world.conn, tenant_id=world.tenant, old_id=b, new_id_=a)
 
 
 def test_a_superseded_commitment_is_not_chased(world):
     a = _commitment(world, "Figures by Friday.")
     b = _commitment(world, "Figures by Tuesday.")
-    supersede_commitment(world.conn, old_id=a, new_id_=b)
+    supersede_commitment(world.conn, tenant_id=world.tenant, old_id=a, new_id_=b)
 
     row = dict(world.conn.execute("SELECT * FROM commitment WHERE id = ?", (a,)).fetchone())
     verdict = may_chase(world.conn, row)
@@ -224,3 +224,52 @@ def test_both_directions_are_tracked(world):
 
     scoped = open_loops(world.conn, world.tenant, counterparty_id=world.veldt)
     assert scoped["by_principal"] == [] and scoped["to_principal"] == []
+
+
+def test_a_commitment_cannot_be_superseded_twice(world):
+    """The second call used to overwrite the first link and lose a branch.
+
+    ``status`` was selected and never read, so superseding an already-superseded
+    commitment silently repointed ``superseded_by``. :func:`supersession_chain`
+    walks that column, so the overwritten replacement became unreachable — the
+    register lost a version of what was agreed, which is the one thing this
+    function exists to preserve.
+    """
+    a = _commitment(world, "Ruth will send the figures by Friday.")
+    b = _commitment(world, "Ruth will send the figures by Monday.")
+    c = _commitment(world, "Ruth will send the figures next quarter.")
+
+    supersede_commitment(world.conn, tenant_id=world.tenant, old_id=a, new_id_=b)
+    with pytest.raises(RegisterError, match="already superseded"):
+        supersede_commitment(world.conn, tenant_id=world.tenant, old_id=a, new_id_=c)
+
+    assert [row["id"] for row in supersession_chain(world.conn, a)] == [a, b]
+
+    # The live record at the end of the chain is the one to supersede.
+    supersede_commitment(world.conn, tenant_id=world.tenant, old_id=b, new_id_=c)
+    assert [row["id"] for row in supersession_chain(world.conn, a)] == [a, b, c]
+
+
+def test_supersession_cannot_reach_across_tenants(world):
+    """Two ids used to be enough to link one client's record into another's chain."""
+    a = _commitment(world, "Ruth will send the figures by Friday.")
+    b = _commitment(world, "Ruth will send the figures by Monday.")
+
+    with pytest.raises(LookupError):
+        supersede_commitment(world.conn, tenant_id="tn_someone_else", old_id=a, new_id_=b)
+
+    result = world.conn.execute(
+        "SELECT superseded_by, status FROM commitment WHERE id = ?", (a,)
+    ).fetchone()
+    assert result["superseded_by"] is None
+    assert result["status"] == "open"
+
+
+def test_voiding_cannot_reach_across_tenants(world):
+    from register.errors import InvariantError
+
+    a = _commitment(world, "Ruth will send the figures by Friday.")
+    with pytest.raises(InvariantError, match="not found in tenant"):
+        void_commitment(world.conn, a, "not mine to void", tenant_id="tn_someone_else")
+    row = world.conn.execute("SELECT status FROM commitment WHERE id = ?", (a,)).fetchone()
+    assert row["status"] == "open"

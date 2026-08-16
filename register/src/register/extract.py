@@ -23,7 +23,7 @@ from __future__ import annotations
 import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from typing import Any
 
 EXTRACTOR_ID = "rules:commitment-extractor@1"
@@ -273,7 +273,12 @@ def extract_from_event(
     counterparty = sender if not sender_is_principal else (others[0] if others else None)
 
     occurred = event.get("occurred_at")
-    made_at = str(occurred) if occurred else datetime.now().isoformat(timespec="seconds")
+    # UTC-aware, matching `store.now()`. A naive string and an offset-aware
+    # string sort differently as text, and `derived_last_substantive_contact`
+    # takes a MAX over exactly these two columns — so a naive `made_at` could
+    # produce a contact date *newer* than reality, which silently suppresses
+    # the cadence alert that the derivation exists to raise.
+    made_at = str(occurred) if occurred else datetime.now(UTC).isoformat(timespec="seconds")
     ref = reference or _reference_date(made_at)
 
     text = "\n".join(filter(None, [str(event.get("summary") or ""), str(event.get("body") or "")]))
@@ -338,4 +343,4 @@ def _reference_date(made_at: str) -> date:
     try:
         return datetime.fromisoformat(made_at).date()
     except ValueError:
-        return datetime.now().date()
+        return datetime.now(UTC).date()

@@ -41,6 +41,9 @@ jobs:
           # the gate can read its subject. On push, depth 2 is one more commit
           # than needed and costs nothing.
           fetch-depth: 2
+          # Nothing after this step needs authenticated git, and the steps that
+          # follow run repository-controlled code (pip install, the checks).
+          persist-credentials: false
 
       - uses: actions/setup-python@v5
         with:

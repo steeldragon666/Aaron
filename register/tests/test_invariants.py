@@ -158,3 +158,66 @@ def test_the_database_rejects_a_bad_enum_even_if_the_validator_is_bypassed(world
             """,
             (world.tenant,),
         )
+
+
+# --- the model boundary cannot be laundered by a prefix ----------------------
+
+
+@pytest.mark.parametrize(
+    "produced_by",
+    [
+        "deepseek-v4-pro",
+        "human:deepseek-v4-pro",
+        "rules:deepseek-extractor@1",
+        "HUMAN:DeepSeek-V4-Pro",
+    ],
+)
+@pytest.mark.parametrize("artifact", ["action_request", "prediction", "register_record"])
+def test_a_prefix_cannot_launder_a_code_only_model(produced_by, artifact):
+    """CLAUDE.md §6, and the order of two checks decided whether it held.
+
+    `produced_by` is caller-supplied free text at every call site, so the
+    `human:` / `rules:` prefix is a label anyone can type. It used to be
+    evaluated first and returned early, which meant `human:deepseek-v4-pro`
+    wrote an Action Request. The capability check goes first now; the
+    provenance class only speaks once the identifier is known not to name a
+    code-only model.
+    """
+    from register.routing import assert_may_produce
+
+    with pytest.raises(ModelBoundaryError):
+        assert_may_produce(produced_by, artifact)
+
+
+def test_a_prefixed_human_who_is_not_a_code_only_model_may_still_assert():
+    from register.routing import assert_may_produce
+
+    assert_may_produce("human:manual", "action_request")
+    assert_may_produce("rules:extractor@1", "register_record")
+    assert_may_produce("glm-5.2", "prediction")
+
+
+def test_a_code_only_model_may_still_produce_code_under_a_prefix():
+    """The escape is about asserting, not about the prefix being suspicious."""
+    from register.routing import assert_may_produce
+
+    assert_may_produce("human:deepseek-v4-pro", "code")
+    assert_may_produce("deepseek-v4-pro", "migration")
+
+
+# --- an unreadable sharing list denies -------------------------------------
+
+
+def test_a_corrupt_shareable_with_raises_rather_than_parsing_to_nothing():
+    """An unparseable sharing list is not evidence that anybody may see it."""
+    with pytest.raises(InvariantError, match="not valid JSON"):
+        parse_shareable_with("{not json")
+
+    with pytest.raises(InvariantError, match="JSON array"):
+        parse_shareable_with('{"everyone": true}')
+
+
+def test_an_empty_shareable_with_is_still_nobody():
+    assert parse_shareable_with(None) == []
+    assert parse_shareable_with("") == []
+    assert parse_shareable_with("[]") == []

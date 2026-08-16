@@ -310,6 +310,7 @@ def create_commitment(
 def supersede_commitment(
     conn: sqlite3.Connection,
     *,
+    tenant_id: str,
     old_id: str,
     new_id_: str,
 ) -> None:
@@ -318,21 +319,42 @@ def supersede_commitment(
     Supersession is a link, not a deletion: the chain stays queryable, because
     "what did we agree, and when did it change" is a question the register has
     to be able to answer against its own history.
+
+    ``tenant_id`` scopes both lookups and the write. Without it a caller
+    holding two ids could link records across tenants, which would put one
+    client's commitment in another client's chain.
     """
-    old = conn.execute("SELECT id, status FROM commitment WHERE id = ?", (old_id,)).fetchone()
+    old = conn.execute(
+        "SELECT id, status FROM commitment WHERE id = ? AND tenant_id = ?", (old_id, tenant_id)
+    ).fetchone()
     if old is None:
         raise LookupError(f"commitment/{old_id} not found")
-    new = conn.execute("SELECT id FROM commitment WHERE id = ?", (new_id_,)).fetchone()
+    new = conn.execute(
+        "SELECT id FROM commitment WHERE id = ? AND tenant_id = ?", (new_id_, tenant_id)
+    ).fetchone()
     if new is None:
         raise LookupError(f"commitment/{new_id_} not found")
     if old_id == new_id_:
         raise RegisterError("a commitment cannot supersede itself")
+    # `status` was selected and never read, so a second call overwrote a
+    # `superseded_by` that already pointed somewhere. `supersession_chain`
+    # walks that column, so the overwritten branch became unreachable — the
+    # register quietly lost a version of what was agreed, which is the one
+    # thing this function exists to preserve.
+    if old["status"] == "superseded":
+        raise RegisterError(
+            f"commitment/{old_id} is already superseded — supersede the live record "
+            "at the end of its chain instead"
+        )
     if _would_cycle(conn, old_id, new_id_):
         raise RegisterError("supersession would create a cycle")
 
     conn.execute(
-        "UPDATE commitment SET superseded_by = ?, status = 'superseded', updated_at = ? WHERE id = ?",
-        (new_id_, now(), old_id),
+        """
+        UPDATE commitment SET superseded_by = ?, status = 'superseded', updated_at = ?
+        WHERE id = ? AND tenant_id = ?
+        """,
+        (new_id_, now(), old_id, tenant_id),
     )
 
 
@@ -350,7 +372,9 @@ def _would_cycle(conn: sqlite3.Connection, old_id: str, new_id_: str) -> bool:
     return False
 
 
-def void_commitment(conn: sqlite3.Connection, commitment_id: str, reason: str) -> None:
+def void_commitment(
+    conn: sqlite3.Connection, commitment_id: str, reason: str, *, tenant_id: str
+) -> None:
     """Mark a commitment void — it was never real, or it no longer binds.
 
     Distinct from superseded: superseded means replaced, void means withdrawn.
@@ -361,6 +385,7 @@ def void_commitment(conn: sqlite3.Connection, commitment_id: str, reason: str) -
         "commitment",
         commitment_id,
         {"status": "void", "last_action": f"voided: {reason}", "last_action_at": now()},
+        tenant_id=tenant_id,
     )
 
 

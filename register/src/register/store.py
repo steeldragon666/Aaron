@@ -121,8 +121,17 @@ def update(
     table: str,
     record_id: str,
     changes: Mapping[str, Any],
+    *,
+    tenant_id: str,
 ) -> None:
     """Update mutable fields of a record.
+
+    ``tenant_id`` is required and is part of the predicate, not a courtesy
+    argument. Every read path in this codebase scopes by tenant; this path did
+    not, so a caller holding an id could mutate another tenant's record. Making
+    it a required keyword means the predicate cannot be forgotten at a call
+    site — the same reason `shareable_with` defaults to deny rather than to the
+    value a hurried caller would have reached for.
 
     The invariant fields are not updatable here. ``visibility`` narrows or
     widens a record's audience and ``shareable_with`` crosses a context
@@ -131,7 +140,20 @@ def update(
     """
     if table not in RECORD_TABLES:
         raise InvariantError(f"{table} is not a record table")
-    forbidden = {"tenant_id", "shareable_with", "provenance", "produced_by", "id"} & set(changes)
+    # `visibility` belongs here and was missing, which made the docstring above
+    # a description of the intent rather than of the code. `access.evaluate`
+    # decides readership from this column, so `update(conn, "commitment", cid,
+    # {"visibility": "all_users"})` widened a `principal_only` record's audience
+    # with no role check, no stated reason and no `access_log` line — the three
+    # things `widen_shareable_with` requires for the sibling operation.
+    forbidden = {
+        "tenant_id",
+        "visibility",
+        "shareable_with",
+        "provenance",
+        "produced_by",
+        "id",
+    } & set(changes)
     if forbidden:
         raise InvariantError(
             f"{table}: {', '.join(sorted(forbidden))} may not be changed by a field update"
@@ -142,7 +164,12 @@ def update(
     row["updated_at"] = now()
 
     assignments = ", ".join(f"{column} = ?" for column in row)
-    conn.execute(
-        f"UPDATE {table} SET {assignments} WHERE id = ?",
-        (*row.values(), record_id),
+    cursor = conn.execute(
+        f"UPDATE {table} SET {assignments} WHERE id = ? AND tenant_id = ?",
+        (*row.values(), record_id, tenant_id),
     )
+    if cursor.rowcount == 0:
+        # Either no such record, or it belongs to another tenant. The caller is
+        # told the same thing in both cases: a miss must not be a probe that
+        # reveals whether an id exists somewhere else.
+        raise InvariantError(f"{table}/{record_id} not found in tenant {tenant_id}")
