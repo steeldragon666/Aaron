@@ -316,3 +316,96 @@ def widen_shareable_with(
         ),
     )
     return Widening(entity, record_id, added, reason)
+
+
+# --- the read surface, and which parts of it carry a Reader ------------------
+#
+# `read_one`, `query` and `filter_readable` above are the access-aware path:
+# they take a :class:`Reader`, run `evaluate`, and write the access log. They
+# are not, however, the *only* way to get a record out of the database. A
+# number of module-level functions run their own SQL and hand back rows.
+#
+# In Sprint 1 that is not a leak. There is no send path, no counterparty-scoped
+# caller and no agent — the only caller is a CLI the principal runs, reading
+# their own register. But "not currently exploited" is a fact about today's
+# callers, not a property of the code, and the send path arrives in Sprint 2.
+# The thing to avoid is Sprint 2 reaching for `open_loops` because it was there
+# and inheriting the bypass by accident.
+#
+# So the surface is classified, and `tests/test_read_surface.py` fails on any
+# public function in these modules that is in none of these buckets. The point
+# is not that the classification is enforcement — it is not — but that adding
+# an unguarded read becomes a decision someone records rather than an omission
+# nobody notices. Same move as the human/machine column split in `store` and
+# the migration guard: convert silence into a choice.
+#
+# CLAUDE.md §4 is a check in the *send path*. When that path exists, everything
+# in UNGUARDED_READS that it wants to call has to be re-expressed through a
+# Reader first. This mapping is the work list for that.
+
+UNGUARDED_READS: Mapping[str, str] = {
+    "entities.open_loops": (
+        "The principal's own view of their own commitments, both directions. "
+        "Sprint 2 must not call this from a send path — route through `query`."
+    ),
+    "entities.dark_periods": (
+        "Meetings with `gap_flag`, for the principal's digest. Names attendees, "
+        "so a counterparty-scoped caller needs the Reader path instead."
+    ),
+    "entities.supersession_chain": (
+        "Walks a chain the caller already holds the head of. Returns full rows."
+    ),
+    "entities.live_commitment": (
+        "Resolves a superseded id to its live record. Returns a full row."
+    ),
+    "entities.cadence_alerts": (
+        "Advisory digest only — writes nothing and `may_chase` does not consult "
+        "it. Carries `display_name`, so it is a record read despite being derived."
+    ),
+    "curator.queued": (
+        "The curator queue, which is by definition pre-confirmation material a "
+        "human is about to triage. Principal and EA only in practice."
+    ),
+    "ledger.fold": "Current state of one AR, folded from its ledger entries.",
+    "ledger.fold_all": "Current state of every AR in the tenant.",
+    "coverage.measure": (
+        "Scores the register against a manually compiled list. Reads statements "
+        "across the whole tenant by construction — it is a tenant-wide metric."
+    ),
+}
+
+# Public functions in those modules that return no record data: writers,
+# validators, counters and id resolvers. Listed so the guard test can tell
+# "returns nothing sensitive" from "nobody has looked at this yet".
+NOT_A_READ: Mapping[str, str] = {
+    "entities.assert_chaseable": "raises or returns None",
+    "entities.create_commitment": "writer, returns an id",
+    "entities.create_decision": "writer, returns an id",
+    "entities.create_exposure": "writer, returns an id",
+    "entities.create_meeting": "writer, returns an id",
+    "entities.create_person": "writer, returns an id",
+    "entities.create_tenant": "writer, returns an id",
+    "entities.create_thread": "writer, returns an id",
+    "entities.derived_last_substantive_contact": "returns a date or None",
+    "entities.may_chase": "verdict about a row the caller already holds",
+    "entities.reconcile_gap": "writer",
+    "entities.record_dark_meeting": "writer, returns an id",
+    "entities.refresh_last_substantive_contact": "writer, returns a count",
+    "entities.shareable_counterparties": "reads a field of a row the caller holds",
+    "entities.supersede_commitment": "writer",
+    "entities.void_commitment": "writer",
+    "curator.auto_confirm": "writer; the digest it returns is the principal's own",
+    "curator.confirm": "writer, returns an id",
+    "curator.principal_emails": "returns the tenant's own principal addresses",
+    "curator.propose_from_events": "writer, returns counts",
+    "curator.reject": "writer",
+    "curator.resolve_person": "writer, returns an id",
+    "curator.undo": "writer",
+    "ledger.append_ar": "writer, returns an id",
+    "ledger.open_ar_count": "returns a count",
+    "ledger.score": "writer, returns a Brier component",
+    "ledger.set_status": "writer, returns an entry hash",
+    "ledger.verify_chain": "hashes only, no payload content",
+    "coverage.load_known": "reads a file the caller supplied",
+    "coverage.similarity": "string comparison, no database",
+}

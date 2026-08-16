@@ -203,6 +203,34 @@ format, lint, types and tests, every run appended to a JSONL log with the
 commit it ran against. If the original exists elsewhere, set `NO_MISTAKES` to
 its path and this script delegates to it while keeping the intent bookkeeping.
 
+### The unguarded reads
+
+`read_one`, `query` and `filter_readable` take a `Reader`, run `evaluate` and
+write the access log. They are not the only way to get a record out. Nine
+module-level functions — `open_loops`, `dark_periods`, `supersession_chain`,
+`live_commitment`, `cadence_alerts`, `queued`, `fold`, `fold_all`, `measure` —
+run their own SQL and return full rows to anyone holding the connection.
+
+Raised by an independent review of the PR, and worth stating plainly rather
+than filing under "known".
+
+It is not a live leak in Sprint 1: there is no send path, no agent and no
+counterparty-scoped caller, and CLAUDE.md §4 specifies the check *in the send
+path*, which is Sprint 2 by construction. But "not currently exploited"
+describes today's callers rather than the code. When the send path is built,
+`open_loops` is the obvious thing to reach for — right shape, already there —
+and using it bypasses the check silently. That is the same structural mistake
+as a gate that runs only where the author chooses to run it: enforcement you
+have to opt into is a convention.
+
+`access.UNGUARDED_READS` names each one with the reason it may skip the Reader,
+and `tests/test_read_surface.py` fails on any public function in the read
+modules that is in neither that map nor `NOT_A_READ`. That is not enforcement
+and is not claimed as such — it converts an omission nobody notices into a
+decision someone records. `UNGUARDED_READS` is also the work list for Sprint 2:
+everything in it that the send path wants has to be re-expressed through a
+Reader first.
+
 ### The gate, and where it runs
 
 A verification gate that runs only where the author chooses to run it is a
@@ -268,6 +296,7 @@ Plus one the brief does not list, added after an audit against `CLAUDE.md` §3:
 
 | — · Log hygiene | `test_log_hygiene.py` | Both halves of the secret check. Human free-text — a rejection reason, a widening justification, a gap note, an AR status or scoring note — is redacted in place and the action still completes, including on a deliberate false positive. Machine-generated text — an extractor candidate, an AR claim, a prediction — is refused, and a refused write leaves the record untouched rather than half-applied. |
 | — · Cadence | `test_cadence.py` | That `last_substantive_contact` comes from records rather than a classifier, and that a cadence alert writes nothing and cannot make anything chaseable. |
+| — · Read surface | `test_read_surface.py` | That every public function which hands back record content is classified — see "The unguarded reads" below. |
 
 ---
 

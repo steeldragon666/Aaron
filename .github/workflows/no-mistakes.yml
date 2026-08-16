@@ -35,9 +35,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # The gate reads HEAD's subject for the intent id, so it needs the
-          # commit itself — but only the one commit.
-          fetch-depth: 1
+          # On a pull_request event the checked-out tree is a merge commit
+          # Actions built, and its parents are the base tip and the PR head.
+          # Depth 2 is what it takes to have the head commit object present, so
+          # the gate can read its subject. On push, depth 2 is one more commit
+          # than needed and costs nothing.
+          fetch-depth: 2
 
       - uses: actions/setup-python@v5
         with:
@@ -53,7 +56,15 @@ jobs:
 
       - name: Run the gate
         # Reads the intent from the commit subject and fails if there isn't one.
-        run: tools/no-mistakes --intent-from-commit
+        #
+        # Which commit matters. On a pull_request event HEAD is the merge
+        # commit Actions built, whose subject is "Merge <head> into <base>" —
+        # GitHub's sentence, not the author's, and it carries no intent id. The
+        # commit that carries one is the PR head, so name it explicitly and
+        # fall back to github.sha for push and workflow_dispatch.
+        env:
+          INTENT_REF: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: tools/no-mistakes --intent-from-commit "$INTENT_REF"
 
       - name: Show the run log entry
         if: always()

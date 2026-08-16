@@ -30,6 +30,7 @@ from datetime import UTC, date, datetime
 from typing import Any
 
 from .canonical import GENESIS_HASH, canonical_json, chain_hash
+from .db import transaction
 from .errors import (
     ChainBroken,
     LedgerError,
@@ -261,46 +262,49 @@ def append_ar(conn: sqlite3.Connection, tenant_id: str, ar: ActionRequest) -> st
         "produced_by": ar.produced_by,
     }
 
-    _append(
-        conn,
-        tenant_id=tenant_id,
-        ar_id=ar_id,
-        entry_kind="open",
-        agent=ar.agent,
-        payload=payload,
-        visibility=visibility,
-        shareable_with=ar.shareable_with,
-        provenance=ar.provenance,
-        produced_by=ar.produced_by,
-    )
-
     # Projection for scoring. The ledger is the record of truth; this table is
-    # the queryable view of the outstanding predictions.
+    # the queryable view of the outstanding predictions. Both writes go in one
+    # transaction for the reason set out in `score` — an AR in the ledger with
+    # no prediction projection is invisible to scoring, and an AR that is
+    # scoreable but not in the ledger is worse.
     from .store import insert as _insert
 
-    _insert(
-        conn,
-        "prediction",
-        {
-            "id": new_id("prediction"),
-            "tenant_id": tenant_id,
-            "ar_id": ar_id,
-            "agent": ar.agent,
-            "statement": ar.prediction.statement,
-            "resolves_on": ar.prediction.resolves_on,
-            "falsifiable_by": ar.prediction.falsifiable_by,
-            "stated_confidence": ar.prediction.confidence,
-            "outcome": None,
-            "score": None,
-            "resolved_at": None,
-            "ar_was_acted_on": None,
-            "visibility": visibility,
-            "shareable_with": list(ar.shareable_with),
-            "provenance": ar.provenance,
-            "produced_by": ar.produced_by,
-        },
-        artifact="prediction",
-    )
+    with transaction(conn):
+        _append(
+            conn,
+            tenant_id=tenant_id,
+            ar_id=ar_id,
+            entry_kind="open",
+            agent=ar.agent,
+            payload=payload,
+            visibility=visibility,
+            shareable_with=ar.shareable_with,
+            provenance=ar.provenance,
+            produced_by=ar.produced_by,
+        )
+        _insert(
+            conn,
+            "prediction",
+            {
+                "id": new_id("prediction"),
+                "tenant_id": tenant_id,
+                "ar_id": ar_id,
+                "agent": ar.agent,
+                "statement": ar.prediction.statement,
+                "resolves_on": ar.prediction.resolves_on,
+                "falsifiable_by": ar.prediction.falsifiable_by,
+                "stated_confidence": ar.prediction.confidence,
+                "outcome": None,
+                "score": None,
+                "resolved_at": None,
+                "ar_was_acted_on": None,
+                "visibility": visibility,
+                "shareable_with": list(ar.shareable_with),
+                "provenance": ar.provenance,
+                "produced_by": ar.produced_by,
+            },
+            artifact="prediction",
+        )
     return ar_id
 
 
@@ -378,35 +382,48 @@ def score(
     was_acted_on = state["status"] in ("accepted", "in_progress", "executed")
     stamp = resolved_at or datetime.now(UTC).date().isoformat()
 
-    conn.execute(
-        """
-        UPDATE prediction
-        SET outcome = ?, score = ?, resolved_at = ?, ar_was_acted_on = ?, updated_at = ?
-        WHERE tenant_id = ? AND ar_id = ?
-        """,
-        (outcome, brier, stamp, 1 if was_acted_on else 0, now(), tenant_id, ar_id),
-    )
-
-    _append(
-        conn,
-        tenant_id=tenant_id,
-        ar_id=ar_id,
-        entry_kind="outcome",
-        agent=state["agent"],
-        payload={
-            "id": ar_id,
-            "outcome": outcome,
-            "score": brier,
-            "was_acted_on": was_acted_on,
-            "resolved_at": stamp,
-            "actor": actor,
-            "note": note,
-        },
-        visibility=state["visibility"],
-        shareable_with=state["shareable_with"],
-        provenance=state["provenance"],
-        produced_by=state["produced_by"],
-    )
+    # Both writes, or neither, and the ledger entry first.
+    #
+    # The connection is in autocommit, so an unwrapped pair of statements is
+    # two independent writes. `_append` can reject late — the payload secret
+    # check, the invariant check and the model boundary all fire inside it, and
+    # `actor` reaches the payload unredacted — which left the projection saying
+    # "resolved" behind a ledger that never recorded the outcome. Of the two
+    # possible inconsistencies that is the unrecoverable one: the ledger is the
+    # record of truth and the projection is derived from it, so a projection
+    # that has run ahead cannot be repaired by re-folding.
+    #
+    # Found by an independent review of this file rather than by its tests,
+    # which is the argument for having had one.
+    with transaction(conn):
+        _append(
+            conn,
+            tenant_id=tenant_id,
+            ar_id=ar_id,
+            entry_kind="outcome",
+            agent=state["agent"],
+            payload={
+                "id": ar_id,
+                "outcome": outcome,
+                "score": brier,
+                "was_acted_on": was_acted_on,
+                "resolved_at": stamp,
+                "actor": actor,
+                "note": note,
+            },
+            visibility=state["visibility"],
+            shareable_with=state["shareable_with"],
+            provenance=state["provenance"],
+            produced_by=state["produced_by"],
+        )
+        conn.execute(
+            """
+            UPDATE prediction
+            SET outcome = ?, score = ?, resolved_at = ?, ar_was_acted_on = ?, updated_at = ?
+            WHERE tenant_id = ? AND ar_id = ?
+            """,
+            (outcome, brier, stamp, 1 if was_acted_on else 0, now(), tenant_id, ar_id),
+        )
     return brier if brier is not None else float("nan")
 
 

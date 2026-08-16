@@ -266,3 +266,84 @@ def test_produced_by_is_recorded_on_every_entry(world):
         for row in world.conn.execute("SELECT produced_by FROM ar_ledger WHERE ar_id = ?", (ar_id,))
     }
     assert produced == {"glm-5.2"}
+
+
+# --- the ledger and its projection move together ----------------------------
+#
+# Raised by an independent review rather than by these tests, which is the
+# whole argument for having had one. `score()` used to write the prediction
+# projection and *then* append to the ledger, on an autocommit connection. When
+# the append rejected late — the payload secret check, the invariant check and
+# the model boundary all fire inside `_append` — the projection kept a resolved
+# outcome the ledger had never recorded.
+#
+# That direction is the unrecoverable one. The ledger is the record of truth
+# and the projection is derived from it, so a projection lagging the ledger can
+# be rebuilt by re-folding and a projection running ahead of it cannot.
+
+
+def test_a_rejected_score_leaves_both_the_projection_and_the_ledger_untouched(world):
+    """A secret in `actor` makes the append fail after the projection would have moved."""
+    ar_id = append_ar(world.conn, world.tenant, _ar())
+    before = world.conn.execute("SELECT count(*) AS n FROM ar_ledger").fetchone()["n"]
+
+    with pytest.raises(ValueError, match="refusing to persist"):
+        score(
+            world.conn,
+            world.tenant,
+            ar_id,
+            outcome="correct",
+            actor="svc-runner aws_access_key_id=AKIAIOSFODNN7EXAMPLE",
+        )
+
+    row = world.conn.execute(
+        "SELECT outcome, score, resolved_at FROM prediction WHERE ar_id = ?", (ar_id,)
+    ).fetchone()
+    assert row["outcome"] is None, "the projection resolved an outcome the ledger never recorded"
+    assert row["score"] is None
+    assert row["resolved_at"] is None
+
+    assert world.conn.execute("SELECT count(*) AS n FROM ar_ledger").fetchone()["n"] == before
+    assert fold(world.conn, world.tenant, ar_id)["outcome"] is None
+    assert verify_chain(world.conn).ok
+
+
+def test_a_rejected_score_can_be_retried_cleanly(world):
+    """The failure is not half-applied, so the honest call afterwards still works."""
+    ar_id = append_ar(world.conn, world.tenant, _ar())
+
+    with pytest.raises(ValueError):
+        score(
+            world.conn,
+            world.tenant,
+            ar_id,
+            outcome="correct",
+            actor="svc-runner aws_access_key_id=AKIAIOSFODNN7EXAMPLE",
+        )
+
+    score(world.conn, world.tenant, ar_id, outcome="correct", actor="aaron")
+
+    row = world.conn.execute(
+        "SELECT outcome, score FROM prediction WHERE ar_id = ?", (ar_id,)
+    ).fetchone()
+    assert row["outcome"] == "correct"
+    assert fold(world.conn, world.tenant, ar_id)["outcome"] == "correct"
+    assert verify_chain(world.conn).ok
+
+
+def test_a_rejected_append_leaves_no_orphan_prediction(world):
+    """The same pairing on the way in: an AR and its projection are one write."""
+    before_ledger = world.conn.execute("SELECT count(*) AS n FROM ar_ledger").fetchone()["n"]
+    before_pred = world.conn.execute("SELECT count(*) AS n FROM prediction").fetchone()["n"]
+
+    with pytest.raises(ValueError, match="refusing to persist"):
+        append_ar(
+            world.conn,
+            world.tenant,
+            _ar(claim="Their box is open — the staging password is hunter2hunter2."),
+        )
+
+    assert (
+        world.conn.execute("SELECT count(*) AS n FROM ar_ledger").fetchone()["n"] == before_ledger
+    )
+    assert world.conn.execute("SELECT count(*) AS n FROM prediction").fetchone()["n"] == before_pred

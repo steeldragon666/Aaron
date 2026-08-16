@@ -85,10 +85,17 @@ def run(check: Check) -> tuple[bool, str]:
     return False, f"{check.name}: FAILED ({elapsed:.1f}s)\n" + "\n".join(tail)
 
 
-def commit_subject() -> str:
+def commit_subject(ref: str = "HEAD") -> str:
+    """Subject line of ``ref``.
+
+    Takes a ref rather than assuming HEAD because on a pull request CI checks
+    out a merge commit GitHub built, whose subject is "Merge <head> into
+    <base>" and carries no intent id. The commit that carries one is the PR
+    head, and the workflow names it explicitly.
+    """
     try:
         return subprocess.run(
-            ["git", "log", "-1", "--pretty=%s"],
+            ["git", "log", "-1", "--pretty=%s", ref],
             cwd=ROOT,
             capture_output=True,
             text=True,
@@ -163,8 +170,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--intent-from-commit",
-        action="store_true",
-        help="read the intent id out of HEAD's commit subject instead of --intent",
+        nargs="?",
+        const="HEAD",
+        default=None,
+        metavar="REF",
+        help="read the intent id out of a commit subject instead of --intent (default HEAD)",
     )
     parser.add_argument("--fast", action="store_true", help="skip the slower checks")
     parser.add_argument("--note", default="", help="one line for the run log")
