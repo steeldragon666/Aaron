@@ -221,3 +221,52 @@ def test_an_empty_shareable_with_is_still_nobody():
     assert parse_shareable_with(None) == []
     assert parse_shareable_with("") == []
     assert parse_shareable_with("[]") == []
+
+
+# --- the model boundary is a labelling check, and says so --------------------
+
+
+def test_a_mislabelled_call_site_is_caught():
+    """What the check does do: reject a code-only identifier, prefix or not."""
+    from register.errors import ModelBoundaryError
+    from register.routing import assert_may_produce
+
+    for identifier in (
+        "deepseek-v4-pro",
+        "human:deepseek-v4-pro",  # the prefix laundering the reviewer found
+        "rules:deepseek-extractor@1",
+        "DeepSeek-V4",
+        "openrouter/deepseek-v4",
+    ):
+        with pytest.raises(ModelBoundaryError):
+            assert_may_produce(identifier, "prediction")
+
+
+def test_the_boundary_cannot_stop_a_caller_that_lies():
+    """What it does not do, asserted so nobody mistakes it for enforcement.
+
+    An independent reviewer's finding, and it is correct: `produced_by` is a
+    caller-supplied string, so a caller labelling DeepSeek output `glm-5.2`
+    passes. There is no fix available in Sprint 1 — CLAUDE.md §6 says enforce
+    at the routing layer, and there is no routing layer, no agent and no
+    authenticated producer to derive an execution identity from.
+
+    This test exists so the limit is recorded as a known property rather than
+    discovered later as a surprise. When D-17 lands, capability must come from
+    which engine actually ran, and this test should start failing.
+    """
+    from register.routing import assert_may_produce
+
+    # A lie. Nothing here can detect it, and pretending otherwise is worse
+    # than saying so.
+    assert_may_produce("glm-5.2", "action_request")
+    assert_may_produce("human:manual", "prediction")
+
+
+def test_the_module_documents_that_it_is_not_a_boundary():
+    """A future reader must not take a passing check for a guarantee."""
+    from register import routing
+
+    doc = (routing.__doc__ or "") + (routing.assert_may_produce.__doc__ or "")
+    assert "labelling" in doc.lower()
+    assert "routing layer" in doc.lower()

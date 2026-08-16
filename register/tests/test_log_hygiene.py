@@ -171,7 +171,7 @@ def test_a_gap_reconciliation_note_is_redacted_but_the_gap_clears(world):
         produced_by="human:calendar-sync",
     )
 
-    reconcile_gap(world.conn, meeting_id, SECRET)
+    reconcile_gap(world.conn, meeting_id, SECRET, tenant_id=world.tenant)
 
     row = world.conn.execute(
         "SELECT gap_flag, capture_reason FROM meeting WHERE id = ?", (meeting_id,)

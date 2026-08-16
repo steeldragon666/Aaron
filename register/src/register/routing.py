@@ -13,6 +13,31 @@ was wrong or the router picked the wrong model.
 What is in scope now is the boundary, because ``produced_by`` is being written
 from this sprint onward. Encoding the rule here means the check exists before
 the router does, rather than being a convention someone remembers to add.
+
+**What this module is, and what it is not.**
+
+It is a *labelling* check. ``produced_by`` is a caller-supplied string at every
+write site, so this catches an honest mistake — a call site that names a
+code-only model for an asserting artifact — and it cannot stop a caller that
+labels DeepSeek output ``glm-5.2``. An independent reviewer made the point
+directly, and it is right: no amount of matching makes a caller-controlled
+string trustworthy, and the unicode-confusable and separator-variant evasions
+are symptoms rather than the disease.
+
+That is stated here rather than fixed here because the fix does not exist yet.
+CLAUDE.md §6 says *enforce at the routing layer*, and there is no routing layer
+— no router, no agent, no authenticated producer, nothing that could supply an
+execution identity for this to check against. Building an identity system for a
+single caller would be inventing the shape of Sprint 2's router by guessing at
+it.
+
+**The requirement this places on the router, when it lands (D-17):** capability
+must be derived from *which engine actually ran*, established by the routing
+layer itself and not passed in as an argument. ``produced_by`` stays as
+provenance metadata on the record — it is genuinely useful for that, and CLAUDE
+.md requires it — but it must stop being the thing that decides. Until then,
+treat a passing :func:`assert_may_produce` as "no call site is obviously
+mislabelled", never as "a code-only model did not write this".
 """
 
 from __future__ import annotations
@@ -55,7 +80,13 @@ def is_code_only(produced_by: str) -> bool:
 
 
 def assert_may_produce(produced_by: str, artifact: str) -> None:
-    """Raise unless ``produced_by`` is permitted to generate ``artifact``."""
+    """Raise unless ``produced_by`` *claims* to be permitted to generate ``artifact``.
+
+    A labelling check, not a boundary — see the module docstring. It rejects a
+    call site that names a code-only model for an asserting artifact. It cannot
+    reject a caller that names a permitted one, because the name is the only
+    evidence it has.
+    """
     if not produced_by:
         raise ModelBoundaryError("produced_by is required on every artifact")
     if artifact not in ASSERTING_ARTIFACTS | VERIFIABLE_ARTIFACTS:

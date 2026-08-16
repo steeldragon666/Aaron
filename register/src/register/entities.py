@@ -496,27 +496,38 @@ def assert_chaseable(conn: sqlite3.Connection, commitment: dict[str, Any]) -> No
     raise RegisterError(verdict.reason)
 
 
-def reconcile_gap(conn: sqlite3.Connection, meeting_id: str, note: str) -> None:
+def reconcile_gap(conn: sqlite3.Connection, meeting_id: str, note: str, *, tenant_id: str) -> None:
     """Clear a gap once its content has been recovered.
 
     The usual recovery is the voice dump offered immediately after a dark
     meeting — the cheapest way to stop the gap compounding. The record keeps
     ``consent_outcome = declined`` forever; only the gap clears.
+
+    ``tenant_id`` is required and part of the predicate. This was the fourth
+    id-only write path, missed when the other three were fixed and found by an
+    independent reviewer asking whether the set was complete. A meeting id was
+    enough to clear another tenant's `gap_flag`, which is the flag that
+    suppresses a chase on a commitment a dark meeting could have superseded —
+    so the consequence was not a stray edit but an unsuppressed chase in a
+    tenant whose register nobody had touched.
     """
     if not note.strip():
         raise ValueError("reconciling a gap requires a note saying how it was recovered")
     note = redact(note).text
-    conn.execute(
+    cursor = conn.execute(
         """
         UPDATE meeting
         SET gap_flag = 0,
             capture = 'voice_dump',
             capture_reason = ?,
             updated_at = ?
-        WHERE id = ?
+        WHERE id = ? AND tenant_id = ?
         """,
-        (f"reconciled: {note}", now(), meeting_id),
+        (f"reconciled: {note}", now(), meeting_id, tenant_id),
     )
+    if cursor.rowcount == 0:
+        # Silence here would read as success to a caller holding a foreign id.
+        raise RegisterError(f"no meeting {meeting_id} in tenant {tenant_id}")
 
 
 # --- decision ---------------------------------------------------------------

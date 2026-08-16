@@ -161,7 +161,9 @@ def test_a_later_dark_meeting_suppresses_an_earlier_commitment(world):
         assert_chaseable(world.conn, row)
 
     # The voice dump is the recovery, and it clears the gap.
-    reconcile_gap(world.conn, meeting_id, "principal voice dump, 90s, recorded 12 Aug")
+    reconcile_gap(
+        world.conn, meeting_id, "principal voice dump, 90s, recorded 12 Aug", tenant_id=world.tenant
+    )
     assert may_chase(world.conn, row).allowed
     assert dark_periods(world.conn, world.tenant) == []
 
@@ -198,7 +200,7 @@ def test_reconciling_a_gap_requires_saying_how(world):
         produced_by="human:calendar-sync",
     )
     with pytest.raises(ValueError):
-        reconcile_gap(world.conn, meeting_id, "   ")
+        reconcile_gap(world.conn, meeting_id, "   ", tenant_id=world.tenant)
 
 
 def test_both_directions_are_tracked(world):

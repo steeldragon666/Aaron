@@ -252,8 +252,68 @@ Fixed, with a regression test for each:
 | `ledger.score`, `append_ar` | Projection written before the ledger entry. See "the ledger and its projection" in `test_ledger.py`. |
 | `extract.py` | Emitted naive local timestamps into `made_at` while `store.now()` emits UTC-aware. `derived_last_substantive_contact` takes a `MAX` over exactly those columns as text — so it could return a date *newer* than reality, silently suppressing the cadence alert the derivation exists to raise. |
 | `parse_shareable_with` | Unguarded `json.loads` raised `JSONDecodeError` out of the middle of an access decision. An unreadable sharing list now denies, like the sibling branch for an unknown `visibility`. |
-| `access.query` | `where` and `order_by` are interpolated. `"1=1) OR (1=1"` closed the tenant scope's brackets early. Nothing foreign was returned — `filter_readable` still denied on the tenant check — but every foreign record id landed in this tenant's `access_log`. `order_by` is an allowlist; `where` must balance. |
+| `access.query` | `where` and `order_by` are interpolated. `"1=1) OR (1=1"` closed the tenant scope's brackets early. Nothing foreign was returned — `filter_readable` still denied on the tenant check — but every foreign record id landed in this tenant's `access_log`. `order_by` is an allowlist; `where` must balance. **Superseded — see the second round below.** |
 | `db.transaction` | A failed `COMMIT` left the transaction open, so the next `BEGIN` raised an unrelated error over the real one. |
+
+#### Second round, after asking it to attack the fixes
+
+The first round's fixes were written by the same agent that wrote the bugs, so
+"there is a test for it" is the assurance to be least willing to accept. A
+second review was requested naming the three fixes most likely to be wrong in a
+way their tests would not show. It found four more.
+
+**`_assert_balanced` was walkable, and the fix was to delete it.** The
+paren-balance guard fell to one line:
+
+```python
+query(conn, reader, "commitment", where="1=1 /* ' */ ) OR (1=1 /* ' */")
+```
+
+The quote inside each block comment flipped the checker's quote state, so the
+`)` was never counted. SQLite strips comments and the predicate becomes
+`tenant_id = ? AND (1=1) OR (1=1)`.
+
+The reviewer's recommendation was not to teach the checker about comments, and
+that was right: a character counter cannot be made into a SQL parser by patching
+the case somebody demonstrated, and a guard that reads as enforcement while
+being walkable is worse than none — it stops people asking. `query` now takes
+structured `Filter` predicates. Columns are validated against the live schema
+via `PRAGMA table_info`, operators come from a fixed map, and every
+caller-supplied value is a bound parameter. There is no fragment left to escape
+from, and `test_cross_context.py` asserts the parameter cannot come back.
+
+**`reconcile_gap` was a fourth id-only write path.** The first round threaded
+`tenant_id` through three; I asked whether the set was complete and it was not.
+A meeting id was enough to clear another tenant's `gap_flag` — the flag that
+suppresses a chase on a commitment a dark meeting could have superseded. The
+consequence was not a stray edit but an unsuppressed chase in a tenant nobody
+had touched. Now `tenant_id` is required, in the predicate, and a zero-row
+update raises rather than reporting success.
+
+**`curator.confirm` was still not atomic.** The transaction wrapped the
+commitment and the proposal update, but `resolve_person` ran *before* it — and
+resolving is a write, inserting `person` rows for unseen addresses. A rejected
+candidate left the proposal queued, no commitment, and new people in the
+register that no confirmed record referred to. "Proposal before record" has to
+mean everything the proposal creates. Verified the regression test fails
+against the old ordering.
+
+**`produced_by` cannot enforce the model boundary — accepted, not fixed.** The
+first round fixed the ordering so `human:deepseek-v4-pro` no longer passes. The
+reviewer's second point goes deeper and is correct: `produced_by` is a
+caller-supplied string, so a caller labelling DeepSeek output `glm-5.2` passes,
+and unicode-confusable evasions are symptoms rather than the disease. No amount
+of matching makes a caller-controlled string trustworthy.
+
+There is no fix available in Sprint 1. CLAUDE.md §6 says enforce at the
+*routing layer*, and there is no router, no agent and no authenticated producer
+to derive an execution identity from; building one for a single caller would be
+guessing at the shape of Sprint 2's router. So `routing.py` now says in its own
+docstring that it is a labelling check rather than a boundary, states the
+requirement it places on D-17 — capability derived from which engine actually
+ran, never passed in as an argument — and `test_invariants.py` asserts both the
+limit and the docstring. A passing `assert_may_produce` means "no call site is
+obviously mislabelled", never "a code-only model did not write this".
 
 Raised and **not** taken, with reasons: routing every read through a `Reader`
 (see "The unguarded reads" above — the send path it would protect is Sprint 2,

@@ -234,3 +234,82 @@ def test_the_candidate_payload_is_inspectable(world, ingested):
     )
     candidate = json.loads(queued(world.conn, world.tenant)[0]["candidate"])
     assert {"statement", "direction", "provenance", "pattern"} <= set(candidate)
+
+
+# --- everything a confirmation writes lands together, or not at all ----------
+
+
+def test_a_failed_confirmation_leaves_no_orphan_person(world):
+    """`resolve_person` is a write, and it used to run outside the transaction.
+
+    Raised by an independent reviewer. Resolving a counterparty address inserts
+    a `person` row when the address has not been seen before. That ran before
+    `with transaction(...)`, so a candidate the commitment constructor then
+    rejected left the proposal queued, no commitment written — and a new person
+    in the register that no confirmed record refers to.
+
+    "Proposal before record" has to mean everything the proposal creates, not
+    just the headline row.
+    """
+    from register.curator import confirm
+    from register.errors import InvariantError
+    from register.extract import EXTRACTOR_ID
+    from register.ids import new_id
+    from register.store import insert
+
+    proposal_id = new_id("curator_proposal")
+    insert(
+        world.conn,
+        "curator_proposal",
+        {
+            "id": proposal_id,
+            "tenant_id": world.tenant,
+            "target_entity": "commitment",
+            "candidate": json.dumps(
+                {
+                    "direction": "to_principal",
+                    "statement": "They will send the schedule.",
+                    "made_at": "2026-08-10T09:00:00+00:00",
+                    "source_type": "email",
+                    "provenance": "verbatim",
+                    "counterparty_email": "brand-new@nowhere.test",
+                }
+            ),
+            "confidence": 0.9,
+            "source_ref": "ie_x",
+            "state": "queued",
+            "visibility": "principal_and_ea",
+            "shareable_with": [],
+            "provenance": "inferred",
+            "produced_by": EXTRACTOR_ID,
+        },
+    )
+
+    people_before = world.conn.execute("SELECT count(*) AS n FROM person").fetchone()["n"]
+
+    # `direction` is CHECK-constrained, so the override fails inside the
+    # transaction — after resolve_person would have written its row.
+    with pytest.raises(InvariantError, match="direction"):
+        confirm(
+            world.conn,
+            world.tenant,
+            proposal_id,
+            actor="aaron",
+            overrides={"direction": "sideways"},
+        )
+
+    people_after = world.conn.execute("SELECT count(*) AS n FROM person").fetchone()["n"]
+    assert people_after == people_before, "a failed confirmation left a person behind"
+
+    assert (
+        world.conn.execute(
+            "SELECT count(*) AS n FROM person WHERE email = ?", ("brand-new@nowhere.test",)
+        ).fetchone()["n"]
+        == 0
+    )
+
+    row = world.conn.execute(
+        "SELECT state FROM curator_proposal WHERE id = ?", (proposal_id,)
+    ).fetchone()
+    assert row["state"] == "queued", "the proposal must survive for a retry"
+    assert world.conn.execute("SELECT count(*) AS n FROM commitment").fetchone()["n"] == 0

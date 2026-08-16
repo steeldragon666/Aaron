@@ -200,12 +200,42 @@ def read_one(
     return dict(row)
 
 
+@dataclass(frozen=True)
+class Filter:
+    """One structured predicate. ``column`` is checked against the real schema."""
+
+    column: str
+    op: str = "eq"
+    value: Any = None
+
+
+# The operators a caller may ask for, and the SQL each becomes. A caller names
+# a key; the value is what reaches the statement. Nothing a caller types is
+# ever interpolated.
+_FILTER_OPS: Mapping[str, str] = {
+    "eq": "=",
+    "ne": "!=",
+    "lt": "<",
+    "lte": "<=",
+    "gt": ">",
+    "gte": ">=",
+    "like": "LIKE",
+    "in": "IN",
+    "is_null": "IS NULL",
+    "not_null": "IS NOT NULL",
+}
+
+
+def _table_columns(conn: sqlite3.Connection, table: str) -> frozenset[str]:
+    """Column names from the schema itself, so the allowlist cannot drift."""
+    return frozenset(str(row["name"]) for row in conn.execute(f"PRAGMA table_info({table})"))
+
+
 def query(
     conn: sqlite3.Connection,
     reader: Reader,
     entity: str,
-    where: str = "1=1",
-    params: Sequence[Any] = (),
+    filters: Sequence[Filter] = (),
     order_by: str = "created_at",
 ) -> list[dict[str, Any]]:
     """Run a scoped query and filter the result through both checks.
@@ -213,26 +243,56 @@ def query(
     ``tenant_id`` is applied here rather than left to the caller. A caller that
     forgets it should get an empty result, not another tenant's rows.
 
-    ``where`` and ``order_by`` are SQL fragments, and both are constrained.
-    ``order_by`` must name a column on the allowlist. ``where`` must balance
-    its parentheses, because the tenant scope above is only a guarantee while
-    the caller's fragment stays inside the brackets it was given: a fragment
-    such as ``"1=1) OR (1=1"`` closes them early and turns the predicate into
-    ``tenant_id = ? AND (1=1) OR (1=1)``, which selects every tenant's rows.
+    **Predicates are structured, not composed.** This used to take a `where`
+    string, guarded by a paren-balance check. An independent reviewer walked
+    that guard in one line::
 
-    `filter_readable` still denies those rows on the tenant check in
-    `evaluate`, so nothing foreign is returned — but every foreign record id
-    lands in this tenant's `access_log` as a deny line, and the read scans the
-    whole table. An audit log that can be filled with another tenant's
-    identifiers is its own disclosure.
+        query(conn, reader, "commitment", where="1=1 /* ' */ ) OR (1=1 /* ' */")
+
+    The quote inside each block comment flipped the checker's quote state, so
+    the `)` was never counted. SQLite strips the comments and the predicate
+    becomes ``tenant_id = ? AND (1=1) OR (1=1)`` — every tenant's rows. The
+    reviewer's point was the right one: a checker that is not a SQL parser
+    cannot be made into one by patching the case that was demonstrated, and a
+    guard that reads as enforcement while being walkable is worse than no
+    guard, because it stops anyone asking.
+
+    So the fragment is gone. Every piece of the statement below now comes from
+    the schema (`_table_columns`) or from a fixed map (`_FILTER_OPS`); every
+    caller-supplied value is a bound parameter. There is nothing left to
+    escape from.
     """
     table = _safe_entity(entity)
     if order_by not in _ORDER_COLUMNS:
         raise InvariantError(f"order_by must be one of {sorted(_ORDER_COLUMNS)}, not {order_by!r}")
-    _assert_balanced(where)
+
+    columns = _table_columns(conn, table)
+    clauses = ["tenant_id = ?"]
+    params: list[Any] = [reader.tenant_id]
+
+    for spec in filters:
+        if spec.column not in columns:
+            raise InvariantError(f"{entity} has no column {spec.column!r}")
+        if spec.op not in _FILTER_OPS:
+            raise InvariantError(
+                f"unknown filter op {spec.op!r}, expected one of {sorted(_FILTER_OPS)}"
+            )
+        sql_op = _FILTER_OPS[spec.op]
+        if spec.op in ("is_null", "not_null"):
+            clauses.append(f"{spec.column} {sql_op}")
+        elif spec.op == "in":
+            values = list(spec.value or ())
+            if not values:  # `IN ()` is a syntax error, and means nothing matches
+                return []
+            clauses.append(f"{spec.column} IN ({','.join('?' * len(values))})")
+            params.extend(values)
+        else:
+            clauses.append(f"{spec.column} {sql_op} ?")
+            params.append(spec.value)
+
     rows = conn.execute(
-        f"SELECT * FROM {table} WHERE tenant_id = ? AND ({where}) ORDER BY {order_by}",
-        (reader.tenant_id, *params),
+        f"SELECT * FROM {table} WHERE {' AND '.join(clauses)} ORDER BY {order_by}",
+        tuple(params),
     ).fetchall()
     return filter_readable(conn, reader, entity, rows)
 
@@ -252,33 +312,6 @@ _ORDER_COLUMNS = frozenset(
         "id",
     }
 )
-
-
-def _assert_balanced(where: str) -> None:
-    """Refuse a fragment that could close the tenant scope's parentheses.
-
-    Not a SQL parser, and not claimed as one — `where` remains a fragment a
-    caller composes, so the real protection is that callers are inside this
-    package. This closes the specific escape that makes the tenant predicate
-    stop meaning what its docstring says.
-    """
-    depth = 0
-    quoted = False
-    for char in where:
-        if char == "'":
-            quoted = not quoted
-        elif not quoted:
-            if char == "(":
-                depth += 1
-            elif char == ")":
-                depth -= 1
-                if depth < 0:
-                    raise InvariantError(
-                        "where fragment closes a parenthesis it did not open — "
-                        "it would escape the tenant scope"
-                    )
-    if depth != 0 or quoted:
-        raise InvariantError("where fragment has unbalanced parentheses or quotes")
 
 
 _ALLOWED_ENTITIES = frozenset(

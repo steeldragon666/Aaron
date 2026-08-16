@@ -24,6 +24,7 @@ from register.entities import (
     create_decision,
     create_exposure,
     create_meeting,
+    create_person,
     create_thread,
 )
 from register.errors import AccessDenied, CrossContextViolation, InvariantError
@@ -251,34 +252,91 @@ def test_every_denied_read_leaves_a_deny_line(world):
     assert row["counterparty_scope"] == world.veldt
 
 
-# --- the tenant scope in `query` cannot be closed early ----------------------
+# --- there is no SQL fragment left to escape from ----------------------------
 
 
-def test_a_where_fragment_cannot_escape_the_tenant_predicate(world):
-    """`where` is interpolated, and the tenant scope lives inside brackets.
+def test_query_no_longer_accepts_a_composed_sql_fragment(world):
+    """The fix for a guard that could be walked: remove the thing it guarded.
 
-    `"1=1) OR (1=1"` closes them early, turning the predicate into
-    `tenant_id = ? AND (1=1) OR (1=1)` — every tenant's rows. `filter_readable`
-    still denies them on the tenant check, so nothing foreign is returned, but
-    every foreign record id lands in this tenant's access_log as a deny line.
-    An audit log that can be filled with another tenant's identifiers is its
-    own disclosure, so the fragment is refused before it reaches SQL.
+    `query` used to take a `where` string interpolated inside
+    `tenant_id = ? AND (...)`, protected by a paren-balance check. An
+    independent reviewer walked it in one line — see the next test. The
+    response was not to patch the checker but to delete the fragment: a
+    character counter is not a SQL parser, and it cannot be made into one by
+    fixing the case somebody demonstrated.
     """
     from register.access import Reader, query
+
+    reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+    with pytest.raises(TypeError):
+        query(world.conn, reader, "commitment", where="1=1")  # type: ignore[call-arg]
+
+
+def test_the_fragment_that_walked_the_old_guard_has_nowhere_to_go(world):
+    """The specific bypass, kept as a test so it cannot come back.
+
+    `"1=1 /* ' */ ) OR (1=1 /* ' */"` passed the balance check: the quote
+    inside each block comment flipped the checker's quote state, so the `)`
+    was never counted. SQLite strips comments, and the predicate became
+    `tenant_id = ? AND (1=1) OR (1=1)` — every tenant's rows.
+
+    There is now no parameter it can be passed to. If a future change
+    reintroduces one, this fails.
+    """
+    import inspect
+
+    from register.access import query
+
+    params = inspect.signature(query).parameters
+    assert "where" not in params
+    assert "params" not in params
+    assert "filters" in params
+
+
+def test_a_filter_column_must_exist_on_the_entity(world):
+    """Columns are checked against the schema, so the allowlist cannot drift."""
+    from register.access import Filter, Reader, query
     from register.errors import InvariantError
 
     reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
-    for escape in ("1=1) OR (1=1", "1=1)) OR ((1=1", "1=1) --"):
-        with pytest.raises(InvariantError, match=r"parenthesis|unbalanced"):
-            query(world.conn, reader, "commitment", where=escape)
+    with pytest.raises(InvariantError, match="no column"):
+        query(world.conn, reader, "commitment", filters=[Filter("status) OR (1=1", "eq", "open")])
+    with pytest.raises(InvariantError, match="no column"):
+        query(world.conn, reader, "commitment", filters=[Filter("nonexistent", "eq", 1)])
 
 
-def test_an_ordinary_where_fragment_still_works(world):
-    from register.access import Reader, query
+def test_a_filter_op_must_be_on_the_map(world):
+    from register.access import Filter, Reader, query
+    from register.errors import InvariantError
 
     reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
-    assert query(world.conn, reader, "commitment", where="status = ?", params=("open",)) == []
-    query(world.conn, reader, "commitment", where="(status = 'open' OR status = 'void')")
+    with pytest.raises(InvariantError, match="unknown filter op"):
+        query(world.conn, reader, "commitment", filters=[Filter("status", "= 1 OR 1", "open")])
+
+
+def test_a_filter_value_is_bound_never_interpolated(world):
+    """The value is the one thing a caller fully controls, so it is a parameter."""
+    from register.access import Filter, Reader, query
+
+    reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+    hostile = "open') OR ('1'='1"
+    assert query(world.conn, reader, "commitment", filters=[Filter("status", "eq", hostile)]) == []
+    # the table is still there, which it would not be if values were interpolated
+    assert world.conn.execute("SELECT count(*) FROM commitment").fetchone() is not None
+
+
+def test_ordinary_filters_still_work(world):
+    from register.access import Filter, Reader, query
+
+    reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+    assert query(world.conn, reader, "commitment", filters=[Filter("status", "eq", "open")]) == []
+    assert (
+        query(world.conn, reader, "commitment", filters=[Filter("status", "in", ["open", "void"])])
+        == []
+    )
+    assert query(world.conn, reader, "commitment", filters=[Filter("due", "is_null")]) == []
+    # An empty IN means nothing matches, rather than a syntax error.
+    assert query(world.conn, reader, "commitment", filters=[Filter("status", "in", [])]) == []
 
 
 def test_order_by_is_an_allowlist_not_a_fragment(world):
@@ -289,3 +347,64 @@ def test_order_by_is_an_allowlist_not_a_fragment(world):
     with pytest.raises(InvariantError, match="order_by"):
         query(world.conn, reader, "commitment", order_by="created_at; DROP TABLE commitment")
     query(world.conn, reader, "commitment", order_by="made_at")
+
+
+# --- the fourth id-only write path ------------------------------------------
+
+
+def test_reconcile_gap_cannot_clear_another_tenants_dark_meeting(world):
+    """Found by asking the reviewer whether the set of three was complete.
+
+    It was not. `reconcile_gap` keyed on `meeting_id` alone, so a meeting id
+    was enough to clear another tenant's `gap_flag` — and `gap_flag` is what
+    suppresses a chase on a commitment a dark meeting could have superseded.
+    The consequence was not a stray edit but an unsuppressed chase going out
+    in a tenant nobody had touched.
+    """
+    from register.entities import create_tenant, reconcile_gap, record_dark_meeting
+    from register.errors import RegisterError
+
+    other = create_tenant(world.conn, "Gap Co", tenant_id="tn_gapco")
+    intruder = create_person(
+        world.conn,
+        tenant_id=other,
+        display_name="Their Principal",
+        email="them@other.test",
+        is_principal=True,
+        produced_by="human:manual",
+    )
+    meeting_id = record_dark_meeting(
+        world.conn,
+        tenant_id=other,
+        title="Their private conversation",
+        starts_at="2026-08-14T02:00:00+00:00",
+        attendees=[intruder],
+        known_topics=["their pricing"],
+        produced_by="human:calendar-sync",
+    )
+
+    with pytest.raises(RegisterError, match="no meeting"):
+        reconcile_gap(world.conn, meeting_id, "not mine to clear", tenant_id=world.tenant)
+
+    row = world.conn.execute(
+        "SELECT gap_flag, capture_reason FROM meeting WHERE id = ?", (meeting_id,)
+    ).fetchone()
+    assert row["gap_flag"] == 1, "another tenant's gap was cleared"
+    assert "not mine to clear" not in (row["capture_reason"] or "")
+
+
+def test_reconcile_gap_still_works_inside_its_own_tenant(world):
+    from register.entities import reconcile_gap, record_dark_meeting
+
+    meeting_id = record_dark_meeting(
+        world.conn,
+        tenant_id=world.tenant,
+        title="Henderson pricing",
+        starts_at="2026-08-14T02:00:00+00:00",
+        attendees=[world.principal, world.henderson],
+        known_topics=["price"],
+        produced_by="human:calendar-sync",
+    )
+    reconcile_gap(world.conn, meeting_id, "voice dump, 90s", tenant_id=world.tenant)
+    row = world.conn.execute("SELECT gap_flag FROM meeting WHERE id = ?", (meeting_id,)).fetchone()
+    assert row["gap_flag"] == 0

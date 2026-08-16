@@ -238,22 +238,10 @@ def confirm(
     candidate = json.loads(row["candidate"])
     candidate.update(overrides or {})
 
-    counterparty_email = candidate.get("counterparty_email")
-    counterparty_id = (
-        resolve_person(conn, tenant_id, counterparty_email, produced_by=EXTRACTOR_ID)
-        if counterparty_email
-        else None
-    )
-
-    # shareable_with: the parties on the source item, and nobody else.
-    shareable = [
-        resolve_person(conn, tenant_id, addr, produced_by=EXTRACTOR_ID)
-        for addr in candidate.get("shareable_with_emails", [])
-    ]
-
     from .db import transaction
 
-    # One transaction, and the UPDATE requires the proposal to still be queued.
+    # One transaction over *everything this call writes*, and the UPDATE
+    # requires the proposal to still be queued.
     #
     # Two independent writes on an autocommit connection meant a failure
     # between them left the commitment written and the proposal still queued —
@@ -262,9 +250,30 @@ def confirm(
     # are worse than a failed confirmation: the coverage number counts them,
     # and a chase would go out twice.
     #
+    # `resolve_person` is inside the transaction rather than before it, which
+    # it was until an independent reviewer pointed out that resolving is a
+    # *write*: it inserts `person` rows for addresses not seen before. A
+    # rejected candidate or a bad override then left the proposal queued, no
+    # commitment written — and new people in the register that no confirmed
+    # record refers to. Everything a proposal creates now lands together or
+    # not at all, which is what "proposal before record" has to mean.
+    #
     # The `state = 'queued'` predicate closes the same race between two
     # concurrent confirmations of one proposal.
     with transaction(conn):
+        counterparty_email = candidate.get("counterparty_email")
+        counterparty_id = (
+            resolve_person(conn, tenant_id, counterparty_email, produced_by=EXTRACTOR_ID)
+            if counterparty_email
+            else None
+        )
+
+        # shareable_with: the parties on the source item, and nobody else.
+        shareable = [
+            resolve_person(conn, tenant_id, addr, produced_by=EXTRACTOR_ID)
+            for addr in candidate.get("shareable_with_emails", [])
+        ]
+
         commitment_id = create_commitment(
             conn,
             tenant_id=tenant_id,
