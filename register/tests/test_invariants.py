@@ -205,6 +205,27 @@ def test_a_code_only_model_may_still_produce_code_under_a_prefix():
     assert_may_produce("deepseek-v4-pro", "migration")
 
 
+def test_the_whole_permitted_set_is_pinned_by_a_test():
+    """CLAUDE.md §6 names five permitted kinds; the tests asserted two.
+
+    "code, tests, migrations, configs and build artifacts that are verified by
+    execution". If `VERIFIABLE_ARTIFACTS` were missing one of the other three,
+    `assert_may_produce` would raise `ValueError("unknown artifact kind")` and
+    nothing would report it — the boundary would be narrower than the contract
+    and no test would say so. Enumerated here so the permitted set is pinned to
+    the sentence it comes from rather than to whichever kinds happened to get
+    written down.
+    """
+    from register.routing import VERIFIABLE_ARTIFACTS, assert_may_produce
+
+    permitted = ("code", "test", "migration", "config", "build_artifact")
+    assert set(permitted) == set(VERIFIABLE_ARTIFACTS), (
+        "the verifiable set has drifted from CLAUDE.md §6"
+    )
+    for kind in permitted:
+        assert_may_produce("deepseek-v4-pro", kind)
+
+
 # --- an unreadable sharing list denies -------------------------------------
 
 

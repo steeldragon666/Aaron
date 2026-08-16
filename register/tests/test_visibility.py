@@ -166,3 +166,51 @@ def test_a_generic_update_cannot_reach_another_tenants_record(world):
         "SELECT last_action FROM commitment WHERE id = ?", (commitment_id,)
     ).fetchone()
     assert row["last_action"] != "reached across"
+
+
+# --- the injection's worst reachable consequence -----------------------------
+
+
+def test_a_crafted_change_key_cannot_widen_protected_visibility(world):
+    """The `forbidden` set matches keys by exact string, so injection sidestepped it.
+
+    `update` refuses `visibility` as a change key — but by comparing strings.
+    A crafted key is not literally "visibility", so it passed that check and
+    then got interpolated into the SET list. The independent reviewer named
+    this as the reachable consequence, and it is the right one to name: of
+    everything the column-name injection could reach, silently widening a
+    `principal_only` record to `all_users` is the one that loses a client.
+
+    Widening has three requirements — a principal, a stated reason, an
+    `access_log` line — and this route satisfied none of them.
+    """
+    from register.access import Reader, read_one
+    from register.entities import create_commitment
+    from register.errors import AccessDenied, InvariantError
+    from register.store import update
+
+    commitment_id = create_commitment(
+        world.conn,
+        tenant_id=world.tenant,
+        direction="by_principal",
+        statement="I'll fund the earn-out personally if it comes to it.",
+        made_at="2026-08-10T09:00:00+00:00",
+        source_type="manual",
+        provenance="verbatim",
+        produced_by="human:manual",
+        visibility="principal_only",
+    )
+
+    crafted = "visibility = 'all_users', last_action = ? WHERE id = ? OR ? = ? --"
+    with pytest.raises(InvariantError, match="not columns of this table"):
+        update(world.conn, "commitment", commitment_id, {crafted: "x"}, tenant_id=world.tenant)
+
+    row = world.conn.execute(
+        "SELECT visibility FROM commitment WHERE id = ?", (commitment_id,)
+    ).fetchone()
+    assert row["visibility"] == "principal_only"
+
+    # And the record is still invisible to the reader the widening would have admitted.
+    broad = Reader(tenant_id=world.tenant, actor="anyone", role="user")
+    with pytest.raises(AccessDenied):
+        read_one(world.conn, broad, "commitment", commitment_id)

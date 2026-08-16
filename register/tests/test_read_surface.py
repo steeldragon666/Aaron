@@ -36,12 +36,44 @@ import pytest
 
 from register.access import NOT_A_READ, UNGUARDED_READS
 
-READ_MODULES = ("entities", "curator", "ledger", "coverage")
+# Modules deliberately outside the scan, and why each one is. Everything else
+# in the package is scanned, so a new module is a failure until someone triages
+# it — the hardcoded list this replaced omitted `register.ingest`, whose
+# `unprocessed_events` runs SQL and returns full rows. A completeness guard with
+# a blind spot is the specific thing this file exists to prevent, so it had to
+# stop being a list somebody remembers to extend.
+NOT_SCANNED: dict[str, str] = {
+    "access": "the guarded path itself — its own reads take a Reader",
+    "store": "the write boundary; covered by test_invariants",
+    "db": "connections and migrations, no record reads",
+    "cli": "the caller, exercised through the commands it runs",
+    "canonical": "hashing, no database",
+    "errors": "exception types",
+    "ids": "identifier generation",
+    "invariants": "field validation, no database",
+    "redaction": "string matching, no database",
+    "routing": "the model boundary, no database",
+    "extract": "pure functions over message text",
+}
+
+
+def _scanned_modules() -> list[str]:
+    """Every module in the package that is not explicitly excluded."""
+    import pkgutil
+
+    import register
+
+    names = []
+    for info in pkgutil.iter_modules(register.__path__):
+        if info.name.startswith("_") or info.name in NOT_SCANNED:
+            continue
+        names.append(info.name)
+    return sorted(names)
 
 
 def _public_functions() -> dict[str, object]:
     found: dict[str, object] = {}
-    for name in READ_MODULES:
+    for name in _scanned_modules():
         module = importlib.import_module(f"register.{name}")
         for attr, value in vars(module).items():
             if attr.startswith("_") or not inspect.isfunction(value):
@@ -50,6 +82,22 @@ def _public_functions() -> dict[str, object]:
                 continue
             found[f"{name}.{attr}"] = value
     return found
+
+
+def test_the_exclusion_list_names_only_modules_that_exist():
+    """A stale exclusion silently shrinks the scan."""
+    import pkgutil
+
+    import register
+
+    present = {info.name for info in pkgutil.iter_modules(register.__path__)}
+    stale = sorted(set(NOT_SCANNED) - present)
+    assert not stale, f"{stale} are excluded from the scan but no longer exist"
+
+
+def test_the_scan_reaches_the_ingest_package():
+    """The blind spot that made this discovery necessary, pinned."""
+    assert "ingest" in _scanned_modules()
 
 
 def test_every_public_function_is_classified():

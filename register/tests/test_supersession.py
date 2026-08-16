@@ -10,6 +10,7 @@ chain intact and queryable.
 from __future__ import annotations
 
 import pytest
+from tests.conftest import OTHER_TENANT
 
 from register.entities import (
     create_commitment,
@@ -253,12 +254,19 @@ def test_a_commitment_cannot_be_superseded_twice(world):
 
 
 def test_supersession_cannot_reach_across_tenants(world):
-    """Two ids used to be enough to link one client's record into another's chain."""
+    """Two ids used to be enough to link one client's record into another's chain.
+
+    Uses the fixture's real second tenant rather than an invented id. A tenant
+    that does not exist makes the predicate fail for two reasons at once —
+    wrong owner *and* absent — so the test would pass even if ownership were
+    never checked. One real client reaching into another's register is the case
+    the title claims, and now the case it runs.
+    """
     a = _commitment(world, "Ruth will send the figures by Friday.")
     b = _commitment(world, "Ruth will send the figures by Monday.")
 
     with pytest.raises(LookupError):
-        supersede_commitment(world.conn, tenant_id="tn_someone_else", old_id=a, new_id_=b)
+        supersede_commitment(world.conn, tenant_id=OTHER_TENANT, old_id=a, new_id_=b)
 
     result = world.conn.execute(
         "SELECT superseded_by, status FROM commitment WHERE id = ?", (a,)
@@ -272,6 +280,6 @@ def test_voiding_cannot_reach_across_tenants(world):
 
     a = _commitment(world, "Ruth will send the figures by Friday.")
     with pytest.raises(InvariantError, match="not found in tenant"):
-        void_commitment(world.conn, a, "not mine to void", tenant_id="tn_someone_else")
+        void_commitment(world.conn, a, "not mine to void", tenant_id=OTHER_TENANT)
     row = world.conn.execute("SELECT status FROM commitment WHERE id = ?", (a,)).fetchone()
     assert row["status"] == "open"

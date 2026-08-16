@@ -509,6 +509,12 @@ UNGUARDED_READS: Mapping[str, str] = {
         "Scores the register against a manually compiled list. Reads statements "
         "across the whole tenant by construction — it is a tenant-wide metric."
     ),
+    "ingest.unprocessed_events": (
+        "Returns whole ingest events — sender, participants, subject and body — "
+        "for the extractor to read. The rawest client content in the system, and "
+        "it was invisible to this guard until the module scan was derived from "
+        "the package rather than hand-listed."
+    ),
 }
 
 # Public functions in those modules that return no record data: writers,
@@ -545,4 +551,5 @@ NOT_A_READ: Mapping[str, str] = {
     "ledger.verify_chain": "hashes only, no payload content",
     "coverage.load_known": "reads a file the caller supplied",
     "coverage.similarity": "string comparison, no database",
+    "ingest.ingest": "writer, returns counts",
 }

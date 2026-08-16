@@ -321,8 +321,11 @@ def test_a_filter_value_is_bound_never_interpolated(world):
     reader = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
     hostile = "open') OR ('1'='1"
     assert query(world.conn, reader, "commitment", filters=[Filter("status", "eq", hostile)]) == []
-    # the table is still there, which it would not be if values were interpolated
-    assert world.conn.execute("SELECT count(*) FROM commitment").fetchone() is not None
+    # The table is still there, which it would not be if values were
+    # interpolated. Compared against the known count rather than asserted
+    # non-None: a COUNT(*) always returns exactly one row, so `is not None`
+    # could never have failed and was reassurance rather than a check.
+    assert world.conn.execute("SELECT count(*) AS n FROM commitment").fetchone()["n"] == 0
 
 
 def test_ordinary_filters_still_work(world):
@@ -467,18 +470,45 @@ def test_an_oversized_in_list_is_refused_with_a_number(world):
     assert query(world.conn, reader, "commitment", filters=[Filter("id", "in", at_the_limit)]) == []
 
 
-def test_widening_carries_the_tenant_in_its_predicate(world):
+def test_widening_cannot_reach_into_another_tenant(world):
     """Defence in depth: `read_one` already proved ownership, and this asks again.
 
     A write that is safe only because of what a caller did twenty lines earlier
     is the one a later refactor breaks silently.
+
+    Asserted behaviourally rather than by matching the SQL text, which was the
+    first version of this test. A source-text assertion breaks on a reformat
+    while the predicate stays correct, and passes if the string turns up in a
+    comment — it tests the spelling, not the property.
     """
-    import inspect
+    from register.entities import create_tenant
 
-    from register import access
+    other = create_tenant(world.conn, "Widening Co", tenant_id="tn_widening")
+    theirs = create_commitment(
+        world.conn,
+        tenant_id=other,
+        direction="to_principal",
+        statement="Their commitment, not ours to share.",
+        made_at="2026-08-10T09:00:00+00:00",
+        source_type="email",
+        provenance="verbatim",
+        produced_by="human:manual",
+    )
+    before = world.conn.execute(
+        "SELECT shareable_with FROM commitment WHERE id = ?", (theirs,)
+    ).fetchone()["shareable_with"]
 
-    source = inspect.getsource(access.widen_shareable_with)
-    assert "WHERE id = ? AND tenant_id = ?" in source
+    # A principal of *this* tenant, holding the other tenant's record id.
+    principal = Reader(tenant_id=world.tenant, actor="aaron", role="principal")
+    with pytest.raises((AccessDenied, LookupError)):
+        widen_shareable_with(
+            world.conn, principal, "commitment", theirs, [world.veldt], reason="not mine to widen"
+        )
+
+    after = world.conn.execute(
+        "SELECT shareable_with FROM commitment WHERE id = ?", (theirs,)
+    ).fetchone()["shareable_with"]
+    assert after == before, "another tenant's sharing list was widened"
 
 
 def test_many_individually_legal_in_filters_cannot_exceed_the_bind_ceiling(world):

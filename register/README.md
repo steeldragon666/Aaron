@@ -475,7 +475,7 @@ Plus one the brief does not list, added after an audit against `CLAUDE.md` §3:
 
 | — · Log hygiene | `test_log_hygiene.py` | Both halves of the secret check. Human free-text — a rejection reason, a widening justification, a gap note, an AR status or scoring note — is redacted in place and the action still completes, including on a deliberate false positive. Machine-generated text — an extractor candidate, an AR claim, a prediction — is refused, and a refused write leaves the record untouched rather than half-applied. |
 | — · Cadence | `test_cadence.py` | That `last_substantive_contact` comes from records rather than a classifier, and that a cadence alert writes nothing and cannot make anything chaseable. |
-| — · Read surface | `test_read_surface.py` | That every public function which hands back record content is classified — see "The unguarded reads" below. |
+| — · Read surface | `test_read_surface.py` | That every public function which hands back record content is classified — see "The unguarded reads" above. |
 
 ---
 

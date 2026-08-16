@@ -18,6 +18,7 @@ actually run is checked by the gate running.
 
 from __future__ import annotations
 
+import importlib.machinery  # not implied by importlib.util; see _gate_module
 import importlib.util
 import subprocess
 import sys
