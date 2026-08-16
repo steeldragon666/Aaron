@@ -177,15 +177,21 @@ def main(argv: list[str] | None = None) -> int:
         help="read the intent id out of a commit subject instead of --intent (default HEAD)",
     )
     parser.add_argument("--fast", action="store_true", help="skip the slower checks")
+    parser.add_argument(
+        "--intent-only",
+        action="store_true",
+        help="resolve and validate the intent id, print it, and run no checks",
+    )
     parser.add_argument("--note", default="", help="one line for the run log")
     args = parser.parse_args(argv)
 
     if args.intent_from_commit:
-        subject = commit_subject()
+        ref = args.intent_from_commit
+        subject = commit_subject(ref)
         found = intent_in(subject)
         if found is None:
             print(
-                "no intent id in the commit subject:\n"
+                f"no intent id in the commit subject of {ref}:\n"
                 f"  {subject}\n"
                 "Commits reference the decision, spec item or AR that motivated them "
                 "(CLAUDE.md, conventions). Prefix the subject, e.g. 'S-4: ...'.",
@@ -204,6 +210,14 @@ def main(argv: list[str] | None = None) -> int:
             file=sys.stderr,
         )
         return 2
+
+    if args.intent_only:
+        # Resolve and validate the intent, run nothing, log nothing. Two uses:
+        # a commit-msg hook that wants the convention checked in milliseconds,
+        # and this tool's own tests — which cannot invoke the full gate,
+        # because the gate runs pytest and pytest would run them again.
+        print(args.intent)
+        return 0
 
     external = os.environ.get("NO_MISTAKES")
     if external:

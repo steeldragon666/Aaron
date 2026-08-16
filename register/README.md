@@ -54,7 +54,9 @@ Every push goes through the gate:
 
 ```bash
 tools/no-mistakes --intent S-4
-tools/no-mistakes --intent-from-commit   # reads the id out of HEAD's subject
+tools/no-mistakes --intent-from-commit          # reads the id out of HEAD's subject
+tools/no-mistakes --intent-from-commit HEAD~1   # or any other commit
+tools/no-mistakes --intent-from-commit --intent-only   # resolve the id, run nothing
 ```
 
 It also runs in CI on every push and every pull request, which is the version
@@ -245,6 +247,17 @@ not anyone asked. It reads the intent id out of the commit subject via
 `--intent-from-commit`, which makes the other half of the convention
 machine-checked too: a commit whose subject carries no decision, spec item or
 AR id fails the gate.
+
+The gate now has tests of its own (`tests/test_gate.py`), which it did not
+before and should have from the start. It shipped broken twice in a row, both
+times the same way — the intent id read off the wrong commit, first because a
+`pull_request` checkout is a merge commit whose subject is GitHub's rather than
+the author's, then because the fix threaded a ref parameter through the flag
+and through `commit_subject` but not through the call between them. CI caught
+both, which is the argument for CI; a verification tool with no verification of
+its own is the wrong place to be leaning on that. Those tests invoke
+`--intent-only` rather than the full gate, because the gate runs pytest and
+pytest would run them again.
 
 **Branch protection.** CI is necessary and not sufficient. Until
 `no-mistakes / gate` is a *required* status check on the default branch, a red
