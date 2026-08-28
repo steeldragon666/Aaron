@@ -1,0 +1,236 @@
+{
+ "rfq": "RFQ-CW-2026-001",
+ "issued": "2026-08-28",
+ "due": "2026-09-25",
+ "items": 244,
+ "groups": 25,
+ "steel_mass_kg": 20700,
+ "cn_nominal_mass_kg": 74439,
+ "group_list": [
+  {
+   "code": "A",
+   "title": "ISO containers & inter-connection",
+   "items": 5,
+   "mass": 11916,
+   "cn": 5,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "B",
+   "title": "Container modification & bay structure",
+   "items": 13,
+   "mass": 2835,
+   "cn": 13,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "C",
+   "title": "Primary steel \u2014 portal frames",
+   "items": 12,
+   "mass": 12888,
+   "cn": 12,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "D",
+   "title": "Secondary steel \u2014 purlins, girts, canopies",
+   "items": 11,
+   "mass": 3691,
+   "cn": 11,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "E",
+   "title": "Bracing",
+   "items": 6,
+   "mass": 1545,
+   "cn": 6,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "F",
+   "title": "Crane runway",
+   "items": 8,
+   "mass": 2576,
+   "cn": 8,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "G",
+   "title": "Overhead crane, 2000 kg",
+   "items": 9,
+   "mass": 3700,
+   "cn": 9,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "H",
+   "title": "Envelope \u2014 PIR panels, flashings, rainwater",
+   "items": 13,
+   "mass": 8460,
+   "cn": 13,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "I",
+   "title": "Doors",
+   "items": 8,
+   "mass": 1219,
+   "cn": 8,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "J",
+   "title": "Container-top storage deck & racking",
+   "items": 10,
+   "mass": 3821,
+   "cn": 10,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "K",
+   "title": "Stair, walkway edge protection",
+   "items": 8,
+   "mass": 805,
+   "cn": 8,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "L",
+   "title": "In-ground vehicle lifts, 4 x 6 t",
+   "items": 10,
+   "mass": 5084,
+   "cn": 10,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "M",
+   "title": "Hydraulic power unit & reticulation",
+   "items": 11,
+   "mass": 1040,
+   "cn": 10,
+   "opt": 0,
+   "local": 1
+  },
+  {
+   "code": "N",
+   "title": "Plant sump fit-out",
+   "items": 9,
+   "mass": 1883,
+   "cn": 9,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "O",
+   "title": "Floor drainage interfaces",
+   "items": 5,
+   "mass": 760,
+   "cn": 2,
+   "opt": 0,
+   "local": 3
+  },
+  {
+   "code": "P",
+   "title": "Solar array, 52.08 kW",
+   "items": 11,
+   "mass": 3678,
+   "cn": 10,
+   "opt": 1,
+   "local": 0
+  },
+  {
+   "code": "Q",
+   "title": "Inverters, battery storage, EV charging",
+   "items": 9,
+   "mass": 1364,
+   "cn": 9,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "R",
+   "title": "Plant lean-to, 3.0 x 6.0 m",
+   "items": 7,
+   "mass": 1685,
+   "cn": 7,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "S",
+   "title": "Main electrical distribution",
+   "items": 13,
+   "mass": 1432,
+   "cn": 13,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "T",
+   "title": "Lighting",
+   "items": 9,
+   "mass": 166,
+   "cn": 9,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "U",
+   "title": "Sensors, control, security, network",
+   "items": 23,
+   "mass": 121,
+   "cn": 23,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "V",
+   "title": "Service reels & workshop services",
+   "items": 8,
+   "mass": 630,
+   "cn": 7,
+   "opt": 1,
+   "local": 0
+  },
+  {
+   "code": "W",
+   "title": "Workbenches & bay fit-out",
+   "items": 5,
+   "mass": 2315,
+   "cn": 4,
+   "opt": 1,
+   "local": 0
+  },
+  {
+   "code": "X",
+   "title": "Fixings, sealants, consumables, export packing",
+   "items": 9,
+   "mass": 825,
+   "cn": 9,
+   "opt": 0,
+   "local": 0
+  },
+  {
+   "code": "Y",
+   "title": "Local supply & site works (info only \u2014 excluded from this RFQ)",
+   "items": 12,
+   "mass": 0,
+   "cn": 0,
+   "opt": 0,
+   "local": 12
+  }
+ ]
+}
