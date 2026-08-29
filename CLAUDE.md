@@ -12,7 +12,7 @@ The buyer is a founder, CEO or senior executive. **$5,000/month**, plus a **$1,5
 
 Entity: **The Carbon Project**. Runs on an 8× CMP 170HX farm. Target capacity 4–5 clients per farm.
 
-Full context in `docs/`. Start with `CONSOLIDATION_BRIEF.md` §0 for the settled stack, then `ACTION_TIER_AND_REGISTER_SPEC.md` for what we are building now.
+Full context in `docs/`. Start with `CONSOLIDATION_BRIEF.md` §0 for the settled stack and `MODEL_AND_MIDDLEWARE_SPEC.md` for the subagent base model and middleware architecture, then `ACTION_TIER_AND_REGISTER_SPEC.md` for what we are building now.
 
 ---
 
@@ -38,7 +38,7 @@ Commitment records additionally carry `direction` (`by_principal | to_principal 
 
 ### 2 · No external calls on any client-context path
 
-The entire stack is self-hosted: GLM-5.2 reasoning, Qwen3.8 subagents, LTX-2.5 video, open-weights TTS. **Zero external API dependencies is a contractual product claim, not a preference.** Do not add an SDK, a hosted model call, a telemetry endpoint or a CDN dependency to any code path that touches client data. If something appears to need one, raise it.
+The entire stack is self-hosted: GLM-5.2 reasoning, five dense 27B subagents finetuned from `junafinity/Qwen-3.8-27B-Uncensored` (D-19), LTX-2.5 video, open-weights TTS. **Zero external API dependencies is a contractual product claim, not a preference.** Do not add an SDK, a hosted model call, a telemetry endpoint or a CDN dependency to any code path that touches client data. If something appears to need one, raise it. Model weights are pulled once at build time and pinned by revision; the `featherless-ai` provider listed on the subagent model card is a hosted API and must never be called.
 
 ### 3 · Secrets and plaintext hygiene
 
@@ -64,7 +64,7 @@ See `ACTION_TIER_AND_REGISTER_SPEC.md` §1 for the full matrix.
 
 ### 6 · Model boundary
 
-Where DeepSeek V4 Pro is used, it may generate **code, tests, migrations, configs and build artifacts that are verified by execution**. It must never generate an Action Request, an evidence block, a claim about the world, a prediction, or client-facing prose. Enforce at the routing layer.
+Where DeepSeek V4 Pro is used, it may generate **code, tests, migrations, configs and build artifacts that are verified by execution**. It must never generate an Action Request, an evidence block, a claim about the world, a prediction, or client-facing prose. Enforce at the routing layer. That routing layer is the D-20 middleware — a coordinator that dispatches to an engine knows which engine ran, so `produced_by` is stamped from the dispatcher and never from an argument.
 
 ### 7 · Verification gate
 
@@ -78,7 +78,7 @@ Every run carries `--intent` pointing at the decision or spec ID that motivated 
 
 ## Current build state
 
-**Settled:** the stack (GLM-5.2 / Qwen3.8 / LTX-2.5 / open TTS, all self-hosted); the four personas; Bram covers both physical and software engineering; internal-first with tenant-aware schema; the onboarding ladder (Phase 0 Instrument → 1 Shadow → 2 Supervised → 3 Bounded, promoted on measured performance, never on time); pricing; the action tier and register spec.
+**Settled:** the stack (GLM-5.2 / 5 × dense 27B subagents / LTX-2.5 / open TTS, all self-hosted — see `docs/MODEL_AND_MIDDLEWARE_SPEC.md` for D-19 and D-20); the four personas; Bram covers both physical and software engineering; internal-first with tenant-aware schema; the onboarding ladder (Phase 0 Instrument → 1 Shadow → 2 Supervised → 3 Bounded, promoted on measured performance, never on time); pricing; the action tier and register spec.
 
 **Open, and does not block current work:**
 

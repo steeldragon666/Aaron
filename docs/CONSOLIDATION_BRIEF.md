@@ -22,10 +22,11 @@ Four decisions have been settled since rev 1. They change the economics material
 | Layer | Choice | Runs where | Sovereign? |
 |---|---|---|---|
 | Reasoning — Prime Agent, all agents' thinking | **GLM-5.2** — ~753B MoE / ~40B active, 1M context, MIT licence | Self-hosted on the farm | **Yes** |
-| Subagents | **Qwen3.8** (variant TBC) | Self-hosted | **Yes** |
+| Subagents | **5 × dense 27B**, finetuned from `junafinity/Qwen-3.8-27B-Uncensored` — Apache-2.0, vision head `[D-19 — see MODEL_AND_MIDDLEWARE_SPEC]` | Self-hosted | **Yes** |
 | Avatar video | **LTX-2.5** — open weights, ≥16GB VRAM, permissive licence, free commercial use under $10M ARR, no branding requirement | Self-hosted | **Yes** |
 | Voice | ~~ElevenLabs~~ → **open-weights TTS on-farm** `[D-14 — shortlist below]` | Self-hosted | **Yes** |
 | Routing | **NeMo Switchyard** + Nemotron 3.5 Lightning *(under consideration)* `[D-17]` | Self-hosted | **Yes** |
+| Middleware — agent loop, tools, permissions, coordinator | **Twelve-layer harness architecture** `[D-20 — see MODEL_AND_MIDDLEWARE_SPEC]` | Self-hosted | **Yes** |
 | Long-horizon code/engineering | **DeepSeek V4 Pro**, sandboxed `[D-18]` | Self-hosted | **Yes** |
 | Hardware | CMP 170HX, **80GB unlocked**, **PCIe ×16** | — | — |
 
@@ -490,7 +491,7 @@ The moment it is *asserting* rather than *generating-and-verifying*, the reporte
 | S-8 | **Number of watch sources** | Awareness: 5–10 per agent to start. Operating: scoped strictly to register entities. Compatible under D-5 option C, but the initial source list needs to be written down per agent for the first build. |
 | S-9 | **Voice profiles for whichever personas win** | Bible's voice specs (Dutch consonants on Ingrid, Indian-English rhythm on Priya) are tied to Design A heritages and become invalid if D-2 goes the other way. |
 | S-10 | **"Agent Description And Appearance" doc** | Contains only the words "Physical attributes". Either populate it or delete it — an empty doc in a project corpus is a retrieval hazard. |
-| S-11 | **Which Qwen3.8 variant?** *(rev 2)* | Qwen3.8-**Max** is ~2.4T parameters / ~95B active — larger than GLM-5.2, so it plainly isn't the subagent model. Which size is intended? And does it also replace the separate 8B relevance classifier specified in `CURRENT_AWARENESS_PIPELINE`, or is that still its own model? Consolidating to one small model for classification, subagent work, the D-13 voice pass and the vision-ingestion role would be simpler to run and to reason about. **Pick a variant with a vision head** — see item 6 in §0. |
+| S-11 | **Which Qwen3.8 variant?** *(rev 2 — **closed** 26 Aug)* | Answered by **D-19**: `junafinity/Qwen-3.8-27B-Uncensored`, 27.78B dense, Apache-2.0, and it carries the vision head this row asked for. Two parts remain open and move to **S-15/S-16/S-17** in `MODEL_AND_MIDDLEWARE_SPEC.md`: whether the five are weight sets or adapters, whether they absorb the 8B relevance classifier, and whether an abliterated checkpoint still abstains. |
 | S-12 | **GPU contention** *(rev 2, updated rev 3)* | Video render, LoRA training, the classifier, the weekly deep scan, TTS, DeepSeek V4 batch coding and live GLM-5.2 inference now all compete for the same farm. There is no scheduler or priority policy in any document. **NeMo Switchyard partially addresses this** (system load is a routing signal) but it routes between models, it does not schedule GPU time across workload classes. You still need a priority policy: decide what gets pre-empted when a client is waiting. |
 | S-13 | **Model provenance in the AR schema** *(rev 3)* | Required before routing goes live — see D-17. Add `produced_by:` to the Action Request schema now, even while there is only one model, so the field exists before the data that depends on it. |
 | S-14 | **Voice reference archive** *(rev 3)* | Whichever TTS wins, each persona's synthetic reference clip becomes a locked, versioned asset in the same class as the character LoRA. Store it in version control alongside the Midjourney seeds. A regenerated voice is a different person to the audience — `CHARACTER_BIBLE` is explicit on this and it applies identically to open-weights models. |
