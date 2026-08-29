@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: register
+Version: 0.1.0
+Summary: Commitment register and hash-chained Action Request ledger — Sprint 1, tenant zero
+Requires-Python: >=3.11
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Requires-Dist: ruff>=0.5; extra == "dev"
+Requires-Dist: mypy>=1.10; extra == "dev"
