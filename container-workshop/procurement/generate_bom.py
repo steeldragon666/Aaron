@@ -16,8 +16,8 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
 RFQ_NO = "RFQ-CW-2026-001"
-ISSUE_DATE = "2026-08-28"
-QUOTES_DUE = "2026-09-25"
+ISSUE_DATE = "2026-09-24"
+QUOTES_DUE = "2026-10-22"
 CONTACT = "aaron@carbonproject.com.au"
 
 # scope codes

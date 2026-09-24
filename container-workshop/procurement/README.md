@@ -1,6 +1,6 @@
 # Container Workshop — procurement package (rev C)
 
-RFQ **RFQ-CW-2026-001** · issued 2026-08-28 · quotations due 2026-09-25
+RFQ **RFQ-CW-2026-001** · issued 2026-09-24 · quotations due 2026-10-22
 
 Procurement documents for the Container Workshop (rev C, 2026-08-24 design
 package): a workshop built from three 40 ft high-cube containers under a

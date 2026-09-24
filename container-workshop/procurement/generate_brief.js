@@ -141,9 +141,9 @@ const cover = [
   kvTable([
     ["RFQ number", SUMMARY.rfq],
     ["Design revision", "C — 2026-08-24 · status: for engineering (not certified)"],
-    ["Issued", "28 August 2026"],
-    ["Clarification questions close", "11 September 2026"],
-    ["Quotations due", "25 September 2026, 17:00 AEST"],
+    ["Issued", "24 September 2026"],
+    ["Clarification questions close", "8 October 2026"],
+    ["Quotations due", "22 October 2026, 17:00 AEST"],
     ["Buyer", "The Carbon Project (Australia)"],
     ["Contact (sole channel)", "aaron@carbonproject.com.au"],
     ["Quotation basis", "Itemised rates FOB nominated China port, USD, plus freight and insurance lines to CIF Port of Brisbane, Australia"],
@@ -168,7 +168,7 @@ const s1 = [
   h1("Invitation", "邀请函"),
   p("The Carbon Project invites quotations from prefabricated-building manufacturers and equipment suppliers for the complete supply of the Container Workshop: a parametrically engineered workshop building to be erected in Australia. The package covers the three ISO containers and their modification, all structural and secondary steel, the insulated envelope and doors, a 2 t overhead crane, four in-ground 6 t vehicle lifts with hydraulic plant, a 52.08 kW solar array with battery storage and EV charging, and a fully sensor-driven electrical, lighting, control and security installation."),
   p("Tenderers may quote the full kit (preferred) or one or more of the packages defined in Section 3. All rates are entered in the accompanying BOM workbook, which contains 244 items in 25 groups. Rate and amount columns arrive empty by design: no prices are invented anywhere in this design package — they come from supplier quotes."),
-  p([run("致：预制建筑制造商及设备供应商 — 澳大利亚 The Carbon Project 现就“集装箱车间”项目进行国际询价。项目由三个 40 英尺高柜集装箱与门式钢架保温围护结构组成，含 2 吨桥式起重机、四台 6 吨地埋式举升机、52.08 kW 屋顶光伏及储能与充电系统、以及全传感器化楼宇控制系统。请按随附 BOM 工作簿（Excel，共 244 项、25 组）逐项报价；可整套报价（优先）或按第 3 节的分包范围报价。报价截止：2026 年 9 月 25 日。所有技术要求以英文版本为准。联系邮箱：aaron@carbonproject.com.au。", { size: 19 })]),
+  p([run("致：预制建筑制造商及设备供应商 — 澳大利亚 The Carbon Project 现就“集装箱车间”项目进行国际询价。项目由三个 40 英尺高柜集装箱与门式钢架保温围护结构组成，含 2 吨桥式起重机、四台 6 吨地埋式举升机、52.08 kW 屋顶光伏及储能与充电系统、以及全传感器化楼宇控制系统。请按随附 BOM 工作簿（Excel，共 244 项、25 组）逐项报价；可整套报价（优先）或按第 3 节的分包范围报价。报价截止：2026 年 10 月 22 日。所有技术要求以英文版本为准。联系邮箱：aaron@carbonproject.com.au。", { size: 19 })]),
 ];
 
 const s2 = [
@@ -335,7 +335,7 @@ const s9 = [
   h1("Packing, marking & shipping", "包装与运输"),
   bullet([run("Ship the building in the building. ", { bold: true }), run("The three group-A containers travel as shipper-owned containers (SOC) carrying the kit — book them as cargo-carrying SOCs, not as freight-paying cargo. Long members (max fabricated length ≈ 8.9 m rafters) fit inside a 40 ft unit; supplementary flat racks or GP containers as required by your stuffing plan.")]),
   bullet("Destination: CIF Port of Brisbane, Australia (Incoterms 2020). Quote FOB rates per the BOM plus the freight, insurance and inspection lines on the Group summary sheet; a DDP alternative may be offered separately."),
-  bullet("Biosecurity: all timber ISPM 15; cargo free of soil, seeds and insect contamination (Australian DAFF inspection standard). Shipments departing 1 September – 30 April fall inside the BMSB (brown marmorated stink bug) season and require offshore treatment by an approved provider with certificates — the target Q1 2027 arrival is inside this window, so include BMSB treatment in your freight line."),
+  bullet("Biosecurity: all timber ISPM 15; cargo free of soil, seeds and insect contamination (Australian DAFF inspection standard). Shipments departing 1 September – 30 April fall inside the BMSB (brown marmorated stink bug) season and require offshore treatment by an approved provider with certificates — the target Q2 2027 arrival puts the sailing near the season boundary, so confirm your sailing date at booking and include BMSB treatment in your freight line for any departure on or before 30 April."),
   bullet("Batteries: IMDG Class 9 (UN 3480) documentation, UN 38.3 test summaries and SDS travel with the shipping docs; batteries packed and declared separately from general cargo."),
   bullet("Preservation: machined surfaces VCI-protected; electrical equipment desiccant-packed and sealed; panels edge-protected and strapped on A-frames or bearers; galvanized steel stacked with separators to prevent wet-storage staining."),
   bullet("Securing: lashing to the IMO/ILO CTU Code with a documented, photographed lashing plan per unit."),
@@ -346,18 +346,18 @@ const s9 = [
 const s10 = [
   h1("Delivery & programme", "交付进度"),
   mkTable(["Milestone", "Date / duration"], [
-    ["RFQ issued", "28 August 2026"],
-    ["Clarification questions close (email only)", "11 September 2026"],
-    ["Addendum issued if required", "16 September 2026"],
-    ["Quotations due", "25 September 2026, 17:00 AEST"],
-    ["Evaluation, clarifications, optional factory audit", "October 2026"],
-    ["Target purchase order", "early November 2026"],
+    ["RFQ issued", "24 September 2026"],
+    ["Clarification questions close (email only)", "8 October 2026"],
+    ["Addendum issued if required", "13 October 2026"],
+    ["Quotations due", "22 October 2026, 17:00 AEST"],
+    ["Evaluation, clarifications, optional factory audit", "November 2026"],
+    ["Target purchase order", "early December 2026"],
     ["Shop drawings + certification data package", "4 weeks from PO"],
     ["Vehicle-hoist design-registration dossier (critical path)", "6 weeks from PO"],
     ["Buyer approval cycle", "2 weeks per cycle"],
     ["Fabrication, procurement, FAT", "10–14 weeks from drawing approval"],
     ["Pre-shipment inspection, BMSB treatment, stuffing", "2 weeks"],
-    ["Sea freight to Port of Brisbane", "3–4 weeks — target arrival Q1 2027"],
+    ["Sea freight to Port of Brisbane", "3–4 weeks — target arrival Q2 2027"],
   ], [6200, 3438], { zebra: true }),
   p([], { before: 120 }),
   p("State your own programme against these milestones in the submission; a credible shorter programme is welcome, an unexamined optimistic one is not."),
@@ -483,7 +483,7 @@ const annexC = [
     ["UB / PFC / SHS / CHS / RHS", "Universal beam / parallel-flange channel / square, circular, rectangular hollow section"],
   ], [2600, 7038], { size: 16 }),
   p([], { before: 240 }),
-  p([run("Container Workshop · RFQ-CW-2026-001 · rev C · issued 2026-08-28 · The Carbon Project · aaron@carbonproject.com.au", { size: 16, color: MUT })], { align: AlignmentType.CENTER }),
+  p([run("Container Workshop · RFQ-CW-2026-001 · rev C · issued 2026-09-24 · The Carbon Project · aaron@carbonproject.com.au", { size: 16, color: MUT })], { align: AlignmentType.CENTER }),
 ];
 
 // ------------------------------------------------------------------ document
