@@ -5,37 +5,37 @@
    "label": 5,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 58.8
+   "volume_L": 59.8
   },
   "cold_front_plenum": {
    "label": 5,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 58.8
+   "volume_L": 59.8
   },
   "hot_rear_plenum": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 401.2
+   "volume_L": 400.3
   },
   "hot_upper_bay": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 401.2
+   "volume_L": 400.3
   },
   "hot_ac_side_gap": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 401.2
+   "volume_L": 400.3
   },
   "hot_ac_notch": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 401.2
+   "volume_L": 400.3
   },
   "condenser_zone": {
    "label": 1,

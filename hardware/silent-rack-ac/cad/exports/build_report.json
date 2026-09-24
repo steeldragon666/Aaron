@@ -36,13 +36,14 @@
   "ac_notch_top_z": 751.0,
   "ac_exh_od": 150.0,
   "ac_exh_collar_h": 40.0,
-  "ac_out_w": 340.0,
+  "ac_out_w": 350.0,
   "ac_out_d": 110.0,
   "ac_out_y": 70.0,
   "ac_drain_x": 30.0,
   "ac_drain_z": 40.0,
-  "ac_disp_x": 200.0,
+  "ac_disp_x": 190.0,
   "ac_disp_z": 690.0,
+  "hood_margin": 15.0,
   "exh_insul": 10.0,
   "exh_bend_r": 150.0,
   "win_w": 140.0,
@@ -99,7 +100,7 @@
   },
   "Acoustic Lining": {
    "parts": 20,
-   "volume_mm3": 237030101.0
+   "volume_mm3": 236844851.0
   },
   "Base, Tray & Drain": {
    "parts": 16,
@@ -107,7 +108,7 @@
   },
   "Airflow & Seals": {
    "parts": 16,
-   "volume_mm3": 22505770.0
+   "volume_mm3": 22553230.0
   },
   "19in Rack": {
    "parts": 10,
@@ -115,7 +116,7 @@
   },
   "AC Dimplex GDC14RBA (ref)": {
    "parts": 14,
-   "volume_mm3": 122555230.0
+   "volume_mm3": 122544230.0
   },
   "Example IT (ref)": {
    "parts": 8,

@@ -24,7 +24,7 @@ A sealed, acoustically lined server cabinet. The existing **Dimplex GDC14RBA** p
 2. Click **+ → Script or add-in from device**, select the `cad/fusion/SilentRackAC` folder, and run it.
 3. The script:
    - builds the rack in a **new** design (your open documents are never touched);
-   - adds 46 `sr_*` user parameters;
+   - adds 47 `sr_*` user parameters;
    - checks every body's volume against this export.
 4. To change the design, do either of these, then run the script again:
    - edit `DEFAULTS` in `rack_layout.py`; or

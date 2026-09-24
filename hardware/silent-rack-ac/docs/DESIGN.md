@@ -50,9 +50,9 @@ Only the rating-plate numbers are certain. The rest were estimated from the phot
 | M3 | Floor to the **split between the upper and lower rear grilles** (partition height) | 420 | `ac_split_z` | ±30 |
 | M4 | Rear-right notch: width from the right side × depth from the back | 215 × 178 | `ac_notch_w`, `ac_notch_d` | ±15 |
 | M5 | Floor to the underside of the top box over the notch | 751 | `ac_notch_top_z` | ±20 |
-| M6 | Top louvre opening: width × depth, and front edge from the AC front | 340 × 110 @ 70 | `ac_out_*` | ±20 |
+| M6 | Top louvre opening: width × depth, and front edge from the AC front | 350 × 110 @ 70 | `ac_out_*` | width measured (flap ≈ 348); depth ±20. The hood adds `hood_margin` 15 mm all round. |
 | M7 | Drain plug centre: from the left side, and height | 30, 40 | `ac_drain_x`, `ac_drain_z` | ±10 |
-| M8 | Display centre: from the left side, and height | 200, 690 | `ac_disp_*` | ±30 |
+| M8 | Display centre: from the left side, and height | 190, 690 | `ac_disp_*` | ±15 (front photos) |
 
 Tolerance built in: 29 mm side gaps, a 25 mm front gap, 80 mm above the AC for the louvres, and the exhaust elbow clears the top box by about 70 mm. M2 and M3 matter most. They set the partition and gasket line and the height of the exhaust duct.
 

@@ -65,14 +65,15 @@ DEFAULTS = {
     "ac_notch_top_z": 751.0, # underside of the top box over the notch (VERIFY)
     "ac_exh_od": 150.0,      # exhaust spigot OD (measured ~150)
     "ac_exh_collar_h": 40.0, # spigot height above notch floor (VERIFY)
-    "ac_out_w": 340.0,       # top cold-air outlet (louvres) width  (VERIFY)
+    "ac_out_w": 350.0,       # top cold-air outlet (louvres) width  (tape: flap ~348)
     "ac_out_d": 110.0,       # top cold-air outlet depth            (VERIFY)
     "ac_out_y": 70.0,        # outlet front edge from AC front face (VERIFY)
     "ac_drain_x": 30.0,      # drain plug centre from AC left side  (VERIFY)
     "ac_drain_z": 40.0,      # drain plug centre above floor (measured ~40)
-    "ac_disp_x": 200.0,      # display centre from AC left side     (VERIFY)
+    "ac_disp_x": 190.0,      # display centre from AC left side     (front photos)
     "ac_disp_z": 690.0,      # display centre above floor           (VERIFY)
     # --- ducts / window ----------------------------------------------------
+    "hood_margin": 15.0,     # hood collar clearance around the AC outlet (tolerance)
     "exh_insul": 10.0,       # closed-cell insulation on the exhaust elbow/duct
     "exh_bend_r": 150.0,     # exhaust elbow centreline radius (1.0 D)
     "win_w": 140.0,          # lower-door viewing window (AC display + IR remote)
@@ -116,13 +117,14 @@ PARAM_DOC = {
     "ac_notch_top_z": ("mm", "AC top box underside (VERIFY)"),
     "ac_exh_od": ("mm", "AC exhaust spigot OD"),
     "ac_exh_collar_h": ("mm", "AC exhaust spigot height (VERIFY)"),
-    "ac_out_w": ("mm", "AC top outlet width (VERIFY)"),
+    "ac_out_w": ("mm", "AC top outlet width (measured ~348)"),
     "ac_out_d": ("mm", "AC top outlet depth (VERIFY)"),
     "ac_out_y": ("mm", "AC top outlet front edge (VERIFY)"),
     "ac_drain_x": ("mm", "AC drain plug from left side (VERIFY)"),
     "ac_drain_z": ("mm", "AC drain plug height"),
-    "ac_disp_x": ("mm", "AC display centre from left (VERIFY)"),
+    "ac_disp_x": ("mm", "AC display centre from left (photos)"),
     "ac_disp_z": ("mm", "AC display centre height (VERIFY)"),
+    "hood_margin": ("mm", "Hood collar clearance around AC outlet"),
     "exh_insul": ("mm", "Exhaust duct insulation"),
     "exh_bend_r": ("mm", "Exhaust elbow centreline radius"),
     "win_w": ("mm", "Viewing window width"),
@@ -499,7 +501,8 @@ def build_parts(P=None):
     cold_open = (X0 + cl + 12, Y0 + cl, X1 - cl - 12, D["y_frail"] - 5)       # cold supply -> front plenum
     ret_open = (X0 + cl + 2, D["y_rrail"] + 10, X1 - cl - 2, Y1 - cl - 2)     # hot return <- rear plenum
     zsf0 = D["z_shelf_foam0"]
-    hood_y1 = D["out_y1"] + 10                                               # rear face of the cold hood
+    hm = P["hood_margin"]
+    hood_y1 = D["out_y1"] + hm + 10                                          # rear face of the cold hood
     part("Foam shelf underside", "Acoustic Lining", "foam",
          [box(X0 + cl, hood_y1, zsf0, X1 - cl, ret_open[1], D["z_shelf0"])], bom=F25)
     part("Foam partition underside", "Acoustic Lining", "foam",
@@ -567,7 +570,8 @@ def build_parts(P=None):
           box(ret_open[0], ret_open[1], D["z_shelf0"] - 1, ret_open[2], ret_open[3], D["z_shelf1"] + 1)],
          bom={"kind": "sheet", "material": "Birch ply 18 mm", "t": P["shelf_t"]})
     # cold hood: collar over the louvres + plenum box up into the shelf opening
-    ox0, ox1, oy0, oy1 = D["out_x0"], D["out_x1"], D["out_y0"], D["out_y1"]
+    # collar/gasket opening = AC outlet + hood_margin all round (tolerates louvre offset)
+    ox0, ox1, oy0, oy1 = D["out_x0"] - hm, D["out_x1"] + hm, D["out_y0"] - hm, D["out_y1"] + hm
     za1 = D["z_ac1"]
     hz_col0, hz_col1, hz_top = za1 + 10, za1 + 30, D["z_shelf0"]          # hood seals to shelf ply
     hb = (X0 + cl, Y0 + 5, X1 - cl, hood_y1)                                 # hood box footprint
