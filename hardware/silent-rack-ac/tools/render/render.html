@@ -1,0 +1,96 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>SRA render</title>
+<style>html,body{margin:0;background:#fff}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const W = 1600, H = 1200;
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(W, H);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+renderer.localClippingEnabled = true;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xf4f5f7);
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const sun = new THREE.DirectionalLight(0xffffff, 1.6); sun.position.set(-1500, 3000, 2500); scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb0b4bb, 0.6));
+const camera = new THREE.PerspectiveCamera(28, W / H, 10, 20000);
+const nodes = {}; let model = null; const flows = new THREE.Group(); scene.add(flows);
+// model (Z-up, mm) -> three (Y-up): (x, y, z) -> (x, z, -y)
+const M = (x, y, z) => new THREE.Vector3(x, z, -y);
+
+function flowTube(pts, color, r = 9) {
+  const curve = new THREE.CatmullRomCurve3(pts.map(p => M(...p)), false, 'catmullrom', 0.15);
+  const mat = new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.35, roughness: 0.5 });
+  const g = new THREE.Group();
+  g.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 160, r, 12, false), mat));
+  const end = curve.getPoint(1), tan = curve.getTangent(1);
+  const cone = new THREE.Mesh(new THREE.ConeGeometry(r * 2.6, r * 6, 20), mat);
+  cone.position.copy(end); cone.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tan.normalize());
+  g.add(cone); return g;
+}
+window.addFlows = (x) => {
+  flows.clear();
+  const C = 0x2f7df6, Hh = 0xe8552b, R = 0x2fa84f, E = 0xf2a900;
+  flows.add(flowTube([[x,210,1000],[x,150,1060],[x,120,1160],[x,118,1400],[x,120,1640],[x,150,1690],[x,400,1700]], C));
+  flows.add(flowTube([[x,118,1250],[x,150,1330],[x,420,1340]], C));
+  flows.add(flowTube([[x,640,1520],[x,900,1520],[x,965,1450],[x,965,1150],[x,955,1020],[x,820,880],[x,600,800],[x,470,760]], Hh));
+  flows.add(flowTube([[x,-60,45],[x,200,55],[x,700,60],[x,950,80],[x,955,230],[x,940,310],[x,820,305],[x,600,320],[x,470,330]], R));
+  flows.add(flowTube([[455.5,352,600],[455.5,362,700],[455.5,430,752],[455.5,520,762],[455.5,1250,762]], E, 11));
+};
+
+async function load(b64) {
+  const bin = Uint8Array.from(atob(b64), c => c.charCodeAt(0)).buffer;
+  const gltf = await new GLTFLoader().parseAsync(bin, '');
+  model = gltf.scene; scene.add(model);
+  model.traverse(o => {
+    if (o.name) nodes[o.name] = o;
+    if (o.isMesh) {
+      const src = o.material, c = src.color.clone();
+      const alu = c.r > 0.5 && Math.abs(c.r - c.b) < 0.1 && c.g > 0.5;
+      o.material = new THREE.MeshStandardMaterial({ color: c, roughness: alu ? 0.35 : 0.7, metalness: alu ? 0.55 : 0.05,
+        transparent: src.opacity < 1, opacity: src.opacity, side: THREE.DoubleSide });
+      const edges = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 25),
+        new THREE.LineBasicMaterial({ color: 0x1b1d22, transparent: true, opacity: 0.35 }));
+      o.add(edges);
+    }
+  });
+  return Object.keys(nodes).length;
+}
+window.loadModel = load;
+const san = n => THREE.PropertyBinding.sanitizeNodeName(n);
+window.renderView = ({ hide = [], dir, target = null, fov = 28, clipX = null, flowsX = null, margin = 1.08, w = 1600, h = 1200 }) => {
+  renderer.setSize(w, h); camera.aspect = w / h;
+  for (const n of Object.values(nodes)) n.visible = true;
+  let missing = [];
+  for (const n of hide) { const o = nodes[san(n)]; if (o) o.visible = false; else missing.push(n); }
+  flows.clear(); if (flowsX !== null) window.addFlows(flowsX);
+  const planes = clipX === null ? [] : [new THREE.Plane(new THREE.Vector3(-1, 0, 0), clipX)];
+  model.traverse(o => { if (o.material) o.material.clippingPlanes = planes; });
+  // auto-fit: bounding sphere of visible geometry (respecting the clip plane roughly)
+  const box = new THREE.Box3();
+  model.updateMatrixWorld(true);
+  model.traverse(o => { if (o.isMesh && o.visible) {
+      let p = o; let vis = true; while (p) { if (!p.visible) { vis = false; break; } p = p.parent; }
+      if (vis) box.expandByObject(o); } });
+  box.expandByObject(flows);
+  if (clipX !== null) box.max.x = Math.min(box.max.x, clipX);
+  const sph = box.getBoundingSphere(new THREE.Sphere());
+  const tgt = target ? M(...target) : sph.center;
+  const d = new THREE.Vector3(dir[0], dir[2], -dir[1]).normalize();
+  const vf = THREE.MathUtils.degToRad(fov) / 2, hf = Math.atan(Math.tan(vf) * camera.aspect);
+  const dist = sph.radius * margin / Math.sin(Math.min(vf, hf));
+  camera.fov = fov; camera.position.copy(tgt.clone().add(d.multiplyScalar(dist))); camera.up.set(0, 1, 0);
+  camera.near = dist / 20; camera.far = dist * 5;
+  camera.lookAt(tgt); camera.updateProjectionMatrix();
+  renderer.render(scene, camera);
+  return missing;
+};
+window.ready = true;
+</script></body></html>

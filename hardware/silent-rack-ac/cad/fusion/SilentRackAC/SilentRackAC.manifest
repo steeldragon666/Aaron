@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Carbon Project",
+	"description":	{
+		"":	"Builds the SRA-16 Silent AC Rack (Dimplex GDC14RBA bay + 16RU acoustic rack) in a new design."
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

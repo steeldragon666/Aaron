@@ -1,0 +1,42 @@
+category,item,qty,unit,unit_AUD_indicative,line_AUD,notes
+Panels,Birch ply 15 mm (alt. 16 mm MDF) - 2440x1220 sheet,5,sheet,150.0,750.0,"shelf-nested, 4 mm kerf"
+Panels,Birch ply 18 mm - 2440x1220 sheet,1,sheet,165.0,165.0,"shelf-nested, 4 mm kerf"
+Panels,Birch ply 12 mm - 2440x1220 sheet,1,sheet,110.0,110.0,"shelf-nested, 4 mm kerf"
+Acoustic,"Mass-loaded vinyl 5 kg/m2 (3 mm), roll",8,m2,42.0,336.0,bond to ply inside face
+Acoustic,Melamine acoustic foam (FR) 40/25/20 mm panels,8,m2,55.0,440.0,flame-retardant; not PU egg-crate
+Acoustic,Acoustic sealant (non-hardening) 300 ml,3,tube,28.0,84.0,all panel joints
+Acoustic,Spray contact adhesive (foam/MLV),3,can,22.0,66.0,
+Frame,"Aluminium 4040 T-slot profile, cut to length",21.7,m,21.0,455.7,or weld 40x40x2 SHS for production
+Frame,4040 corner brackets + M8 T-nuts/bolts,80,set,2.2,176.0,2 per member end
+Frame,M5 T-nuts + button-head screws (panel fixing),160,set,0.45,72.0,
+Frame,Aluminium angle 20x20x2 (cleats),7.6,m,6.5,49.4,
+Frame,Aluminium box 20x40 (rail spacers / air dams),3.3,m,12.0,39.6,
+Base,"Levelling castor 100 mm, 200 kg, braked",4,ea,38.0,152.0,castor + retractable foot
+Base,Stainless drip tray 1.2 mm 304 (fabricated),1,ea,220.0,220.0,"full bay floor, 25 upstand"
+Base,"Perforated steel skirts 1.5 mm (set of 4, powder coat)",1,set,140.0,140.0,plinth intake
+Base,Neoprene/Sorbothane isolation mat 480x360x10,1,ea,45.0,45.0,under AC
+Base,AC retention bar + 2 toggle clamps,1,set,45.0,45.0,
+Drain,Tank bulkhead 25 mm + tundish,1,ea,24.0,24.0,
+Drain,16 mm ID clear PVC hose,3,m,4.5,13.5,fall >= 1:50 to waste
+Drain,Hose barbs / quick connects,3,ea,6.0,18.0,
+Drain,Mini condensate pump (only if no floor waste),1,ea,180.0,180.0,optional
+Airflow,"Cold-air hood, 6 mm PP (fab) with drop collar",1,ea,90.0,90.0,or 3D-print PETG
+Airflow,Lined inlet riser + cable gland boxes (12 mm ply),1,set,0.0,0.0,from ply offcuts
+Airflow,150 mm rigid 90deg elbow + 0.6 m duct + flanged wall spigot,1,set,85.0,85.0,
+Airflow,10 mm closed-cell duct insulation (self-adhesive),2,m2,25.0,50.0,elbow + duct
+Airflow,150 mm insulated acoustic flex duct,3,m,32.0,96.0,cabinet -> window/wall vent
+Airflow,150 mm wall/window vent with backdraft flap,1,ea,65.0,65.0,
+Seals,EPDM D-profile door/panel seal (double row),13.6,m,3.2,43.52,
+Seals,EPDM closed-cell foam gasket tape 20x10 / 10x10,4.1,m,2.8,11.48,docking + hood
+Seals,Nylon brush strip 25 mm in alu carrier,0.8,m,18.0,14.4,under-AC + cable entry
+Doors,"Lift-off hinges, heavy duty",6,ea,14.0,84.0,3 per door
+Doors,Compression cam latches (keyed),4,ea,24.0,96.0,2 per door
+Doors,Pull handles 160 mm,2,ea,12.0,24.0,
+Doors,Polycarbonate 6 mm window panes 140x200,2,ea,9.0,18.0,double glazed
+Rack,"19in rack strips, 2 mm steel, 16U",4,ea,22.0,88.0,EIA-310 square hole
+Rack,Cage nuts + M6 screws (pack 50),1,pack,18.0,18.0,
+Rack,1U tool-less blanking panels,8,ea,7.0,56.0,fill all unused RU
+Rack,0U / 1U PDU 8-way 10 A,1,ea,120.0,120.0,IT load only - AC on its own GPO
+Controls,ESP32 + 3x SHT31 + IR LED + leak sensor + 2 reed switches,1,kit,85.0,85.0,"ESPHome: temps, AC IR restart, alerts"
+Consumables,"Screws, foil tape, cable ties, labels",1,lot,80.0,80.0,
+TOTAL,,,,,4705.6,"materials only, excl. AC, IT, GST, labour"
