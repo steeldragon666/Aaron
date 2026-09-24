@@ -1,0 +1,83 @@
+{
+ "voxel_mm": 2.5,
+ "seeds": {
+  "cold_hood": {
+   "label": 5,
+   "air": true,
+   "vents_to_room": false,
+   "volume_L": 59.8
+  },
+  "cold_front_plenum": {
+   "label": 5,
+   "air": true,
+   "vents_to_room": false,
+   "volume_L": 59.8
+  },
+  "hot_rear_plenum": {
+   "label": 4,
+   "air": true,
+   "vents_to_room": false,
+   "volume_L": 400.3
+  },
+  "hot_upper_bay": {
+   "label": 4,
+   "air": true,
+   "vents_to_room": false,
+   "volume_L": 400.3
+  },
+  "hot_ac_side_gap": {
+   "label": 4,
+   "air": true,
+   "vents_to_room": false,
+   "volume_L": 400.3
+  },
+  "hot_ac_notch": {
+   "label": 4,
+   "air": true,
+   "vents_to_room": false,
+   "volume_L": 400.3
+  },
+  "condenser_zone": {
+   "label": 1,
+   "air": true,
+   "vents_to_room": true,
+   "volume_L": 195.8
+  },
+  "inlet_riser": {
+   "label": 1,
+   "air": true,
+   "vents_to_room": true,
+   "volume_L": 195.8
+  },
+  "plinth_void": {
+   "label": 1,
+   "air": true,
+   "vents_to_room": true,
+   "volume_L": 195.8
+  },
+  "exhaust_duct": {
+   "label": 8,
+   "air": true,
+   "vents_to_room": true,
+   "volume_L": 15.3
+  }
+ },
+ "checks": {
+  "seed voxels are air": true,
+  "cold hood feeds front plenum": true,
+  "cold zone sealed from room": true,
+  "hot return is one connected loop": true,
+  "hot return sealed from room": true,
+  "cold and hot zones separated": true,
+  "condenser zone separated from hot return": true,
+  "condenser zone draws room air (labyrinth)": true,
+  "exhaust duct sealed from hot return": true,
+  "exhaust duct vents out through rear spigot": true
+ },
+ "all_pass": true,
+ "images": {
+  "Section A-A: centreline (X = 325)": "renders/zones_x_325.png",
+  "Section B-B: exhaust plane (X = 455.5)": "renders/zones_x_455.png",
+  "Section C-C": "renders/zones_z_700.png"
+ }
+}
