@@ -50,6 +50,7 @@ def xform(rot, h, dx, dy):
 def dxf_doc():
     import ezdxf
     from ezdxf import units
+    ezdxf.options.write_fixed_meta_data_for_testing = True   # no timestamps or random GUIDs: same part, same file
     doc = ezdxf.new("R2000", setup=True)
     doc.units = units.MM
     doc.header["$INSUNITS"] = 4
@@ -882,14 +883,17 @@ def main(argv):
     files = write_dxfs(sm, out)
     nests = nest(sm)
     files += write_nests(nests, out)
-    zp = os.path.join(out, "SRA16_sheet_metal_DXF.zip")
-    with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
-        for f in files:
-            z.write(f, os.path.relpath(f, out))
     write_csvs(sm, nests)
-    with zipfile.ZipFile(zp, "a", zipfile.ZIP_DEFLATED) as z:
-        z.write(os.path.join(ROOT, "bom", "sheet_metal_parts.csv"), "sheet_metal_parts.csv")
-        z.write(os.path.join(ROOT, "bom", "sheet_metal_nesting.csv"), "sheet_metal_nesting.csv")
+    zp = os.path.join(out, "SRA16_sheet_metal_DXF.zip")
+    entries = [(f, os.path.relpath(f, out)) for f in files] + [
+        (os.path.join(ROOT, "bom", n), n) for n in ("sheet_metal_parts.csv", "sheet_metal_nesting.csv")]
+    with zipfile.ZipFile(zp, "w") as z:
+        for f, arc in entries:
+            zi = zipfile.ZipInfo(arc, date_time=(2026, 1, 1, 0, 0, 0))   # fixed stamp: reproducible zip
+            zi.compress_type = zipfile.ZIP_DEFLATED
+            zi.external_attr = 0o644 << 16
+            with open(f, "rb") as fh:
+                z.writestr(zi, fh.read())
     ddir = os.path.join(ROOT, "drawings")
     ids = [p.id for p in sm["parts"]]
     skins = [i for i in ids if i[:2] in ("SL", "SR", "RP", "TP")]
