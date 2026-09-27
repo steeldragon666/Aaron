@@ -293,7 +293,7 @@
 <text x="400.50" y="20.00" font-size="1.75" text-anchor="middle" font-weight="bold" fill="#15181c">BENDS</text>
 <text x="255.00" y="23.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SL1</text>
 <text x="263.50" y="23.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
-<text x="267.70" y="23.05" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin left - bottom</text>
+<text x="267.70" y="23.05" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin left - bottom  - HOLD M3</text>
 <text x="349.00" y="23.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
 <text x="378.30" y="23.05" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 446</text>
 <text x="387.00" y="23.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">12</text>
@@ -301,7 +301,7 @@
 <rect x="250.00" y="24.10" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
 <text x="255.00" y="26.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SL2</text>
 <text x="263.50" y="26.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
-<text x="267.70" y="26.10" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin left - middle</text>
+<text x="267.70" y="26.10" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin left - middle  - HOLD M3</text>
 <text x="349.00" y="26.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
 <text x="378.30" y="26.10" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 542</text>
 <text x="387.00" y="26.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">10</text>
@@ -316,14 +316,14 @@
 <rect x="250.00" y="30.20" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
 <text x="255.00" y="32.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SR1</text>
 <text x="263.50" y="32.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
-<text x="267.70" y="32.20" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin right - bottom</text>
+<text x="267.70" y="32.20" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin right - bottom  - HOLD M3</text>
 <text x="349.00" y="32.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
 <text x="378.30" y="32.20" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 446</text>
 <text x="387.00" y="32.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">13</text>
 <text x="400.50" y="32.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
 <text x="255.00" y="35.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SR2</text>
 <text x="263.50" y="35.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
-<text x="267.70" y="35.25" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin right - middle</text>
+<text x="267.70" y="35.25" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin right - middle  - HOLD M3</text>
 <text x="349.00" y="35.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
 <text x="378.30" y="35.25" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 542</text>
 <text x="387.00" y="35.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">8</text>
@@ -353,7 +353,7 @@
 <text x="400.50" y="44.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
 <text x="255.00" y="47.45" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">RP1</text>
 <text x="263.50" y="47.45" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
-<text x="267.70" y="47.45" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Rear skin - bottom</text>
+<text x="267.70" y="47.45" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Rear skin - bottom  - HOLD M3</text>
 <text x="349.00" y="47.45" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
 <text x="378.30" y="47.45" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">622 x 990</text>
 <text x="387.00" y="47.45" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">19</text>
@@ -544,6 +544,7 @@
 <text x="250.00" y="133.55" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Or cut the nested blanks in cad/dxf/nest/ on a 1200x800 bed.</text>
 <text x="250.00" y="136.60" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Folding: 11 parts, 24 bends (flat blanks: R = t, K 0.33).</text>
 <text x="250.00" y="139.65" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Tap the four PD1 pads M8 after cutting. Coat after folding.</text>
+<text x="250.00" y="142.70" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">HOLD RP1 SL1 SL2 SR1 SR2 until tape check M3: they move with the mid rail.</text>
 <text x="14.00" y="216.00" font-size="2.40" text-anchor="start" font-weight="bold" fill="#15181c">NOTES</text>
 <text x="14.00" y="221.00" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">1  DXF (cad/dxf/cut) is the master geometry, 1:1 mm. info/ adds bend lines, ID etch and notes on layers.</text>
 <text x="14.00" y="224.05" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">2  Skins 1.2 mm steel (Zincanneal/CR4), powder coat both sides, then bond 3 mm MLV inside (D8 at the frame screws: it is the gasket).</text>

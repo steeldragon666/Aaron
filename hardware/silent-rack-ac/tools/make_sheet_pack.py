@@ -243,13 +243,13 @@ def write_csvs(sm, nests):
         w.writerow(["id", "name", "material", "thickness_mm", "qty", "flat_w_mm", "flat_h_mm", "mass_kg_each",
                     "holes", "square_holes", "cutouts", "edge_notches", "bends", "cut_length_m_each", "pierces_each",
                     "finish",
-                    "fits", "dxf"])
+                    "fits", "hold_for", "dxf"])
         for p in sm["parts"]:
             m = SMP.MATERIALS[p.mat]
             w.writerow([p.id, p.name, m["name"], p.t, p.qty, "%.1f" % p.w, "%.1f" % p.h, "%.2f" % p.mass(),
                         len(p.holes), len(p.squares), len(p.cuts), sum(1 for b in p.outline["bulge"] if b < 0),
                         len(p.bends), "%.2f" % (p.cut_length() / 1000),
-                        p.pierces(), m["finish"], p.where, "cad/dxf/cut/%s" % dxf_name(p)])
+                        p.pierces(), m["finish"], p.where, p.hold, "cad/dxf/cut/%s" % dxf_name(p)])
     with open(os.path.join(ROOT, "bom", "sheet_metal_nesting.csv"), "w", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(["material", "thickness_mm", "blank", "parts", "used_pct", "dxf"])
@@ -447,7 +447,8 @@ def sheet1(sm, nests):
     WP.heading(sh, x0, 16, "PARTS (one DXF each)", size=2.6)
     rows = []
     for p in sm["parts"]:
-        rows.append((p.id, str(p.qty), p.name.split(" (")[0].replace("Door stiffener, ", "Stiffener "),
+        rows.append((p.id, str(p.qty), p.name.split(" (")[0].replace("Door stiffener, ", "Stiffener ") +
+                     ("  - HOLD %s" % p.hold if p.hold else ""),
                      "%g" % p.t, "%.0f x %.0f" % (p.w, p.h), str(len(p.holes) + len(p.squares)), str(len(p.bends))))
     y = WP.table(sh, x0, 18, [(10, "c"), (7, "c"), (78, "l"), (8, "c"), (26, "r"), (16, "c"), (11, "c")], rows,
                  head=("ID", "QTY", "PART", "t", "FLAT", "HOLES", "BENDS"), size=1.75, rh=3.05)
@@ -468,6 +469,7 @@ def sheet1(sm, nests):
             sum(1 for p in sm["parts"] if p.bends), sum(p.qty * len(p.bends) for p in sm["parts"]),
             SMP.SM["k_factor"]),
         "Tap the four PD1 pads M8 after cutting. Coat after folding.",
+        "HOLD %s until tape check M3: they move with the mid rail." % " ".join(sm["hold"]),
     ], size=1.85, lh=3.05)
     WP.heading(sh, 14, 216, "NOTES", size=2.4)
     WP.paragraph(sh, 14, 221, [
@@ -768,6 +770,8 @@ def write_md(sm, nests, files):
          "`cad/dxf/nest/` (nested %gx%g blanks), all zipped in `cad/dxf/SRA16_sheet_metal_DXF.zip` |" % BLANK,
          "| Size limit | every flat blank fits %.0f x %.0f (checked) |" % (D["sheet_max_l"], D["sheet_max_w"]),
          "| Skins | %.1f mm steel, powder coated, 3 mm MLV bonded inside; the welded frame is unchanged |" % D["skin_t"],
+         "| Hold point | %s move with the AC grille split: cut them after tape check M3 (`docs/DESIGN.md` §3). "
+         "The other %d part types can be cut now. |" % (", ".join(sm["hold"]), len(sm["parts"]) - len(sm["hold"])),
          "", "## What changed", "",
          "The 15 mm ply skins are now laser-cut %.1f mm steel. The frame and the inside of the cabinet are unchanged, "
          "so the outside shrinks to %.1f W x %.1f D x %.1f H mm." % (D["skin_t"], D["ext_w"], D["ext_d"], D["ext_h"]),
@@ -860,6 +864,11 @@ def main(argv):
     overrides = {k: float(v) for k, v in (a.split("=", 1) for a in argv if "=" in a)}
     sm = SMP.build(overrides)
     sm["D"]["version"] = SMP.RL.VERSION
+    sm["hold"] = SMP.tape_hold(overrides)                  # parts that move with tape check M3
+    for p in sm["parts"]:
+        if p.id in sm["hold"]:
+            p.hold = "M3"
+            p.notes.append("HOLD: moves with the AC grille split (tape check M3) - cut it after M3 is measured.")
     probs = SMP.check(sm)
     for p in probs:
         print("PROBLEM:", p)
@@ -877,8 +886,6 @@ def main(argv):
     with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
         for f in files:
             z.write(f, os.path.relpath(f, out))
-        for extra in ("bom/sheet_metal_parts.csv",):
-            pass
     write_csvs(sm, nests)
     with zipfile.ZipFile(zp, "a", zipfile.ZIP_DEFLATED) as z:
         z.write(os.path.join(ROOT, "bom", "sheet_metal_parts.csv"), "sheet_metal_parts.csv")

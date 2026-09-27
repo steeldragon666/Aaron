@@ -134,6 +134,7 @@ class Part:
         self.twin_place = None   # where the mirrored twin sits (drawn flipped on the elevations)
         self.min_edge = None     # override of SM["min_edge"] / 1.5 t where a standard fixes the web
         self.place = None        # (face, du, dv): position on the exterior elevation, v from datum A
+        self.hold = ""           # tape check this part waits on (e.g. "M3"), from tape_hold()
 
     def hole(self, u, v, d, use, src=None):
         self.holes.append({"u": u, "v": v, "d": d, "use": use, "src": src})
@@ -525,6 +526,26 @@ def build(P=None):
 def window_bolts(D):
     gx, gz = (D["win_w"] + 40) / 2.0 - 10.0, (D["win_h"] + 40) / 2.0 - 10.0
     return [(-gx, -gz), (0, -gz), (gx, -gz), (gx, 0), (gx, gz), (0, gz), (-gx, gz), (-gx, 0)]
+
+
+def tape_hold(P=None, key="ac_split_z", dz=30.0):
+    """IDs of the parts whose flat pattern moves when a measured AC dimension changes by +-dz. The default is
+    M3, the grille split that sets the mid rail (frame hold point H1): cut these only after the tape check."""
+    P = RL.resolve(P)
+
+    def sig(p):
+        return (round(p.w, 1), round(p.h, 1),
+                sorted((round(h["u"], 1), round(h["v"], 1), h["d"]) for h in p.holes),
+                [(round(x, 1), round(y, 1)) for x, y in p.outline["pts"]],
+                sorted(sorted((round(x, 1), round(y, 1)) for x, y in c["pts"]) for c in p.cuts),
+                sorted((round(q["u"], 1), round(q["v"], 1)) for q in p.squares))
+    base = {p.id: sig(p) for p in build(P)["parts"]}
+    out = set()
+    for s in (-1, 1):
+        Q = dict(P)
+        Q[key] = P[key] + s * dz
+        out |= {p.id for p in build(Q)["parts"] if base.get(p.id) != sig(p)}
+    return sorted(out)
 
 
 # ---------------------------------------------------------------- checks

@@ -225,7 +225,7 @@ The Fusion script was not run inside Fusion from here. It shows its own volume c
 ## 13. Risks and open items
 
 - The AC dimensions in §3 are unverified. They are the largest source of error.
-- **Frame hold point H1:** the mid rails and partition ledges depend on M3. Cut and weld everything else first.
+- **Hold point H1:** the mid rails and partition ledges depend on M3, and so do the sheet-metal parts SL1, SL2, SR1, SR2 and RP1 (`make_sheet_pack.py` finds them by moving M3 ±30 mm). Cut, weld and laser-cut everything else first.
 - **Capacity limit.** A single-hose portable unit is a comfort appliance. Above about 2.5 kW of IT load, or for critical uptime, move to a split system or an in-row unit.
 - **Filters.** Clean them monthly. That means rolling the AC out; access takes about 2 minutes.
 - **Fire.** Use FR melamine foam (not PU egg-crate foam) and keep ducts clear of cables. R410A is A1 (non-flammable).
