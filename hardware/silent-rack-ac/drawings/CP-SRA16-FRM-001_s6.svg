@@ -1,0 +1,475 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 420 297" font-family="Arial, Helvetica, sans-serif">
+<defs>
+<marker id="aDim" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse"><path d="M0 1.5 L10 5 L0 8.5 z" fill="#15181c"/></marker>
+<pattern id="hatch" width="1.6" height="1.6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="1.6" stroke="#6d747c" stroke-width="0.25"/></pattern>
+<pattern id="ply" width="2.2" height="2.2" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><line x1="0" y1="0" x2="0" y2="2.2" stroke="#b58a4a" stroke-width="0.3"/></pattern>
+</defs>
+<rect x="0" y="0" width="420" height="297" fill="#ffffff"/>
+<rect x="8.00" y="8.00" width="404.00" height="281.00" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.60"/>
+<text x="14.00" y="16.00" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">DRILLING SCHEDULE - D9.0 holes for M6 steel rivnuts, on the face centreline, positions from each member's DATUM END</text>
+<rect x="14.00" y="19.00" width="394.00" height="3.60" rx="0.00" fill="#e6ebf0" stroke="none" stroke-width="0.00"/>
+<text x="19.50" y="21.55" font-size="1.90" text-anchor="middle" font-weight="bold" fill="#15181c">MARK</text>
+<text x="29.00" y="21.55" font-size="1.90" text-anchor="middle" font-weight="bold" fill="#15181c">QTY</text>
+<text x="33.70" y="21.55" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">FACE (position)</text>
+<text x="77.70" y="21.55" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">USE</text>
+<text x="157.70" y="21.55" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATUM END</text>
+<text x="175.70" y="21.55" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">POSITIONS (mm from datum end)</text>
+<text x="19.50" y="25.15" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">P1</text>
+<text x="29.00" y="25.15" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="33.70" y="25.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">outer side face</text>
+<text x="77.70" y="25.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Side panel fixing</text>
+<text x="157.70" y="25.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bottom end</text>
+<text x="175.70" y="25.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">40.0  280.9  521.8  762.7  1003.5  1244.4  1485.3  1726.2</text>
+<rect x="14.00" y="26.20" width="394.00" height="3.60" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="19.50" y="28.75" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">P2</text>
+<text x="29.00" y="28.75" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="33.70" y="28.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">outer side face</text>
+<text x="77.70" y="28.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Side panel fixing</text>
+<text x="157.70" y="28.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bottom end</text>
+<text x="175.70" y="28.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">40.0  280.9  521.8  762.7  1003.5  1244.4  1485.3  1726.2</text>
+<text x="19.50" y="32.35" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">P2</text>
+<text x="29.00" y="32.35" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="33.70" y="32.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">rear face</text>
+<text x="77.70" y="32.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Rear panel fixing</text>
+<text x="157.70" y="32.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bottom end</text>
+<text x="175.70" y="32.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">160.4  401.3  642.2  883.1  1124.0  1364.9  1605.8</text>
+<rect x="14.00" y="33.40" width="394.00" height="3.60" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="19.50" y="35.95" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">P3</text>
+<text x="29.00" y="35.95" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="33.70" y="35.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">outer side face</text>
+<text x="77.70" y="35.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Side panel fixing</text>
+<text x="157.70" y="35.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bottom end</text>
+<text x="175.70" y="35.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">40.0  280.9  521.8  762.7  1003.5  1244.4  1485.3  1726.2</text>
+<text x="19.50" y="39.55" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">P3</text>
+<text x="29.00" y="39.55" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="33.70" y="39.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">rear face</text>
+<text x="77.70" y="39.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Rear panel fixing</text>
+<text x="157.70" y="39.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bottom end</text>
+<text x="175.70" y="39.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">160.4  401.3  642.2  883.1  1124.0  1364.9  1605.8</text>
+<rect x="14.00" y="40.60" width="394.00" height="3.60" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="19.50" y="43.15" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">S1</text>
+<text x="29.00" y="43.15" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="33.70" y="43.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">outer side face</text>
+<text x="77.70" y="43.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Side panel fixing</text>
+<text x="157.70" y="43.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">front end</text>
+<text x="175.70" y="43.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">40.0  271.0  502.0  733.0  964.0</text>
+<text x="19.50" y="46.75" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">S1</text>
+<text x="29.00" y="46.75" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="33.70" y="46.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bottom (at base) / top (at top)</text>
+<text x="77.70" y="46.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Plinth skirt fixing (at base) / Top panel fixing (at top)</text>
+<text x="157.70" y="46.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">front end</text>
+<text x="175.70" y="46.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">155.5  386.5  617.5  848.5</text>
+<rect x="14.00" y="47.80" width="394.00" height="3.60" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="19.50" y="50.35" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">S2</text>
+<text x="29.00" y="50.35" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="33.70" y="50.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">outer side face</text>
+<text x="77.70" y="50.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Side panel fixing</text>
+<text x="157.70" y="50.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">front end</text>
+<text x="175.70" y="50.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">40.0  271.0  502.0  733.0  964.0</text>
+<text x="19.50" y="53.95" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">C1</text>
+<text x="29.00" y="53.95" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="33.70" y="53.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bottom face</text>
+<text x="77.70" y="53.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Plinth skirt fixing</text>
+<text x="157.70" y="53.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">left end</text>
+<text x="175.70" y="53.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">100.0  277.0  454.0</text>
+<rect x="14.00" y="55.00" width="394.00" height="3.60" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="19.50" y="57.55" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">C2</text>
+<text x="29.00" y="57.55" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="33.70" y="57.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">rear face</text>
+<text x="77.70" y="57.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Rear panel fixing</text>
+<text x="157.70" y="57.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">left end</text>
+<text x="175.70" y="57.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">40.0  277.0  514.0</text>
+<text x="19.50" y="61.15" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">C2</text>
+<text x="29.00" y="61.15" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="33.70" y="61.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bottom (at base) / top (at top)</text>
+<text x="77.70" y="61.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Plinth skirt fixing (at base) / Top panel fixing (at top)</text>
+<text x="157.70" y="61.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">left end</text>
+<text x="175.70" y="61.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">158.5  395.5</text>
+<rect x="14.00" y="62.20" width="394.00" height="3.60" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="19.50" y="64.75" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">C3</text>
+<text x="29.00" y="64.75" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">3</text>
+<text x="33.70" y="64.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">rear (at mid, shelf) / top (at top)</text>
+<text x="77.70" y="64.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Rear panel fixing (at mid, shelf) / Top panel fixing (at top)</text>
+<text x="157.70" y="64.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">left end</text>
+<text x="175.70" y="64.75" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">40.0  277.0  514.0</text>
+<text x="19.50" y="68.35" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">C4</text>
+<text x="29.00" y="68.35" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="33.70" y="68.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">-</text>
+<text x="77.70" y="68.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">no holes</text>
+<text x="157.70" y="68.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">left end</text>
+<text x="175.70" y="68.35" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">-</text>
+<rect x="14.00" y="69.40" width="394.00" height="3.60" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="19.50" y="71.95" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">U1</text>
+<text x="29.00" y="71.95" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="33.70" y="71.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">outer side face</text>
+<text x="77.70" y="71.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Side panel fixing</text>
+<text x="157.70" y="71.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bottom end</text>
+<text x="175.70" y="71.95" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">40.0  257.1  474.1  691.2</text>
+<text x="19.50" y="75.55" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">U1</text>
+<text x="29.00" y="75.55" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="33.70" y="75.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">inner face</text>
+<text x="77.70" y="75.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">19in rail-spacer bolts</text>
+<text x="157.70" y="75.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bottom end</text>
+<text x="175.70" y="75.55" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">148.5  365.6  582.7</text>
+<rect x="14.00" y="76.60" width="394.00" height="3.60" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="19.50" y="79.15" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">PL1</text>
+<text x="29.00" y="79.15" font-size="1.90" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="33.70" y="79.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">plate</text>
+<text x="77.70" y="79.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">castor bolts</text>
+<text x="157.70" y="79.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">-</text>
+<text x="175.70" y="79.15" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">4x M8 tapped through (6.8 drill), 60 square on the pad centre</text>
+<rect x="14.00" y="19.00" width="394.00" height="61.20" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
+<line x1="14.00" y1="22.60" x2="408.00" y2="22.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="26.20" x2="408.00" y2="26.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="29.80" x2="408.00" y2="29.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="33.40" x2="408.00" y2="33.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="37.00" x2="408.00" y2="37.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="40.60" x2="408.00" y2="40.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="44.20" x2="408.00" y2="44.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="47.80" x2="408.00" y2="47.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="51.40" x2="408.00" y2="51.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="55.00" x2="408.00" y2="55.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="58.60" x2="408.00" y2="58.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="62.20" x2="408.00" y2="62.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="65.80" x2="408.00" y2="65.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="69.40" x2="408.00" y2="69.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="73.00" x2="408.00" y2="73.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="76.60" x2="408.00" y2="76.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="25.00" y1="19.00" x2="25.00" y2="80.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="33.00" y1="19.00" x2="33.00" y2="80.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="77.00" y1="19.00" x2="77.00" y2="80.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="157.00" y1="19.00" x2="157.00" y2="80.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="175.00" y1="19.00" x2="175.00" y2="80.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<text x="14.00" y="89.20" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">PIECE DRILLING (1:10 - datum end on the left, one bar per drilled face)</text>
+<text x="14.00" y="95.10" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c">P1  x2</text>
+<text x="14.00" y="98.10" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">outer side face</text>
+<rect x="54.00" y="94.90" width="176.32" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 96.40 L51.40 95.00 L51.40 97.80 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="58.00" cy="96.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="58.00" y1="94.50" x2="58.00" y2="93.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="58.00" y="93.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">40</text>
+<circle cx="82.09" cy="96.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="82.09" y1="94.50" x2="82.09" y2="93.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="82.09" y="93.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">280.9</text>
+<circle cx="106.18" cy="96.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="106.18" y1="94.50" x2="106.18" y2="93.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="106.18" y="93.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">521.8</text>
+<circle cx="130.27" cy="96.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="130.27" y1="94.50" x2="130.27" y2="93.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="130.27" y="93.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">762.7</text>
+<circle cx="154.35" cy="96.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="154.35" y1="94.50" x2="154.35" y2="93.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="154.35" y="93.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1003.5</text>
+<circle cx="178.44" cy="96.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="178.44" y1="94.50" x2="178.44" y2="93.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="178.44" y="93.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1244.4</text>
+<circle cx="202.53" cy="96.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="202.53" y1="94.50" x2="202.53" y2="93.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="202.53" y="93.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1485.3</text>
+<circle cx="226.62" cy="96.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="226.62" y1="94.50" x2="226.62" y2="93.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="226.62" y="93.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1726.2</text>
+<text x="232.82" y="97.20" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 1763.2</text>
+<text x="14.00" y="105.30" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c">P2  x1</text>
+<text x="14.00" y="108.30" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">outer side face</text>
+<rect x="54.00" y="105.10" width="176.32" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 106.60 L51.40 105.20 L51.40 108.00 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="58.00" cy="106.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="58.00" y1="104.70" x2="58.00" y2="103.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="58.00" y="103.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">40</text>
+<circle cx="82.09" cy="106.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="82.09" y1="104.70" x2="82.09" y2="103.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="82.09" y="103.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">280.9</text>
+<circle cx="106.18" cy="106.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="106.18" y1="104.70" x2="106.18" y2="103.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="106.18" y="103.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">521.8</text>
+<circle cx="130.27" cy="106.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="130.27" y1="104.70" x2="130.27" y2="103.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="130.27" y="103.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">762.7</text>
+<circle cx="154.35" cy="106.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="154.35" y1="104.70" x2="154.35" y2="103.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="154.35" y="103.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1003.5</text>
+<circle cx="178.44" cy="106.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="178.44" y1="104.70" x2="178.44" y2="103.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="178.44" y="103.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1244.4</text>
+<circle cx="202.53" cy="106.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="202.53" y1="104.70" x2="202.53" y2="103.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="202.53" y="103.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1485.3</text>
+<circle cx="226.62" cy="106.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="226.62" y1="104.70" x2="226.62" y2="103.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="226.62" y="103.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1726.2</text>
+<text x="232.82" y="107.40" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 1763.2</text>
+<text x="14.00" y="115.50" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c"></text>
+<text x="14.00" y="118.50" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">rear face</text>
+<rect x="54.00" y="115.30" width="176.32" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 116.80 L51.40 115.40 L51.40 118.20 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="70.04" cy="116.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="70.04" y1="114.90" x2="70.04" y2="113.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="70.04" y="113.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">160.4</text>
+<circle cx="94.13" cy="116.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="94.13" y1="114.90" x2="94.13" y2="113.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="94.13" y="113.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">401.3</text>
+<circle cx="118.22" cy="116.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="118.22" y1="114.90" x2="118.22" y2="113.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="118.22" y="113.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">642.2</text>
+<circle cx="142.31" cy="116.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="142.31" y1="114.90" x2="142.31" y2="113.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="142.31" y="113.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">883.1</text>
+<circle cx="166.40" cy="116.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="166.40" y1="114.90" x2="166.40" y2="113.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="166.40" y="113.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1124</text>
+<circle cx="190.49" cy="116.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="190.49" y1="114.90" x2="190.49" y2="113.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="190.49" y="113.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1364.9</text>
+<circle cx="214.58" cy="116.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="214.58" y1="114.90" x2="214.58" y2="113.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="214.58" y="113.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1605.8</text>
+<text x="232.82" y="117.60" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 1763.2</text>
+<text x="14.00" y="125.70" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c">P3  x1</text>
+<text x="14.00" y="128.70" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">outer side face</text>
+<rect x="54.00" y="125.50" width="176.32" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 127.00 L51.40 125.60 L51.40 128.40 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="58.00" cy="127.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="58.00" y1="125.10" x2="58.00" y2="124.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="58.00" y="123.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">40</text>
+<circle cx="82.09" cy="127.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="82.09" y1="125.10" x2="82.09" y2="124.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="82.09" y="123.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">280.9</text>
+<circle cx="106.18" cy="127.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="106.18" y1="125.10" x2="106.18" y2="124.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="106.18" y="123.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">521.8</text>
+<circle cx="130.27" cy="127.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="130.27" y1="125.10" x2="130.27" y2="124.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="130.27" y="123.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">762.7</text>
+<circle cx="154.35" cy="127.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="154.35" y1="125.10" x2="154.35" y2="124.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="154.35" y="123.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1003.5</text>
+<circle cx="178.44" cy="127.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="178.44" y1="125.10" x2="178.44" y2="124.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="178.44" y="123.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1244.4</text>
+<circle cx="202.53" cy="127.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="202.53" y1="125.10" x2="202.53" y2="124.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="202.53" y="123.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1485.3</text>
+<circle cx="226.62" cy="127.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="226.62" y1="125.10" x2="226.62" y2="124.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="226.62" y="123.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1726.2</text>
+<text x="232.82" y="127.80" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 1763.2</text>
+<text x="14.00" y="135.90" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c"></text>
+<text x="14.00" y="138.90" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">rear face</text>
+<rect x="54.00" y="135.70" width="176.32" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 137.20 L51.40 135.80 L51.40 138.60 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="70.04" cy="137.20" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="70.04" y1="135.30" x2="70.04" y2="134.30" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="70.04" y="133.90" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">160.4</text>
+<circle cx="94.13" cy="137.20" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="94.13" y1="135.30" x2="94.13" y2="134.30" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="94.13" y="133.90" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">401.3</text>
+<circle cx="118.22" cy="137.20" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="118.22" y1="135.30" x2="118.22" y2="134.30" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="118.22" y="133.90" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">642.2</text>
+<circle cx="142.31" cy="137.20" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="142.31" y1="135.30" x2="142.31" y2="134.30" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="142.31" y="133.90" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">883.1</text>
+<circle cx="166.40" cy="137.20" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="166.40" y1="135.30" x2="166.40" y2="134.30" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="166.40" y="133.90" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1124</text>
+<circle cx="190.49" cy="137.20" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="190.49" y1="135.30" x2="190.49" y2="134.30" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="190.49" y="133.90" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1364.9</text>
+<circle cx="214.58" cy="137.20" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="214.58" y1="135.30" x2="214.58" y2="134.30" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="214.58" y="133.90" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">1605.8</text>
+<text x="232.82" y="138.00" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 1763.2</text>
+<text x="14.00" y="146.10" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c">S1  x4</text>
+<text x="14.00" y="149.10" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">outer side face</text>
+<rect x="54.00" y="145.90" width="100.40" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 147.40 L51.40 146.00 L51.40 148.80 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="58.00" cy="147.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="58.00" y1="145.50" x2="58.00" y2="144.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="58.00" y="144.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">40</text>
+<circle cx="81.10" cy="147.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="81.10" y1="145.50" x2="81.10" y2="144.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="81.10" y="144.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">271</text>
+<circle cx="104.20" cy="147.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="104.20" y1="145.50" x2="104.20" y2="144.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="104.20" y="144.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">502</text>
+<circle cx="127.30" cy="147.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="127.30" y1="145.50" x2="127.30" y2="144.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="127.30" y="144.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">733</text>
+<circle cx="150.40" cy="147.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="150.40" y1="145.50" x2="150.40" y2="144.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="150.40" y="144.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">964</text>
+<text x="156.90" y="148.20" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 1004</text>
+<text x="14.00" y="156.30" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c"></text>
+<text x="14.00" y="159.30" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">bottom (at base) / top (at top)</text>
+<rect x="54.00" y="156.10" width="100.40" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 157.60 L51.40 156.20 L51.40 159.00 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="69.55" cy="157.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="69.55" y1="155.70" x2="69.55" y2="154.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="69.55" y="154.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">155.5</text>
+<circle cx="92.65" cy="157.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="92.65" y1="155.70" x2="92.65" y2="154.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="92.65" y="154.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">386.5</text>
+<circle cx="115.75" cy="157.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="115.75" y1="155.70" x2="115.75" y2="154.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="115.75" y="154.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">617.5</text>
+<circle cx="138.85" cy="157.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="138.85" y1="155.70" x2="138.85" y2="154.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="138.85" y="154.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">848.5</text>
+<text x="156.90" y="158.40" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 1004</text>
+<text x="14.00" y="166.50" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c">S2  x4</text>
+<text x="14.00" y="169.50" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">outer side face</text>
+<rect x="54.00" y="166.30" width="100.40" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 167.80 L51.40 166.40 L51.40 169.20 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="58.00" cy="167.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="58.00" y1="165.90" x2="58.00" y2="164.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="58.00" y="164.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">40</text>
+<circle cx="81.10" cy="167.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="81.10" y1="165.90" x2="81.10" y2="164.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="81.10" y="164.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">271</text>
+<circle cx="104.20" cy="167.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="104.20" y1="165.90" x2="104.20" y2="164.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="104.20" y="164.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">502</text>
+<circle cx="127.30" cy="167.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="127.30" y1="165.90" x2="127.30" y2="164.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="127.30" y="164.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">733</text>
+<circle cx="150.40" cy="167.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="150.40" y1="165.90" x2="150.40" y2="164.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="150.40" y="164.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">964</text>
+<text x="156.90" y="168.60" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 1004</text>
+<text x="14.00" y="176.70" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c">C1  x1</text>
+<text x="14.00" y="179.70" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">bottom face</text>
+<rect x="54.00" y="176.50" width="55.40" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 178.00 L51.40 176.60 L51.40 179.40 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="64.00" cy="178.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="64.00" y1="176.10" x2="64.00" y2="175.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="64.00" y="174.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">100</text>
+<circle cx="81.70" cy="178.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="81.70" y1="176.10" x2="81.70" y2="175.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="81.70" y="174.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">277</text>
+<circle cx="99.40" cy="178.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="99.40" y1="176.10" x2="99.40" y2="175.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="99.40" y="174.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">454</text>
+<text x="111.90" y="178.80" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 554</text>
+<text x="14.00" y="186.90" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c">C2  x2</text>
+<text x="14.00" y="189.90" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">rear face</text>
+<rect x="54.00" y="186.70" width="55.40" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 188.20 L51.40 186.80 L51.40 189.60 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="58.00" cy="188.20" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="58.00" y1="186.30" x2="58.00" y2="185.30" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="58.00" y="184.90" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">40</text>
+<circle cx="81.70" cy="188.20" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="81.70" y1="186.30" x2="81.70" y2="185.30" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="81.70" y="184.90" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">277</text>
+<circle cx="105.40" cy="188.20" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="105.40" y1="186.30" x2="105.40" y2="185.30" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="105.40" y="184.90" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">514</text>
+<text x="111.90" y="189.00" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 554</text>
+<text x="14.00" y="197.10" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c"></text>
+<text x="14.00" y="200.10" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">bottom (at base) / top (at top)</text>
+<rect x="54.00" y="196.90" width="55.40" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 198.40 L51.40 197.00 L51.40 199.80 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="69.85" cy="198.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="69.85" y1="196.50" x2="69.85" y2="195.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="69.85" y="195.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">158.5</text>
+<circle cx="93.55" cy="198.40" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="93.55" y1="196.50" x2="93.55" y2="195.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="93.55" y="195.10" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">395.5</text>
+<text x="111.90" y="199.20" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 554</text>
+<text x="14.00" y="207.30" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c">C3  x3</text>
+<text x="14.00" y="210.30" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">rear (at mid, shelf) / top (at top)</text>
+<rect x="54.00" y="207.10" width="55.40" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 208.60 L51.40 207.20 L51.40 210.00 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="58.00" cy="208.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="58.00" y1="206.70" x2="58.00" y2="205.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="58.00" y="205.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">40</text>
+<circle cx="81.70" cy="208.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="81.70" y1="206.70" x2="81.70" y2="205.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="81.70" y="205.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">277</text>
+<circle cx="105.40" cy="208.60" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="105.40" y1="206.70" x2="105.40" y2="205.70" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="105.40" y="205.30" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">514</text>
+<text x="111.90" y="209.40" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 554</text>
+<text x="14.00" y="217.50" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c">U1  x4</text>
+<text x="14.00" y="220.50" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">outer side face</text>
+<rect x="54.00" y="217.30" width="73.12" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 218.80 L51.40 217.40 L51.40 220.20 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="58.00" cy="218.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="58.00" y1="216.90" x2="58.00" y2="215.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="58.00" y="215.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">40</text>
+<circle cx="79.71" cy="218.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="79.71" y1="216.90" x2="79.71" y2="215.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="79.71" y="215.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">257.1</text>
+<circle cx="101.41" cy="218.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="101.41" y1="216.90" x2="101.41" y2="215.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="101.41" y="215.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">474.1</text>
+<circle cx="123.12" cy="218.80" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="123.12" y1="216.90" x2="123.12" y2="215.90" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="123.12" y="215.50" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">691.2</text>
+<text x="129.62" y="219.60" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 731.2</text>
+<text x="14.00" y="227.70" font-size="2.30" text-anchor="start" font-weight="bold" fill="#15181c"></text>
+<text x="14.00" y="230.70" font-size="1.55" text-anchor="start" font-weight="normal" fill="#5b6168">inner face</text>
+<rect x="54.00" y="227.50" width="73.12" height="3.00" rx="0.00" fill="#dde2e8" stroke="#15181c" stroke-width="0.25"/>
+<path d="M53.70 229.00 L51.40 227.60 L51.40 230.40 Z" fill="#15181c" stroke="#15181c" stroke-width="0.10" stroke-linejoin="round"/>
+<circle cx="68.85" cy="229.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="68.85" y1="227.10" x2="68.85" y2="226.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="68.85" y="225.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">148.5</text>
+<circle cx="90.56" cy="229.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="90.56" y1="227.10" x2="90.56" y2="226.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="90.56" y="225.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">365.6</text>
+<circle cx="112.27" cy="229.00" r="0.62" fill="#ffffff" stroke="#15181c" stroke-width="0.18"/>
+<line x1="112.27" y1="227.10" x2="112.27" y2="226.10" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="112.27" y="225.70" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">582.7</text>
+<text x="129.62" y="229.80" font-size="1.80" text-anchor="start" font-weight="bold" fill="#15181c">L 731.2</text>
+<text x="276.00" y="89.20" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">FACES AND HANDING</text>
+<text x="276.00" y="94.20" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Faces are named for the member IN POSITION: outer side = carries a</text>
+<text x="276.00" y="97.25" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">side panel (x = 0 or 614); rear = rear panel; top = top panel;</text>
+<text x="276.00" y="100.30" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">bottom = plinth skirt (between the castor pads); inner face of U1 =</text>
+<text x="276.00" y="103.35" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">19in rail-spacer bolts (RS1, packed 0-4 mm).</text>
+<text x="276.00" y="106.40" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c"></text>
+<text x="276.00" y="109.45" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">ONE PIECE, TWO POSITIONS: S1 (base or top side rail), C2 (base or</text>
+<text x="276.00" y="112.50" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">top rear) and C3 (mid / shelf rear or top front) are identical pieces.</text>
+<text x="276.00" y="115.55" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">As a base rail the second face points DOWN (skirt), as a top rail UP</text>
+<text x="276.00" y="118.60" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">(top panel). Any piece fits either place until a bench ledge is</text>
+<text x="276.00" y="121.65" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">welded on (sheet 3) - then paint-mark its position.</text>
+<text x="276.00" y="124.70" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c"></text>
+<text x="276.00" y="127.75" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Two drilled faces: the second face's holes sit midway between the</text>
+<text x="276.00" y="130.80" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">first face's, so rivnut bodies never meet inside the 26 mm bore.</text>
+<text x="276.00" y="133.85" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c"></text>
+<text x="276.00" y="136.90" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">P2 and P3 are a HANDED PAIR (rear-left / rear-right): lay them out</text>
+<text x="276.00" y="139.95" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">in position and mark the faces before drilling. All other marks are</text>
+<text x="276.00" y="143.00" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">identical left / right.</text>
+<text x="276.00" y="146.05" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c"></text>
+<text x="276.00" y="149.10" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Datum end: posts and uprights = bottom; side rails S = front end;</text>
+<text x="276.00" y="152.15" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">cross rails C = left end (seen from the front).</text>
+<text x="276.00" y="155.20" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Tube laser: cad/exports/frame_members/&lt;mark&gt;.step has each member</text>
+<text x="276.00" y="158.25" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">with its holes, datum end at the origin along +X.</text>
+<text x="276.00" y="166.30" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">NOT DRILLED HERE (drill on assembly)</text>
+<text x="276.00" y="171.30" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Door hinges (left front post P1, front face) and cam-latch</text>
+<text x="276.00" y="174.35" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">keepers (right front post): to the hardware bought.</text>
+<text x="276.00" y="177.40" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">RS1 rail spacers: drill D7 through both walls at assembly to</text>
+<text x="276.00" y="180.45" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">match the U1 rivnuts (M6 x 50 + packers); 19in strips to suit.</text>
+<text x="276.00" y="183.50" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Ply floor / partition / shelf: 10g x 32 wing-tip self-drilling</text>
+<text x="276.00" y="186.55" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">screws through the ply into the ledges at ~200 pitch.</text>
+<text x="276.00" y="189.60" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Earth point: one U1 inner-face rivnut, rear-right upright - mask</text>
+<text x="276.00" y="192.65" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">D20 during coating, star washer to bare metal.</text>
+<rect x="272.00" y="247.00" width="140.00" height="42.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.50"/>
+<text x="274.00" y="253.20" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">PROJECT</text>
+<text x="291.00" y="253.20" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">SRA-16 Silent AC Rack - welded 30x30x2.0 frame</text>
+<text x="274.00" y="259.50" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">TITLE</text>
+<text x="291.00" y="259.50" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">Drilling schedule + piece drilling drawings</text>
+<line x1="272.00" y1="254.90" x2="412.00" y2="254.90" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="265.80" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DOC NO.</text>
+<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-FRM-001   SHEET 6 OF 6   REV A</text>
+<line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">piece bars 1:10 @ A3   UNITS mm   LAYOUT v1.1.0</text>
+<line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
+<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-09-27   DRAWN Claude (AI) for Carbon Project</text>
+<line x1="272.00" y1="273.80" x2="412.00" y2="273.80" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="284.70" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">STATUS</text>
+<text x="291.00" y="284.70" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">FOR FABRICATION after hold point H1 (AC grille split M3)</text>
+<line x1="272.00" y1="280.10" x2="412.00" y2="280.10" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<line x1="289.00" y1="247.00" x2="289.00" y2="289.00" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+</svg>

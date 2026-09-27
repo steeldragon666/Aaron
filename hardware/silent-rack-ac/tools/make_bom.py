@@ -16,7 +16,10 @@ from collections import OrderedDict, defaultdict
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(ROOT, "cad", "fusion", "SilentRackAC"))
+sys.path.insert(0, HERE)
 import rack_layout as RL  # noqa: E402
+import weldment as WM  # noqa: E402
+import make_weld_pack as WP  # noqa: E402
 
 SHEET = (2440.0, 1220.0)   # standard AU sheet
 KERF = 4.0
@@ -60,6 +63,8 @@ def shelf_nest(rects, sheet=SHEET, kerf=KERF):
 
 def main():
     parts, D = RL.build_parts()
+    wm = WM.build()                                   # welded frame: cut list, mass, purchase (CP-SRA16-FRM-001)
+    wt = wm["totals"]
     vols = json.load(open(os.path.join(ROOT, "cad", "fusion", "SilentRackAC", "expected_volumes.json")))["volumes_mm3"]
 
     # ------------------------------------------------------------ cut list
@@ -118,14 +123,10 @@ def main():
             mass["Plywood"] += v * dens["ply"]
         elif "vinyl" in mat:
             mass["Mass-loaded vinyl"] += v * dens["mvl"]
-        elif "foam 40" in mat or "foam 25" in mat or "foam 20" in mat:
+        elif "acoustic foam" in mat:
             mass["Acoustic foam"] += v * dens["foam"]
-        elif "4040" in mat:
-            mass["Aluminium frame (1.5 kg/m)"] += max(bbox(p)) / 1000 * 1.5
-        elif "angle" in mat:
-            mass["Angle cleats (0.21 kg/m)"] += max(bbox(p)) / 1000 * 0.21
-        elif "rail spacer" in mat:
-            mass["Rail spacers (hollow 20x40, 0.6 kg/m)"] += max(bbox(p)) / 1000 * 0.6
+        elif "steel shs" in mat or "steel flat bar" in mat or "castor pad" in mat or "rail spacer" in mat:
+            continue                                  # from the weldment below
         elif "stainless" in mat:
             mass["Stainless drip tray (1.2 mm)"] += v * 7.9e-6 * (1.2 / 2.0)
         elif "rack strip" in mat:
@@ -139,15 +140,15 @@ def main():
         else:
             mass["Seals, ducts, hardware (est.)"] += 0.0
     mass["Seals, ducts, hardware (est.)"] += 9.0
+    mass["Welded steel frame, %s (weldment)" % wm["sec_shs"]] = wt["mass_weldment_kg"]
+    mass["Rail spacers RS1 (SHS, bolted)"] = wt["mass_spacers_kg"]
     cabinet_kg = sum(mass.values())
 
     # ------------------------------------------------------------ purchase BOM (indicative AUD)
     ply_sheets = {m: s["sheets_2440x1220"] for m, s in sheet_summary.items() if "sheets_2440x1220" in s}
     foam_m2 = sum(s.get("buy_m2", 0) for m, s in sheet_summary.items() if "foam" in m.lower())
     mlv_m2 = sum(s.get("buy_m2", 0) for m, s in sheet_summary.items() if "vinyl" in m.lower())
-    frame_m = sum(v for (m, sct), v in profile_len.items() if "4040" in m) / 1000
-    angle_m = sum(v for (m, sct), v in profile_len.items() if "angle" in m) / 1000
-    spacer_m = sum(v for (m, sct), v in profile_len.items() if "rail spacer" in m) / 1000
+    frame_m = wt["shs_m_welded"] + wt["shs_m_spacers"]
     h_lo = D["z_door_split"] - D["z_base0"]
     h_hi = D["z_toprail1"] - D["z_door_split"]
     door_seal_m = 2 * (2 * (D["ext_w"] + h_lo) + 2 * (D["ext_w"] + h_hi)) / 1000 * 1.1
@@ -164,17 +165,20 @@ def main():
         add("Panels", m + " - 2440x1220 sheet", n, "sheet", 165.0 if "18" in m else (150.0 if "15" in m else 110.0),
             "shelf-nested, %.0f mm kerf" % KERF)
     add("Acoustic", "Mass-loaded vinyl 5 kg/m2 (3 mm), roll", math.ceil(mlv_m2), "m2", 42.0, "bond to ply inside face")
-    add("Acoustic", "Melamine acoustic foam (FR) 40/25/20 mm panels", math.ceil(foam_m2), "m2", 55.0,
+    add("Acoustic", "Melamine acoustic foam (FR) %g/25/20 mm panels" % D["frame"], math.ceil(foam_m2), "m2", 55.0,
         "flame-retardant; not PU egg-crate")
     add("Acoustic", "Acoustic sealant (non-hardening) 300 ml", 3, "tube", 28.0, "all panel joints")
     add("Acoustic", "Spray contact adhesive (foam/MLV)", 3, "can", 22.0, "")
-    add("Frame", "Aluminium 4040 T-slot profile, cut to length", round(frame_m, 1), "m", 21.0,
-        "or weld 40x40x2 SHS for production")
-    add("Frame", "4040 corner brackets + M8 T-nuts/bolts", 80, "set", 2.2, "2 per member end")
-    add("Frame", "M5 T-nuts + button-head screws (panel fixing)", 160, "set", 0.45, "")
-    add("Frame", "Aluminium angle 20x20x2 (cleats)", round(angle_m + 0.5, 1), "m", 6.5, "")
-    add("Frame", "Aluminium box 20x40 (rail spacers / air dams)", round(spacer_m + 0.4, 1), "m", 12.0, "")
-    add("Base", "Levelling castor 100 mm, 200 kg, braked", 4, "ea", 38.0, "castor + retractable foot")
+    frows, _ = WP.purchase_rows(wm)
+    for item, qty, unit, unit_aud, _line in frows:
+        q = float(qty)
+        add("Frame", item, int(q) if q.is_integer() else q, unit, float(unit_aud), "weld pack %s" % WM.DOC_NO)
+    n_scr = int(math.ceil(wt["rivnuts"] * 1.05 / 10.0) * 10)
+    add("Frame", "M6 x 35 flanged button-head screw, black (panel fixing)", n_scr, "ea", 0.30,
+        "15 ply + 3 MLV into rivnut")
+    add("Frame", "M6 x 50 bolt + washers + packers (RS1 rail spacers)", 12, "set", 0.80, "3 per spacer")
+    add("Base", "Levelling castor, 75 mm wheel, 200 kg, braked, 92 mm, 4-bolt plate", 4, "ea", 38.0,
+        "M8 into the tapped pads; match the 60 mm hole square")
     add("Base", "Stainless drip tray 1.2 mm 304 (fabricated)", 1, "ea", 220.0, "full bay floor, 25 upstand")
     add("Base", "Perforated steel skirts 1.5 mm (set of 4, powder coat)", 1, "set", 140.0, "plinth intake")
     add("Base", "Neoprene/Sorbothane isolation mat 480x360x10", 1, "ea", 45.0, "under AC")
@@ -225,7 +229,11 @@ def main():
     for m, s in sheet_summary.items():
         buy = "%d sheets 2440x1220" % s["sheets_2440x1220"] if "sheets_2440x1220" in s else "%.1f m2 (+15%%)" % s["buy_m2"]
         md.append("| %s | %d | %.2f | %s |" % (m, s["parts"], s["area_m2"], buy))
-    md += ["", "## Frame and profiles", "", "| Material | Section | Total length m |", "|---|---|---:|"]
+    md += ["", "## Frame and profiles", "",
+           "The frame is welded %s: cut list, weld plan and drawings are in `docs/FRAME_WELD_PLAN.md` and "
+           "`drawings/%s.pdf` (weldment %.1f kg, %d SHS bars)." % (
+               wm["sec_shs"], WM.DOC_NO, wt["mass_weldment_kg"], len(wm["nest_shs"])), "",
+           "| Material | Section | Total length m |", "|---|---|---:|"]
     for (m, sct), L in profile_len.items():
         md.append("| %s | %s | %.2f |" % (m, sct, L / 1000))
     md += ["", "## Fabricated parts", "", "| Part | Spec | Envelope mm |", "|---|---|---|"]

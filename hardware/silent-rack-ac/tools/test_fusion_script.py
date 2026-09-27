@@ -61,8 +61,10 @@ def main():
     S.run(None)
     rep2 = json.load(open(os.path.join(tmp, "fusion_build_report.json")))
     h2 = rep2["summary"]["external_mm"][2]
+    import rack_layout as RLd
+    h_def = RLd.derive(RLd.resolve())["ext_h"]
     c2 = (rep2["overrides_from_active_design"].get("ru_count") == 17.0 and rep2["summary"]["rack_units"] == 17
-          and abs(h2 - (1904.2 + 44.45)) < 0.2 and not rep2["failures"] and not rep2["volume_check"]["compared"])
+          and abs(h2 - (h_def + RLd.DEFAULTS["ru_pitch"])) < 0.2 and not rep2["failures"] and not rep2["volume_check"]["compared"])
     print("[%s] run 2: override ru_count=17 -> H %.2f mm, %d bodies" % ("PASS" if c2 else "FAIL", h2, rep2["bodies_built"]))
     ok &= c2
 
@@ -73,8 +75,9 @@ def main():
     d3 = app.activeProduct
     comp = [o.component for o in d3.rootComponent.occurrences._o if o.component.name == "Panels & Doors"][0]
     bb = comp.bRepBodies.itemByName("Top panel").bbox()
-    # Z-up top panel spans z 188.92..190.42 cm; Y-up maps (x,y,z)->(x,z,-y)
-    c3 = abs(bb.ymax - 190.42) < 0.01 and abs(bb.zmin + 110.0) < 0.01 and abs(bb.zmax) < 0.01
+    # Z-up top panel tops out at ext_h; Y-up maps (x,y,z)->(x,z,-y)
+    c3 = (abs(bb.ymax - h_def / 10.0) < 0.01 and abs(bb.zmin + RLd.DEFAULTS["ext_d"] / 10.0) < 0.01
+          and abs(bb.zmax) < 0.01)
     print("[%s] run 3: Y-up top panel bbox y %.2f..%.2f cm, z %.2f..%.2f cm"
           % ("PASS" if c3 else "FAIL", bb.ymin, bb.ymax, bb.zmin, bb.zmax))
     ok &= c3

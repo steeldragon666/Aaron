@@ -1,0 +1,57 @@
+joint,stage,seq,member_end,welded_to,weld,grind_flush,detail
+L01,SA-L,1,U1 upright rear left,S2 Shelf left,"fillet 3: front+rear; flush: outer, inner",outer,A/B
+L02,SA-L,2,S1 Base left,P1 post FL,"fillet 3: top; flush: outer, inner, bottom","outer, bottom",A/B
+L03,SA-L,3,S1 Top left,P1 post FL,"fillet 3: bottom; flush: outer, inner; top: with cap",outer,A/B
+L04,SA-L,4,S2 Shelf left,P2 post RL,"fillet 3: bottom+top; flush: outer, inner",outer,A/B
+L05,SA-L,5,S2 Mid left,P1 post FL,"fillet 3: bottom+top; flush: outer, inner",outer,A/B
+L06,SA-L,6,U1 upright front left,S1 Top left,"fillet 3: front+rear; flush: outer, inner",outer,A/B
+L07,SA-L,7,S1 Base left,P2 post RL,"fillet 3: top; flush: outer, inner, bottom","outer, bottom",A/B
+L08,SA-L,8,S1 Top left,P2 post RL,"fillet 3: bottom; flush: outer, inner; top: with cap",outer,A/B
+L09,SA-L,9,S2 Shelf left,P1 post FL,"fillet 3: bottom+top; flush: outer, inner",outer,A/B
+L10,SA-L,10,S2 Mid left,P2 post RL,"fillet 3: bottom+top; flush: outer, inner",outer,A/B
+L11,SA-L,11,U1 upright rear left,S1 Top left,"fillet 3: front+rear; flush: outer, inner",outer,A/B
+L12,SA-L,12,U1 upright front left,S2 Shelf left,"fillet 3: front+rear; flush: outer, inner",outer,A/B
+R01,SA-R,1,U1 upright rear right,S2 Shelf right,"fillet 3: front+rear; flush: inner, outer",outer,A/B
+R02,SA-R,2,S1 Base right,P1 post FR,"fillet 3: top; flush: inner, outer, bottom","outer, bottom",A/B
+R03,SA-R,3,S1 Top right,P1 post FR,"fillet 3: bottom; flush: inner, outer; top: with cap",outer,A/B
+R04,SA-R,4,S2 Shelf right,P3 post RR,"fillet 3: bottom+top; flush: inner, outer",outer,A/B
+R05,SA-R,5,S2 Mid right,P1 post FR,"fillet 3: bottom+top; flush: inner, outer",outer,A/B
+R06,SA-R,6,U1 upright front right,S1 Top right,"fillet 3: front+rear; flush: inner, outer",outer,A/B
+R07,SA-R,7,S1 Base right,P3 post RR,"fillet 3: top; flush: inner, outer, bottom","outer, bottom",A/B
+R08,SA-R,8,S1 Top right,P3 post RR,"fillet 3: bottom; flush: inner, outer; top: with cap",outer,A/B
+R09,SA-R,9,S2 Shelf right,P1 post FR,"fillet 3: bottom+top; flush: inner, outer",outer,A/B
+R10,SA-R,10,S2 Mid right,P3 post RR,"fillet 3: bottom+top; flush: inner, outer",outer,A/B
+R11,SA-R,11,U1 upright rear right,S1 Top right,"fillet 3: front+rear; flush: inner, outer",outer,A/B
+R12,SA-R,12,U1 upright front right,S2 Shelf right,"fillet 3: front+rear; flush: inner, outer",outer,A/B
+B01,BOX,1,C3 Shelf rear,P2 post RL,"fillet 3: bottom+top; flush: inner, rear",rear,A/B
+B02,BOX,2,C1 Base front,P1 post FR,"fillet 3: top; flush: front, inner, bottom","front, bottom",A/B
+B03,BOX,3,C3 Top front,P1 post FR,"fillet 3: bottom; flush: front, inner; top: with cap",front,A/B
+B04,BOX,4,C3 Shelf rear,P3 post RR,"fillet 3: bottom+top; flush: inner, rear",rear,A/B
+B05,BOX,5,C1 Base front,P1 post FL,"fillet 3: top; flush: front, inner, bottom","front, bottom",A/B
+B06,BOX,6,C3 Top front,P1 post FL,"fillet 3: bottom; flush: front, inner; top: with cap",front,A/B
+B07,BOX,7,C3 Mid rear,P3 post RR,"fillet 3: bottom+top; flush: inner, rear",rear,A/B
+B08,BOX,8,C2 Top rear,P3 post RR,"fillet 3: bottom; flush: inner, rear; top: with cap",rear,A/B
+B09,BOX,9,C4 Shelf front,P1 post FL,"fillet 3: bottom+top; flush: front, inner",front,A/B
+B10,BOX,10,C2 Base rear,P3 post RR,"fillet 3: top; flush: inner, rear, bottom","rear, bottom",A/B
+B11,BOX,11,C2 Top rear,P2 post RL,"fillet 3: bottom; flush: inner, rear; top: with cap",rear,A/B
+B12,BOX,12,C4 Shelf front,P1 post FR,"fillet 3: bottom+top; flush: front, inner",front,A/B
+B13,BOX,13,C2 Base rear,P2 post RL,"fillet 3: top; flush: inner, rear, bottom","rear, bottom",A/B
+B14,BOX,14,C3 Mid rear,P2 post RL,"fillet 3: bottom+top; flush: inner, rear",rear,A/B
+K01,SA-L,,F1 floor left,S1 Base left,"fillet 3 x 25 @ 150 c/c underside, 8 stitches + 20 returns",-,C
+K02,SA-R,,F1 floor right,S1 Base right,"fillet 3 x 25 @ 150 c/c underside, 8 stitches + 20 returns",-,C
+K03,BENCH,,F3 floor front,C1 Base front,"fillet 3 x 25 @ 150 c/c underside, 5 stitches + 20 returns",-,C
+K04,BENCH,,F3 floor rear,C2 Base rear,"fillet 3 x 25 @ 150 c/c underside, 5 stitches + 20 returns",-,C
+K05,SA-L,,F2 partition left,S2 Mid left,"fillet 3 x 25 @ 150 c/c underside, 5 stitches + 20 returns",-,C
+K06,SA-R,,F2 partition right,S2 Mid right,"fillet 3 x 25 @ 150 c/c underside, 5 stitches + 20 returns",-,C
+K07,BENCH,,F3 partition rear,C3 Mid rear,"fillet 3 x 25 @ 150 c/c underside, 5 stitches + 20 returns",-,C
+K08,SA-L,,F1 shelf left,S2 Shelf left,"fillet 3 x 25 @ 150 c/c underside, 8 stitches + 20 returns",-,C
+K09,SA-R,,F1 shelf right,S2 Shelf right,"fillet 3 x 25 @ 150 c/c underside, 8 stitches + 20 returns",-,C
+K10,BENCH,,F3 shelf rear,C3 Shelf rear,"fillet 3 x 25 @ 150 c/c underside, 5 stitches + 20 returns",-,C
+T1,FINAL,,PL2 cap,P1 post FL,"seal weld all round (flush seam), incl. the top-rail ends",all faces,D
+T2,FINAL,,PL2 cap,P1 post FR,"seal weld all round (flush seam), incl. the top-rail ends",all faces,D
+T3,FINAL,,PL2 cap,P2 post RL,"seal weld all round (flush seam), incl. the top-rail ends",all faces,D
+T4,FINAL,,PL2 cap,P3 post RR,"seal weld all round (flush seam), incl. the top-rail ends",all faces,D
+PW1,FINAL,,PL1 corner FL,post + base rails at corner FL,fillet 3 inner edges + seal outer edges,outer edges,E
+PW2,FINAL,,PL1 corner FR,post + base rails at corner FR,fillet 3 inner edges + seal outer edges,outer edges,E
+PW3,FINAL,,PL1 corner RL,post + base rails at corner RL,fillet 3 inner edges + seal outer edges,outer edges,E
+PW4,FINAL,,PL1 corner RR,post + base rails at corner RR,fillet 3 inner edges + seal outer edges,outer edges,E

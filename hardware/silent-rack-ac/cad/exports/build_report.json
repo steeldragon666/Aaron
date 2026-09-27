@@ -1,5 +1,5 @@
 {
- "layout_version": "1.0.0",
+ "layout_version": "1.1.0",
  "params": {
   "ru_count": 16,
   "ru_pitch": 44.45,
@@ -9,10 +9,13 @@
   "rail_spacing": 700.0,
   "ply_t": 15.0,
   "mlv_t": 3.0,
-  "frame": 40.0,
+  "frame": 30.0,
   "caster_h": 100.0,
   "floor_t": 18.0,
   "cleat": 20.0,
+  "cleat_t": 3.0,
+  "pad_t": 8.0,
+  "pad_w": 100.0,
   "tray_t": 2.0,
   "tray_lip": 25.0,
   "iso_t": 10.0,
@@ -53,31 +56,37 @@
   "external_mm": [
    650.0,
    1100.0,
-   1904.2
+   1884.2
   ],
-  "internal_width_mm": 534.0,
-  "internal_depth_mm": 984.0,
+  "internal_width_mm": 554.0,
+  "internal_depth_mm": 1004.0,
   "rack_units": 16,
   "rack_zone_z_mm": [
-   1120.0,
-   1831.2
+   1110.0,
+   1821.2
   ],
-  "ac_bay_floor_z_mm": 152.0,
-  "ac_side_gap_mm": 29.0,
+  "ac_bay_floor_z_mm": 142.0,
+  "ac_side_gap_mm": 39.0,
   "front_plenum_mm": 130.0,
   "rail_spacing_mm": 700.0,
-  "rear_plenum_mm": 154.0,
+  "rear_plenum_mm": 174.0,
   "exhaust_outlet_xyz_mm": [
    455.5,
    1100.0,
-   762.0
+   752.0
   ],
   "drain_outlet_xyz_mm": [
    117.0,
    1125.0,
    60.0
   ],
-  "partition_z_mm": 572.0
+  "partition_z_mm": 562.0,
+  "frame": "30x30 steel SHS, welded",
+  "frame_outer_mm": [
+   614.0,
+   1064.0,
+   1766.2
+  ]
  },
  "warnings": [],
  "clashes": [],
@@ -87,32 +96,32 @@
   0.0,
   650.0,
   1160.0,
-  1904.2
+  1884.2
  ],
  "groups": {
   "Frame": {
-   "parts": 33,
-   "volume_mm3": 35226504.0
+   "parts": 37,
+   "volume_mm3": 20467280.0
   },
   "Panels & Doors": {
-   "parts": 18,
-   "volume_mm3": 122456380.0
+   "parts": 16,
+   "volume_mm3": 121257400.0
   },
   "Acoustic Lining": {
    "parts": 20,
-   "volume_mm3": 236844851.0
+   "volume_mm3": 192588338.0
   },
   "Base, Tray & Drain": {
    "parts": 16,
-   "volume_mm3": 13303826.0
+   "volume_mm3": 13802368.0
   },
   "Airflow & Seals": {
    "parts": 16,
-   "volume_mm3": 22553230.0
+   "volume_mm3": 23542215.0
   },
   "19in Rack": {
    "parts": 10,
-   "volume_mm3": 3027110.0
+   "volume_mm3": 3204198.0
   },
   "AC Dimplex GDC14RBA (ref)": {
    "parts": 14,

@@ -3,8 +3,9 @@
 | | |
 |---|---|
 | Document | CP-SRA16-DES-001, Rev A (concept) |
-| Geometry source | `cad/fusion/SilentRackAC/rack_layout.py` v1.0.0 |
+| Geometry source | `cad/fusion/SilentRackAC/rack_layout.py` v1.1.0 |
 | Drawing | `drawings/CP-SRA16-GA-001.svg` (A3, 1:15) |
+| Frame | Welded 30 × 30 × 2.0 SHS: weld pack `drawings/CP-SRA16-FRM-001.pdf` (6 sheets) and `docs/FRAME_WELD_PLAN.md` |
 | Status | Concept. Tape-check the AC dimensions in §3 before cutting panels. |
 
 ## 1. Brief
@@ -17,7 +18,7 @@ Build a server rack that:
 - gives **at least 16 RU** of 19-inch rack space above the AC;
 - is **quiet**, containing both server fan noise and AC noise.
 
-The result is a single 650 W × 1100 D × 1904 H mm cabinet. The AC bay sits at the bottom and 16 RU sit on top. It is a sealed, acoustically lined enclosure, and the AC cools the rack in a **closed air loop**. The only openings to the room are a lined condenser air intake in the plinth, the insulated exhaust duct, a brush cable entry and the drain.
+The result is a single 650 W × 1100 D × 1884 H mm cabinet. The AC bay sits at the bottom and 16 RU sit on top. It is a sealed, acoustically lined enclosure, and the AC cools the rack in a **closed air loop**. The only openings to the room are a lined condenser air intake in the plinth, the insulated exhaust duct, a brush cable entry and the drain.
 
 ## 2. The air conditioner
 
@@ -47,14 +48,14 @@ Only the rating-plate numbers are certain. The rest were estimated from the phot
 |---|---|---|---|---|
 | M1 | Exhaust spigot OD | 150 | `ac_exh_od` | good (tape) |
 | M2 | Floor to **top of exhaust spigot** | 460 | `ac_split_z` + `ac_exh_collar_h` | ±30 |
-| M3 | Floor to the **split between the upper and lower rear grilles** (partition height) | 420 | `ac_split_z` | ±30 |
+| M3 | Floor to the **split between the upper and lower rear grilles** (partition height). Also frame **hold point H1**: the mid rails and partition ledges are cut to it. | 420 | `ac_split_z` | ±30 |
 | M4 | Rear-right notch: width from the right side × depth from the back | 215 × 178 | `ac_notch_w`, `ac_notch_d` | ±15 |
 | M5 | Floor to the underside of the top box over the notch | 751 | `ac_notch_top_z` | ±20 |
 | M6 | Top louvre opening: width × depth, and front edge from the AC front | 350 × 110 @ 70 | `ac_out_*` | width measured (flap ≈ 348); depth ±20. The hood adds `hood_margin` 15 mm all round. |
 | M7 | Drain plug centre: from the left side, and height | 30, 40 | `ac_drain_x`, `ac_drain_z` | ±10 |
 | M8 | Display centre: from the left side, and height | 190, 690 | `ac_disp_*` | ±15 (front photos) |
 
-Tolerance built in: 29 mm side gaps, a 25 mm front gap, 80 mm above the AC for the louvres, and the exhaust elbow clears the top box by about 70 mm. M2 and M3 matter most. They set the partition and gasket line and the height of the exhaust duct.
+Tolerance built in: 39 mm side gaps, a 25 mm front gap, 80 mm above the AC for the louvres, and the exhaust elbow clears the top box by about 70 mm. M2 and M3 matter most. They set the partition and gasket line and the height of the exhaust duct.
 
 ## 4. Air paths (closed loop)
 
@@ -63,9 +64,9 @@ Tolerance built in: 29 mm side gaps, a 25 mm front gap, 80 mm above the AC for t
 | Path | Route |
 |---|---|
 | **Cold supply** (blue) | AC top louvres → sealed **cold hood** (drop collar + EPDM gasket on the AC top) → opening in the divider shelf → **front plenum** (130 mm) → server intakes |
-| **Hot return** (red) | Server exhausts → **rear plenum** (154 mm) → rear opening in the shelf → upper-rear bay → AC **upper (evaporator) grille** |
+| **Hot return** (red) | Server exhausts → **rear plenum** (174 mm) → rear opening in the shelf → upper-rear bay → AC **upper (evaporator) grille** |
 | **Room air** (green) | Perforated plinth skirts → under the bay floor (lined) → floor opening → **lined riser box** (two 90° turns) → condenser zone under the partition → AC **lower (condenser) grille** |
-| **Exhaust** (amber) | AC spigot (in the notch, pointing up) → 150 mm 90° elbow (R150) → insulated Ø150 duct at 762 mm → flanged spigot in the rear panel → acoustic flex duct → window or wall vent |
+| **Exhaust** (amber) | AC spigot (in the notch, pointing up) → 150 mm 90° elbow (R150) → insulated Ø150 duct at 752 mm → flanged spigot in the rear panel → acoustic flex duct → window or wall vent |
 
 The zones are separated as follows:
 
@@ -81,10 +82,10 @@ The AC is pushed back into the gaskets and held by a retention bar with toggle c
 
 | Zone | Air volume | Result |
 |---|---|---|
-| Cold supply (hood + front plenum) | 58.8 L | sealed from the room and from the hot zone |
-| Hot return (rack, rear plenum, bay) | 401.2 L | one connected loop, sealed from the room and the condenser |
-| Condenser zone (incl. plinth labyrinth) | 195.8 L | fed with room air only |
-| Exhaust duct | 15.3 L | sealed from the loop, vents out the rear |
+| Cold supply (hood + front plenum) | 62.0 L | sealed from the room and from the hot zone |
+| Hot return (rack, rear plenum, bay) | 439.3 L | one connected loop, sealed from the room and the condenser |
+| Condenser zone (incl. plinth labyrinth) | 199.2 L | fed with room air only |
+| Exhaust duct | 15.5 L | sealed from the loop, vents out the rear |
 
 ![Zones, section A-A](../renders/zones_x_325.png)
 
@@ -92,18 +93,19 @@ The AC is pushed back into the gaskets and held by a retention bar with toggle c
 
 | Level | Z (mm) |
 |---|---|
-| Floor / castors | 0-100 (levelling castors, plinth intake void) |
-| Bay floor, drip tray, isolation mat | 140 / 142 / 152 |
-| AC | 152 → 992 |
-| Partition (grille split) | 560 → 572 |
-| Exhaust duct centreline | 762 |
-| Cold hood / shelf lining / shelf ply | 992-1097 / 1072-1097 / 1097-1115 |
-| **16 RU** | **1120 → 1831.2** |
-| Top frame / top panel | 1846.2-1886.2 / 1904.2 |
+| Floor / castors | 0-100 (92 mm levelling castors on 8 mm welded pads, plinth intake void) |
+| Base frame (datum A = 100) | 100-130 |
+| Bay floor ply (on ledges), drip tray, isolation mat | 112-130 / 132 / 142 |
+| AC | 142 → 982 |
+| Partition (grille split) | 550 → 562 |
+| Exhaust duct centreline | 752 |
+| Cold hood / shelf lining / shelf ply | 982-1062 / 1062-1087 / 1087-1105 |
+| **16 RU** | **1110 → 1821.2** |
+| Top frame / top panel | 1836.2-1866.2 / 1884.2 |
 
-- **Width:** 650 external, 534 internal. The wall build-up is 15 ply + 3 MLV + 40 foam.
-- **Depth:** 1100 external, 984 internal: 130 front plenum + 700 rail spacing + 154 rear plenum. That suits typical 2U servers up to about 750 mm deep. Change `rail_spacing` or `ext_d` for other gear.
-- **17 RU:** fits under 2.0 m if you set `ru_count = 17`, giving 1949 mm overall.
+- **Width:** 650 external, 554 internal. The wall build-up is 15 ply + 3 MLV + 30 foam; the foam fills the 30 mm frame depth.
+- **Depth:** 1100 external, 1004 internal: 130 front plenum + 700 rail spacing + 174 rear plenum. That suits typical 2U servers up to about 750 mm deep. Change `rail_spacing` or `ext_d` for other gear.
+- **17 RU:** fits under 2.0 m if you set `ru_count = 17`, giving 1929 mm overall.
 
 ## 6. Thermal
 
@@ -114,7 +116,7 @@ The AC is pushed back into the gaskets and held by a retention bar with toggle c
   - Mode: COOL. Fan: HIGH.
   - Setpoint about 26 °C. The AC senses the **return** air, so this keeps the server inlets around 18-24 °C.
   - Check against the cold-aisle sensor and adjust.
-- **Condensation.** It only happens during the first pull-down or if room air leaks in. The loop stays dry after that. The outer skins sit near room temperature behind 40 mm of foam, so they won't sweat.
+- **Condensation.** It only happens during the first pull-down or if room air leaks in. The loop stays dry after that. The outer skins sit near room temperature behind 30 mm of foam, so they won't sweat.
 - **Single-hose side effect.** The unit exhausts about 400 m³/h of room air outdoors, and outside air leaks back into the room to replace it. Option: duct the plinth intake from outdoors as well, which gives dual-duct operation and higher efficiency.
 - **Failure mode.** If the AC stops, the sealed box heats up within minutes. That is why the design includes monitoring, alerts and automatic IT shutdown (§9).
 
@@ -123,12 +125,12 @@ The AC is pushed back into the gaskets and held by a retention bar with toggle c
 | Measure | Detail |
 |---|---|
 | Mass | 15 mm birch ply + 5 kg/m² MLV, about 15 kg/m² in total |
-| Absorption | 40 mm melamine foam in every frame bay; 25 mm under the shelf and partition; 20 mm under the floor |
+| Absorption | 30 mm melamine foam in every frame bay (the frame depth); 25 mm under the shelf and partition; 20 mm under the floor |
 | Sealing | Double EPDM door seals, compression latches, acoustic sealant on all joints. No line-of-sight openings. |
 | Openings | Room air enters through a 2-bend lined labyrinth in the plinth. The condenser exhaust leaves through an insulated duct to outdoors. Cables enter through a brush strip and a lined chamber. |
-| Vibration | The AC stands on a 10 mm neoprene/Sorbothane mat. The cabinet sits on levelling feet with the castors retracted. |
+| Vibration | The AC stands on a 10 mm neoprene/Sorbothane mat. The cabinet stands on the levelling castors' feet, wheels unloaded. |
 
-Mass-law transmission loss of the wall is about 19 / 25 / 31 / 37 dB at 125 / 250 / 500 / 1000 Hz. The lining turns that into an insertion loss of about 12 dB at 125 Hz and 25-35 dB from 500 Hz up.
+Mass-law transmission loss of the wall is about 19 / 25 / 31 / 37 dB at 125 / 250 / 500 / 1000 Hz. The lining turns that into an insertion loss of about 11 dB at 125 Hz and 25-35 dB from 500 Hz up. The 30 mm lining costs about 1 dB below 500 Hz compared with the earlier 40 mm version; it does not change the overall estimate.
 
 **Expect about 25-30 dB(A) overall.** Typical 2U servers plus the AC measure about 65-70 dB(A) in the open. Enclosed, they should drop to roughly **40-45 dB(A) at 1 m**, about the level of a quiet office. The main residual will be the compressor's low-frequency hum. Keeping the server inlets cool also keeps the server fans slow, which reduces the noise at its source.
 
@@ -153,16 +155,28 @@ Mass-law transmission loss of the wall is about 19 / 25 / 31 / 37 dB at 125 / 25
 
 ## 10. Construction
 
-The frame is 40 × 40 aluminium T-slot, bolted, with no welding. Panels mount on the outside, and foam fills the frame bays. For production runs, the same geometry works as welded 40 × 40 × 2 SHS.
+The frame is **welded 30 × 30 × 2.0 SHS** (C350L0). It is fully detailed in weld pack **CP-SRA16-FRM-001** (`drawings/CP-SRA16-FRM-001.pdf`, six A3 sheets, and `docs/FRAME_WELD_PLAN.md`):
+
+| | |
+|---|---|
+| Members | 41 in 16 marks: posts P1-P3, side rails S1-S2, cross rails C1-C4, rack uprights U1, loose rail spacers RS1, flat-bar ledges F1-F3, castor pads PL1, post caps PL2 |
+| Stock | 4 × 6.5 m SHS and 2 × 6 m flat bar (nested, sheet 5) |
+| Welds | 38 SHS joints welded all round, plus 10 ledge stitch runs, 4 caps and 4 pads: about 8.1 m in total. GMAW, AS/NZS 1554.1 GP. |
+| Sequence | Two side frames built flat (SA-L, then SA-R as its mirror), then the box on its side, then pads and caps. Joints are numbered in a balanced order. |
+| Holes | 152 × Ø9 for M6 steel rivnuts (panels, skirts, rail spacers), drilled before welding; 16 × M8 tapped in the pads |
+| Mass, time | 43 kg weldment (+ 4.9 kg spacers); about 19 h for a one-off by hand |
+| Hold point H1 | The mid rails and partition ledges follow M3 (§3). Cut them after the tape check. |
+
+The switch from 40 mm T-slot changed four details. The foam is now 30 mm (the frame depth), and the inside grows by 20 mm each way. The ply sits on 20 × 3 flat-bar ledges instead of angle cleats. The castors bolt to 8 mm pads welded under the corners. The 19-inch rail spacers are bolted rather than welded, so the rails can be packed out to 465.1 mm hole centres after welding. The rear panel is now one piece.
 
 Build order:
 
-1. Confirm M1-M8 and update `rack_layout.py`, then run `tools/build_cadquery.py`, `tools/make_drawings.py` and `tools/make_bom.py`.
-2. Cut the frame to `bom/cut_list.csv` and assemble it square.
-3. Fit the castors, floor cleats, floor ply, drip tray and drain bulkhead.
-4. Fit the mid rails, the partition with its lining, the docking posts, gaskets and brush strip.
-5. Fit the shelf cleats, shelf and lining, and the cold hood with its drop collar.
-6. Fit the rack uprights, rail spacers (air dams) and the 19-inch strips.
+1. Confirm M1-M8 and update `rack_layout.py`, then run `tools/build_cadquery.py`, `tools/make_drawings.py`, `tools/make_bom.py` and `tools/make_weld_pack.py`.
+2. Fabricate the frame to the weld pack: cut, drill, bench ledges, SA-L and SA-R, box, pads and caps, then coat and fit the rivnuts.
+3. Fit the castors (M8 into the pads), the bay floor ply on its ledges, the drip tray and the drain bulkhead.
+4. Fit the partition on its ledges with its lining, the docking posts, gaskets and brush strip.
+5. Fit the shelf ply on its ledges with its lining, and the cold hood with its drop collar.
+6. Bolt the RS1 rail spacers (air dams) to the uprights, packed to suit, then fit the 19-inch strips.
 7. Fit the panels: MLV bonded to the ply, the foam, and acoustic sealant on every joint.
 8. Fit the exhaust elbow, duct and wall spigot, with insulation. Seal the penetration.
 9. Fit the riser box and plinth skirts, then the cable box and brush strip.
@@ -187,17 +201,19 @@ Build order:
 
 | Check | Result |
 |---|---|
-| Interference (all 135 solids, OCC booleans) | 0 clashes |
+| Interference (all 137 solids, OCC booleans) | 0 clashes |
 | Airflow zone flood fill (§4) | 10 / 10 pass |
 | STEP round-trip | 137 solids, total volume identical (0.000 %) |
-| Fusion script (stand-in API test) | 135/135 bodies, volumes within 0.5 %, `sr_*` override and Y-up paths pass |
-| Layout rules (`validate()`) | OK: side gaps, elbow vs top box, duct vs partition and shelf, plenums, height |
+| Fusion script (stand-in API test) | 137/137 bodies, volumes within 0.5 %, `sr_*` override and Y-up paths pass |
+| Layout rules (`validate()`) | OK: side gaps, elbow vs top box, duct vs partition and shelf, plenums, height, ply on ledges inside the frame depth |
+| Weldment (`tools/weldment.py`) | OK: every rail and upright welded at both ends; rivnuts on adjacent faces at least 22 mm apart; weldment STEP and 15 per-mark STEP files valid |
 
 The Fusion script was not run inside Fusion from here. It shows its own volume cross-check when it finishes; if anything is off, paste that message back.
 
 ## 13. Risks and open items
 
 - The AC dimensions in §3 are unverified. They are the largest source of error.
+- **Frame hold point H1:** the mid rails and partition ledges depend on M3. Cut and weld everything else first.
 - **Capacity limit.** A single-hose portable unit is a comfort appliance. Above about 2.5 kW of IT load, or for critical uptime, move to a split system or an in-row unit.
 - **Filters.** Clean them monthly. That means rolling the AC out; access takes about 2 minutes.
 - **Fire.** Use FR melamine foam (not PU egg-crate foam) and keep ducts clear of cables. R410A is A1 (non-flammable).
@@ -207,10 +223,10 @@ The Fusion script was not run inside Fusion from here. It shows its own volume c
 
 The model is fully parametric: RU count (12-20), width (600-700), depth (900-1200) and wall build-up. That makes a "silent rack with integrated cooling" product family straightforward.
 
-- **Materials:** about AUD 4.7k at retail prices (see `bom/BOM.md`); expect less at volume.
+- **Materials:** about AUD 4.7k at retail prices (see `bom/BOM.md`), of which the welded frame is about AUD 0.8k including coating and fixings; expect less at volume.
 - **For a sellable kit:**
   - CNC-cut ply panels and foam (the cut list is already generated);
-  - a welded SHS frame;
+  - the welded SHS frame, already detailed for production: per-mark STEP files for tube laser cutting, and a jig can be built from the side-frame sheet;
   - an injection-moulded or 3D-printed cold hood;
   - a standard 150 mm exhaust kit;
   - the ESP32 monitor.

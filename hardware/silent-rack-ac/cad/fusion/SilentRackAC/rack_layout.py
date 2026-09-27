@@ -22,7 +22,7 @@ manual and should be tape-checked before cutting panels.
 
 import math
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 DEFAULTS = {
     # --- rack / envelope -------------------------------------------------
@@ -35,11 +35,14 @@ DEFAULTS = {
     # --- wall build-up (outside -> in) -------------------------------------
     "ply_t": 15.0,           # birch ply skin
     "mlv_t": 3.0,            # mass-loaded vinyl (5 kg/m2)
-    "frame": 40.0,           # 40x40 frame section = acoustic foam depth
+    "frame": 30.0,           # 30x30 welded steel SHS frame; section = acoustic foam depth
     # --- base ------------------------------------------------------------
-    "caster_h": 100.0,       # floor -> underside of base frame
+    "caster_h": 100.0,       # floor -> underside of base frame (castor + pad)
     "floor_t": 18.0,         # bay floor ply
-    "cleat": 20.0,           # 20x20x2 aluminium angle cleats
+    "cleat": 20.0,           # ledge width: 20x3 steel flat bar welded to the rails
+    "cleat_t": 3.0,          # ledge thickness
+    "pad_t": 8.0,            # castor mounting plate welded under each frame corner
+    "pad_w": 100.0,          # castor pad size (square)
     "tray_t": 2.0,           # stainless drip tray base
     "tray_lip": 25.0,        # drip tray upstand
     "iso_t": 10.0,           # anti-vibration mat under the AC
@@ -90,10 +93,13 @@ PARAM_DOC = {
     "rail_spacing": ("mm", "Front to rear 19in mounting faces"),
     "ply_t": ("mm", "Ply skin thickness"),
     "mlv_t": ("mm", "Mass-loaded vinyl thickness"),
-    "frame": ("mm", "Frame section / acoustic foam depth"),
-    "caster_h": ("mm", "Castor height (floor to base frame)"),
+    "frame": ("mm", "Frame SHS size (square) = acoustic foam depth"),
+    "caster_h": ("mm", "Floor to underside of base frame (castor + pad)"),
     "floor_t": ("mm", "Bay floor ply"),
-    "cleat": ("mm", "Angle cleat leg"),
+    "cleat": ("mm", "Ledge flat-bar width"),
+    "cleat_t": ("mm", "Ledge flat-bar thickness"),
+    "pad_t": ("mm", "Castor pad plate thickness"),
+    "pad_w": ("mm", "Castor pad plate size"),
     "tray_t": ("mm", "Drip tray base"),
     "tray_lip": ("mm", "Drip tray upstand"),
     "iso_t": ("mm", "Anti-vibration mat"),
@@ -144,6 +150,7 @@ GROUPS = [
 
 # colours (r, g, b) 0..1
 C = {
+    "shs": (0.24, 0.26, 0.29),          # powder-coated steel frame (anthracite)
     "alu": (0.78, 0.80, 0.83),
     "angle": (0.66, 0.68, 0.71),
     "ply": (0.86, 0.73, 0.55),
@@ -355,25 +362,26 @@ def validate(D):
         w.append("External height %.0f mm > 2000 mm (doorways)" % D["ext_h"])
     if D["y_ac1"] + 10 > D["inlet_y0"]:
         w.append("AC overlaps inlet riser")
+    for nm, ply in (("floor", D["floor_t"]), ("partition", D["partition_t"]), ("shelf", D["shelf_t"])):
+        if ply + D["cleat_t"] > D["frame"] - 2.0:
+            w.append("%s ply + ledge (%.0f) does not fit in the %.0f mm rail" % (nm, ply + D["cleat_t"], D["frame"]))
+    if D["pad_w"] < D["frame"] + 40:
+        w.append("Castor pad narrower than frame + 40 mm")
     return w
 
 
 # ---------------------------------------------------------------- helpers
-def _angle_y(xface, inward, y0, y1, ztop, leg, t=2.0):
-    """20x20 angle along Y: vertical leg on the wall at xface, flat leg under ztop."""
+def _ledge_y(xface, inward, y0, y1, ztop, w, t):
+    """Flat-bar ledge along Y, edge-welded to the rail face at xface; top face at ztop."""
     if inward > 0:
-        return [box(xface, y0, ztop - leg, xface + t, y1, ztop),
-                box(xface, y0, ztop - t, xface + leg, y1, ztop)]
-    return [box(xface - t, y0, ztop - leg, xface, y1, ztop),
-            box(xface - leg, y0, ztop - t, xface, y1, ztop)]
+        return [box(xface, y0, ztop - t, xface + w, y1, ztop)]
+    return [box(xface - w, y0, ztop - t, xface, y1, ztop)]
 
 
-def _angle_x(yface, inward, x0, x1, ztop, leg, t=2.0):
+def _ledge_x(yface, inward, x0, x1, ztop, w, t):
     if inward > 0:
-        return [box(x0, yface, ztop - leg, x1, yface + t, ztop),
-                box(x0, yface, ztop - t, x1, yface + leg, ztop)]
-    return [box(x0, yface - t, ztop - leg, x1, yface, ztop),
-            box(x0, yface - leg, ztop - t, x1, yface, ztop)]
+        return [box(x0, yface, ztop - t, x1, yface + w, ztop)]
+    return [box(x0, yface - w, ztop - t, x1, yface, ztop)]
 
 
 # ---------------------------------------------------------------- the model
@@ -398,14 +406,16 @@ def build_parts(P=None):
     zm0, zm1 = D["z_midrail0"], D["z_midrail1"]
     zds = D["z_door_split"]
 
-    FR = {"kind": "profile", "material": "Aluminium 4040 T-slot (alt. 40x40x2 SHS)", "section": "40x40"}
-    ANG = {"kind": "profile", "material": "Aluminium angle 20x20x2", "section": "20x20x2 L"}
+    ct, pt, pw = P["cleat_t"], P["pad_t"], P["pad_w"]
+    FR = {"kind": "profile", "material": "Steel SHS %gx%g C350L0, welded (weld pack CP-SRA16-FRM-001)" % (f, f),
+          "section": "%gx%g SHS" % (f, f)}
+    LED = {"kind": "profile", "material": "Steel flat bar %gx%g, welded ledge" % (cl, ct), "section": "%gx%g FB" % (cl, ct)}
 
     # ======================================================== FRAME
     posts = [("FL", (s, X0), (s, Y0)), ("FR", (X1, W - s), (s, Y0)),
              ("RL", (s, X0), (Y1, DP - s)), ("RR", (X1, W - s), (Y1, DP - s))]
     for tag, (xa, xb), (ya, yb) in posts:
-        part("Post %s" % tag, "Frame", "alu", [box(xa, ya, zb0, xb, yb, zt1)], bom=FR)
+        part("Post %s" % tag, "Frame", "shs", [box(xa, ya, zb0, xb, yb, zt1)], bom=FR)
     levels = [("Base", zb0, zb1, ("front", "rear", "left", "right")),
               ("Mid", zm0, zm1, ("rear", "left", "right")),
               ("Shelf", zs0, zs1, ("front", "rear", "left", "right")),
@@ -420,24 +430,30 @@ def build_parts(P=None):
                 b = box(s, Y0, za, X0, Y1, zb)
             else:
                 b = box(X1, Y0, za, W - s, Y1, zb)
-            part("Rail %s %s" % (lvl, sd), "Frame", "alu", [b], bom=FR)
+            part("Rail %s %s" % (lvl, sd), "Frame", "shs", [b], bom=FR)
     for tag, (ya, yb) in (("front", (D["y_frail"], D["y_frail"] + f)),
                           ("rear", (D["y_rrail"] - f, D["y_rrail"]))):
-        part("Upright %s left" % tag, "Frame", "alu", [box(s, ya, zs1, X0, yb, zt0)], bom=FR)
-        part("Upright %s right" % tag, "Frame", "alu", [box(X1, ya, zs1, W - s, yb, zt0)], bom=FR)
+        part("Upright %s left" % tag, "Frame", "shs", [box(s, ya, zs1, X0, yb, zt0)], bom=FR)
+        part("Upright %s right" % tag, "Frame", "shs", [box(X1, ya, zs1, W - s, yb, zt0)], bom=FR)
 
-    # cleats: floor, partition, shelf
+    # ledges (20x3 flat bar, edge-welded to the rail faces) carry the floor, partition and shelf ply
     zc_floor, zc_part, zc_shelf = D["z_floor0"], D["z_part0"], D["z_shelf0"]
-    part("Cleat floor left", "Frame", "angle", _angle_y(X0, +1, Y0, Y1, zc_floor, cl), bom=ANG)
-    part("Cleat floor right", "Frame", "angle", _angle_y(X1, -1, Y0, Y1, zc_floor, cl), bom=ANG)
-    part("Cleat floor front", "Frame", "angle", _angle_x(Y0, +1, X0 + cl, X1 - cl, zc_floor, cl), bom=ANG)
-    part("Cleat floor rear", "Frame", "angle", _angle_x(Y1, -1, X0 + cl, X1 - cl, zc_floor, cl), bom=ANG)
-    part("Cleat partition left", "Frame", "angle", _angle_y(X0, +1, D["y_dock"], Y1, zc_part, cl), bom=ANG)
-    part("Cleat partition right", "Frame", "angle", _angle_y(X1, -1, D["y_dock"], Y1, zc_part, cl), bom=ANG)
-    part("Cleat partition rear", "Frame", "angle", _angle_x(Y1, -1, X0 + cl, X1 - cl, zc_part, cl), bom=ANG)
-    part("Cleat shelf left", "Frame", "angle", _angle_y(X0, +1, Y0, Y1, zc_shelf, cl), bom=ANG)
-    part("Cleat shelf right", "Frame", "angle", _angle_y(X1, -1, Y0, Y1, zc_shelf, cl), bom=ANG)
-    part("Cleat shelf rear", "Frame", "angle", _angle_x(Y1, -1, X0 + cl, X1 - cl, zc_shelf, cl), bom=ANG)
+    LY, LX = _ledge_y, _ledge_x
+    part("Ledge floor left", "Frame", "shs", LY(X0, +1, Y0, Y1, zc_floor, cl, ct), bom=LED)
+    part("Ledge floor right", "Frame", "shs", LY(X1, -1, Y0, Y1, zc_floor, cl, ct), bom=LED)
+    part("Ledge floor front", "Frame", "shs", LX(Y0, +1, X0 + cl, X1 - cl, zc_floor, cl, ct), bom=LED)
+    part("Ledge floor rear", "Frame", "shs", LX(Y1, -1, X0 + cl, X1 - cl, zc_floor, cl, ct), bom=LED)
+    part("Ledge partition left", "Frame", "shs", LY(X0, +1, D["y_dock"], Y1, zc_part, cl, ct), bom=LED)
+    part("Ledge partition right", "Frame", "shs", LY(X1, -1, D["y_dock"], Y1, zc_part, cl, ct), bom=LED)
+    part("Ledge partition rear", "Frame", "shs", LX(Y1, -1, X0 + cl, X1 - cl, zc_part, cl, ct), bom=LED)
+    part("Ledge shelf left", "Frame", "shs", LY(X0, +1, Y0, Y1, zc_shelf, cl, ct), bom=LED)
+    part("Ledge shelf right", "Frame", "shs", LY(X1, -1, Y0, Y1, zc_shelf, cl, ct), bom=LED)
+    part("Ledge shelf rear", "Frame", "shs", LX(Y1, -1, X0 + cl, X1 - cl, zc_shelf, cl, ct), bom=LED)
+    # castor pads: plate welded under each corner (post + both base rails), 4x M8 tapped
+    PAD = {"kind": "fab", "material": "Steel plate %gx%gx%g, 4x M8 tapped, welded (castor pad)" % (pw, pw, pt)}
+    corners = {"FL": (s, s, 1, 1), "FR": (W - s, s, -1, 1), "RL": (s, DP - s, 1, -1), "RR": (W - s, DP - s, -1, -1)}
+    for tag, (px, py, sx, sy) in corners.items():
+        part("Castor pad %s" % tag, "Frame", "shs", [box(px, py, zb0 - pt, px + sx * pw, py + sy * pw, zb0)], bom=PAD)
 
     # ======================================================== PANELS & DOORS
     PLY = {"kind": "sheet", "material": "Birch ply 15 mm (alt. 16 mm MDF)", "t": ply}
@@ -461,12 +477,10 @@ def build_parts(P=None):
     part("Door lower MLV", "Panels & Doors", "mlv", [box(0, ply, zb0, W, s, zds - 1.5)], [win_skin], bom=MLV)
     part("Door upper (rack)", "Panels & Doors", "ply", [box(0, 0, zds + 1.5, W, ply, zt1)], bom=PLY)
     part("Door upper MLV", "Panels & Doors", "mlv", [box(0, ply, zds + 1.5, W, s, zt1)], bom=MLV)
-    part("Rear panel lower", "Panels & Doors", "ply", [box(0, DP - ply, zb0, W, DP, zds - 1.5)], [exh_hole_skin], bom=PLY)
-    part("Rear panel lower MLV", "Panels & Doors", "mlv", [box(0, DP - s, zb0, W, DP - ply, zds - 1.5)], [exh_hole_skin], bom=MLV)
-    part("Rear panel upper", "Panels & Doors", "ply", [box(0, DP - ply, zds + 1.5, W, DP, zt1)],
-         [slot_cut(DP - s - 1, DP + 1)], bom=PLY)
-    part("Rear panel upper MLV", "Panels & Doors", "mlv", [box(0, DP - s, zds + 1.5, W, DP - ply, zt1)],
-         [slot_cut(DP - s - 1, DP + 1)], bom=MLV)
+    part("Rear panel", "Panels & Doors", "ply", [box(0, DP - ply, zb0, W, DP, zt1)],
+         [exh_hole_skin, slot_cut(DP - s - 1, DP + 1)], bom=PLY)
+    part("Rear panel MLV", "Panels & Doors", "mlv", [box(0, DP - s, zb0, W, DP - ply, zt1)],
+         [exh_hole_skin, slot_cut(DP - s - 1, DP + 1)], bom=MLV)
     GL = {"kind": "purchased", "material": "Polycarbonate 6 mm (double glazed window)"}
     part("Window pane outer", "Panels & Doors", "glass", [box(wx0, 3, wz0, wx1, 9, wz1)], bom=GL, opacity=0.35)
     part("Window pane inner", "Panels & Doors", "glass", [box(wx0, Y0 - 8, wz0, wx1, Y0 - 2, wz1)], bom=GL, opacity=0.35)
@@ -478,7 +492,7 @@ def build_parts(P=None):
               box(hx0, -27, h0 + 160, hx1, 0, h0 + 180)], bom=HD)
 
     # ======================================================== ACOUSTIC LINING
-    F40 = {"kind": "sheet", "material": "Melamine acoustic foam 40 mm (FR, Class 0)", "t": P["frame"]}
+    F40 = {"kind": "sheet", "material": "Melamine acoustic foam %g mm (FR, Class 0)" % f, "t": f}
     F25 = {"kind": "sheet", "material": "Melamine acoustic foam 25 mm (FR, Class 0)", "t": 25.0}
     yf0, yf1 = D["y_frail"], D["y_frail"] + f
     yr0, yr1 = D["y_rrail"] - f, D["y_rrail"]
@@ -510,10 +524,13 @@ def build_parts(P=None):
     inlet = (X0 + 57, D["inlet_y0"], X1 - 57, D["inlet_y1"])
     dx, dyo = D["drain_x"], D["drain_y_out"]
     zuf0 = D["z_floor0"] - P["underfloor_foam"]
+    uf_cut = [box(inlet[0], inlet[1], zuf0 - 1, inlet[2], inlet[3], D["z_floor0"] + 1),
+              cyl((dx, dyo, zuf0 - 1), (dx, dyo, D["z_floor0"] + 1), 17)]
+    if zuf0 < zb0:
+        for px, py, sx, sy in corners.values():
+            uf_cut.append(box(px, py, zuf0 - 1, px + sx * (pw + 2), py + sy * (pw + 2), zb0))
     part("Foam under floor", "Acoustic Lining", "foam",
-         [box(X0 + cl, Y0 + cl, zuf0, X1 - cl, Y1 - cl, D["z_floor0"])],
-         [box(inlet[0], inlet[1], zuf0 - 1, inlet[2], inlet[3], D["z_floor0"] + 1),
-          cyl((dx, dyo, zuf0 - 1), (dx, dyo, D["z_floor0"] + 1), 17)],
+         [box(X0 + cl, Y0 + cl, zuf0, X1 - cl, Y1 - cl, D["z_floor0"])], uf_cut,
          bom={"kind": "sheet", "material": "Melamine acoustic foam 20 mm (FR, Class 0)", "t": P["underfloor_foam"]})
 
     # ======================================================== BASE, TRAY & DRAIN
@@ -533,11 +550,13 @@ def build_parts(P=None):
     part("Anti-vibration mat", "Base, Tray & Drain", "rubber",
          [box(D["x_ac0"], D["y_ac0"], ztr, D["x_ac1"], D["y_ac1"], D["z_ac0"])],
          bom={"kind": "purchased", "material": "10 mm neoprene/Sorbothane isolation mat"})
-    CAS = {"kind": "purchased", "material": "100 mm levelling castor, 200 kg, braked"}
-    for tag, (cx, cy) in (("FL", (X0, Y0)), ("FR", (X1, Y0)), ("RL", (X0, Y1)), ("RR", (X1, Y1))):
+    zct = zb0 - pt                                                # castor top plate under the pad
+    CAS = {"kind": "purchased", "material": "Levelling castor, 75 mm wheel, 200 kg, braked, %g mm high" % zct}
+    for tag, (px, py, sx, sy) in corners.items():
+        cx, cy = px + sx * pw / 2.0, py + sy * pw / 2.0
         part("Castor %s" % tag, "Base, Tray & Drain", "caster",
-             [box(cx - 40, cy - 40, zb0 - 6, cx + 40, cy + 40, zb0),
-              box(cx - 25, cy - 18, 60, cx + 25, cy + 18, zb0 - 5),
+             [box(cx - 40, cy - 40, zct - 6, cx + 40, cy + 40, zct),
+              box(cx - 25, cy - 18, 60, cx + 25, cy + 18, zct - 5),
               cyl((cx - 16, cy, 37.5), (cx + 16, cy, 37.5), 37.5)], bom=CAS)
     SK = {"kind": "fab", "material": "1.5 mm perforated steel skirt, powder coat"}
     slots_f = [box(115 + i * 72, 9, 35, 165 + i * 72, 17, 75) for i in range(6)]
@@ -663,7 +682,9 @@ def build_parts(P=None):
          [box(xl0, yrr, zr0, xl1, yrr + 2, zr1), box(xl0, yrr - f, zr0, xl0 + 2, yrr + 1, zr1)], bom=RL)
     part("19in rail rear right", "19in Rack", "steel",
          [box(xr0, yrr, zr0, xr1, yrr + 2, zr1), box(xr1 - 2, yrr - f, zr0, xr1, yrr + 1, zr1)], bom=RL)
-    SP = {"kind": "profile", "material": "20x40 alu box, rail spacer / air dam", "section": "22x40 (20x40 + shim)"}
+    spw = D["x_rail_out_l"] - X0
+    SP = {"kind": "profile", "material": "Rail spacer / air dam, %gx%g SHS + packers, bolted to upright" % (f, f),
+          "section": "%gx%g (%gx%g + %g packer)" % (spw, f, f, f, max(spw - f, 0))}
     for tag, (ya, yb) in (("front", (yfr, yfr + f)), ("rear", (yrr - f, yrr))):
         part("Rail spacer %s left" % tag, "19in Rack", "steel", [box(X0, ya, zs1, xl0, yb, zt0)], bom=SP)
         part("Rail spacer %s right" % tag, "19in Rack", "steel", [box(xr1, ya, zs1, X1, yb, zt0)], bom=SP)
@@ -757,6 +778,9 @@ def summary(D):
         "exhaust_outlet_xyz_mm": (D["exh_x"], D["ext_d"], D["exh_run_z"]),
         "drain_outlet_xyz_mm": (D["drain_x"], D["ext_d"] + 25, 60.0),
         "partition_z_mm": D["z_split"],
+        "frame": "%gx%g steel SHS, welded" % (D["frame"], D["frame"]),
+        "frame_outer_mm": (D["ext_w"] - 2 * D["skin"], D["ext_d"] - 2 * D["skin"],
+                           round(D["z_toprail1"] - D["z_base0"], 1)),
     }
 
 
