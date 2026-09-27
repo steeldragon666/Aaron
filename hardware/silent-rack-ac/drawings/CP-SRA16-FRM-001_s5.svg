@@ -302,11 +302,11 @@
 <text x="14.00" y="136.90" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">bar 2</text>
 <rect x="30.00" y="133.70" width="330.00" height="4.40" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
 <rect x="30.55" y="133.70" width="28.27" height="4.40" rx="0.00" fill="#cce6f3" stroke="#15181c" stroke-width="0.20"/>
-<text x="44.69" y="136.80" font-size="1.80" text-anchor="middle" font-weight="normal" fill="#15181c">F3 514.0</text>
+<text x="44.68" y="136.80" font-size="1.80" text-anchor="middle" font-weight="normal" fill="#15181c">F3 514.0</text>
 <rect x="58.98" y="133.70" width="28.27" height="4.40" rx="0.00" fill="#cce6f3" stroke="#15181c" stroke-width="0.20"/>
 <text x="73.12" y="136.80" font-size="1.80" text-anchor="middle" font-weight="normal" fill="#15181c">F3 514.0</text>
 <rect x="87.42" y="133.70" width="28.27" height="4.40" rx="0.00" fill="#cce6f3" stroke="#15181c" stroke-width="0.20"/>
-<text x="101.56" y="136.80" font-size="1.80" text-anchor="middle" font-weight="normal" fill="#15181c">F3 514.0</text>
+<text x="101.55" y="136.80" font-size="1.80" text-anchor="middle" font-weight="normal" fill="#15181c">F3 514.0</text>
 <text x="362.00" y="136.80" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">offcut 4439</text>
 <text x="14.00" y="145.80" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">FRAME PURCHASE LIST (indicative AUD, Sept 2026 - get quotes)</text>
 <rect x="14.00" y="147.80" width="190.00" height="3.50" rx="0.00" fill="#e6ebf0" stroke="none" stroke-width="0.00"/>
@@ -753,7 +753,7 @@
 <text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-FRM-001   SHEET 5 OF 6   REV A</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">- @ A3   UNITS mm   LAYOUT v1.1.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">- @ A3   UNITS mm   LAYOUT v1.2.0</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
 <text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-09-27   DRAWN Claude (AI) for Carbon Project</text>

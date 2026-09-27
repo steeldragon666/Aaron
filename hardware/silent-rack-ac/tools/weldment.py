@@ -36,8 +36,8 @@ FAB = {
     "std": "AS/NZS 1163",
     "cap_t": 3.0,         # post top cap plate
     "rivnut_hole": 9.0,   # M6 steel rivnut
-    "pitch": 250.0,       # max panel-fixing pitch
-    "edge": 40.0,         # first/last fixing from a member end
+    "pitch": RL.FIX_PITCH,  # max panel-fixing pitch (rack_layout rule, shared with the skins)
+    "edge": RL.FIX_EDGE,    # first/last fixing from a member end
     "skirt_clear": 30.0,  # skirt fixings clear of the castor pads
     "spacer_edge": 60.0,  # rail-spacer bolts on the uprights (placed between the side-panel rivnuts)
     "clash": 22.0,        # min axial gap between rivnuts on different faces (bodies meet inside a 26 mm bore)
@@ -75,12 +75,7 @@ def shs_props(b, t, ro):
     return {"area_mm2": area, "kg_m": area * STEEL * 1000.0}
 
 
-def even_positions(a0, a1, pitch, nmin=2):
-    """Evenly spaced positions from a0 to a1 with spacing <= pitch."""
-    if a1 <= a0:
-        return [(a0 + a1) / 2.0]
-    n = max(nmin, int(math.ceil((a1 - a0) / pitch - 1e-9)) + 1)
-    return [a0 + i * (a1 - a0) / (n - 1) for i in range(n)]
+even_positions = RL.even_positions          # shared with the sheet-metal pack (hinges sit between fixings)
 
 
 def _axis_name(a):

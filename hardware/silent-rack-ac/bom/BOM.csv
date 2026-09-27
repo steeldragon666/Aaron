@@ -1,8 +1,13 @@
 category,item,qty,unit,unit_AUD_indicative,line_AUD,notes
-Panels,Birch ply 15 mm (alt. 16 mm MDF) - 2440x1220 sheet,5,sheet,150.0,750.0,"shelf-nested, 4 mm kerf"
-Panels,Birch ply 18 mm - 2440x1220 sheet,1,sheet,165.0,165.0,"shelf-nested, 4 mm kerf"
-Panels,Birch ply 12 mm - 2440x1220 sheet,1,sheet,110.0,110.0,"shelf-nested, 4 mm kerf"
-Acoustic,"Mass-loaded vinyl 5 kg/m2 (3 mm), roll",8,m2,42.0,336.0,bond to ply inside face
+Sheet metal,"Steel sheet (Zincanneal or CR4) 1.2 mm, 1200x800 blank",11,blank,45.0,495.0,nest in cad/dxf/nest/
+Sheet metal,"Stainless 304 sheet, 2B 1.2 mm, 1200x800 blank",1,blank,145.0,145.0,nest in cad/dxf/nest/
+Sheet metal,"Laser cutting: 82 m cut, 333 pierces, + setup",1,job,250.49,250.49,"25 parts, 34 pieces"
+Sheet metal,Folding: 20 bends on 10 parts,1,job,50.0,50.0,"R = t, K 0.33 flat blanks"
+Sheet metal,Powder coat RAL 7035: 13.8 m2 of face (skins both sides),1,job,442.1,442.1,"coat after folding, before MLV"
+Sheet metal,"DT1 drip tray: TIG-weld 4 corners, leak test, passivate",1,ea,90.0,90.0,fabricator
+Interior ply,Birch ply 18 mm - 2440x1220 sheet,1,sheet,165.0,165.0,"floor, partition, shelf, lined boxes"
+Interior ply,Birch ply 12 mm - 2440x1220 sheet,1,sheet,110.0,110.0,"floor, partition, shelf, lined boxes"
+Acoustic,"Mass-loaded vinyl 5 kg/m2 (3 mm), roll",8,m2,42.0,336.0,bond inside the skins; punch D8 at the frame screws
 Acoustic,Melamine acoustic foam (FR) 30/25/20 mm panels,8,m2,55.0,440.0,flame-retardant; not PU egg-crate
 Acoustic,Acoustic sealant (non-hardening) 300 ml,3,tube,28.0,84.0,all panel joints
 Acoustic,Spray contact adhesive (foam/MLV),3,can,22.0,66.0,
@@ -14,11 +19,9 @@ Frame,"M6 steel rivnut, flat head, grip 0.5-3 (+10%)",170,ea,0.35,59.5,weld pack
 Frame,M8 x 12 set screw 8.8 + spring washer (castors),16,ea,0.4,6.4,weld pack CP-SRA16-FRM-001
 Frame,"Welding wire, gas, discs, primer (share)",1,lot,60.0,60.0,weld pack CP-SRA16-FRM-001
 Frame,Blast + zinc primer + powder coat (frame),1,job,320.0,320.0,weld pack CP-SRA16-FRM-001
-Frame,"M6 x 35 flanged button-head screw, black (panel fixing)",160,ea,0.3,48.0,15 ply + 3 MLV into rivnut
+Frame,"M6 x 20 flanged button-head screw, black (panel fixing)",160,ea,0.25,40.0,1.2 skin (+ strip) + 3 MLV into rivnut
 Frame,M6 x 50 bolt + washers + packers (RS1 rail spacers),12,set,0.8,9.6,3 per spacer
 Base,"Levelling castor, 75 mm wheel, 200 kg, braked, 92 mm, 4-bolt plate",4,ea,38.0,152.0,M8 into the tapped pads; match the 60 mm hole square
-Base,Stainless drip tray 1.2 mm 304 (fabricated),1,ea,220.0,220.0,"full bay floor, 25 upstand"
-Base,"Perforated steel skirts 1.5 mm (set of 4, powder coat)",1,set,140.0,140.0,plinth intake
 Base,Neoprene/Sorbothane isolation mat 480x360x10,1,ea,45.0,45.0,under AC
 Base,AC retention bar + 2 toggle clamps,1,set,45.0,45.0,
 Drain,Tank bulkhead 25 mm + tundish,1,ea,24.0,24.0,
@@ -31,17 +34,19 @@ Airflow,150 mm rigid 90deg elbow + 0.6 m duct + flanged wall spigot,1,set,85.0,8
 Airflow,10 mm closed-cell duct insulation (self-adhesive),2,m2,25.0,50.0,elbow + duct
 Airflow,150 mm insulated acoustic flex duct,3,m,32.0,96.0,cabinet -> window/wall vent
 Airflow,150 mm wall/window vent with backdraft flap,1,ea,65.0,65.0,
-Seals,EPDM D-profile door/panel seal (double row),13.5,m,3.2,43.2,
+Seals,EPDM D-profile door/panel seal (double row),13.2,m,3.2,42.24,
 Seals,EPDM closed-cell foam gasket tape 20x10 / 10x10,4.1,m,2.8,11.48,docking + hood
 Seals,Nylon brush strip 25 mm in alu carrier,0.8,m,18.0,14.4,under-AC + cable entry
-Doors,"Lift-off hinges, heavy duty",6,ea,14.0,84.0,3 per door
-Doors,Compression cam latches (keyed),4,ea,24.0,96.0,2 per door
-Doors,Pull handles 160 mm,2,ea,12.0,24.0,
-Doors,Polycarbonate 6 mm window panes 140x200,2,ea,9.0,18.0,double glazed
-Rack,"19in rack strips, 2 mm steel, 16U",4,ea,22.0,88.0,EIA-310 square hole
+Doors,"Lift-off butt hinge 100 mm, stainless, 2 mm leaves (drill to suit)",5,ea,14.0,70.0,"riveted, 3 + 3 per hinge"
+Doors,"Adjustable toggle (draw) latch, stainless",4,ea,18.0,72.0,hook in the KB1 keeper slot
+Doors,"Blind rivet 4.8 x 8 stainless, dome head (pack 100)",1,pack,28.0,28.0,85 used
+Doors,"Pull handles 160 mm c/c, M5",2,ea,12.0,24.0,
+Doors,Polycarbonate 6 mm window panes 180x240,2,ea,9.0,18.0,"double glazed, drilled 8 x D5"
+Doors,EPDM 10 mm window spacer frame + 8 x M4 x 35 + nyloc,1,set,12.0,12.0,clamped by WR1
+Rack,"19in rack strips, 2 mm steel, 16U",4,ea,22.0,88.0,EIA-310 square hole (or laser-cut RR1 with the pack)
 Rack,Cage nuts + M6 screws (pack 50),1,pack,18.0,18.0,
 Rack,1U tool-less blanking panels,8,ea,7.0,56.0,fill all unused RU
 Rack,0U / 1U PDU 8-way 10 A,1,ea,120.0,120.0,IT load only - AC on its own GPO
 Controls,ESP32 + 3x SHT31 + IR LED + leak sensor + 2 reed switches,1,kit,85.0,85.0,"ESPHome: temps, AC IR restart, alerts"
-Consumables,"Screws, foil tape, cable ties, labels",1,lot,80.0,80.0,
-TOTAL,,,,,4683.68,"materials only, excl. AC, IT, GST, labour"
+Consumables,"Screws (M5 spigot/handles, M4 grommet), foil tape, cable ties, labels",1,lot,80.0,80.0,
+TOTAL,,,,,5039.31,"materials only, excl. AC, IT, GST, labour"

@@ -1,0 +1,16 @@
+material,thickness_mm,blank,parts,used_pct,dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,SL3 JR1 DA3 KB1 KB1,93,cad/dxf/nest/steel_1.2mm_sheet1.dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,SR3 DA4 DA5 KB1 KB1,92,cad/dxf/nest/steel_1.2mm_sheet2.dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,TP1 SK3 DA5 DA5,84,cad/dxf/nest/steel_1.2mm_sheet3.dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,RP1 SK3 SK1 WR1,84,cad/dxf/nest/steel_1.2mm_sheet4.dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,DL1 JS1 JS1 SK2 DA1 DA5,86,cad/dxf/nest/steel_1.2mm_sheet5.dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,SL2 JS2 JS2 DA2,75,cad/dxf/nest/steel_1.2mm_sheet6.dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,SR2,60,cad/dxf/nest/steel_1.2mm_sheet7.dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,RP2,50,cad/dxf/nest/steel_1.2mm_sheet8.dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,DU1,50,cad/dxf/nest/steel_1.2mm_sheet9.dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,SL1,49,cad/dxf/nest/steel_1.2mm_sheet10.dxf
+Steel sheet (Zincanneal or CR4),1.2,1200x800,SR1,49,cad/dxf/nest/steel_1.2mm_sheet11.dxf
+"Stainless 304 sheet, 2B",1.2,1200x800,DT1,66,cad/dxf/nest/SS304_1.2mm_sheet1.dxf
+Steel plate (grade 250),8.0,1200x800,PD1 PD1 PD1 PD1,4,cad/dxf/nest/plate_8mm_sheet1.dxf
+Steel plate (grade 250),3.0,1200x800,PC1 PC1 PC1 PC1,0,cad/dxf/nest/plate_3mm_sheet1.dxf
+Steel sheet (CR4),2.0,1200x800,RR1 RR1 RR1 RR1,14,cad/dxf/nest/steel_2mm_sheet1.dxf

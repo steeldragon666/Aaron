@@ -184,28 +184,28 @@
 <rect x="194.00" y="206.00" width="60.00" height="4.00" rx="0.00" fill="url(#hatch)" stroke="#15181c" stroke-width="0.30"/>
 <rect x="215.00" y="206.00" width="18.00" height="4.00" rx="0.00" fill="#ffffff" stroke="none" stroke-width="0.00"/>
 <rect x="194.00" y="200.00" width="60.00" height="6.00" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.30"/>
-<rect x="194.00" y="170.00" width="60.00" height="30.00" rx="0.00" fill="url(#ply)" stroke="#15181c" stroke-width="0.30"/>
+<rect x="194.00" y="197.60" width="60.00" height="2.40" rx="0.00" fill="#c9ced4" stroke="#15181c" stroke-width="0.30"/>
 <rect x="211.00" y="204.00" width="26.00" height="2.00" rx="0.00" fill="#b8c0c8" stroke="#15181c" stroke-width="0.25"/>
 <path d="M215.00 206.00 L215.00 212.00 L212.40 215.00 L215.00 218.00 L215.00 232.00 L233.00 232.00 L233.00 218.00 L235.60 215.00 L233.00 212.00 L233.00 206.00 Z" fill="#c8d0d8" stroke="#15181c" stroke-width="0.25" stroke-linejoin="round"/>
-<rect x="218.00" y="170.00" width="12.00" height="70.00" rx="0.00" fill="#8a9097" stroke="#15181c" stroke-width="0.25"/>
-<rect x="211.00" y="168.00" width="26.00" height="2.00" rx="0.00" fill="#6f767e" stroke="#15181c" stroke-width="0.25"/>
-<path d="M 213.00 168.00 Q 224.00 159.60 235.00 168.00" fill="#6f767e" stroke="#15181c" stroke-width="0.25"/>
+<rect x="218.00" y="197.60" width="12.00" height="40.00" rx="0.00" fill="#8a9097" stroke="#15181c" stroke-width="0.25"/>
+<rect x="211.00" y="195.60" width="26.00" height="2.00" rx="0.00" fill="#6f767e" stroke="#15181c" stroke-width="0.25"/>
+<path d="M 213.00 195.60 Q 224.00 187.20 235.00 195.60" fill="#6f767e" stroke="#15181c" stroke-width="0.25"/>
 <path d="M218.00 220.00 L230.00 221.60" fill="none" stroke="#ffffff" stroke-width="0.12" stroke-linejoin="round"/>
 <path d="M218.00 224.00 L230.00 225.60" fill="none" stroke="#ffffff" stroke-width="0.12" stroke-linejoin="round"/>
 <path d="M218.00 228.00 L230.00 229.60" fill="none" stroke="#ffffff" stroke-width="0.12" stroke-linejoin="round"/>
-<path d="M194.00 216.00 L194.00 191.20 L195.60 190.40 L192.40 189.60 L194.00 188.80 L194.00 164.00" fill="none" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
-<path d="M254.00 216.00 L254.00 191.20 L255.60 190.40 L252.40 189.60 L254.00 188.80 L254.00 164.00" fill="none" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
-<text x="256.00" y="185.60" font-size="1.70" text-anchor="start" font-weight="normal" fill="#15181c">ply 15</text>
+<path d="M194.00 216.00 L194.00 205.00 L195.60 204.20 L192.40 203.40 L194.00 202.60 L194.00 191.60" fill="none" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<path d="M254.00 216.00 L254.00 205.00 L255.60 204.20 L252.40 203.40 L254.00 202.60 L254.00 191.60" fill="none" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<text x="256.00" y="199.40" font-size="1.70" text-anchor="start" font-weight="normal" fill="#15181c">steel skin 1.2</text>
 <text x="256.00" y="203.60" font-size="1.70" text-anchor="start" font-weight="normal" fill="#15181c">MLV 3</text>
 <text x="256.00" y="209.40" font-size="1.70" text-anchor="start" font-weight="normal" fill="#15181c">SHS wall 2</text>
 <text x="256.00" y="224.00" font-size="1.70" text-anchor="start" font-weight="normal" fill="#15181c">rivnut M6</text>
 <text x="256.00" y="226.60" font-size="1.70" text-anchor="start" font-weight="normal" fill="#15181c">hole D9.0</text>
-<text x="224.00" y="155.00" font-size="1.80" text-anchor="middle" font-weight="bold" fill="#15181c">M6 x 35 flanged button head</text>
+<text x="224.00" y="182.60" font-size="1.80" text-anchor="middle" font-weight="bold" fill="#15181c">M6 x 20 flanged button head</text>
 <text x="210.00" y="237.00" font-size="1.60" text-anchor="end" font-weight="normal" fill="#5b6168">tube bore</text>
 <text x="188.00" y="256.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">Drill before welding, deburr. Fit rivnuts</text>
 <text x="188.00" y="258.80" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">(steel, flat head, grip 0.5-3) after coating.</text>
-<text x="188.00" y="261.60" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">Bolt: panel 18 + 17 = M6 x 35; check 6 min</text>
-<text x="188.00" y="264.40" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">engaged. Acoustic sealant under every panel.</text>
+<text x="188.00" y="261.60" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">M6 x 20: skin + MLV 4.2, the rest into the</text>
+<text x="188.00" y="264.40" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">rivnut (6 min engaged). MLV punched D8 = gasket.</text>
 <text x="280.00" y="16.00" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">WELDING PROCEDURE (WPS-lite)</text>
 <rect x="280.00" y="18.00" width="126.00" height="3.45" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
 <text x="280.70" y="20.40" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Process</text>
@@ -325,7 +325,7 @@
 <text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-FRM-001   SHEET 4 OF 6   REV A</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">details NTS (proportional) @ A3   UNITS mm   LAYOUT v1.1.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">details NTS (proportional) @ A3   UNITS mm   LAYOUT v1.2.0</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
 <text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-09-27   DRAWN Claude (AI) for Carbon Project</text>

@@ -309,7 +309,7 @@ def main():
     for pl in rear_pl:
         sh.poly([vr.p(-q[0], q[1]) for q in pl], w=0.13, c="#333")
     sh.text(222 + W / SCALE / 2, floor_y + 15, "REAR VIEW", size=3.0, anchor="middle", weight="bold")
-    vr.dim_h(W, 0, 0, 6, text="%.0f" % W)
+    vr.dim_h(W, 0, 0, 6, text="%.1f" % W)
     ex, ez = D["exh_x"], D["exh_run_z"]
     vr.dim_h(W, ex, ez, 0, text="%.1f" % (W - ex))
     vr.dim_v(0, 0, ez, 5, text="%.0f" % ez, left=False)
@@ -366,8 +366,9 @@ def main():
         "1. AC reference geometry = Dimplex GDC14RBA (label 476W x 358D x 840H, 31.5 kg).",
         "   Notch, grille split (~420), spigot and outlet sizes are photo/manual",
         "   estimates - tape-check (docs/DESIGN.md s.3) before cutting panels.",
-        "2. Walls: 15 birch ply + 5 kg/m2 MLV + %g melamine foam (FR) in a welded" % D["frame"],
-        "   %gx%g steel SHS frame (weld pack CP-SRA16-FRM-001). Joints sealed." % (D["frame"], D["frame"]),
+        "2. Walls: %g steel skins (laser cut, CP-SRA16-SMP-001) + %g MLV + %g foam" % (
+            D["skin_t"], D["mlv_t"], D["frame"]),
+        "   (FR) on a welded %gx%g SHS frame (CP-SRA16-FRM-001). Joints sealed." % (D["frame"], D["frame"]),
         "3. Closed loop: cold and hot zones separated by the shelf, hood, IT +",
         "   blanking panels and air dams. Verified by voxel flood-fill (zone_check).",
         "4. Condenser zone below partition draws room air through the plinth",
@@ -377,7 +378,7 @@ def main():
         "6. Drip tray 1.2 SS full bay floor; AC drain + tray -> 16 mm hose, fall",
         "   to floor waste or condensate pump. Leak sensor in tray.",
         "7. 19in rails EIA-310, %.0f mm rail spacing; blank all unused RU." % D["rail_spacing"],
-        "8. External %.0f W x %.0f D x %.0f H (+ handles 36, spigot 60)." % (W, DP, H),
+        "8. External %.1f W x %.1f D x %.1f H (+ handles 36, spigot 60)." % (W, DP, H),
     ]
     for i, t in enumerate(notes):
         sh.text(lx, 146 + i * 3.35, t, size=2.05 if i else 2.6, weight="bold" if i == 0 else "normal")

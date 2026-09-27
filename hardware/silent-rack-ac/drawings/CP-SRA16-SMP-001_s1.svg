@@ -1,0 +1,574 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 420 297" font-family="Arial, Helvetica, sans-serif">
+<defs>
+<marker id="aDim" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse"><path d="M0 1.5 L10 5 L0 8.5 z" fill="#15181c"/></marker>
+<pattern id="hatch" width="1.6" height="1.6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="1.6" stroke="#6d747c" stroke-width="0.25"/></pattern>
+<pattern id="ply" width="2.2" height="2.2" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><line x1="0" y1="0" x2="0" y2="2.2" stroke="#b58a4a" stroke-width="0.3"/></pattern>
+</defs>
+<rect x="0" y="0" width="420" height="297" fill="#ffffff"/>
+<rect x="8.00" y="8.00" width="404.00" height="281.00" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.60"/>
+<text x="14.00" y="16.00" font-size="2.60" text-anchor="start" font-weight="bold" fill="#15181c">SKIN LAYOUT - EXTERIOR ELEVATIONS 1:20 (pieces as seen from outside)</text>
+<rect x="16.00" y="24.00" width="31.12" height="88.31" rx="0.00" fill="none" stroke="#cfd4da" stroke-width="0.10" stroke-dasharray="0.8 0.6"/>
+<path d="M16.00 112.31 L47.12 112.31 L47.12 62.89 L16.00 62.89 Z" fill="#e9ecef" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="18.31" cy="106.04" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="104.29" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="102.54" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="81.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="80.20" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="78.45" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="69.91" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="68.16" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="66.41" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="104.89" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="103.69" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="68.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="67.55" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="92.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="84.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="25.16" cy="81.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="29.16" cy="81.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="33.16" cy="81.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="33.16" cy="75.71" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="33.16" cy="70.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="29.16" cy="70.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="25.16" cy="70.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="25.16" cy="75.71" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<path d="M25.96 80.71 L32.36 80.71 L32.42 80.70 L32.47 80.69 L32.53 80.66 L32.57 80.62 L32.61 80.58 L32.64 80.52 L32.65 80.47 L32.66 80.41 L32.66 71.01 L32.65 70.95 L32.64 70.90 L32.61 70.84 L32.57 70.80 L32.53 70.76 L32.47 70.73 L32.42 70.72 L32.36 70.71 L25.96 70.71 L25.90 70.72 L25.85 70.73 L25.79 70.76 L25.75 70.80 L25.71 70.84 L25.68 70.90 L25.67 70.95 L25.66 71.01 L25.66 80.41 L25.67 80.47 L25.68 80.52 L25.71 80.58 L25.75 80.62 L25.79 80.66 L25.85 80.69 L25.90 80.70 Z" fill="#ffffff" stroke="#15181c" stroke-width="0.15" stroke-linejoin="round"/>
+<text x="31.56" y="96.01" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">DL1</text>
+<path d="M16.00 62.74 L47.12 62.74 L47.12 24.10 L16.00 24.10 Z" fill="#e9ecef" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="18.31" cy="57.86" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="56.11" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="54.36" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="33.77" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="32.02" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="18.31" cy="30.27" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="56.71" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="55.51" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="32.62" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="31.42" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="47.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="44.81" cy="39.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<text x="31.56" y="44.42" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">DU1</text>
+<line x1="13.00" y1="117.31" x2="50.12" y2="117.31" stroke="#15181c" stroke-width="0.40" stroke-linecap="butt"/>
+<rect x="21.31" y="113.81" width="20.50" height="4.42" rx="0.00" fill="#adb5bd" stroke="#15181c" stroke-width="0.15"/>
+<text x="31.56" y="121.81" font-size="2.30" text-anchor="middle" font-weight="bold" fill="#15181c">FRONT</text>
+<rect x="15.50" y="101.79" width="2.81" height="5.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="15.50" y="77.70" width="2.81" height="5.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="15.50" y="65.66" width="2.81" height="5.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="15.50" y="53.61" width="2.81" height="5.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="15.50" y="29.52" width="2.81" height="5.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="44.11" y="103.29" width="3.11" height="2.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="44.11" y="67.16" width="3.11" height="2.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="44.11" y="55.11" width="3.11" height="2.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="44.11" y="31.02" width="3.11" height="2.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="59.12" y="24.00" width="53.62" height="88.31" rx="0.00" fill="none" stroke="#cfd4da" stroke-width="0.10" stroke-dasharray="0.8 0.6"/>
+<path d="M59.33 112.31 L112.53 112.31 L112.53 89.98 L109.23 89.98 L109.21 90.05 L109.16 90.11 L109.10 90.15 L109.03 90.16 L108.96 90.15 L108.90 90.11 L108.85 90.05 L108.83 89.98 L97.68 89.98 L97.66 90.05 L97.61 90.11 L97.55 90.15 L97.48 90.16 L97.41 90.15 L97.35 90.11 L97.30 90.05 L97.28 89.98 L86.13 89.98 L86.11 90.05 L86.06 90.11 L86.00 90.15 L85.93 90.16 L85.86 90.15 L85.80 90.11 L85.75 90.05 L85.73 89.98 L74.58 89.98 L74.56 90.05 L74.51 90.11 L74.45 90.15 L74.38 90.16 L74.31 90.15 L74.25 90.11 L74.20 90.05 L74.18 89.98 L63.03 89.98 L63.01 90.05 L62.96 90.11 L62.90 90.15 L62.83 90.16 L62.76 90.15 L62.70 90.11 L62.65 90.05 L62.63 89.98 L59.33 89.98 Z" fill="#e9ecef" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="111.78" cy="110.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="111.78" cy="98.27" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="60.08" cy="110.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="60.08" cy="98.27" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="109.03" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="97.48" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="85.93" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="74.38" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="62.83" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="106.04" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="104.29" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="102.54" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<text x="85.93" y="95.45" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">SL1</text>
+<path d="M59.33 89.94 L62.63 89.94 L62.65 89.87 L62.70 89.81 L62.76 89.77 L62.83 89.76 L62.90 89.77 L62.96 89.81 L63.01 89.87 L63.03 89.94 L74.18 89.94 L74.20 89.87 L74.25 89.81 L74.31 89.77 L74.38 89.76 L74.45 89.77 L74.51 89.81 L74.56 89.87 L74.58 89.94 L85.73 89.94 L85.75 89.87 L85.80 89.81 L85.86 89.77 L85.93 89.76 L86.00 89.77 L86.06 89.81 L86.11 89.87 L86.13 89.94 L97.28 89.94 L97.30 89.87 L97.35 89.81 L97.41 89.77 L97.48 89.76 L97.55 89.77 L97.61 89.81 L97.66 89.87 L97.68 89.94 L108.83 89.94 L108.85 89.87 L108.90 89.81 L108.96 89.77 L109.03 89.76 L109.10 89.77 L109.16 89.81 L109.21 89.87 L109.23 89.94 L112.53 89.94 L112.53 62.84 L109.23 62.84 L109.21 62.90 L109.16 62.96 L109.10 63.00 L109.03 63.01 L108.96 63.00 L108.90 62.96 L108.85 62.90 L108.83 62.84 L97.68 62.84 L97.66 62.90 L97.61 62.96 L97.55 63.00 L97.48 63.01 L97.41 63.00 L97.35 62.96 L97.30 62.90 L97.28 62.84 L86.13 62.84 L86.11 62.90 L86.06 62.96 L86.00 63.00 L85.93 63.01 L85.86 63.00 L85.80 62.96 L85.75 62.90 L85.73 62.84 L74.58 62.84 L74.56 62.90 L74.51 62.96 L74.45 63.00 L74.38 63.01 L74.31 63.00 L74.25 62.96 L74.20 62.90 L74.18 62.84 L63.03 62.84 L63.01 62.90 L62.96 62.96 L62.90 63.00 L62.83 63.01 L62.76 63.00 L62.70 62.96 L62.65 62.90 L62.63 62.84 L59.33 62.84 Z" fill="#e9ecef" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="111.78" cy="86.22" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="111.78" cy="74.18" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="60.08" cy="86.22" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="60.08" cy="74.18" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="81.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="80.20" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="78.45" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="69.91" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="68.16" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="66.41" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<text x="85.93" y="85.52" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">SL2</text>
+<path d="M59.33 62.79 L62.63 62.79 L62.65 62.72 L62.70 62.66 L62.76 62.62 L62.83 62.61 L62.90 62.62 L62.96 62.66 L63.01 62.72 L63.03 62.79 L74.18 62.79 L74.20 62.72 L74.25 62.66 L74.31 62.62 L74.38 62.61 L74.45 62.62 L74.51 62.66 L74.56 62.72 L74.58 62.79 L85.73 62.79 L85.75 62.72 L85.80 62.66 L85.86 62.62 L85.93 62.61 L86.00 62.62 L86.06 62.66 L86.11 62.72 L86.13 62.79 L97.28 62.79 L97.30 62.72 L97.35 62.66 L97.41 62.62 L97.48 62.61 L97.55 62.62 L97.61 62.66 L97.66 62.72 L97.68 62.79 L108.83 62.79 L108.85 62.72 L108.90 62.66 L108.96 62.62 L109.03 62.61 L109.10 62.62 L109.16 62.66 L109.21 62.72 L109.23 62.79 L112.53 62.79 L112.53 24.00 L59.33 24.00 Z" fill="#e9ecef" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="111.78" cy="62.13" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="111.78" cy="50.09" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="111.78" cy="38.04" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="111.78" cy="26.00" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="60.08" cy="62.13" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="60.08" cy="50.09" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="60.08" cy="38.04" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="60.08" cy="26.00" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="109.03" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="97.48" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="85.93" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="74.38" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="62.83" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="103.78" cy="60.06" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="103.78" cy="49.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="103.78" cy="38.35" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="103.78" cy="27.50" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="70.28" cy="60.06" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="70.28" cy="49.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="70.28" cy="38.35" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="70.28" cy="27.50" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="57.86" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="56.11" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="54.36" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="33.77" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="32.02" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="110.43" cy="30.27" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<text x="85.93" y="44.39" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">SL3</text>
+<path d="M59.33 91.21 L112.53 91.21 L112.53 88.71 L59.33 88.71 Z" fill="#cfd6dd" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="109.03" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="97.48" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="85.93" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="74.38" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="62.83" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<path d="M59.33 64.06 L112.53 64.06 L112.53 61.56 L59.33 61.56 Z" fill="#cfd6dd" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="111.78" cy="62.13" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="60.08" cy="62.13" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="109.03" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="97.48" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="85.93" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="74.38" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="62.83" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<line x1="56.12" y1="117.31" x2="115.74" y2="117.31" stroke="#15181c" stroke-width="0.40" stroke-linecap="butt"/>
+<rect x="64.43" y="113.81" width="43.00" height="4.42" rx="0.00" fill="#adb5bd" stroke="#15181c" stroke-width="0.15"/>
+<text x="85.93" y="121.81" font-size="2.30" text-anchor="middle" font-weight="bold" fill="#15181c">LEFT SIDE</text>
+<rect x="109.93" y="101.79" width="2.81" height="5.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="109.93" y="77.70" width="2.81" height="5.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="109.93" y="65.66" width="2.81" height="5.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="109.93" y="53.61" width="2.81" height="5.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="109.93" y="29.52" width="2.81" height="5.00" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="124.74" y="24.00" width="31.12" height="88.31" rx="0.00" fill="none" stroke="#cfd4da" stroke-width="0.10" stroke-dasharray="0.8 0.6"/>
+<path d="M124.74 112.31 L155.86 112.31 L155.86 62.84 L152.35 62.84 L152.33 62.90 L152.28 62.96 L152.22 63.00 L152.15 63.01 L152.08 63.00 L152.02 62.96 L151.97 62.90 L151.95 62.84 L140.50 62.84 L140.48 62.90 L140.43 62.96 L140.37 63.00 L140.30 63.01 L140.23 63.00 L140.17 62.96 L140.12 62.90 L140.10 62.84 L128.65 62.84 L128.63 62.90 L128.58 62.96 L128.52 63.00 L128.45 63.01 L128.38 63.00 L128.32 62.96 L128.27 62.90 L128.25 62.84 L124.74 62.84 Z" fill="#e9ecef" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="154.90" cy="104.29" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="154.90" cy="92.24" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="154.90" cy="80.20" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="154.90" cy="68.16" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="125.70" cy="104.29" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="125.70" cy="92.24" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="125.70" cy="80.20" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="125.70" cy="68.16" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="152.15" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="140.30" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="128.45" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="152.15" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="140.30" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="128.45" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="133.78" cy="79.71" r="3.80" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="137.13" cy="76.35" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="130.42" cy="76.35" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="130.42" cy="83.07" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="137.13" cy="83.07" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<text x="146.52" y="73.73" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">RP1</text>
+<path d="M124.74 62.79 L128.25 62.79 L128.27 62.72 L128.32 62.66 L128.38 62.62 L128.45 62.61 L128.52 62.62 L128.58 62.66 L128.63 62.72 L128.65 62.79 L140.10 62.79 L140.12 62.72 L140.17 62.66 L140.23 62.62 L140.30 62.61 L140.37 62.62 L140.43 62.66 L140.48 62.72 L140.50 62.79 L151.95 62.79 L151.97 62.72 L152.02 62.66 L152.08 62.62 L152.15 62.61 L152.22 62.62 L152.28 62.66 L152.33 62.72 L152.35 62.79 L155.86 62.79 L155.86 24.00 L124.74 24.00 Z" fill="#e9ecef" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="154.90" cy="56.11" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="154.90" cy="44.07" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="154.90" cy="32.02" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="125.70" cy="56.11" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="125.70" cy="44.07" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="125.70" cy="32.02" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="152.15" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="140.30" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="128.45" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="134.70" cy="33.40" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="134.70" cy="30.20" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="145.90" cy="33.40" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="145.90" cy="30.20" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<path d="M135.55 32.80 L145.05 32.80 L145.10 32.80 L145.15 32.78 L145.19 32.76 L145.23 32.73 L145.26 32.69 L145.28 32.65 L145.30 32.60 L145.30 32.55 L145.30 31.05 L145.30 31.00 L145.28 30.95 L145.26 30.91 L145.23 30.87 L145.19 30.84 L145.15 30.82 L145.10 30.80 L145.05 30.80 L135.55 30.80 L135.50 30.80 L135.45 30.82 L135.41 30.84 L135.37 30.87 L135.34 30.91 L135.32 30.95 L135.30 31.00 L135.30 31.05 L135.30 32.55 L135.30 32.60 L135.32 32.65 L135.34 32.69 L135.37 32.73 L135.41 32.76 L135.45 32.78 L135.50 32.80 Z" fill="#ffffff" stroke="#15181c" stroke-width="0.15" stroke-linejoin="round"/>
+<text x="140.30" y="50.21" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">RP2</text>
+<path d="M124.74 64.06 L155.86 64.06 L155.86 61.56 L124.74 61.56 Z" fill="#cfd6dd" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="152.15" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="140.30" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="128.45" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<line x1="121.74" y1="117.31" x2="158.86" y2="117.31" stroke="#15181c" stroke-width="0.40" stroke-linecap="butt"/>
+<rect x="130.05" y="113.81" width="20.50" height="4.42" rx="0.00" fill="#adb5bd" stroke="#15181c" stroke-width="0.15"/>
+<text x="140.30" y="121.81" font-size="2.30" text-anchor="middle" font-weight="bold" fill="#15181c">REAR</text>
+<rect x="167.86" y="24.00" width="53.62" height="88.31" rx="0.00" fill="none" stroke="#cfd4da" stroke-width="0.10" stroke-dasharray="0.8 0.6"/>
+<path d="M168.07 112.31 L221.27 112.31 L221.27 89.98 L217.97 89.98 L217.95 90.05 L217.90 90.11 L217.84 90.15 L217.77 90.16 L217.70 90.15 L217.64 90.11 L217.59 90.05 L217.57 89.98 L206.42 89.98 L206.40 90.05 L206.35 90.11 L206.29 90.15 L206.22 90.16 L206.15 90.15 L206.09 90.11 L206.04 90.05 L206.02 89.98 L194.87 89.98 L194.85 90.05 L194.80 90.11 L194.74 90.15 L194.67 90.16 L194.60 90.15 L194.54 90.11 L194.49 90.05 L194.47 89.98 L183.32 89.98 L183.30 90.05 L183.25 90.11 L183.19 90.15 L183.12 90.16 L183.05 90.15 L182.99 90.11 L182.94 90.05 L182.92 89.98 L171.77 89.98 L171.75 90.05 L171.70 90.11 L171.64 90.15 L171.57 90.16 L171.50 90.15 L171.44 90.11 L171.39 90.05 L171.37 89.98 L168.07 89.98 Z" fill="#e9ecef" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="168.82" cy="110.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="168.82" cy="98.27" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="220.52" cy="110.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="220.52" cy="98.27" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.57" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="183.12" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="194.67" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="206.22" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="217.77" cy="111.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="170.47" cy="104.74" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="170.47" cy="103.84" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.87" cy="104.74" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.87" cy="103.84" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<text x="194.67" y="95.45" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">SR1</text>
+<path d="M168.07 89.94 L171.37 89.94 L171.39 89.87 L171.44 89.81 L171.50 89.77 L171.57 89.76 L171.64 89.77 L171.70 89.81 L171.75 89.87 L171.77 89.94 L182.92 89.94 L182.94 89.87 L182.99 89.81 L183.05 89.77 L183.12 89.76 L183.19 89.77 L183.25 89.81 L183.30 89.87 L183.32 89.94 L194.47 89.94 L194.49 89.87 L194.54 89.81 L194.60 89.77 L194.67 89.76 L194.74 89.77 L194.80 89.81 L194.85 89.87 L194.87 89.94 L206.02 89.94 L206.04 89.87 L206.09 89.81 L206.15 89.77 L206.22 89.76 L206.29 89.77 L206.35 89.81 L206.40 89.87 L206.42 89.94 L217.57 89.94 L217.59 89.87 L217.64 89.81 L217.70 89.77 L217.77 89.76 L217.84 89.77 L217.90 89.81 L217.95 89.87 L217.97 89.94 L221.27 89.94 L221.27 62.84 L217.97 62.84 L217.95 62.90 L217.90 62.96 L217.84 63.00 L217.77 63.01 L217.70 63.00 L217.64 62.96 L217.59 62.90 L217.57 62.84 L206.42 62.84 L206.40 62.90 L206.35 62.96 L206.29 63.00 L206.22 63.01 L206.15 63.00 L206.09 62.96 L206.04 62.90 L206.02 62.84 L194.87 62.84 L194.85 62.90 L194.80 62.96 L194.74 63.00 L194.67 63.01 L194.60 63.00 L194.54 62.96 L194.49 62.90 L194.47 62.84 L183.32 62.84 L183.30 62.90 L183.25 62.96 L183.19 63.00 L183.12 63.01 L183.05 63.00 L182.99 62.96 L182.94 62.90 L182.92 62.84 L171.77 62.84 L171.75 62.90 L171.70 62.96 L171.64 63.00 L171.57 63.01 L171.50 63.00 L171.44 62.96 L171.39 62.90 L171.37 62.84 L168.07 62.84 Z" fill="#e9ecef" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="168.82" cy="86.22" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="168.82" cy="74.18" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="220.52" cy="86.22" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="220.52" cy="74.18" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="170.47" cy="68.61" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="170.47" cy="67.70" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.87" cy="68.61" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.87" cy="67.70" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<text x="194.67" y="85.52" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">SR2</text>
+<path d="M168.07 62.79 L171.37 62.79 L171.39 62.72 L171.44 62.66 L171.50 62.62 L171.57 62.61 L171.64 62.62 L171.70 62.66 L171.75 62.72 L171.77 62.79 L182.92 62.79 L182.94 62.72 L182.99 62.66 L183.05 62.62 L183.12 62.61 L183.19 62.62 L183.25 62.66 L183.30 62.72 L183.32 62.79 L194.47 62.79 L194.49 62.72 L194.54 62.66 L194.60 62.62 L194.67 62.61 L194.74 62.62 L194.80 62.66 L194.85 62.72 L194.87 62.79 L206.02 62.79 L206.04 62.72 L206.09 62.66 L206.15 62.62 L206.22 62.61 L206.29 62.62 L206.35 62.66 L206.40 62.72 L206.42 62.79 L217.57 62.79 L217.59 62.72 L217.64 62.66 L217.70 62.62 L217.77 62.61 L217.84 62.62 L217.90 62.66 L217.95 62.72 L217.97 62.79 L221.27 62.79 L221.27 24.00 L168.07 24.00 Z" fill="#e9ecef" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="168.82" cy="62.13" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="168.82" cy="50.09" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="168.82" cy="38.04" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="168.82" cy="26.00" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="220.52" cy="62.13" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="220.52" cy="50.09" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="220.52" cy="38.04" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="220.52" cy="26.00" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.57" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="183.12" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="194.67" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="206.22" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="217.77" cy="24.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="176.82" cy="60.06" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="176.82" cy="49.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="176.82" cy="38.35" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="176.82" cy="27.50" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="210.32" cy="60.06" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="210.32" cy="49.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="210.32" cy="38.35" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="210.32" cy="27.50" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="170.47" cy="56.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="170.47" cy="55.66" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.87" cy="56.56" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.87" cy="55.66" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="170.47" cy="32.47" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="170.47" cy="31.57" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.87" cy="32.47" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.87" cy="31.57" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<text x="194.67" y="44.39" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">SR3</text>
+<path d="M221.27 91.21 L168.07 91.21 L168.07 88.71 L221.27 88.71 Z" fill="#cfd6dd" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="171.57" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="183.12" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="194.67" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="206.22" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="217.77" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<path d="M221.27 64.06 L168.07 64.06 L168.07 61.56 L221.27 61.56 Z" fill="#cfd6dd" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
+<circle cx="168.82" cy="62.13" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="220.52" cy="62.13" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="171.57" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="183.12" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="194.67" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="206.22" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="217.77" cy="62.81" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<line x1="164.86" y1="117.31" x2="224.48" y2="117.31" stroke="#15181c" stroke-width="0.40" stroke-linecap="butt"/>
+<rect x="173.17" y="113.81" width="43.00" height="4.42" rx="0.00" fill="#adb5bd" stroke="#15181c" stroke-width="0.15"/>
+<text x="194.67" y="121.81" font-size="2.30" text-anchor="middle" font-weight="bold" fill="#15181c">RIGHT SIDE</text>
+<rect x="169.87" y="103.69" width="2.75" height="1.20" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="169.87" y="67.56" width="2.75" height="1.20" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="169.87" y="55.51" width="2.75" height="1.20" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<rect x="169.87" y="31.42" width="2.75" height="1.20" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
+<path d="M16.00 184.93 L47.12 184.93 L47.12 131.31 L16.00 131.31 Z" fill="#eef1f4" stroke="#15181c" stroke-width="0.25" stroke-linejoin="round"/>
+<circle cx="19.71" cy="183.97" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="31.56" cy="183.97" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="43.41" cy="183.97" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="25.63" cy="132.27" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="37.48" cy="132.27" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="16.96" cy="175.44" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="16.96" cy="163.90" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="16.96" cy="152.34" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="16.96" cy="140.80" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="46.16" cy="175.44" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="46.16" cy="163.90" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="46.16" cy="152.34" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="46.16" cy="140.80" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<text x="31.56" y="189.43" font-size="2.30" text-anchor="middle" font-weight="bold" fill="#15181c">TOP (front edge at bottom)</text>
+<text x="31.56" y="158.12" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">TP1</text>
+<text x="60.00" y="135.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Grey bars: hinges (front + left), latches + keepers (front + right).</text>
+<text x="60.00" y="138.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Strips JS/JR cover the skin joints on the mid and shelf rails.</text>
+<text x="60.00" y="141.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Skirts SK1-SK3 sit under the base rails between the castor pads.</text>
+<text x="60.00" y="144.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Dots: D8 screw holes on the frame rivnuts (weld pack sheet 6).</text>
+<text x="60.00" y="147.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Every frame rivnut is matched by a hole (checked by sheetmetal.py).</text>
+<text x="250.00" y="16.00" font-size="2.60" text-anchor="start" font-weight="bold" fill="#15181c">PARTS (one DXF each)</text>
+<rect x="250.00" y="18.00" width="156.00" height="3.05" rx="0.00" fill="#e6ebf0" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="20.00" font-size="1.75" text-anchor="middle" font-weight="bold" fill="#15181c">ID</text>
+<text x="263.50" y="20.00" font-size="1.75" text-anchor="middle" font-weight="bold" fill="#15181c">QTY</text>
+<text x="267.70" y="20.00" font-size="1.75" text-anchor="start" font-weight="bold" fill="#15181c">PART</text>
+<text x="349.00" y="20.00" font-size="1.75" text-anchor="middle" font-weight="bold" fill="#15181c">t</text>
+<text x="378.30" y="20.00" font-size="1.75" text-anchor="end" font-weight="bold" fill="#15181c">FLAT</text>
+<text x="387.00" y="20.00" font-size="1.75" text-anchor="middle" font-weight="bold" fill="#15181c">HOLES</text>
+<text x="400.50" y="20.00" font-size="1.75" text-anchor="middle" font-weight="bold" fill="#15181c">BENDS</text>
+<text x="255.00" y="23.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SL1</text>
+<text x="263.50" y="23.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="23.05" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin left - bottom</text>
+<text x="349.00" y="23.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="23.05" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 446</text>
+<text x="387.00" y="23.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">12</text>
+<text x="400.50" y="23.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<rect x="250.00" y="24.10" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="26.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SL2</text>
+<text x="263.50" y="26.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="26.10" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin left - middle</text>
+<text x="349.00" y="26.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="26.10" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 542</text>
+<text x="387.00" y="26.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">10</text>
+<text x="400.50" y="26.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<text x="255.00" y="29.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SL3</text>
+<text x="263.50" y="29.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="29.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin left - top</text>
+<text x="349.00" y="29.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="29.15" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 776</text>
+<text x="387.00" y="29.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">27</text>
+<text x="400.50" y="29.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<rect x="250.00" y="30.20" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="32.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SR1</text>
+<text x="263.50" y="32.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="32.20" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin right - bottom</text>
+<text x="349.00" y="32.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="32.20" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 446</text>
+<text x="387.00" y="32.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">13</text>
+<text x="400.50" y="32.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<text x="255.00" y="35.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SR2</text>
+<text x="263.50" y="35.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="35.25" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin right - middle</text>
+<text x="349.00" y="35.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="35.25" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 542</text>
+<text x="387.00" y="35.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">8</text>
+<text x="400.50" y="35.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<rect x="250.00" y="36.30" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="38.30" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SR3</text>
+<text x="263.50" y="38.30" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="38.30" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Side skin right - top</text>
+<text x="349.00" y="38.30" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="38.30" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 776</text>
+<text x="387.00" y="38.30" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">29</text>
+<text x="400.50" y="38.30" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<text x="255.00" y="41.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">JS1</text>
+<text x="263.50" y="41.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="267.70" y="41.35" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Joint strip, side skins - mid rail</text>
+<text x="349.00" y="41.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="41.35" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 50</text>
+<text x="387.00" y="41.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">5</text>
+<text x="400.50" y="41.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<rect x="250.00" y="42.40" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="44.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">JS2</text>
+<text x="263.50" y="44.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="267.70" y="44.40" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Joint strip, side skins - shelf rail</text>
+<text x="349.00" y="44.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="44.40" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">1064 x 50</text>
+<text x="387.00" y="44.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">7</text>
+<text x="400.50" y="44.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<text x="255.00" y="47.45" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">RP1</text>
+<text x="263.50" y="47.45" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="47.45" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Rear skin - bottom</text>
+<text x="349.00" y="47.45" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="47.45" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">622 x 990</text>
+<text x="387.00" y="47.45" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">19</text>
+<text x="400.50" y="47.45" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<rect x="250.00" y="48.50" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="50.50" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">RP2</text>
+<text x="263.50" y="50.50" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="50.50" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Rear skin - top</text>
+<text x="349.00" y="50.50" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="50.50" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">622 x 776</text>
+<text x="387.00" y="50.50" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">13</text>
+<text x="400.50" y="50.50" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<text x="255.00" y="53.55" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">JR1</text>
+<text x="263.50" y="53.55" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="53.55" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Joint strip, rear skin</text>
+<text x="349.00" y="53.55" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="53.55" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">622 x 50</text>
+<text x="387.00" y="53.55" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">3</text>
+<text x="400.50" y="53.55" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<rect x="250.00" y="54.60" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="56.60" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">TP1</text>
+<text x="263.50" y="56.60" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="56.60" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Top skin</text>
+<text x="349.00" y="56.60" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="56.60" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">622 x 1072</text>
+<text x="387.00" y="56.60" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">13</text>
+<text x="400.50" y="56.60" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<text x="255.00" y="59.65" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">DL1</text>
+<text x="263.50" y="59.65" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="59.65" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Door, lower</text>
+<text x="349.00" y="59.65" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="59.65" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">622 x 988</text>
+<text x="387.00" y="59.65" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">23</text>
+<text x="400.50" y="59.65" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<rect x="250.00" y="60.70" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="62.70" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">DU1</text>
+<text x="263.50" y="62.70" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="62.70" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Door, upper</text>
+<text x="349.00" y="62.70" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="62.70" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">622 x 773</text>
+<text x="387.00" y="62.70" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">12</text>
+<text x="400.50" y="62.70" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<text x="255.00" y="65.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">DA1</text>
+<text x="263.50" y="65.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="65.75" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Stiffener lower door, left vertical</text>
+<text x="349.00" y="65.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="65.75" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">941 x 38</text>
+<text x="387.00" y="65.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">9</text>
+<text x="400.50" y="65.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<rect x="250.00" y="66.80" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="68.80" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">DA2</text>
+<text x="263.50" y="68.80" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="68.80" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Stiffener lower door, right vertical</text>
+<text x="349.00" y="68.80" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="68.80" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">941 x 38</text>
+<text x="387.00" y="68.80" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">6</text>
+<text x="400.50" y="68.80" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="255.00" y="71.85" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">DA3</text>
+<text x="263.50" y="71.85" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="71.85" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Stiffener upper door, left vertical</text>
+<text x="349.00" y="71.85" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="71.85" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">727 x 38</text>
+<text x="387.00" y="71.85" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">6</text>
+<text x="400.50" y="71.85" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<rect x="250.00" y="72.90" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="74.90" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">DA4</text>
+<text x="263.50" y="74.90" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="74.90" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Stiffener upper door, right vertical</text>
+<text x="349.00" y="74.90" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="74.90" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">727 x 38</text>
+<text x="387.00" y="74.90" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">6</text>
+<text x="400.50" y="74.90" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="255.00" y="77.95" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">DA5</text>
+<text x="263.50" y="77.95" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="267.70" y="77.95" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Stiffener horizontal</text>
+<text x="349.00" y="77.95" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="77.95" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">510 x 38</text>
+<text x="387.00" y="77.95" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<text x="400.50" y="77.95" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<rect x="250.00" y="79.00" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="81.00" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">KB1</text>
+<text x="263.50" y="81.00" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="267.70" y="81.00" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Latch keeper bracket</text>
+<text x="349.00" y="81.00" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="81.00" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">83 x 40</text>
+<text x="387.00" y="81.00" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="400.50" y="81.00" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="255.00" y="84.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">WR1</text>
+<text x="263.50" y="84.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="84.05" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Window retainer frame</text>
+<text x="349.00" y="84.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="84.05" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">180 x 240</text>
+<text x="387.00" y="84.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">8</text>
+<text x="400.50" y="84.05" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<rect x="250.00" y="85.10" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="87.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SK1</text>
+<text x="263.50" y="87.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="87.10" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Plinth skirt, front</text>
+<text x="349.00" y="87.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="87.10" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">410 x 116</text>
+<text x="387.00" y="87.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">3</text>
+<text x="400.50" y="87.10" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="255.00" y="90.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SK2</text>
+<text x="263.50" y="90.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="90.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Plinth skirt, rear</text>
+<text x="349.00" y="90.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="90.15" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">410 x 116</text>
+<text x="387.00" y="90.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">3</text>
+<text x="400.50" y="90.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<rect x="250.00" y="91.20" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="93.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">SK3</text>
+<text x="263.50" y="93.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="267.70" y="93.20" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Plinth skirt, side</text>
+<text x="349.00" y="93.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="93.20" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">860 x 116</text>
+<text x="387.00" y="93.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="400.50" y="93.20" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="255.00" y="96.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">DT1</text>
+<text x="263.50" y="96.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="267.70" y="96.25" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Drip tray</text>
+<text x="349.00" y="96.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
+<text x="378.30" y="96.25" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">603 x 1053</text>
+<text x="387.00" y="96.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="400.50" y="96.25" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<rect x="250.00" y="97.30" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="99.30" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">PD1</text>
+<text x="263.50" y="99.30" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="267.70" y="99.30" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Castor pad</text>
+<text x="349.00" y="99.30" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">8</text>
+<text x="378.30" y="99.30" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">100 x 100</text>
+<text x="387.00" y="99.30" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="400.50" y="99.30" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<text x="255.00" y="102.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">PC1</text>
+<text x="263.50" y="102.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="267.70" y="102.35" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Post top cap</text>
+<text x="349.00" y="102.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">3</text>
+<text x="378.30" y="102.35" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">30 x 30</text>
+<text x="387.00" y="102.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<text x="400.50" y="102.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
+<rect x="250.00" y="103.40" width="156.00" height="3.05" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="255.00" y="105.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">RR1</text>
+<text x="263.50" y="105.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="267.70" y="105.40" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">19in rail, 16U</text>
+<text x="349.00" y="105.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="378.30" y="105.40" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">721 x 46</text>
+<text x="387.00" y="105.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">51</text>
+<text x="400.50" y="105.40" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<rect x="250.00" y="18.00" width="156.00" height="88.45" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
+<line x1="250.00" y1="21.05" x2="406.00" y2="21.05" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="24.10" x2="406.00" y2="24.10" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="27.15" x2="406.00" y2="27.15" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="30.20" x2="406.00" y2="30.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="33.25" x2="406.00" y2="33.25" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="36.30" x2="406.00" y2="36.30" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="39.35" x2="406.00" y2="39.35" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="42.40" x2="406.00" y2="42.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="45.45" x2="406.00" y2="45.45" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="48.50" x2="406.00" y2="48.50" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="51.55" x2="406.00" y2="51.55" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="54.60" x2="406.00" y2="54.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="57.65" x2="406.00" y2="57.65" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="60.70" x2="406.00" y2="60.70" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="63.75" x2="406.00" y2="63.75" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="66.80" x2="406.00" y2="66.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="69.85" x2="406.00" y2="69.85" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="72.90" x2="406.00" y2="72.90" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="75.95" x2="406.00" y2="75.95" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="79.00" x2="406.00" y2="79.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="82.05" x2="406.00" y2="82.05" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="85.10" x2="406.00" y2="85.10" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="88.15" x2="406.00" y2="88.15" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="91.20" x2="406.00" y2="91.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="94.25" x2="406.00" y2="94.25" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="97.30" x2="406.00" y2="97.30" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="100.35" x2="406.00" y2="100.35" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="250.00" y1="103.40" x2="406.00" y2="103.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="260.00" y1="18.00" x2="260.00" y2="106.45" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="267.00" y1="18.00" x2="267.00" y2="106.45" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="345.00" y1="18.00" x2="345.00" y2="106.45" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="353.00" y1="18.00" x2="353.00" y2="106.45" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="379.00" y1="18.00" x2="379.00" y2="106.45" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="395.00" y1="18.00" x2="395.00" y2="106.45" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<text x="250.00" y="110.05" font-size="1.85" text-anchor="start" font-weight="bold" fill="#15181c">46 pieces, 78 kg. Largest blank 1064 x 776 (limit 1200 x 800).</text>
+<text x="250.00" y="113.45" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Blanks 1200x800: steel_1.2mm x11, SS304_1.2mm x1, plate_8mm x1, plate_3mm x1, steel_2mm x1</text>
+<text x="250.00" y="122.45" font-size="2.40" text-anchor="start" font-weight="bold" fill="#15181c">ORDERING</text>
+<text x="250.00" y="127.45" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Send cad/dxf/cut/ - each file is named ID_thickness_material_qty,</text>
+<text x="250.00" y="130.50" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">e.g. SL3_1.2mm_steel_x1.dxf - plus bom/sheet_metal_parts.csv.</text>
+<text x="250.00" y="133.55" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Or cut the nested blanks in cad/dxf/nest/ on a 1200x800 bed.</text>
+<text x="250.00" y="136.60" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Folding: 11 parts, 24 bends (flat blanks: R = t, K 0.33).</text>
+<text x="250.00" y="139.65" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">Tap the four PD1 pads M8 after cutting. Coat after folding.</text>
+<text x="14.00" y="216.00" font-size="2.40" text-anchor="start" font-weight="bold" fill="#15181c">NOTES</text>
+<text x="14.00" y="221.00" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">1  DXF (cad/dxf/cut) is the master geometry, 1:1 mm. info/ adds bend lines, ID etch and notes on layers.</text>
+<text x="14.00" y="224.05" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">2  Skins 1.2 mm steel (Zincanneal/CR4), powder coat both sides, then bond 3 mm MLV inside (D8 at the frame screws: it is the gasket).</text>
+<text x="14.00" y="227.10" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">3  Frame screws: M6 x 20 flanged button head through D8 (+-1 mm frame tolerance) into the frame</text>
+<text x="14.00" y="230.15" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">   rivnuts. Rivets: 4.8 mm blind, D5 holes. Deburr all holes; mask nothing - coat before rivnuts.</text>
+<text x="14.00" y="233.20" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">4  Folded parts: flat blanks for R = t inside, K 0.33. Check one test bend on your brake first.</text>
+<text x="14.00" y="236.25" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">5  Split skins meet on the rail centreline with a 1 mm gap and R4 notches round each strip screw; the strip</text>
+<text x="14.00" y="239.30" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">   clamps both edges (sealant under). Detail J, sheet 5.</text>
+<rect x="272.00" y="247.00" width="140.00" height="42.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.50"/>
+<text x="274.00" y="253.20" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">PROJECT</text>
+<text x="291.00" y="253.20" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">SRA-16 Silent AC Rack - laser-cut sheet-metal parts</text>
+<text x="274.00" y="259.50" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">TITLE</text>
+<text x="291.00" y="259.50" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">Skin layout, parts list</text>
+<line x1="272.00" y1="254.90" x2="412.00" y2="254.90" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="265.80" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DOC NO.</text>
+<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 1 OF 6   REV A</text>
+<line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">1:20 (elevations) @ A3   UNITS mm   LAYOUT v1.2.0</text>
+<line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
+<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-09-27   DRAWN Claude (AI) for Carbon Project</text>
+<line x1="272.00" y1="273.80" x2="412.00" y2="273.80" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="284.70" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">STATUS</text>
+<text x="291.00" y="284.70" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">FOR CUTTING - DXF is the master; confirm hardware (sheet 5)</text>
+<line x1="272.00" y1="280.10" x2="412.00" y2="280.10" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<line x1="289.00" y1="247.00" x2="289.00" y2="289.00" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+</svg>

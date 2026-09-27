@@ -6,18 +6,19 @@ A sealed, acoustically lined server cabinet. The existing **Dimplex GDC14RBA** p
 
 | | |
 |---|---|
-| External | **650 W × 1100 D × 1884 H mm** (+36 mm handles, +60 mm exhaust spigot) |
+| External | **622.4 W × 1072.4 D × 1870.4 H mm** (+36 mm handles, +60 mm exhaust spigot) |
 | Rack | 16 RU, EIA-310, 700 mm rail spacing, 130 mm cold plenum, 174 mm hot plenum |
 | Cooling | Closed loop through the AC evaporator. Design IT load 2.0-2.5 kW continuous, about 3 kW peak. |
-| Exhaust | Ø150 spigot on the rear panel, 752 mm above floor, 194.5 mm in from the left edge (viewed from behind) |
-| Drain | 16 mm barb at the rear, 60 mm above floor. Full-floor stainless drip tray + leak sensor. |
+| Exhaust | Ø150 spigot on the rear skin, 752 mm above floor, 180.7 mm in from the left edge (viewed from behind) |
+| Drain | 16 mm barb at the rear, 60 mm above floor, 136.2 mm from the right edge (viewed from behind). Full-floor stainless drip tray + leak sensor. |
 | Frame | Welded 30 × 30 × 2.0 steel SHS, 43 kg. Full cut list and weld plan: [drawings/CP-SRA16-FRM-001.pdf](drawings/CP-SRA16-FRM-001.pdf), [docs/FRAME_WELD_PLAN.md](docs/FRAME_WELD_PLAN.md) |
-| Acoustics | 15 ply + 5 kg/m² MLV + 30 mm FR melamine foam. Lined labyrinth intake. About 25-30 dB(A) reduction expected. |
-| Mass / cost | About 193 kg empty (+31.5 kg AC). Materials about AUD 4.7k indicative. |
+| Skins | Laser-cut 1.2 mm steel, 46 pieces, none larger than 1200 × 800, every hole cut. DXFs: [cad/dxf/SRA16_sheet_metal_DXF.zip](cad/dxf/SRA16_sheet_metal_DXF.zip); drawings: [drawings/CP-SRA16-SMP-001.pdf](drawings/CP-SRA16-SMP-001.pdf); notes: [docs/SHEET_METAL.md](docs/SHEET_METAL.md) |
+| Acoustics | 1.2 mm steel + 5 kg/m² MLV + 30 mm FR melamine foam. Lined labyrinth intake. About 25-30 dB(A) reduction expected. |
+| Mass / cost | About 192 kg empty (+31.5 kg AC). Materials about AUD 5.0k indicative. |
 
 ## Open it in Fusion
 
-**Option 1 (fastest):** open `cad/exports/SilentRackAC.step` with **File → Open → Open from my computer…**. Fusion converts it into a native design with all 137 parts named and coloured, grouped into 8 components. Save it to your project.
+**Option 1 (fastest):** open `cad/exports/SilentRackAC.step` with **File → Open → Open from my computer…**. Fusion converts it into a native design with all 164 parts named and coloured, grouped into 8 components. Save it to your project.
 
 **Option 2 (native build with editable parameters):**
 
@@ -25,7 +26,7 @@ A sealed, acoustically lined server cabinet. The existing **Dimplex GDC14RBA** p
 2. Click **+ → Script or add-in from device**, select the `cad/fusion/SilentRackAC` folder, and run it.
 3. The script:
    - builds the rack in a **new** design (your open documents are never touched);
-   - adds 50 `sr_*` user parameters;
+   - adds 55 `sr_*` user parameters;
    - checks every body's volume against this export.
 4. To change the design, do either of these, then run the script again:
    - edit `DEFAULTS` in `rack_layout.py`; or
@@ -46,6 +47,8 @@ The rating-plate dimensions are certain. Everything else about the AC was measur
 | `bom/BOM.md`, `bom/BOM.csv`, `bom/cut_list.csv` | Purchase list, cut list, sheet nesting, mass |
 | `drawings/CP-SRA16-FRM-001.pdf` (+ `_s1..s6.svg`) | Frame weld pack, 6 × A3: GA + marks, side frames, box, weld details + WPS, cut list + nesting, drilling |
 | `docs/FRAME_WELD_PLAN.md`, `bom/frame_*.csv` | Weld plan (procedure, sequence, checks, estimate); cut list, drilling, weld schedule and nesting as CSV |
+| `drawings/CP-SRA16-SMP-001.pdf` (+ `_s1..s6.svg`) | Sheet-metal pack, 6 × A3: skin layout + parts list, flat patterns, rails + hardware + details, nesting |
+| `cad/dxf/` (`cut/`, `info/`, `nest/`, zip), `docs/SHEET_METAL.md`, `bom/sheet_metal_*.csv` | Laser-cutting DXFs (1:1 mm), per-part list and nests on 1200 × 800 blanks |
 | `cad/exports/SRA16_frame_weldment.step`, `cad/exports/frame_members/` | Frame weldment (true SHS, holes) and one STEP per mark for tube laser cutting |
 | `docs/DESIGN.md` | Design basis: airflow, thermal, acoustics, drain, controls, build order, commissioning |
 | `renders/` | Renders + voxel airflow-zone sections |
@@ -61,6 +64,7 @@ python3 tools/test_fusion_script.py    # Fusion script against a stand-in adsk A
 python3 tools/make_drawings.py         # A3 GA drawing
 python3 tools/make_bom.py              # BOM, cut list, mass
 python3 tools/make_weld_pack.py        # frame weld pack: 6 A3 sheets + PDF, CSVs, weldment STEP
+python3 tools/make_sheet_pack.py       # sheet-metal pack: DXFs, nests, 6 A3 sheets + PDF, CSVs
 node tools/render/render.mjs           # renders (Playwright + Chromium)
 ```
 
@@ -68,8 +72,13 @@ Override parameters on the command line, for example `python3 tools/build_cadque
 
 ## Verification
 
-- 0 interferences between the 137 solids.
+- 0 interferences between the 164 solids.
 - All 10 airflow-zone checks pass: cold and hot zones are separate, and the condenser zone is on room air.
 - STEP round-trip volume matches exactly.
 - The Fusion script passes the stand-in API test. It has not yet been run in Fusion itself.
 - Weldment checks pass: every rail and upright welded at both ends, no rivnut clashes, valid STEP files.
+- Sheet-metal checks pass:
+  - every blank fits 1200 × 800;
+  - every frame rivnut has a matching hole;
+  - holes clear edges, bends and each other;
+  - the 19-inch rail bolts match all four uprights.

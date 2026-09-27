@@ -2,8 +2,9 @@
 """
 Airflow-zone verification for the SRA-16 Silent AC Rack.
 
-Voxelises every part from rack_layout.py (2.5 mm grid), flood-fills the air
-spaces and proves that:
+Voxelises every part from rack_layout.py (2.5 mm grid, plus a voxel plane
+through the middle of every sheet thinner than that, so 1.2 mm skins and
+strips seal), flood-fills the air spaces and proves that:
   * the COLD supply (hood -> front plenum) is sealed from everything else,
   * the HOT RETURN (rear plenum -> shelf -> upper bay -> AC evaporator grille)
     is sealed from the room and from the condenser zone,
@@ -63,18 +64,34 @@ def prim_mask(p, xs, ys, zs):
     raise ValueError(k)
 
 
+def axis_grid(length, h, parts, ax):
+    """Voxel centres along one axis: every h, plus the mid-plane of every box thinner than h on this axis
+    (a 1.2 mm skin between two centres would otherwise vanish and leak). Returns (centres, uniform mask)."""
+    uni = (np.arange(int(np.ceil(length / h))) + 0.5) * h
+    thin = {round((q["min"][ax] + q["max"][ax]) / 2.0, 4) for p in parts for q in p["add"]
+            if q["kind"] == "box" and 0 < q["max"][ax] - q["min"][ax] < h}
+    extra = np.array(sorted(c for c in thin if 0 < c < length and np.min(np.abs(uni - c)) > 1e-3))
+    g = np.concatenate([uni, extra])
+    order = np.argsort(g)
+    return g[order], np.concatenate([np.ones(len(uni), bool), np.zeros(len(extra), bool)])[order]
+
+
+def cell_widths(g, length):
+    """Width of each voxel's cell (boundaries halfway between centres, clipped to the envelope)."""
+    b = np.concatenate([[0.0], (g[1:] + g[:-1]) / 2.0, [max(length, g[-1])]])
+    return np.diff(b)
+
+
 def main(argv):
     h = float(argv[0]) if argv else 2.5
     parts, D = RL.build_parts()
     W, DP, EH = D["ext_w"], D["ext_d"], D["ext_h"]
-    nx, ny, nz = int(np.ceil(W / h)), int(np.ceil(DP / h)), int(np.ceil(EH / h))
-    gx, gy, gz = (np.arange(nx) + 0.5) * h, (np.arange(ny) + 0.5) * h, (np.arange(nz) + 0.5) * h
+    (gx, ux), (gy, uy), (gz, uz) = [axis_grid(L_, h, parts, a) for a, L_ in enumerate((W, DP, EH))]
+    nx, ny, nz = len(gx), len(gy), len(gz)
     owner = np.full((nx, ny, nz), -1, dtype=np.int16)
 
     def idx(lo, hi, g, n):
-        a = max(int(np.floor(lo / h - 0.5)), 0)
-        b = min(int(np.ceil(hi / h + 0.5)), n)
-        return a, b
+        return int(np.searchsorted(g, lo - h)), min(int(np.searchsorted(g, hi + h, "right")), n)
 
     for pi, part in enumerate(parts):
         mins = np.min([RL.prim_bbox(q)[0] for q in part["add"]], axis=0)
@@ -98,9 +115,17 @@ def main(argv):
     faces = [labels[0], labels[-1], labels[:, 0], labels[:, -1], labels[:, :, 0], labels[:, :, -1]]
     boundary = set(np.unique(np.concatenate([f.ravel() for f in faces]))) - {0}
 
+    def near(g, c):
+        return int(np.argmin(np.abs(g - c)))
+
     def lab(pt):
-        i, j, k = (int(pt[0] / h), int(pt[1] / h), int(pt[2] / h))
-        return int(labels[i, j, k])
+        return int(labels[near(gx, pt[0]), near(gy, pt[1]), near(gz, pt[2])])
+
+    wx, wy, wz = cell_widths(gx, W), cell_widths(gy, DP), cell_widths(gz, EH)
+
+    def volume_l(L):
+        m = labels == L
+        return float(np.einsum("ijk,i,j,k->", m, wx, wy, wz, dtype=np.float64)) / 1e6
 
     xm = D["x_mid"]
     seeds = {
@@ -119,7 +144,7 @@ def main(argv):
     for k, pt in seeds.items():
         L = lab(pt)
         res[k] = {"label": L, "air": L != 0, "vents_to_room": L in boundary,
-                  "volume_L": round(float((labels == L).sum()) * h ** 3 / 1e6, 1) if L else 0.0}
+                  "volume_L": round(volume_l(L), 1) if L else 0.0}
 
     cold, hot = res["cold_hood"]["label"], res["hot_rear_plenum"]["label"]
     cond, exh = res["condenser_zone"]["label"], res["exhaust_duct"]["label"]
@@ -139,25 +164,61 @@ def main(argv):
         "exhaust duct vents out through rear spigot": res["exhaust_duct"]["vents_to_room"],
     }
     ok = all(checks.values())
-    print("voxel %.1f mm grid %dx%dx%d, %d air regions" % (h, nx, ny, nz, nlab))
+
+    def leak_path(seed):
+        """Shortest voxel path from a seed to the room (breadth first); the parts beside its last steps."""
+        from collections import deque
+        start = (near(gx, seed[0]), near(gy, seed[1]), near(gz, seed[2]))
+        L, prev, dq = labels[start], {start: None}, deque([start])
+        steps = ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1))
+        while dq:
+            c = dq.popleft()
+            if c[0] in (0, nx - 1) or c[1] in (0, ny - 1) or c[2] in (0, nz - 1):
+                path = []
+                while c is not None:
+                    path.append(c)
+                    c = prev[c]
+                return path[::-1]
+            for d in steps:
+                n_ = (c[0] + d[0], c[1] + d[1], c[2] + d[2])
+                if n_ not in prev and labels[n_] == L:
+                    prev[n_] = c
+                    dq.append(n_)
+        return []
+
+    print("voxel %.1f mm grid %dx%dx%d (incl. %d thin-sheet planes), %d air regions" % (
+        h, nx, ny, nz, (~ux).sum() + (~uy).sum() + (~uz).sum(), nlab))
     for k, v in res.items():
         print("  %-20s label %-5d room=%-5s %8.1f L" % (k, v["label"], v["vents_to_room"], v["volume_L"]))
     for k, v in checks.items():
         print("  [%s] %s" % ("PASS" if v else "FAIL", k))
+    for name, fail in (("cold_hood", not checks["cold zone sealed from room"]),
+                       ("hot_rear_plenum", not checks["hot return sealed from room"])):
+        if fail:
+            path = leak_path(seeds[name])
+            print("  leak from %s to the room (last steps, with the parts beside them):" % name)
+            for c in path[-6:]:
+                beside = sorted({parts[owner[n_]]["name"] for n_ in
+                                 [tuple(np.clip(np.array(c) + d, 0, [nx - 1, ny - 1, nz - 1])) for d in
+                                  ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1))]
+                                 if owner[n_] >= 0})
+                print("    (%.1f, %.1f, %.1f) %s" % (gx[c[0]], gy[c[1]], gz[c[2]], ", ".join(beside) or "-"))
 
     # ------------------------------------------------------------ section maps
     zone_rgb = {cold: (0.30, 0.60, 0.98), hot: (0.95, 0.42, 0.25),
                 cond: (0.35, 0.78, 0.42), exh: (1.00, 0.72, 0.10)}
     cols = np.array([p["color"] for p in parts] + [(1, 1, 1)])
 
-    def section(axis, pos):
-        i = int(pos / h)
+    def section(axis, pos):                                     # images on the uniform planes only
         if axis == "x":
-            own, lb = owner[i, :, :], labels[i, :, :]
+            i = near(gx, pos)
+            own, lb = owner[i][np.ix_(uy, uz)], labels[i][np.ix_(uy, uz)]
         elif axis == "y":
-            own, lb = owner[:, i, :], labels[:, i, :]
+            i = near(gy, pos)
+            own, lb = owner[:, i, :][np.ix_(ux, uz)], labels[:, i, :][np.ix_(ux, uz)]
         else:
-            own, lb = owner[:, :, i], labels[:, :, i]
+            i = near(gz, pos)
+            own, lb = owner[:, :, i][np.ix_(ux, uy)], labels[:, :, i][np.ix_(ux, uy)]
         img = np.ones(own.shape + (3,))
         solid = own >= 0
         img[solid] = cols[own[solid]] * 0.55 + 0.45 * 0.62      # muted solids

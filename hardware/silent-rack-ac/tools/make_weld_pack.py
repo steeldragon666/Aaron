@@ -1242,14 +1242,14 @@ def sheet4(wm):
     # ---------------------------------------------------------------- F: rivnut
     x, y = cell(2, 1, "F  M6 RIVNUT PANEL FIXING", "proportional, NTS")
     k = 2.0
-    ply_t, mlv_t = wm["P"]["ply_t"], wm["P"]["mlv_t"]
-    stack = ply_t + mlv_t
-    bl = 35
+    sk_t, mlv_t = wm["P"]["skin_t"], wm["P"]["mlv_t"]
+    stack = sk_t + mlv_t
+    bl = 20
     M = mapper(x + 36, y + 56, k)
     box_m(M, -15, -t, 15, 0, sw=0.3, fill="url(#hatch)")                    # SHS wall
     box_m(M, -F["rivnut_hole"] / 2, -t, F["rivnut_hole"] / 2, 0, sw=0, fill="#ffffff", c="none")
     box_m(M, -15, 0, 15, mlv_t, sw=0.3, fill="#3a3d42")                     # MLV
-    box_m(M, -15, mlv_t, 15, stack, sw=0.3, fill="url(#ply)")               # ply
+    box_m(M, -15, mlv_t, 15, stack, sw=0.3, fill="#c9ced4")                 # steel skin
     box_m(M, -6.5, 0, 6.5, 1.0, sw=0.25, fill="#b8c0c8")                    # rivnut flange (beds into the MLV)
     poly_m(M, [(-4.5, 0), (-4.5, -3), (-5.8, -4.5), (-4.5, -6), (-4.5, -13), (4.5, -13), (4.5, -6), (5.8, -4.5),
                (4.5, -3), (4.5, 0)], w=0.25, fill="#c8d0d8", close=True)    # body with the set bulge
@@ -1262,16 +1262,16 @@ def sheet4(wm):
     zigzag(sh, *M(-15, -t - 2), *M(-15, stack + 2))
     zigzag(sh, *M(15, -t - 2), *M(15, stack + 2))
     lx = M(15, 0)[0] + 2
-    sh.text(lx, M(0, (mlv_t + stack) / 2)[1] + 0.6, "ply %g" % ply_t, size=1.7)
+    sh.text(lx, M(0, (mlv_t + stack) / 2)[1] + 0.6, "steel skin %g" % sk_t, size=1.7)
     sh.text(lx, M(0, mlv_t / 2)[1] + 0.6, "MLV %g" % mlv_t, size=1.7)
     sh.text(lx, M(0, -t / 2)[1] + 1.4, "SHS wall %g" % t, size=1.7)
     sh.text(lx, M(0, -9)[1], "rivnut M6", size=1.7)
     sh.text(lx, M(0, -9)[1] + 2.6, "hole D%.1f" % F["rivnut_hole"], size=1.7)
-    sh.text(*M(0, stack + 7.5), "M6 x %d flanged button head" % bl, size=1.8, anchor="middle", weight="bold")
+    sh.text(*M(0, stack + 6.0), "M6 x %d flanged button head" % bl, size=1.8, anchor="middle", weight="bold")
     sh.text(*M(-7, -15.5), "tube bore", size=1.6, anchor="end", c=THIN)
     notes(x, y, ["Drill before welding, deburr. Fit rivnuts", "(steel, flat head, grip 0.5-3) after coating.",
-                 "Bolt: panel %g + %d = M6 x %d; check 6 min" % (stack, bl - stack, bl),
-                 "engaged. Acoustic sealant under every panel."])
+                 "M6 x %d: skin + MLV %.1f, the rest into the" % (bl, stack),
+                 "rivnut (6 min engaged). MLV punched D8 = gasket."])
     # ---------------- WPS + tolerances + finish (right column)
     x0 = 280
     heading(sh, x0, 16, "WELDING PROCEDURE (WPS-lite)")
@@ -1558,8 +1558,8 @@ def sheet6(wm):
     ], size=1.85, lh=3.05)
     heading(sh, x0, y + 5, "NOT DRILLED HERE (drill on assembly)")
     paragraph(sh, x0, y + 10, [
-        "Door hinges (left front post P1, front face) and cam-latch",
-        "keepers (right front post): to the hardware bought.",
+        "Door hinges and toggle latches rivet to the skins and doors",
+        "(sheet-metal pack CP-SRA16-SMP-001): no frame holes for them.",
         "RS1 rail spacers: drill D7 through both walls at assembly to",
         "match the U1 rivnuts (M6 x 50 + packers); 19in strips to suit.",
         "Ply floor / partition / shelf: 10g x 32 wing-tip self-drilling",
@@ -1655,8 +1655,9 @@ def write_md(wm, files):
           "- **One piece, two positions:** S1, C2 and C3 are each used at two levels. As a base rail, the second "
           "face points down for the plinth skirt. As a top rail, the same holes point up for the top panel. The "
           "pieces are interchangeable until a bench ledge is welded on.",
-          "- **Panel screws:** M6 x 35 flanged button head through 15 mm ply and 3 mm MLV (sheet 4, detail F). "
-          "Check at least 6 mm of thread engagement in the rivnut you buy.",
+          "- **Panel screws:** M6 x 20 flanged button head through the 1.2 mm steel skin (and joint strip) and "
+          "3 mm MLV (sheet 4, detail F). The skin holes are in the sheet-metal pack CP-SRA16-SMP-001. Check at "
+          "least 6 mm of thread engagement in the rivnut you buy.",
           "- **Rack uprights U1:** the inner face gets 3 rivnuts for the RS1 spacer bolts.",
           "- **Castor pads PL1:** 4 x M8 tapped through on a %g mm square." % F["castor_pcd"],
           "  - Match the pattern to the castor you buy.",

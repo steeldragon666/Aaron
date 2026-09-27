@@ -110,27 +110,27 @@
 <text x="148.10" y="236.50" font-size="2.40" text-anchor="middle" font-weight="bold" fill="#15181c">REAR</text>
 <rect x="166.62" y="124.60" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="169.30" y="126.95" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B01</text>
-<rect x="79.23" y="222.10" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
+<rect x="79.22" y="222.10" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="81.90" y="224.45" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B02</text>
-<rect x="79.23" y="48.48" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
+<rect x="79.22" y="48.48" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="81.90" y="50.83" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B03</text>
-<rect x="124.23" y="124.60" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
+<rect x="124.22" y="124.60" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="126.90" y="126.95" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B04</text>
 <rect x="36.83" y="222.10" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="39.50" y="224.45" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B05</text>
 <rect x="36.83" y="48.48" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="39.50" y="50.83" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B06</text>
-<rect x="124.23" y="178.90" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
+<rect x="124.22" y="178.90" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="126.90" y="181.25" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B07</text>
-<rect x="124.23" y="48.48" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
+<rect x="124.22" y="48.48" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="126.90" y="50.83" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B08</text>
 <rect x="36.83" y="124.60" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="39.50" y="126.95" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B09</text>
-<rect x="124.23" y="222.10" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
+<rect x="124.22" y="222.10" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="126.90" y="224.45" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B10</text>
 <rect x="166.62" y="48.48" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="169.30" y="50.83" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B11</text>
-<rect x="79.23" y="124.60" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
+<rect x="79.22" y="124.60" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="81.90" y="126.95" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B12</text>
 <rect x="166.62" y="222.10" width="5.35" height="3.20" rx="0.60" fill="#fff3b0" stroke="#15181c" stroke-width="0.20"/>
 <text x="169.30" y="224.45" font-size="1.95" text-anchor="middle" font-weight="bold" fill="#15181c">B13</text>
@@ -430,7 +430,7 @@
 <text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-FRM-001   SHEET 3 OF 6   REV A</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">1:10 @ A3   UNITS mm   LAYOUT v1.1.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">1:10 @ A3   UNITS mm   LAYOUT v1.2.0</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
 <text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-09-27   DRAWN Claude (AI) for Carbon Project</text>

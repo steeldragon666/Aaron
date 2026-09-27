@@ -1,0 +1,295 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 420 297" font-family="Arial, Helvetica, sans-serif">
+<defs>
+<marker id="aDim" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse"><path d="M0 1.5 L10 5 L0 8.5 z" fill="#15181c"/></marker>
+<pattern id="hatch" width="1.6" height="1.6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="1.6" stroke="#6d747c" stroke-width="0.25"/></pattern>
+<pattern id="ply" width="2.2" height="2.2" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><line x1="0" y1="0" x2="0" y2="2.2" stroke="#b58a4a" stroke-width="0.3"/></pattern>
+</defs>
+<rect x="0" y="0" width="420" height="297" fill="#ffffff"/>
+<rect x="8.00" y="8.00" width="404.00" height="281.00" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.60"/>
+<rect x="12.00" y="12.00" width="192.00" height="58.00" rx="0.00" fill="none" stroke="#b8bec5" stroke-width="0.15"/>
+<text x="14.00" y="16.20" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">RR1  x4</text>
+<text x="34.00" y="16.20" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">19in rail, 16U (EIA-310 square holes)</text>
+<text x="14.00" y="19.80" font-size="1.70" text-anchor="start" font-weight="normal" fill="#5b6168">Steel sheet (CR4) 2.0 - zinc plate (keep cage-nut holes clear)</text>
+<path d="M37.88 43.02 L182.12 43.02 L182.12 33.78 L37.88 33.78 Z" fill="#eef1f4" stroke="#15181c" stroke-width="0.25" stroke-linejoin="round"/>
+<circle cx="67.59" cy="36.78" r="0.70" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="111.00" cy="36.78" r="0.70" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="154.41" cy="36.78" r="0.70" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<rect x="39.20" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="42.37" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="45.55" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="48.09" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="51.26" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="54.44" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="56.98" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="60.15" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="63.33" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="65.87" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="69.05" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="72.22" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="74.76" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="77.93" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="81.11" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="83.65" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="86.83" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="90.00" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="92.54" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="95.72" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="98.89" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="101.43" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="104.61" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="107.78" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="110.32" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="113.50" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="116.67" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="119.21" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="122.39" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="125.56" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="128.10" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="131.28" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="134.45" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="136.99" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="140.17" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="143.34" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="145.88" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="149.06" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="152.23" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="154.77" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="157.95" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="161.12" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="163.66" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="166.84" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="170.01" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="172.55" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="175.73" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<rect x="178.90" y="40.56" width="1.90" height="1.90" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.10"/>
+<line x1="37.88" y1="39.40" x2="182.12" y2="39.40" stroke="#c0392b" stroke-width="0.25" stroke-linecap="butt" stroke-dasharray="1.6 0.8"/>
+<line x1="37.88" y1="43.82" x2="37.88" y2="47.82" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="182.12" y1="43.82" x2="182.12" y2="47.82" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="37.88" y1="46.62" x2="182.12" y2="46.62" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
+<text x="110.00" y="49.22" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c">721.2</text>
+<line x1="37.08" y1="33.78" x2="33.48" y2="33.78" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="37.08" y1="43.02" x2="33.48" y2="43.02" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="34.68" y1="33.78" x2="34.68" y2="43.02" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
+<text x="33.78" y="38.40" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 33.78 38.40)">46.2</text>
+<text x="183.32" y="40.00" font-size="1.60" text-anchor="start" font-weight="normal" fill="#c0392b">18.1</text>
+<text x="202.00" y="16.20" font-size="1.90" text-anchor="end" font-weight="normal" fill="#5b6168">1:5</text>
+<text x="14.00" y="65.40" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">3 x D7 M6 bolt through rail spacer into upright rivnut</text>
+<text x="14.00" y="68.00" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">48 x 9.5 sq cage nut</text>
+<text x="14.00" y="80.00" font-size="2.50" text-anchor="start" font-weight="bold" fill="#15181c">HARDWARE - hole patterns assume these parts (confirm before cutting)</text>
+<rect x="14.00" y="82.00" width="190.00" height="3.40" rx="0.00" fill="#e6ebf0" stroke="none" stroke-width="0.00"/>
+<text x="14.70" y="84.35" font-size="1.75" text-anchor="start" font-weight="bold" fill="#15181c">ITEM</text>
+<text x="68.50" y="84.35" font-size="1.75" text-anchor="middle" font-weight="bold" fill="#15181c">QTY</text>
+<text x="73.70" y="84.35" font-size="1.75" text-anchor="start" font-weight="bold" fill="#15181c">HOLES / NOTE</text>
+<text x="14.70" y="87.75" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Lift-off butt hinge, stainless</text>
+<text x="68.50" y="87.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">5</text>
+<text x="73.70" y="87.75" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">100 long; rivet line 51.2 mm from the knuckle axis on both leaves (drill the leaves to suit), 3 x D5 per leaf at 35 pitch</text>
+<rect x="14.00" y="88.80" width="190.00" height="3.40" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="14.70" y="91.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Adjustable toggle latch, stainless</text>
+<text x="68.50" y="91.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="73.70" y="91.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">base 4 x D5 on 28 x 18, first row 52.2 mm behind the door face (detail L); hook engages the KB1 slot</text>
+<text x="14.70" y="94.55" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Latch keeper KB1 (made, sheet 4)</text>
+<text x="68.50" y="94.55" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<text x="73.70" y="94.55" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">riveted to door + stiffener, 2 x D5</text>
+<rect x="14.00" y="95.60" width="190.00" height="3.40" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="14.70" y="97.95" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Pull handle 160 c/c</text>
+<text x="68.50" y="97.95" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="73.70" y="97.95" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">2 x M5 from inside, through door + DA stiffener</text>
+<text x="14.70" y="101.35" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Blind rivet 4.8 mm, stainless</text>
+<text x="68.50" y="101.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">54</text>
+<text x="73.70" y="101.35" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">4.8 x 8 (grip 3-5) for hinges and KB1, 4.8 x 6 for the latch bases; grips: door leaf 4.4, side leaf 3.2, KB1 3.6</text>
+<rect x="14.00" y="102.40" width="190.00" height="3.40" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="14.70" y="104.75" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">M6 x 20 flanged button head</text>
+<text x="68.50" y="104.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">140</text>
+<text x="73.70" y="104.75" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">skins, strips and skirts into the frame rivnuts</text>
+<text x="14.70" y="108.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Polycarbonate 6 mm, 180x240</text>
+<text x="68.50" y="108.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="73.70" y="108.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">drilled 8 x D5 to the WR1 pattern</text>
+<rect x="14.00" y="109.20" width="190.00" height="3.40" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="14.70" y="111.55" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">EPDM 10 mm spacer frame + 8 x M4 x 35</text>
+<text x="68.50" y="111.55" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="73.70" y="111.55" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">window clamp: skin / pane / spacer / pane / WR1</text>
+<text x="14.70" y="114.95" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Exhaust flanged spigot D150</text>
+<text x="68.50" y="114.95" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="73.70" y="114.95" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">4 x M5 on PCD 190 at 45 deg (RP1)</text>
+<rect x="14.00" y="116.00" width="190.00" height="3.40" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="14.70" y="118.35" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Brush cable grommet 200 x 40</text>
+<text x="68.50" y="118.35" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="73.70" y="118.35" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">4 x M4 on 224 x 64 (RP2)</text>
+<text x="14.70" y="121.75" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">16 mm drain bulkhead barb</text>
+<text x="68.50" y="121.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<text x="73.70" y="121.75" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">D20.5 in SK2</text>
+<rect x="14.00" y="82.00" width="190.00" height="40.80" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
+<line x1="14.00" y1="85.40" x2="204.00" y2="85.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="88.80" x2="204.00" y2="88.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="92.20" x2="204.00" y2="92.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="95.60" x2="204.00" y2="95.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="99.00" x2="204.00" y2="99.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="102.40" x2="204.00" y2="102.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="105.80" x2="204.00" y2="105.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="109.20" x2="204.00" y2="109.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="112.60" x2="204.00" y2="112.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="116.00" x2="204.00" y2="116.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="14.00" y1="119.40" x2="204.00" y2="119.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="64.00" y1="82.00" x2="64.00" y2="122.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="73.00" y1="82.00" x2="73.00" y2="122.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<text x="14.00" y="130.80" font-size="2.50" text-anchor="start" font-weight="bold" fill="#15181c">ASSEMBLY</text>
+<text x="14.00" y="135.80" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">1  Coat all parts. Bond MLV inside the skins and doors: punch it D8 at the frame screws (it is the gasket), clear it 3 mm round rivets and M4/M5 holes.</text>
+<text x="14.00" y="139.00" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">2  Doors: bond the DA stiffener frame inside (legs inboard, 2 mm inside the frame opening), rivet the hinges and KB1 keepers through skin + angle, fit handles.</text>
+<text x="14.00" y="142.20" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">3  Lower door: glazing unit - outer pane, EPDM spacer, inner pane, WR1 - clamped with 8 x M4 from outside.</text>
+<text x="14.00" y="145.40" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">4  Side skins bottom to top, then the JS strips over the joints (acoustic sealant under each strip edge).</text>
+<text x="14.00" y="148.60" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">5  Rear skins + JR strip, exhaust spigot and cable grommet; top skin last (it overlaps the side and rear skins).</text>
+<text x="14.00" y="151.80" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">6  Skirts SK1-SK3 up into the base-rail rivnuts. Hang the doors on the lift-off hinges, rivet the latches to the right-hand skins and adjust them to pull the doors 3 mm onto the seal.</text>
+<text x="212.00" y="16.00" font-size="2.20" text-anchor="start" font-weight="bold" fill="#15181c">H  HINGE CORNER - PLAN 1:1</text>
+<rect x="232.00" y="30.00" width="1.20" height="65.80" rx="0.00" fill="#c9ced4" stroke="#15181c" stroke-width="0.20"/>
+<rect x="233.20" y="30.00" width="3.00" height="65.80" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.20"/>
+<rect x="232.00" y="98.80" width="70.00" height="1.20" rx="0.00" fill="#c9ced4" stroke="#15181c" stroke-width="0.20"/>
+<rect x="232.00" y="95.80" width="36.20" height="3.00" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.20"/>
+<rect x="288.20" y="95.80" width="13.80" height="3.00" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.20"/>
+<rect x="268.20" y="97.60" width="20.00" height="1.20" rx="0.00" fill="#7d8792" stroke="#15181c" stroke-width="0.20"/>
+<rect x="287.00" y="78.80" width="1.20" height="18.80" rx="0.00" fill="#7d8792" stroke="#15181c" stroke-width="0.20"/>
+<rect x="288.20" y="65.80" width="13.80" height="30.00" rx="0.00" fill="#b9c3a9" stroke="#15181c" stroke-width="0.10"/>
+<rect x="236.20" y="30.00" width="30.00" height="35.80" rx="0.00" fill="#b9c3a9" stroke="#15181c" stroke-width="0.10"/>
+<path d="M262.20 95.80 L263.24 95.66 L264.20 95.26 L265.03 94.63 L265.66 93.80 L266.06 92.84 L266.20 91.80 L266.20 69.80 L266.06 68.76 L265.66 67.80 L265.03 66.97 L264.20 66.34 L263.24 65.94 L262.20 65.80 L240.20 65.80 L239.16 65.94 L238.20 66.34 L237.37 66.97 L236.74 67.80 L236.34 68.76 L236.20 69.80 L236.20 91.80 L236.34 92.84 L236.74 93.80 L237.37 94.63 L238.20 95.26 L239.16 95.66 L240.20 95.80 Z M262.20 93.80 L262.72 93.73 L263.20 93.53 L263.61 93.21 L263.93 92.80 L264.13 92.32 L264.20 91.80 L264.20 69.80 L264.13 69.28 L263.93 68.80 L263.61 68.39 L263.20 68.07 L262.72 67.87 L262.20 67.80 L240.20 67.80 L239.68 67.87 L239.20 68.07 L238.79 68.39 L238.47 68.80 L238.27 69.28 L238.20 69.80 L238.20 91.80 L238.27 92.32 L238.47 92.80 L238.79 93.21 L239.20 93.53 L239.68 93.73 L240.20 93.80 Z" fill="#eef1f4" fill-rule="evenodd" stroke="none"/>
+<path d="M262.20 95.80 L263.24 95.66 L264.20 95.26 L265.03 94.63 L265.66 93.80 L266.06 92.84 L266.20 91.80 L266.20 69.80 L266.06 68.76 L265.66 67.80 L265.03 66.97 L264.20 66.34 L263.24 65.94 L262.20 65.80 L240.20 65.80 L239.16 65.94 L238.20 66.34 L237.37 66.97 L236.74 67.80 L236.34 68.76 L236.20 69.80 L236.20 91.80 L236.34 92.84 L236.74 93.80 L237.37 94.63 L238.20 95.26 L239.16 95.66 L240.20 95.80 Z M262.20 93.80 L262.72 93.73 L263.20 93.53 L263.61 93.21 L263.93 92.80 L264.13 92.32 L264.20 91.80 L264.20 69.80 L264.13 69.28 L263.93 68.80 L263.61 68.39 L263.20 68.07 L262.72 67.87 L262.20 67.80 L240.20 67.80 L239.68 67.87 L239.20 68.07 L238.79 68.39 L238.47 68.80 L238.27 69.28 L238.20 69.80 L238.20 91.80 L238.27 92.32 L238.47 92.80 L238.79 93.21 L239.20 93.53 L239.68 93.73 L240.20 93.80 Z" fill="url(#hatch)" fill-rule="evenodd" stroke="#15181c" stroke-width="0.3"/>
+<rect x="227.00" y="100.00" width="61.20" height="2.00" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.20"/>
+<rect x="230.00" y="43.80" width="2.00" height="61.20" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.20"/>
+<circle cx="227.00" cy="105.00" r="5.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.30"/>
+<circle cx="227.00" cy="105.00" r="0.50" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<rect x="273.45" y="102.00" width="9.50" height="1.40" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="275.80" y="97.60" width="4.80" height="4.40" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="275.00" y="95.00" width="6.40" height="2.60" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="228.60" y="49.05" width="1.40" height="9.50" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="230.00" y="51.40" width="3.20" height="4.80" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="233.20" y="50.60" width="2.60" height="6.40" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<line x1="227.00" y1="104.30" x2="227.00" y2="117.20" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="278.20" y1="104.30" x2="278.20" y2="117.20" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="227.00" y1="116.00" x2="278.20" y2="116.00" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
+<text x="252.60" y="115.20" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c">51.2</text>
+<line x1="227.70" y1="105.00" x2="214.80" y2="105.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="227.70" y1="53.80" x2="214.80" y2="53.80" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="216.00" y1="105.00" x2="216.00" y2="53.80" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
+<text x="215.10" y="79.40" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 215.10 79.40)">51.2</text>
+<text x="251.20" y="81.40" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">SHS 30</text>
+<line x1="231.00" y1="48.80" x2="236.00" y2="24.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="231.00" cy="48.80" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="236.80" y="24.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">side leaf: 3 rivets behind the post (relieve the MLV + foam)</text>
+<line x1="287.60" y1="80.80" x2="272.00" y2="56.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="287.60" cy="80.80" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="272.80" y="56.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">DA angle 20x20x1.2, bonded</text>
+<line x1="224.00" y1="108.00" x2="222.00" y2="124.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="224.00" cy="108.00" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="222.80" y="124.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">lift-off hinge, knuckle axis 5 outside the corner</text>
+<text x="306.00" y="16.00" font-size="2.20" text-anchor="start" font-weight="bold" fill="#15181c">L  LATCH CORNER - PLAN 1:1</text>
+<rect x="390.80" y="22.00" width="1.20" height="95.80" rx="0.00" fill="#c9ced4" stroke="#15181c" stroke-width="0.20"/>
+<rect x="387.80" y="22.00" width="3.00" height="95.80" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.20"/>
+<rect x="312.00" y="120.80" width="80.00" height="1.20" rx="0.00" fill="#c9ced4" stroke="#15181c" stroke-width="0.20"/>
+<rect x="355.80" y="117.80" width="36.20" height="3.00" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.20"/>
+<rect x="312.00" y="117.80" width="23.80" height="3.00" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.20"/>
+<rect x="335.80" y="119.60" width="20.00" height="1.20" rx="0.00" fill="#7d8792" stroke="#15181c" stroke-width="0.20"/>
+<rect x="335.80" y="100.80" width="1.20" height="18.80" rx="0.00" fill="#7d8792" stroke="#15181c" stroke-width="0.20"/>
+<rect x="312.00" y="87.80" width="23.80" height="30.00" rx="0.00" fill="#b9c3a9" stroke="#15181c" stroke-width="0.10"/>
+<rect x="357.80" y="22.00" width="30.00" height="65.80" rx="0.00" fill="#b9c3a9" stroke="#15181c" stroke-width="0.10"/>
+<path d="M383.80 117.80 L384.84 117.66 L385.80 117.26 L386.63 116.63 L387.26 115.80 L387.66 114.84 L387.80 113.80 L387.80 91.80 L387.66 90.76 L387.26 89.80 L386.63 88.97 L385.80 88.34 L384.84 87.94 L383.80 87.80 L361.80 87.80 L360.76 87.94 L359.80 88.34 L358.97 88.97 L358.34 89.80 L357.94 90.76 L357.80 91.80 L357.80 113.80 L357.94 114.84 L358.34 115.80 L358.97 116.63 L359.80 117.26 L360.76 117.66 L361.80 117.80 Z M383.80 115.80 L384.32 115.73 L384.80 115.53 L385.21 115.21 L385.53 114.80 L385.73 114.32 L385.80 113.80 L385.80 91.80 L385.73 91.28 L385.53 90.80 L385.21 90.39 L384.80 90.07 L384.32 89.87 L383.80 89.80 L361.80 89.80 L361.28 89.87 L360.80 90.07 L360.39 90.39 L360.07 90.80 L359.87 91.28 L359.80 91.80 L359.80 113.80 L359.87 114.32 L360.07 114.80 L360.39 115.21 L360.80 115.53 L361.28 115.73 L361.80 115.80 Z" fill="#eef1f4" fill-rule="evenodd" stroke="none"/>
+<path d="M383.80 117.80 L384.84 117.66 L385.80 117.26 L386.63 116.63 L387.26 115.80 L387.66 114.84 L387.80 113.80 L387.80 91.80 L387.66 90.76 L387.26 89.80 L386.63 88.97 L385.80 88.34 L384.84 87.94 L383.80 87.80 L361.80 87.80 L360.76 87.94 L359.80 88.34 L358.97 88.97 L358.34 89.80 L357.94 90.76 L357.80 91.80 L357.80 113.80 L357.94 114.84 L358.34 115.80 L358.97 116.63 L359.80 117.26 L360.76 117.66 L361.80 117.80 Z M383.80 115.80 L384.32 115.73 L384.80 115.53 L385.21 115.21 L385.53 114.80 L385.73 114.32 L385.80 113.80 L385.80 91.80 L385.73 91.28 L385.53 90.80 L385.21 90.39 L384.80 90.07 L384.32 89.87 L383.80 89.80 L361.80 89.80 L361.28 89.87 L360.80 90.07 L360.39 90.39 L360.07 90.80 L359.87 91.28 L359.80 91.80 L359.80 113.80 L359.87 114.32 L360.07 114.80 L360.39 115.21 L360.80 115.53 L361.28 115.73 L361.80 115.80 Z" fill="url(#hatch)" fill-rule="evenodd" stroke="#15181c" stroke-width="0.3"/>
+<rect x="331.80" y="122.00" width="62.40" height="1.20" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.20"/>
+<rect x="393.00" y="111.00" width="1.20" height="12.20" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.20"/>
+<rect x="393.00" y="100.00" width="1.20" height="5.00" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.20"/>
+<rect x="392.00" y="26.80" width="1.50" height="55.00" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.20"/>
+<rect x="393.50" y="28.80" width="11.50" height="49.00" rx="0.00" fill="#dfe3e8" stroke="#15181c" stroke-width="0.15"/>
+<rect x="395.50" y="77.80" width="2.00" height="31.20" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.15"/>
+<rect x="393.30" y="107.00" width="4.20" height="2.00" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.15"/>
+<rect x="341.05" y="123.20" width="9.50" height="1.40" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="343.40" y="119.60" width="4.80" height="3.60" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="342.60" y="117.00" width="6.40" height="2.60" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="393.50" y="65.05" width="1.40" height="9.50" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="390.80" y="67.40" width="2.70" height="4.80" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="388.20" y="66.60" width="2.60" height="6.40" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="393.50" y="37.05" width="1.40" height="9.50" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="390.80" y="39.40" width="2.70" height="4.80" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<rect x="388.20" y="38.60" width="2.60" height="6.40" rx="0.00" fill="#c0392b" stroke="#7b241c" stroke-width="0.10"/>
+<line x1="400.00" y1="29.80" x2="404.00" y2="18.50" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="400.00" cy="29.80" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="403.20" y="19.10" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">toggle latch, 4 rivets in the side skin</text>
+<line x1="395.00" y1="108.00" x2="404.00" y2="131.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="395.00" cy="108.00" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="403.20" y="131.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">its hook in the KB1 slot pulls the door onto the seal</text>
+<line x1="337.80" y1="122.60" x2="328.00" y2="136.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="337.80" cy="122.60" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="328.80" y="136.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">KB1 keeper: 2 rivets through door + DA</text>
+<text x="306.00" y="142.50" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">Latch rivets 52.2 and 80.2 behind the door face; KB1 rivets 46.2 in from the side.</text>
+<text x="212.00" y="152.00" font-size="2.20" text-anchor="start" font-weight="bold" fill="#15181c">J  SKIN JOINT ON A RAIL - SECTION THROUGH A STRIP SCREW 1:1</text>
+<rect x="294.30" y="160.00" width="29.70" height="18.50" rx="0.00" fill="#b9c3a9" stroke="#15181c" stroke-width="0.10"/>
+<rect x="294.30" y="209.50" width="29.70" height="18.50" rx="0.00" fill="#b9c3a9" stroke="#15181c" stroke-width="0.10"/>
+<path d="M320.00 209.00 L321.04 208.86 L322.00 208.46 L322.83 207.83 L323.46 207.00 L323.86 206.04 L324.00 205.00 L324.00 183.00 L323.86 181.96 L323.46 181.00 L322.83 180.17 L322.00 179.54 L321.04 179.14 L320.00 179.00 L298.00 179.00 L296.96 179.14 L296.00 179.54 L295.17 180.17 L294.54 181.00 L294.14 181.96 L294.00 183.00 L294.00 205.00 L294.14 206.04 L294.54 207.00 L295.17 207.83 L296.00 208.46 L296.96 208.86 L298.00 209.00 Z M320.00 207.00 L320.52 206.93 L321.00 206.73 L321.41 206.41 L321.73 206.00 L321.93 205.52 L322.00 205.00 L322.00 183.00 L321.93 182.48 L321.73 182.00 L321.41 181.59 L321.00 181.27 L320.52 181.07 L320.00 181.00 L298.00 181.00 L297.48 181.07 L297.00 181.27 L296.59 181.59 L296.27 182.00 L296.07 182.48 L296.00 183.00 L296.00 205.00 L296.07 205.52 L296.27 206.00 L296.59 206.41 L297.00 206.73 L297.48 206.93 L298.00 207.00 Z" fill="#eef1f4" fill-rule="evenodd" stroke="none"/>
+<path d="M320.00 209.00 L321.04 208.86 L322.00 208.46 L322.83 207.83 L323.46 207.00 L323.86 206.04 L324.00 205.00 L324.00 183.00 L323.86 181.96 L323.46 181.00 L322.83 180.17 L322.00 179.54 L321.04 179.14 L320.00 179.00 L298.00 179.00 L296.96 179.14 L296.00 179.54 L295.17 180.17 L294.54 181.00 L294.14 181.96 L294.00 183.00 L294.00 205.00 L294.14 206.04 L294.54 207.00 L295.17 207.83 L296.00 208.46 L296.96 208.86 L298.00 209.00 Z M320.00 207.00 L320.52 206.93 L321.00 206.73 L321.41 206.41 L321.73 206.00 L321.93 205.52 L322.00 205.00 L322.00 183.00 L321.93 182.48 L321.73 182.00 L321.41 181.59 L321.00 181.27 L320.52 181.07 L320.00 181.00 L298.00 181.00 L297.48 181.07 L297.00 181.27 L296.59 181.59 L296.27 182.00 L296.07 182.48 L296.00 183.00 L296.00 205.00 L296.07 205.52 L296.27 206.00 L296.59 206.41 L297.00 206.73 L297.48 206.93 L298.00 207.00 Z" fill="url(#hatch)" fill-rule="evenodd" stroke="#15181c" stroke-width="0.3"/>
+<rect x="291.00" y="160.00" width="3.00" height="30.00" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.20"/>
+<rect x="289.80" y="160.00" width="1.20" height="30.00" rx="0.00" fill="#c9ced4" stroke="#15181c" stroke-width="0.20"/>
+<rect x="288.60" y="169.00" width="1.20" height="21.00" rx="0.00" fill="#7d8792" stroke="#15181c" stroke-width="0.20"/>
+<rect x="291.00" y="198.00" width="3.00" height="30.00" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.20"/>
+<rect x="289.80" y="198.00" width="1.20" height="30.00" rx="0.00" fill="#c9ced4" stroke="#15181c" stroke-width="0.20"/>
+<rect x="288.60" y="198.00" width="1.20" height="21.00" rx="0.00" fill="#7d8792" stroke="#15181c" stroke-width="0.20"/>
+<rect x="293.00" y="187.50" width="1.00" height="13.00" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.15"/>
+<rect x="294.00" y="189.50" width="13.00" height="9.00" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.15"/>
+<rect x="285.30" y="187.50" width="3.30" height="13.00" rx="0.00" fill="#5c636a" stroke="#15181c" stroke-width="0.20"/>
+<rect x="288.60" y="191.00" width="20.00" height="6.00" rx="0.00" fill="#5c636a" stroke="#15181c" stroke-width="0.20"/>
+<line x1="285.30" y1="190.00" x2="272.00" y2="182.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="285.30" cy="190.00" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="271.20" y="182.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">M6 x 20 flanged button head, snug (~3 N m)</text>
+<line x1="289.20" y1="174.00" x2="272.00" y2="174.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="289.20" cy="174.00" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="271.20" y="174.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">strip JS / JR 50x1.2, D8 at each screw</text>
+<line x1="290.40" y1="165.00" x2="272.00" y2="166.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="290.40" cy="165.00" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="271.20" y="166.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">skins 1.2: 1 mm joint gap, R4 notch each side</text>
+<line x1="292.50" y1="220.00" x2="272.00" y2="216.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="292.50" cy="220.00" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="271.20" y="216.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">MLV 3, one piece, D8 hole: the gasket</text>
+<line x1="288.60" y1="218.00" x2="272.00" y2="224.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="288.60" cy="218.00" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="271.20" y="224.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">acoustic sealant under both strip edges</text>
+<line x1="300.00" y1="197.50" x2="330.00" y2="200.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="300.00" cy="197.50" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="330.80" y="200.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">M6 steel rivnut, flat head</text>
+<line x1="323.00" y1="185.00" x2="330.00" y2="186.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="323.00" cy="185.00" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="330.80" y="186.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">rail SHS 30x30x2</text>
+<line x1="309.00" y1="169.00" x2="330.00" y2="170.00" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<circle cx="309.00" cy="169.00" r="0.35" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<text x="330.80" y="170.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">bay foam</text>
+<text x="352.00" y="160.00" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">KEY</text>
+<rect x="352.00" y="163.00" width="6.00" height="2.60" rx="0.00" fill="#c9ced4" stroke="#15181c" stroke-width="0.12"/>
+<text x="359.50" y="165.10" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">skin 1.2 steel</text>
+<rect x="352.00" y="167.20" width="6.00" height="2.60" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.12"/>
+<text x="359.50" y="169.30" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">MLV 3 (mass-loaded vinyl)</text>
+<rect x="352.00" y="171.40" width="6.00" height="2.60" rx="0.00" fill="#b9c3a9" stroke="#15181c" stroke-width="0.12"/>
+<text x="359.50" y="173.50" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">melamine foam 30</text>
+<rect x="352.00" y="175.60" width="6.00" height="2.60" rx="0.00" fill="#7d8792" stroke="#15181c" stroke-width="0.12"/>
+<text x="359.50" y="177.70" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">DA angle / strip, 1.2 steel</text>
+<rect x="352.00" y="179.80" width="6.00" height="2.60" rx="0.00" fill="#9aa4ae" stroke="#15181c" stroke-width="0.12"/>
+<text x="359.50" y="181.90" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">hinge, latch, KB1, rivnut</text>
+<rect x="352.00" y="184.00" width="6.00" height="2.60" rx="0.00" fill="#5c636a" stroke="#15181c" stroke-width="0.12"/>
+<text x="359.50" y="186.10" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">M6 screw</text>
+<rect x="352.00" y="188.20" width="6.00" height="2.60" rx="0.00" fill="#c0392b" stroke="#15181c" stroke-width="0.12"/>
+<text x="359.50" y="190.30" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">rivet 4.8 blind</text>
+<rect x="352.00" y="192.40" width="6.00" height="2.60" rx="0.00" fill="url(#hatch)" stroke="#15181c" stroke-width="0.12"/>
+<text x="359.50" y="194.50" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">frame SHS 30x30x2 (weld pack)</text>
+<rect x="272.00" y="247.00" width="140.00" height="42.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.50"/>
+<text x="274.00" y="253.20" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">PROJECT</text>
+<text x="291.00" y="253.20" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">SRA-16 Silent AC Rack - laser-cut sheet-metal parts</text>
+<text x="274.00" y="259.50" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">TITLE</text>
+<text x="291.00" y="259.50" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">19in rail, hardware, assembly, details</text>
+<line x1="272.00" y1="254.90" x2="412.00" y2="254.90" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="265.80" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DOC NO.</text>
+<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 5 OF 6   REV A</text>
+<line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">as noted @ A3   UNITS mm   LAYOUT v1.2.0</text>
+<line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
+<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-09-27   DRAWN Claude (AI) for Carbon Project</text>
+<line x1="272.00" y1="273.80" x2="412.00" y2="273.80" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="284.70" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">STATUS</text>
+<text x="291.00" y="284.70" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">FOR CUTTING - DXF is the master; confirm hardware (sheet 5)</text>
+<line x1="272.00" y1="280.10" x2="412.00" y2="280.10" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<line x1="289.00" y1="247.00" x2="289.00" y2="289.00" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+</svg>

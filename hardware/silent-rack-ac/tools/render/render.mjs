@@ -8,10 +8,10 @@ const root = path.resolve(here, '..', '..');
 const glb = fs.readFileSync(path.join(root, 'cad/exports/SilentRackAC.glb')).toString('base64');
 const outDir = path.join(root, 'renders'); fs.mkdirSync(outDir, { recursive: true });
 
-const doors = ['Door lower (AC bay)', 'Door lower MLV', 'Door upper (rack)', 'Door upper MLV', 'Handle upper door',
-  'Handle lower door', 'Window pane outer', 'Window pane inner', 'Foam door lower', 'Foam door upper'];
-const rightSide = ['Side panel right', 'Side panel right MLV', 'Foam side right lower', 'Foam side right mid',
-  'Foam side right rack front', 'Foam side right rack middle', 'Foam side right rack rear', 'Skirt right'];
+const doors = ['Door lower*', 'Door upper*', 'Handle upper door', 'Handle lower door', 'Window*', 'Foam door lower',
+  'Foam door upper', 'Hinge*', 'Latch keeper*'];
+const rightSide = ['Side panel right*', 'Joint strip right*', 'Latch lower*', 'Latch upper*', 'Foam side right*',
+  'Skirt right'];
 const top = ['Top panel', 'Top panel MLV', 'Foam top'];
 const views = [
   { file: 'hero_front_left.png', dir: [-1.0, -1.25, 0.75], fov: 26, margin: 0.92 },

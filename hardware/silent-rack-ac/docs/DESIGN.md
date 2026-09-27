@@ -3,9 +3,10 @@
 | | |
 |---|---|
 | Document | CP-SRA16-DES-001, Rev A (concept) |
-| Geometry source | `cad/fusion/SilentRackAC/rack_layout.py` v1.1.0 |
+| Geometry source | `cad/fusion/SilentRackAC/rack_layout.py` v1.2.0 |
 | Drawing | `drawings/CP-SRA16-GA-001.svg` (A3, 1:15) |
 | Frame | Welded 30 × 30 × 2.0 SHS: weld pack `drawings/CP-SRA16-FRM-001.pdf` (6 sheets) and `docs/FRAME_WELD_PLAN.md` |
+| Skins | Laser-cut 1.2 mm steel, every piece within 1200 × 800: sheet-metal pack `drawings/CP-SRA16-SMP-001.pdf` (6 sheets), DXFs in `cad/dxf/`, `docs/SHEET_METAL.md` |
 | Status | Concept. Tape-check the AC dimensions in §3 before cutting panels. |
 
 ## 1. Brief
@@ -18,7 +19,7 @@ Build a server rack that:
 - gives **at least 16 RU** of 19-inch rack space above the AC;
 - is **quiet**, containing both server fan noise and AC noise.
 
-The result is a single 650 W × 1100 D × 1884 H mm cabinet. The AC bay sits at the bottom and 16 RU sit on top. It is a sealed, acoustically lined enclosure, and the AC cools the rack in a **closed air loop**. The only openings to the room are a lined condenser air intake in the plinth, the insulated exhaust duct, a brush cable entry and the drain.
+The result is a single 622.4 W × 1072.4 D × 1870.4 H mm cabinet. The AC bay sits at the bottom and 16 RU sit on top. It is a sealed, acoustically lined enclosure, and the AC cools the rack in a **closed air loop**. The only openings to the room are a lined condenser air intake in the plinth, the insulated exhaust duct, a brush cable entry and the drain.
 
 ## 2. The air conditioner
 
@@ -78,16 +79,16 @@ The zones are separated as follows:
 
 The AC is pushed back into the gaskets and held by a retention bar with toggle clamps. To service it, lift the hood collar, release the bar and roll the AC out.
 
-**Verified in CAD:** `tools/zone_check.py` voxelises every part on a 2.5 mm grid and flood-fills the air spaces. All ten checks pass:
+**Verified in CAD:** `tools/zone_check.py` voxelises every part on a 2.5 mm grid and flood-fills the air spaces. It adds a voxel plane through every sheet thinner than the grid, so the 1.2 mm skins seal. All ten checks pass:
 
 | Zone | Air volume | Result |
 |---|---|---|
-| Cold supply (hood + front plenum) | 62.0 L | sealed from the room and from the hot zone |
-| Hot return (rack, rear plenum, bay) | 439.3 L | one connected loop, sealed from the room and the condenser |
-| Condenser zone (incl. plinth labyrinth) | 199.2 L | fed with room air only |
-| Exhaust duct | 15.5 L | sealed from the loop, vents out the rear |
+| Cold supply (hood + front plenum) | 63.6 L | sealed from the room and from the hot zone |
+| Hot return (rack, rear plenum, bay) | 437.9 L | one connected loop, sealed from the room and the condenser |
+| Condenser zone (incl. plinth labyrinth) | 193.9 L | fed with room air only |
+| Exhaust duct | 15.3 L | sealed from the loop, vents out the rear |
 
-![Zones, section A-A](../renders/zones_x_325.png)
+![Zones, section A-A](../renders/zones_x_311.png)
 
 ## 5. Dimensions
 
@@ -101,11 +102,11 @@ The AC is pushed back into the gaskets and held by a retention bar with toggle c
 | Exhaust duct centreline | 752 |
 | Cold hood / shelf lining / shelf ply | 982-1062 / 1062-1087 / 1087-1105 |
 | **16 RU** | **1110 → 1821.2** |
-| Top frame / top panel | 1836.2-1866.2 / 1884.2 |
+| Top frame / top skin | 1836.2-1866.2 / 1870.4 |
 
-- **Width:** 650 external, 554 internal. The wall build-up is 15 ply + 3 MLV + 30 foam; the foam fills the 30 mm frame depth.
-- **Depth:** 1100 external, 1004 internal: 130 front plenum + 700 rail spacing + 174 rear plenum. That suits typical 2U servers up to about 750 mm deep. Change `rail_spacing` or `ext_d` for other gear.
-- **17 RU:** fits under 2.0 m if you set `ru_count = 17`, giving 1929 mm overall.
+- **Width:** 622.4 external, 554 internal. The wall build-up is 1.2 steel + 3 MLV + 30 foam; the foam fills the 30 mm frame depth.
+- **Depth:** 1072.4 external, 1004 internal: 130 front plenum + 700 rail spacing + 174 rear plenum. That suits typical 2U servers up to about 750 mm deep. Change `rail_spacing` or `ext_d` for other gear.
+- **17 RU:** fits under 2.0 m if you set `ru_count = 17`, giving 1914.9 mm overall.
 
 ## 6. Thermal
 
@@ -124,19 +125,19 @@ The AC is pushed back into the gaskets and held by a retention bar with toggle c
 
 | Measure | Detail |
 |---|---|
-| Mass | 15 mm birch ply + 5 kg/m² MLV, about 15 kg/m² in total |
+| Mass | 1.2 mm steel + 5 kg/m² MLV, about 14.4 kg/m² in total |
 | Absorption | 30 mm melamine foam in every frame bay (the frame depth); 25 mm under the shelf and partition; 20 mm under the floor |
-| Sealing | Double EPDM door seals, compression latches, acoustic sealant on all joints. No line-of-sight openings. |
+| Sealing | Double EPDM door seals, toggle (draw) latches, acoustic sealant under every joint strip. No line-of-sight openings. |
 | Openings | Room air enters through a 2-bend lined labyrinth in the plinth. The condenser exhaust leaves through an insulated duct to outdoors. Cables enter through a brush strip and a lined chamber. |
 | Vibration | The AC stands on a 10 mm neoprene/Sorbothane mat. The cabinet stands on the levelling castors' feet, wheels unloaded. |
 
-Mass-law transmission loss of the wall is about 19 / 25 / 31 / 37 dB at 125 / 250 / 500 / 1000 Hz. The lining turns that into an insertion loss of about 11 dB at 125 Hz and 25-35 dB from 500 Hz up. The 30 mm lining costs about 1 dB below 500 Hz compared with the earlier 40 mm version; it does not change the overall estimate.
+Mass-law transmission loss of the wall is about 18 / 24 / 30 / 36 dB at 125 / 250 / 500 / 1000 Hz. A 1.2 mm steel skin's coincidence dip sits near 10 kHz, well above the speech band; 15 mm ply's sat at 1-2 kHz. The lining turns that into an insertion loss of about 11 dB at 125 Hz and 25-35 dB from 500 Hz up. The 30 mm lining costs about 1 dB below 500 Hz compared with the earlier 40 mm version; it does not change the overall estimate.
 
 **Expect about 25-30 dB(A) overall.** Typical 2U servers plus the AC measure about 65-70 dB(A) in the open. Enclosed, they should drop to roughly **40-45 dB(A) at 1 m**, about the level of a quiet office. The main residual will be the compressor's low-frequency hum. Keeping the server inlets cool also keeps the server fans slow, which reduces the noise at its source.
 
 ## 8. Drainage
 
-- Remove the AC's bottom drain plug and fit a 16 mm hose. It runs to a **tundish and 25 mm bulkhead** in the rear-left of the stainless **drip tray**, which covers the whole bay floor with a 25 mm upstand. From there it drops through the floor and runs in the plinth to a **16 mm barb at the rear**, 60 mm above the floor, 117 mm from the right edge as seen from behind.
+- Remove the AC's bottom drain plug and fit a 16 mm hose. It runs to a **tundish and 25 mm bulkhead** in the rear-left of the stainless **drip tray**, which covers the whole bay floor with a 25 mm upstand. From there it drops through the floor and runs in the plinth to a **16 mm barb at the rear**, 60 mm above the floor, 136.2 mm from the right edge as seen from behind (clear of the castor pad).
 - The barb is only 60 mm up, so run the hose to a **floor waste lower than that**. Otherwise use the optional **mini condensate pump** or a bucket with a level sensor.
 - Why a continuous drain: the unit's "water full" switch stops the compressor when its internal tank fills. On a 24/7 server rack that stop would be an outage.
 - A leak sensor in the tray reports to the monitor.
@@ -167,20 +168,30 @@ The frame is **welded 30 × 30 × 2.0 SHS** (C350L0). It is fully detailed in we
 | Mass, time | 43 kg weldment (+ 4.9 kg spacers); about 19 h for a one-off by hand |
 | Hold point H1 | The mid rails and partition ledges follow M3 (§3). Cut them after the tape check. |
 
-The switch from 40 mm T-slot changed four details. The foam is now 30 mm (the frame depth), and the inside grows by 20 mm each way. The ply sits on 20 × 3 flat-bar ledges instead of angle cleats. The castors bolt to 8 mm pads welded under the corners. The 19-inch rail spacers are bolted rather than welded, so the rails can be packed out to 465.1 mm hole centres after welding. The rear panel is now one piece.
+The switch from 40 mm T-slot changed four details. The foam is now 30 mm (the frame depth), and the inside grows by 20 mm each way. The ply floor, partition and shelf sit on 20 × 3 flat-bar ledges instead of angle cleats. The castors bolt to 8 mm pads welded under the corners. The 19-inch rail spacers are bolted rather than welded, so the rails can be packed out to 465.1 mm hole centres after welding.
+
+The outer skins are **laser-cut 1.2 mm steel** (pack **CP-SRA16-SMP-001**, `docs/SHEET_METAL.md`). The frame and the inside are unchanged, so the outside shrank from 650 × 1100 × 1884 to 622.4 × 1072.4 × 1870.4.
+
+| | |
+|---|---|
+| Parts | 28 part types, 46 pieces, 78 kg: split side and rear skins, top skin, doors, joint strips, door stiffener angles, latch keepers, window retainer, plinth skirts, drip tray, 19-inch rails |
+| Size limit | Every flat blank fits 1200 × 800; the largest is 1064 × 775.7. The skins split on rail centrelines, and 50 × 1.2 strips cover the joints. |
+| Holes | Every frame rivnut is matched by a Ø8 hole, checked in code. Hinge, latch, handle, window, spigot, grommet and drain holes are all cut. The split skins have R4 notches round the strip screws. |
+| DXF | `cad/dxf/cut/` (cut layer only), `cad/dxf/info/` (bend lines, ID etch, notes), `cad/dxf/nest/` (11 steel + 1 stainless 1200 × 800 blanks), zipped in `cad/dxf/SRA16_sheet_metal_DXF.zip` |
+| Fixing | M6 × 20 flanged button heads into the frame rivnuts. The MLV behind the skin is punched Ø8 and acts as the gasket. Hinges, toggle latches and keepers are riveted (4.8 mm), so the frame needs no extra holes. |
 
 Build order:
 
-1. Confirm M1-M8 and update `rack_layout.py`, then run `tools/build_cadquery.py`, `tools/make_drawings.py`, `tools/make_bom.py` and `tools/make_weld_pack.py`.
-2. Fabricate the frame to the weld pack: cut, drill, bench ledges, SA-L and SA-R, box, pads and caps, then coat and fit the rivnuts.
+1. Confirm M1-M8 and update `rack_layout.py`, then run `tools/build_cadquery.py`, `tools/make_drawings.py`, `tools/make_bom.py`, `tools/make_weld_pack.py` and `tools/make_sheet_pack.py`.
+2. Fabricate the frame to the weld pack: cut, drill, bench ledges, SA-L and SA-R, box, pads and caps, then coat and fit the rivnuts. Order the laser-cut parts with the DXF zip at the same time, then have them folded and powder coated.
 3. Fit the castors (M8 into the pads), the bay floor ply on its ledges, the drip tray and the drain bulkhead.
 4. Fit the partition on its ledges with its lining, the docking posts, gaskets and brush strip.
 5. Fit the shelf ply on its ledges with its lining, and the cold hood with its drop collar.
 6. Bolt the RS1 rail spacers (air dams) to the uprights, packed to suit, then fit the 19-inch strips.
-7. Fit the panels: MLV bonded to the ply, the foam, and acoustic sealant on every joint.
+7. Fit the skins: MLV bonded inside each skin, then the foam. Fit the side skins bottom to top with the JS strips over the joints, then the rear skins with the JR strip, then the top skin. Put acoustic sealant under every strip edge.
 8. Fit the exhaust elbow, duct and wall spigot, with insulation. Seal the penetration.
-9. Fit the riser box and plinth skirts, then the cable box and brush strip.
-10. Hang the doors: hinges, cam latches, seals and window.
+9. Fit the riser box and plinth skirts SK1-SK3, then the cable box and brush strip.
+10. Build and hang the doors: bond the stiffener angles, rivet the hinges and KB1 keepers, fit the window and seals. Then rivet the toggle latches to the right-hand skins and adjust them to pull the doors onto the seal.
 11. Roll the AC in:
     1. Lift the hood collar.
     2. Push the AC back into the gaskets and clamp the retention bar.
@@ -201,11 +212,12 @@ Build order:
 
 | Check | Result |
 |---|---|
-| Interference (all 137 solids, OCC booleans) | 0 clashes |
+| Interference (all 164 solids, OCC booleans) | 0 clashes |
 | Airflow zone flood fill (§4) | 10 / 10 pass |
-| STEP round-trip | 137 solids, total volume identical (0.000 %) |
-| Fusion script (stand-in API test) | 137/137 bodies, volumes within 0.5 %, `sr_*` override and Y-up paths pass |
-| Layout rules (`validate()`) | OK: side gaps, elbow vs top box, duct vs partition and shelf, plenums, height, ply on ledges inside the frame depth |
+| STEP round-trip | re-imports as 166 solids (two of the 164 parts are in two pieces), total volume within 0.002 % |
+| Fusion script (stand-in API test) | 164/164 bodies, volumes within 0.5 %, `sr_*` override and Y-up paths pass |
+| Layout rules (`validate()`) | OK: side gaps, elbow vs top box, duct vs partition and shelf, plenums, height, ply on ledges inside the frame depth, skin pieces within 1200 × 800, hinge and latch clearances |
+| Sheet metal (`tools/sheetmetal.py`) | OK: every blank within 1200 × 800; every frame rivnut matched by a sheet hole; hole-to-edge, hole-to-bend and hole-to-hole distances; mirror twins identical hole for hole; 19-inch rail bolts match all four uprights |
 | Weldment (`tools/weldment.py`) | OK: every rail and upright welded at both ends; rivnuts on adjacent faces at least 22 mm apart; weldment STEP and 15 per-mark STEP files valid |
 
 The Fusion script was not run inside Fusion from here. It shows its own volume cross-check when it finishes; if anything is off, paste that message back.
@@ -223,9 +235,9 @@ The Fusion script was not run inside Fusion from here. It shows its own volume c
 
 The model is fully parametric: RU count (12-20), width (600-700), depth (900-1200) and wall build-up. That makes a "silent rack with integrated cooling" product family straightforward.
 
-- **Materials:** about AUD 4.7k at retail prices (see `bom/BOM.md`), of which the welded frame is about AUD 0.8k including coating and fixings; expect less at volume.
+- **Materials:** about AUD 5.0k at retail prices (see `bom/BOM.md`). The welded frame is about AUD 0.8k and the laser-cut, folded and coated sheet metal about AUD 1.5k. Expect less at volume.
 - **For a sellable kit:**
-  - CNC-cut ply panels and foam (the cut list is already generated);
+  - laser-cut steel skins (the DXFs and nests are already generated) and CNC-cut foam;
   - the welded SHS frame, already detailed for production: per-mark STEP files for tube laser cutting, and a jig can be built from the side-frame sheet;
   - an injection-moulded or 3D-printed cold hood;
   - a standard 150 mm exhaust kit;

@@ -22,20 +22,26 @@ manual and should be tape-checked before cutting panels.
 
 import math
 
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 
 DEFAULTS = {
     # --- rack / envelope -------------------------------------------------
     "ru_count": 16,          # rack units above the AC bay
     "ru_pitch": 44.45,       # EIA-310 rack unit
-    "ext_w": 650.0,          # external width
-    "ext_d": 1100.0,         # external depth
+    "ext_w": 622.4,          # external width  (= 614 frame + 2 x 4.2 skin)
+    "ext_d": 1072.4,         # external depth  (= 1064 frame + 2 x 4.2 skin)
     "front_plenum": 130.0,   # front liner -> front 19in mounting face (cold aisle)
     "rail_spacing": 700.0,   # front -> rear 19in mounting faces
     # --- wall build-up (outside -> in) -------------------------------------
-    "ply_t": 15.0,           # birch ply skin
-    "mlv_t": 3.0,            # mass-loaded vinyl (5 kg/m2)
+    "skin_t": 1.2,           # laser-cut steel sheet skin (powder coated)
+    "mlv_t": 3.0,            # mass-loaded vinyl (5 kg/m2), bonded to the skin
     "frame": 30.0,           # 30x30 welded steel SHS frame; section = acoustic foam depth
+    # --- sheet-metal parts ---------------------------------------------------
+    "sheet_max_l": 1200.0,   # largest flat blank the cutter takes (long side)
+    "sheet_max_w": 800.0,    # ... and short side; skins are split over frame rails to fit
+    "strip_w": 50.0,         # cover strip over each skin joint
+    "strip_t": 1.2,          # strips, door stiffeners, keepers, skirts (nests in the skin offcuts)
+    "door_stiff": 20.0,      # 20x20 folded angle frame (strip_t) bonded inside each door
     # --- base ------------------------------------------------------------
     "caster_h": 100.0,       # floor -> underside of base frame (castor + pad)
     "floor_t": 18.0,         # bay floor ply
@@ -91,9 +97,14 @@ PARAM_DOC = {
     "ext_d": ("mm", "External depth"),
     "front_plenum": ("mm", "Cold plenum: door lining to front 19in face"),
     "rail_spacing": ("mm", "Front to rear 19in mounting faces"),
-    "ply_t": ("mm", "Ply skin thickness"),
+    "skin_t": ("mm", "Steel skin sheet thickness"),
     "mlv_t": ("mm", "Mass-loaded vinyl thickness"),
     "frame": ("mm", "Frame SHS size (square) = acoustic foam depth"),
+    "sheet_max_l": ("mm", "Largest flat blank, long side"),
+    "sheet_max_w": ("mm", "Largest flat blank, short side"),
+    "strip_w": ("mm", "Skin joint cover strip width"),
+    "strip_t": ("mm", "Strips, stiffeners, keepers, skirts - sheet thickness"),
+    "door_stiff": ("mm", "Door stiffener angle leg"),
     "caster_h": ("mm", "Floor to underside of base frame (castor + pad)"),
     "floor_t": ("mm", "Bay floor ply"),
     "cleat": ("mm", "Ledge flat-bar width"),
@@ -154,6 +165,8 @@ C = {
     "alu": (0.78, 0.80, 0.83),
     "angle": (0.66, 0.68, 0.71),
     "ply": (0.86, 0.73, 0.55),
+    "sheet": (0.80, 0.81, 0.80),        # powder-coated steel skins (RAL 7035 light grey)
+    "hw": (0.60, 0.62, 0.65),           # stainless hardware
     "mlv": (0.20, 0.20, 0.22),
     "foam": (0.33, 0.34, 0.37),
     "tray": (0.74, 0.76, 0.78),
@@ -176,6 +189,59 @@ C = {
     "it_body": (0.23, 0.24, 0.26),
     "it_blank": (0.10, 0.10, 0.11),
 }
+
+
+# fabrication rules shared with tools/weldment.py and tools/sheetmetal.py
+FIX_EDGE = 40.0      # first/last panel fixing from a frame member end
+FIX_PITCH = 250.0    # max panel-fixing pitch along a frame member
+DOOR_CLEAR = 2.0     # door stiffener frame inset inside the frame opening
+RAIL_END = 5.0       # 19in rail beyond the U space at each end
+# door hardware (defaults - check against the parts bought, see CP-SRA16-SMP-001)
+HW = {
+    "edge": 60.0,          # hinge/latch centre from a door edge (min)
+    "split_clear": 75.0,   # ... and from a skin joint (cover strip)
+    "knuckle_r": 5.0,      # lift-off hinge knuckle radius (axis sits on the front-left corner)
+    "hinge_t": 2.0,
+    "hinge_len": 100.0,
+    "hinge_holes": (-35.0, 0.0, 35.0),   # rivets per leaf, along the hinge
+    "leaf_over": 10.0,     # leaf beyond its rivet line
+    "latch_holes": ((6.0, -9.0), (6.0, 9.0), (34.0, -9.0), (34.0, 9.0)),  # (from hw line, from centre)
+    "keeper_rivets": (-12.0, 12.0),
+    "keeper_h": 40.0,
+    "keeper_gap": 1.0,     # keeper leg B off the side skin
+    "keeper_leg_b": 22.0,  # keeper leg B depth behind the door face
+    "catch": (14.0, 6.0, 16.0),          # catch slot centre (behind door face), width, height
+    "handle_pitch": 160.0,
+}
+# plinth skirts (folded L under the base rails, between the castor pads)
+SKIRT = {"inset": 6.0, "flange": 28.0, "floor_gap": 10.0, "pad_gap": 2.0, "slot_z": (35.0, 75.0),
+         "slot_fr": 50.0, "pitch_fr": 72.0, "slot_side": 60.0, "pitch_side": 85.0, "drain_d": 20.5}
+
+
+def even_positions(a0, a1, pitch, nmin=2):
+    """Evenly spaced positions from a0 to a1 with spacing <= pitch."""
+    if a1 <= a0:
+        return [(a0 + a1) / 2.0]
+    n = max(nmin, int(math.ceil((a1 - a0) / pitch - 1e-9)) + 1)
+    return [a0 + i * (a1 - a0) / (n - 1) for i in range(n)]
+
+
+def piece_limit(width, P):
+    """Longest allowed piece length for a skin of this width (blank <= sheet_max_l x sheet_max_w)."""
+    return P["sheet_max_w"] if width > P["sheet_max_w"] else P["sheet_max_l"]
+
+
+def split_positions(z0, z1, cands, limit):
+    """Fewest split lines (chosen from cands, frame rail centrelines) so no piece is longer than limit."""
+    out, cur = [], z0
+    cs = sorted(c for c in cands if z0 < c < z1)
+    while z1 - cur > limit + 1e-6:
+        ok = [c for c in cs if cur < c <= cur + limit]
+        if not ok:
+            break                                   # validate() reports it
+        cur = max(ok)
+        out.append(cur)
+    return out
 
 
 # ---------------------------------------------------------------- primitives
@@ -257,7 +323,7 @@ def resolve(overrides=None):
 
 def derive(P):
     D = dict(P)
-    D["skin"] = P["ply_t"] + P["mlv_t"]
+    D["skin"] = P["skin_t"] + P["mlv_t"]
     D["wall"] = D["skin"] + P["frame"]
     D["x_in0"] = D["wall"]
     D["x_in1"] = P["ext_w"] - D["wall"]
@@ -286,7 +352,7 @@ def derive(P):
     D["z_rack1"] = D["z_rack0"] + P["ru_count"] * P["ru_pitch"]
     D["z_toprail0"] = D["z_rack1"] + P["top_clear"]
     D["z_toprail1"] = D["z_toprail0"] + P["frame"]
-    D["ext_h"] = D["z_toprail1"] + P["mlv_t"] + P["ply_t"]
+    D["ext_h"] = D["z_toprail1"] + P["mlv_t"] + P["skin_t"]
     D["z_split"] = D["z_ac0"] + P["ac_split_z"]          # partition top = notch floor
     D["z_part0"] = D["z_split"] - P["partition_t"]
     D["z_midrail1"] = D["z_split"]
@@ -304,6 +370,8 @@ def derive(P):
     D["x_rail_out_l"] = D["x_mid"] - 245.0
     D["x_rail_in_r"] = D["x_mid"] + 225.0
     D["x_rail_out_r"] = D["x_mid"] + 245.0
+    D["rail_z0"] = D["z_rack0"] - RAIL_END          # 19in rails run past the U space so the end holes keep a web
+    D["rail_z1"] = D["z_rack1"] + RAIL_END
     # exhaust
     D["exh_x"] = D["x_ac1"] - P["ac_notch_w"] / 2.0
     D["exh_y"] = D["y_ac1"] - P["ac_notch_d"] / 2.0
@@ -322,12 +390,41 @@ def derive(P):
     D["drain_x"] = D["x_ac0"] + P["ac_drain_x"]
     D["drain_z"] = D["z_ac0"] + P["ac_drain_z"]
     D["drain_y_out"] = D["y_dock"] + 44.0          # tundish centre (lower zone)
+    # outlet barb in the rear skirt, clear of the castor corner (hose jogs across under the floor)
+    D["drain_out_x"] = max(D["drain_x"], D["skin"] + P["pad_w"] + SKIRT["pad_gap"] + 30.0)
+    D["drain_out_z"] = 60.0
     # window
     D["win_xc"] = D["x_ac0"] + P["ac_disp_x"]
     D["win_zc"] = D["z_ac0"] + P["ac_disp_z"]
     # room-air inlet (floor opening under the riser box)
     D["inlet_y0"] = D["y_in1"] - 172.0
     D["inlet_y1"] = D["y_in1"] - 12.0
+    # ---- sheet-metal skins: split on frame rail centrelines so every blank fits the cutter
+    fz0, fz1 = D["z_base0"], D["z_toprail1"]
+    rails = [(D["z_midrail0"] + D["z_midrail1"]) / 2.0, (D["z_srail0"] + D["z_srail1"]) / 2.0]
+    D["side_splits"] = split_positions(fz0, fz1, rails, piece_limit(P["ext_d"] - 2 * D["skin"], P))
+    D["rear_splits"] = split_positions(fz0, fz1, rails, piece_limit(P["ext_w"], P))
+    # doors split on the shelf rail centreline (3 mm gap), 2 mm clear under the top panel
+    D["door_lo_z"] = (fz0, D["z_door_split"] - 1.5)
+    D["door_up_z"] = (D["z_door_split"] + 1.5, fz1 - 2.0)
+    # door stiffener frame and the hardware lines on it (rivets go through skin + angle)
+    D["stiff_x0"] = D["x_in0"] + DOOR_CLEAR
+    D["stiff_x1"] = D["x_in1"] - DOOR_CLEAR
+    D["hw_x_left"] = D["stiff_x0"] + P["door_stiff"] / 2.0     # hinge door-leaf rivets
+    D["hw_x_right"] = D["stiff_x1"] - P["door_stiff"] / 2.0    # keeper rivets + handle screws
+    D["hw_y_side"] = D["hw_x_left"]                             # hinge frame leaf / latch base on the side skins
+    # side-panel screws on the front posts (weld pack rule); hinges and latches sit midway between them
+    D["post_fix_z"] = even_positions(fz0 + FIX_EDGE, fz1 - FIX_EDGE, FIX_PITCH)
+    mids = [(a + b) / 2.0 for a, b in zip(D["post_fix_z"][:-1], D["post_fix_z"][1:])]
+
+    def hw_z(z0, z1):
+        return [m for m in mids if z0 + HW["edge"] <= m <= z1 - HW["edge"]
+                and all(abs(m - c) >= HW["split_clear"] for c in D["side_splits"])]
+    lo, up = hw_z(*D["door_lo_z"]), hw_z(*D["door_up_z"])
+    D["hinge_z_lower"] = lo if len(lo) <= 3 else [lo[0], lo[len(lo) // 2], lo[-1]]
+    D["hinge_z_upper"] = up if len(up) <= 2 else [up[0], up[-1]]
+    D["latch_z_lower"] = [lo[0], lo[-1]] if len(lo) > 1 else lo
+    D["latch_z_upper"] = [up[0], up[-1]] if len(up) > 1 else up
     return D
 
 
@@ -367,6 +464,30 @@ def validate(D):
             w.append("%s ply + ledge (%.0f) does not fit in the %.0f mm rail" % (nm, ply + D["cleat_t"], D["frame"]))
     if D["pad_w"] < D["frame"] + 40:
         w.append("Castor pad narrower than frame + 40 mm")
+    # every skin blank must fit the cutter (sheet_max_l x sheet_max_w)
+    L, S = D["sheet_max_l"], D["sheet_max_w"]
+
+    def fits(a, b):
+        return max(a, b) <= L + 1e-6 and min(a, b) <= S + 1e-6
+    for nm, width, cuts in (("side", D["ext_d"] - 2 * D["skin"], D["side_splits"]),
+                            ("rear", D["ext_w"], D["rear_splits"])):
+        zs = [D["z_base0"]] + cuts + [D["z_toprail1"]]
+        for a, b in zip(zs[:-1], zs[1:]):
+            if not fits(width, b - a):
+                w.append("%s skin piece %.0f x %.0f exceeds %.0f x %.0f - no rail to split on" % (nm, width, b - a, L, S))
+    if not fits(D["ext_w"], D["ext_d"]):
+        w.append("Top skin %.0f x %.0f exceeds %.0f x %.0f" % (D["ext_w"], D["ext_d"], L, S))
+    for nm, (a, b) in (("lower", D["door_lo_z"]), ("upper", D["door_up_z"])):
+        if not fits(D["ext_w"], b - a):
+            w.append("%s door %.0f x %.0f exceeds %.0f x %.0f" % (nm, D["ext_w"], b - a, L, S))
+    if len(D["hinge_z_lower"]) < 2 or len(D["hinge_z_upper"]) < 2:
+        w.append("Fewer than 2 hinge positions on a door")
+    gx = (D["win_w"] + 40) / 2.0
+    gz = (D["win_h"] + 40) / 2.0
+    if not (D["stiff_x0"] + D["door_stiff"] < D["win_xc"] - gx and D["win_xc"] + gx < D["stiff_x1"] - D["door_stiff"]
+            and D["z_base1"] + DOOR_CLEAR + D["door_stiff"] < D["win_zc"] - gz
+            and D["win_zc"] + gz < D["z_srail0"] - DOOR_CLEAR - D["door_stiff"]):
+        w.append("Window glazing unit clashes with the lower-door stiffener frame")
     return w
 
 
@@ -397,7 +518,7 @@ def build_parts(P=None):
                       "bom": bom or {"kind": "ref"}})
 
     W, DP = P["ext_w"], P["ext_d"]
-    s, f, ply, mlv = D["skin"], P["frame"], P["ply_t"], P["mlv_t"]
+    s, f, mlv = D["skin"], P["frame"], P["mlv_t"]
     X0, X1, Y0, Y1 = D["x_in0"], D["x_in1"], D["y_in0"], D["y_in1"]
     cl = P["cleat"]
     zb0, zb1 = D["z_base0"], D["z_base1"]
@@ -455,41 +576,108 @@ def build_parts(P=None):
     for tag, (px, py, sx, sy) in corners.items():
         part("Castor pad %s" % tag, "Frame", "shs", [box(px, py, zb0 - pt, px + sx * pw, py + sy * pw, zb0)], bom=PAD)
 
-    # ======================================================== PANELS & DOORS
-    PLY = {"kind": "sheet", "material": "Birch ply 15 mm (alt. 16 mm MDF)", "t": ply}
+    # ======================================================== PANELS & DOORS (laser-cut steel skins)
+    sk = P["skin_t"]
+    SKIN = {"kind": "sheet", "material": "Steel sheet %g mm, powder coat (laser cut, CP-SRA16-SMP-001)" % sk, "t": sk}
     MLV = {"kind": "sheet", "material": "Mass-loaded vinyl 5 kg/m2 (3 mm)", "t": mlv}
+    STRIP = {"kind": "fab", "material": "Joint cover strip %gx%g steel, powder coat" % (P["strip_w"], P["strip_t"])}
+    STIFF = {"kind": "fab", "material": "Door stiffener, %gx%gx%g folded steel angle, bonded" % (
+        P["door_stiff"], P["door_stiff"], P["strip_t"])}
     # openings through the skins
     wx0, wx1 = D["win_xc"] - P["win_w"] / 2, D["win_xc"] + P["win_w"] / 2
     wz0, wz1 = D["win_zc"] - P["win_h"] / 2, D["win_zc"] + P["win_h"] / 2
+    gx0, gx1 = wx0 - 20, wx1 + 20                                       # glazing unit (panes) 40 larger
+    gz0, gz1 = wz0 - 20, wz1 + 20
     ex, ez = D["exh_x"], D["exh_run_z"]
     exh_hole_skin = cyl((ex, DP - s - 1, ez), (ex, DP + 1, ez), D["exh_ri"] + 1)
     slot = (D["x_mid"] - 100, D["x_mid"] + 100, zt0 - 146, zt0 - 106)   # cable entry slot x0,x1,z0,z1
     slot_cut = lambda y0, y1: box(slot[0], y0, slot[2], slot[1], y1, slot[3])
+    sw2, st = P["strip_w"] / 2.0, P["strip_t"]
 
-    part("Side panel left", "Panels & Doors", "ply", [box(0, s, zb0, ply, DP - s, zt1)], bom=PLY)
-    part("Side panel left MLV", "Panels & Doors", "mlv", [box(ply, s, zb0, s, DP - s, zt1)], bom=MLV)
-    part("Side panel right", "Panels & Doors", "ply", [box(W - ply, s, zb0, W, DP - s, zt1)], bom=PLY)
-    part("Side panel right MLV", "Panels & Doors", "mlv", [box(W - s, s, zb0, W - ply, DP - s, zt1)], bom=MLV)
+    def pieces(cuts):
+        zs = [zb0] + list(cuts) + [zt1]
+        return [(zs[i] + (0.5 if i else 0.0), zs[i + 1] - (0.5 if i < len(zs) - 2 else 0.0)) for i in range(len(zs) - 1)]
+    # side skins: one piece per bay between the split rails, cover strip over each joint
+    for side, (xs0, xs1), (xm0, xm1), (xj0, xj1) in (("left", (0, sk), (sk, s), (-st, 0)),
+                                                     ("right", (W - sk, W), (W - s, W - sk), (W, W + st))):
+        for i, (za, zb) in enumerate(pieces(D["side_splits"])):
+            part("Side panel %s %d" % (side, i + 1), "Panels & Doors", "sheet", [box(xs0, s, za, xs1, DP - s, zb)], bom=SKIN)
+        part("Side panel %s MLV" % side, "Panels & Doors", "mlv", [box(xm0, s, zb0, xm1, DP - s, zt1)], bom=MLV)
+        for j, zj in enumerate(D["side_splits"]):
+            part("Joint strip %s %d" % (side, j + 1), "Panels & Doors", "sheet",
+                 [box(xj0, s, zj - sw2, xj1, DP - s, zj + sw2)], bom=STRIP)
     part("Top panel MLV", "Panels & Doors", "mlv", [box(0, 0, zt1, W, DP, zt1 + mlv)], bom=MLV)
-    part("Top panel", "Panels & Doors", "ply", [box(0, 0, zt1 + mlv, W, DP, D["ext_h"])], bom=PLY)
-    win_skin = box(wx0, -1, wz0, wx1, s + 1, wz1)
-    part("Door lower (AC bay)", "Panels & Doors", "ply", [box(0, 0, zb0, W, ply, zds - 1.5)], [win_skin], bom=PLY)
-    part("Door lower MLV", "Panels & Doors", "mlv", [box(0, ply, zb0, W, s, zds - 1.5)], [win_skin], bom=MLV)
-    part("Door upper (rack)", "Panels & Doors", "ply", [box(0, 0, zds + 1.5, W, ply, zt1)], bom=PLY)
-    part("Door upper MLV", "Panels & Doors", "mlv", [box(0, ply, zds + 1.5, W, s, zt1)], bom=MLV)
-    part("Rear panel", "Panels & Doors", "ply", [box(0, DP - ply, zb0, W, DP, zt1)],
-         [exh_hole_skin, slot_cut(DP - s - 1, DP + 1)], bom=PLY)
-    part("Rear panel MLV", "Panels & Doors", "mlv", [box(0, DP - s, zb0, W, DP - ply, zt1)],
+    part("Top panel", "Panels & Doors", "sheet", [box(0, 0, zt1 + mlv, W, DP, D["ext_h"])], bom=SKIN)
+    for i, (za, zb) in enumerate(pieces(D["rear_splits"])):
+        part("Rear panel %d" % (i + 1), "Panels & Doors", "sheet", [box(0, DP - sk, za, W, DP, zb)],
+             [exh_hole_skin, slot_cut(DP - s - 1, DP + 1)], bom=SKIN)
+    part("Rear panel MLV", "Panels & Doors", "mlv", [box(0, DP - s, zb0, W, DP - sk, zt1)],
          [exh_hole_skin, slot_cut(DP - s - 1, DP + 1)], bom=MLV)
-    GL = {"kind": "purchased", "material": "Polycarbonate 6 mm (double glazed window)"}
-    part("Window pane outer", "Panels & Doors", "glass", [box(wx0, 3, wz0, wx1, 9, wz1)], bom=GL, opacity=0.35)
-    part("Window pane inner", "Panels & Doors", "glass", [box(wx0, Y0 - 8, wz0, wx1, Y0 - 2, wz1)], bom=GL, opacity=0.35)
-    HD = {"kind": "purchased", "material": "Pull handle 160 mm c/c"}
+    for j, zj in enumerate(D["rear_splits"]):
+        part("Joint strip rear %d" % (j + 1), "Panels & Doors", "sheet", [box(0, DP, zj - sw2, W, DP + st, zj + sw2)],
+             bom=STRIP)
+
+    # doors: skin + MLV + bonded angle frame (legs inboard) + foam; hardware riveted through skin + angle
+    ds, dt = P["door_stiff"], P["strip_t"]
+    sx0, sx1 = D["stiff_x0"], D["stiff_x1"]
+    win_skin = box(wx0, -1, wz0, wx1, sk + 1, wz1)
+    for nm, lab, (dz0, dz1), (oz0, oz1) in (("lower", "Door lower (AC bay)", D["door_lo_z"], (zb1, zs0)),
+                                           ("upper", "Door upper (rack)", D["door_up_z"], (zs1, zt0))):
+        z0, z1 = oz0 + DOOR_CLEAR, oz1 - DOOR_CLEAR
+        win = nm == "lower"
+        part(lab, "Panels & Doors", "sheet", [box(0, 0, dz0, W, sk, dz1)], [win_skin] if win else [], bom=SKIN)
+        ang = [box(sx0, sk, z0, sx0 + ds, sk + dt, z1), box(sx0 + ds - dt, sk + dt, z0, sx0 + ds, sk + ds, z1),
+               box(sx1 - ds, sk, z0, sx1, sk + dt, z1), box(sx1 - ds, sk + dt, z0, sx1 - ds + dt, sk + ds, z1),
+               box(sx0 + ds, sk, z0, sx1 - ds, sk + dt, z0 + ds),
+               box(sx0 + ds, sk + dt, z0 + ds - dt, sx1 - ds, sk + ds, z0 + ds),
+               box(sx0 + ds, sk, z1 - ds, sx1 - ds, sk + dt, z1),
+               box(sx0 + ds, sk + dt, z1 - ds, sx1 - ds, sk + ds, z1 - ds + dt)]
+        part("Door %s stiffener frame" % nm, "Panels & Doors", "sheet", ang, bom=STIFF)
+        bands = [box(sx0 - 0.1, sk - 0.1, z0 - 0.1, sx0 + ds + 0.1, s + 0.1, z1 + 0.1),
+                 box(sx1 - ds - 0.1, sk - 0.1, z0 - 0.1, sx1 + 0.1, s + 0.1, z1 + 0.1),
+                 box(sx0 - 0.1, sk - 0.1, z0 - 0.1, sx1 + 0.1, s + 0.1, z0 + ds + 0.1),
+                 box(sx0 - 0.1, sk - 0.1, z1 - ds - 0.1, sx1 + 0.1, s + 0.1, z1 + 0.1)]
+        if win:
+            bands.append(box(gx0 - 0.5, sk - 0.1, gz0 - 0.5, gx1 + 0.5, s + 0.1, gz1 + 0.5))
+        part("Door %s MLV" % nm, "Panels & Doors", "mlv", [box(0, sk, dz0, W, s, dz1)], bands, bom=MLV)
+    # double-glazed window in the lower door: pane, 10 mm EPDM spacer, pane, steel retainer, 8x M4
+    GL = {"kind": "purchased", "material": "Polycarbonate 6 mm, %gx%g (double glazed window)" % (gx1 - gx0, gz1 - gz0)}
+    part("Window pane outer", "Panels & Doors", "glass", [box(gx0, sk, gz0, gx1, sk + 6, gz1)], bom=GL, opacity=0.35)
+    part("Window spacer", "Panels & Doors", "rubber", [box(gx0, sk + 6, gz0, gx1, sk + 16, gz1)],
+         [box(wx0, sk + 5, wz0, wx1, sk + 17, wz1)], bom={"kind": "purchased", "material": "EPDM 10 mm spacer frame"})
+    part("Window pane inner", "Panels & Doors", "glass", [box(gx0, sk + 16, gz0, gx1, sk + 22, gz1)], bom=GL, opacity=0.35)
+    part("Window retainer", "Panels & Doors", "sheet", [box(gx0, sk + 22, gz0, gx1, sk + 22 + st, gz1)],
+         [box(wx0, sk + 21, wz0, wx1, sk + 23 + st, wz1)],
+         bom={"kind": "fab", "material": "Window retainer %g mm steel (CP-SRA16-SMP-001)" % st})
+    # hinges (left) and toggle latches (right), riveted through the skins; pull handles
+    HG = {"kind": "purchased", "material": "Lift-off butt hinge %g long, leaves %g, stainless, riveted" % (
+        HW["hinge_len"], D["hw_x_left"] + HW["knuckle_r"] + HW["leaf_over"])}
+    LT = {"kind": "purchased", "material": "Adjustable toggle latch, stainless, riveted"}
+    KP = {"kind": "fab", "material": "Latch keeper bracket %g mm steel, folded (CP-SRA16-SMP-001)" % st}
+    kr, ht, hl = HW["knuckle_r"], HW["hinge_t"], HW["hinge_len"]
+    leaf = D["hw_x_left"] + HW["leaf_over"]
+    for tag, zs_ in (("lower", D["hinge_z_lower"]), ("upper", D["hinge_z_upper"])):
+        for i, zc_ in enumerate(zs_):
+            part("Hinge %s %d" % (tag, i + 1), "Panels & Doors", "hw",
+                 [cyl((-kr, -kr, zc_ - hl / 2), (-kr, -kr, zc_ + hl / 2), kr),
+                  box(-kr, -ht, zc_ - hl / 2, leaf, 0, zc_ + hl / 2),
+                  box(-ht, -kr, zc_ - hl / 2, 0, leaf, zc_ + hl / 2)], bom=HG)
+    yh, kg, kh = D["hw_y_side"], HW["keeper_gap"], HW["keeper_h"] / 2.0
+    for tag, zs_ in (("lower", D["latch_z_lower"]), ("upper", D["latch_z_upper"])):
+        for i, zc_ in enumerate(zs_):
+            part("Latch %s %d" % (tag, i + 1), "Panels & Doors", "hw",
+                 [box(W, yh - 6, zc_ - 12, W + 14, yh + 49, zc_ + 12),
+                  box(W + 4, HW["keeper_leg_b"] + 2, zc_ - 5, W + 9, yh - 6, zc_ + 5)], bom=LT)
+            part("Latch keeper %s %d" % (tag, i + 1), "Panels & Doors", "hw",
+                 [box(D["hw_x_right"] - 14, -st, zc_ - kh, W + kg + st, 0, zc_ + kh),
+                  box(W + kg, -st, zc_ - kh, W + kg + st, HW["keeper_leg_b"], zc_ + kh)], bom=KP)
+    HD = {"kind": "purchased", "material": "Pull handle %g mm c/c, M5" % HW["handle_pitch"]}
+    hp = HW["handle_pitch"]
     for nm, h0 in (("Handle upper door", zds + 300), ("Handle lower door", zb0 + 380)):
-        hx0, hx1 = W - 52, W - 38
+        hx0, hx1 = D["hw_x_right"] - 7, D["hw_x_right"] + 7
         part(nm, "Panels & Doors", "steel",
-             [box(hx0, -36, h0, hx1, -26, h0 + 180), box(hx0, -27, h0, hx1, 0, h0 + 20),
-              box(hx0, -27, h0 + 160, hx1, 0, h0 + 180)], bom=HD)
+             [box(hx0, -36, h0, hx1, -26, h0 + hp + 20), box(hx0, -27, h0, hx1, 0, h0 + 20),
+              box(hx0, -27, h0 + hp, hx1, 0, h0 + hp + 20)], bom=HD)
 
     # ======================================================== ACOUSTIC LINING
     F40 = {"kind": "sheet", "material": "Melamine acoustic foam %g mm (FR, Class 0)" % f, "t": f}
@@ -508,9 +696,12 @@ def build_parts(P=None):
     part("Foam rear rack", "Acoustic Lining", "foam", [box(X0, Y1, zs1, X1, DP - s, zt0)],
          [slot_cut(Y1 - 1, DP - s + 1)], bom=F40)
     part("Foam top", "Acoustic Lining", "foam", [box(X0, Y0, zt0, X1, Y1, zt1)], bom=F40)
-    part("Foam door lower", "Acoustic Lining", "foam", [box(X0, s, zb1, X1, Y0, zs0)],
-         [box(wx0, s - 1, wz0, wx1, Y0 + 1, wz1)], bom=F40)
-    part("Foam door upper", "Acoustic Lining", "foam", [box(X0, s, zs1, X1, Y0, zt0)], bom=F40)
+    fd0, fd1 = sx0 + ds, sx1 - ds                                   # inside the door stiffener frame
+    part("Foam door lower", "Acoustic Lining", "foam",
+         [box(fd0, s, zb1 + DOOR_CLEAR + ds, fd1, Y0, zs0 - DOOR_CLEAR - ds)],
+         [box(gx0 - 2, s - 1, gz0 - 2, gx1 + 2, Y0 + 1, gz1 + 2)], bom=F40)
+    part("Foam door upper", "Acoustic Lining", "foam",
+         [box(fd0, s, zs1 + DOOR_CLEAR + ds, fd1, Y0, zt0 - DOOR_CLEAR - ds)], bom=F40)
     # openings in the divider shelf (cold supply at front, hot return at rear)
     cold_open = (X0 + cl + 12, Y0 + cl, X1 - cl - 12, D["y_frail"] - 5)       # cold supply -> front plenum
     ret_open = (X0 + cl + 2, D["y_rrail"] + 10, X1 - cl - 2, Y1 - cl - 2)     # hot return <- rear plenum
@@ -558,15 +749,35 @@ def build_parts(P=None):
              [box(cx - 40, cy - 40, zct - 6, cx + 40, cy + 40, zct),
               box(cx - 25, cy - 18, 60, cx + 25, cy + 18, zct - 5),
               cyl((cx - 16, cy, 37.5), (cx + 16, cy, 37.5), 37.5)], bom=CAS)
-    SK = {"kind": "fab", "material": "1.5 mm perforated steel skirt, powder coat"}
-    slots_f = [box(115 + i * 72, 9, 35, 165 + i * 72, 17, 75) for i in range(6)]
-    part("Skirt front", "Base, Tray & Drain", "skirt", [box(100, 10, 10, W - 100, 16, zb0)], slots_f, bom=SK)
-    slots_r = [box(115 + i * 72, DP - 17, 35, 165 + i * 72, DP - 9, 75) for i in range(1, 6)]
-    part("Skirt rear", "Base, Tray & Drain", "skirt", [box(100, DP - 16, 10, W - 100, DP - 10, zb0)],
-         slots_r + [cyl((dx, DP - 20, 60), (dx, DP - 5, 60), 10)], bom=SK)
-    for side, (xa, xb) in (("left", (10, 16)), ("right", (W - 16, W - 10))):
-        sl = [box(xa - 1, 130 + i * 85, 35, xb + 1, 190 + i * 85, 75) for i in range(10)]
-        part("Skirt %s" % side, "Base, Tray & Drain", "skirt", [box(xa, 100, 10, xb, DP - 100, zb0)], sl, bom=SK)
+    SK = {"kind": "fab", "material": "Plinth skirt %g mm steel, folded L, slotted, powder coat (CP-SRA16-SMP-001)" % st}
+    kt, ky, kf, kz0 = st, SKIRT["inset"], SKIRT["flange"], SKIRT["floor_gap"]
+    xa, xb = s + pw + SKIRT["pad_gap"], W - s - pw - SKIRT["pad_gap"]
+    ya, yb = s + pw + SKIRT["pad_gap"], DP - s - pw - SKIRT["pad_gap"]
+    sz0, sz1 = SKIRT["slot_z"]
+
+    def slots(a0, a1, pitch, w, skip=None):
+        n = int((a1 - a0 - 50 + (pitch - w)) // pitch)
+        c0 = (a0 + a1) / 2.0 - (n - 1) * pitch / 2.0
+        out = [c0 + i * pitch for i in range(n)]
+        return [c for c in out if skip is None or abs(c - skip) > w / 2 + 20]
+    sf = slots(xa, xb, SKIRT["pitch_fr"], SKIRT["slot_fr"])
+    dox, doz = D["drain_out_x"], D["drain_out_z"]
+    sr = slots(xa, xb, SKIRT["pitch_fr"], SKIRT["slot_fr"], skip=dox)
+    ss = slots(ya, yb, SKIRT["pitch_side"], SKIRT["slot_side"])
+    hw_ = SKIRT["slot_fr"] / 2.0
+    part("Skirt front", "Base, Tray & Drain", "skirt",
+         [box(xa, ky, kz0, xb, ky + kt, zb0), box(xa, ky, zb0 - kt, xb, ky + kf, zb0)],
+         [box(c - hw_, ky - 1, sz0, c + hw_, ky + kt + 1, sz1) for c in sf], bom=SK)
+    part("Skirt rear", "Base, Tray & Drain", "skirt",
+         [box(xa, DP - ky - kt, kz0, xb, DP - ky, zb0), box(xa, DP - ky - kf, zb0 - kt, xb, DP - ky, zb0)],
+         [box(c - hw_, DP - ky - kt - 1, sz0, c + hw_, DP - ky + 1, sz1) for c in sr] +
+         [cyl((dox, DP - ky - kt - 1, doz), (dox, DP - ky + 1, doz), SKIRT["drain_d"] / 2.0)], bom=SK)
+    hs = SKIRT["slot_side"] / 2.0
+    for side, (xf0, xf1), (xl0_, xl1_) in (("left", (ky, ky + kt), (ky, ky + kf)),
+                                           ("right", (W - ky - kt, W - ky), (W - ky - kf, W - ky))):
+        part("Skirt %s" % side, "Base, Tray & Drain", "skirt",
+             [box(xf0, ya, kz0, xf1, yb, zb0), box(xl0_, ya, zb0 - kt, xl1_, yb, zb0)],
+             [box(xf0 - 1, c - hs, sz0, xf1 + 1, c + hs, sz1) for c in ss], bom=SK)
     DR = {"kind": "purchased", "material": "16 mm ID clear PVC drain hose"}
     ya1 = D["y_ac1"] + 15
     part("Drain tundish + bulkhead", "Base, Tray & Drain", "pvc",
@@ -576,8 +787,10 @@ def build_parts(P=None):
          [cyl((dx, ya1, D["drain_z"]), (dx, dyo + 4, D["drain_z"]), 8),
           cyl((dx, dyo, D["drain_z"] + 4), (dx, dyo, ztr + 18), 8)], bom=DR)
     part("Drain hose under floor", "Base, Tray & Drain", "pvc",
-         [cyl((dx, dyo, 90), (dx, dyo, 56), 8), cyl((dx, dyo - 4, 60), (dx, DP, 60), 8)], bom=DR)
-    part("Drain outlet coupling", "Base, Tray & Drain", "pvc", [cyl((dx, DP, 60), (dx, DP + 25, 60), 11)],
+         [cyl((dx, dyo, 90), (dx, dyo, doz - 4), 8), cyl((dx, dyo - 4, doz), (dx, DP - 40, doz), 8)] +
+         ([cyl((dx - 4, DP - 40, doz), (dox + 4, DP - 40, doz), 8), cyl((dox, DP - 44, doz), (dox, DP, doz), 8)]
+          if dox - dx > 1.0 else [cyl((dx, DP - 44, doz), (dx, DP, doz), 8)]), bom=DR)
+    part("Drain outlet coupling", "Base, Tray & Drain", "pvc", [cyl((dox, DP, doz), (dox, DP + 25, doz), 11)],
          bom={"kind": "purchased", "material": "16 mm hose barb / quick-connect"})
     part("AC retention bar", "Base, Tray & Drain", "steel",
          [box(X0 + 12, D["y_ac0"] - 19, zl + 1, X1 - 12, D["y_ac0"] - 4, zl + 21)],
@@ -643,9 +856,12 @@ def build_parts(P=None):
     ezc = D["exh_z1"]
     ro, ri, Rb = D["exh_ro"], D["exh_ri"], P["exh_bend_r"]
     ec = (ex, D["exh_y"] + Rb, ezc)
+    sock = 30.0                                            # elbow socket slides over the AC spigot (taped)
     part("Exhaust elbow (insulated)", "Airflow & Seals", "hot",
-         [elbow(ec, (1, 0, 0), (0, -1, 0), (0, 0, 1), Rb, ro)],
-         [elbow(ec, (1, 0, 0), (0, -1, 0), (0, 0, 1), Rb, ri, pad=1.0)],
+         [elbow(ec, (1, 0, 0), (0, -1, 0), (0, 0, 1), Rb, ro),
+          cyl((ex, D["exh_y"], ezc - sock), (ex, D["exh_y"], ezc), ro)],
+         [elbow(ec, (1, 0, 0), (0, -1, 0), (0, 0, 1), Rb, ri, pad=1.0),
+          cyl((ex, D["exh_y"], ezc - sock - 1), (ex, D["exh_y"], ezc + 0.5), ri)],
          bom={"kind": "purchased", "material": "150 mm 90deg rigid elbow + 10 mm insulation"})
     y_run0 = D["exh_run_y0"]
     part("Exhaust duct (insulated)", "Airflow & Seals", "hot",
@@ -670,7 +886,7 @@ def build_parts(P=None):
 
     # ======================================================== 19in RACK
     RL = {"kind": "purchased", "material": "19in rack strip, 2 mm steel, %dU" % P["ru_count"]}
-    zr0, zr1 = D["z_rack0"], D["z_rack1"]
+    zr0, zr1 = D["rail_z0"], D["rail_z1"]
     yfr, yrr = D["y_frail"], D["y_rrail"]
     xl0, xl1 = D["x_rail_out_l"], D["x_rail_in_l"]
     xr0, xr1 = D["x_rail_in_r"], D["x_rail_out_r"]
@@ -688,9 +904,16 @@ def build_parts(P=None):
     for tag, (ya, yb) in (("front", (yfr, yfr + f)), ("rear", (yrr - f, yrr))):
         part("Rail spacer %s left" % tag, "19in Rack", "steel", [box(X0, ya, zs1, xl0, yb, zt0)], bom=SP)
         part("Rail spacer %s right" % tag, "19in Rack", "steel", [box(xr1, ya, zs1, X1, yb, zt0)], bom=SP)
-    part("Top air dam", "19in Rack", "steel", [box(xl0, yfr, zr1, xr1, yfr + 12, zt0)],
+    def dam(za, zb, zc, zd):
+        # full width outside the rail ends (za..zb), narrowed round the rails where they overlap (zc..zd)
+        out = [box(xl0, yfr, za, xr1, yfr + 12, zb)] if zb > za else []
+        if zd > zc:
+            out += [box(xl1, yfr, zc, xr0, yfr + 12, zd), box(xl0 + 2, yfr + 2, zc, xl1, yfr + 12, zd),
+                    box(xr0, yfr + 2, zc, xr1 - 2, yfr + 12, zd)]
+        return out
+    part("Top air dam", "19in Rack", "steel", dam(zr1, zt0, D["z_rack1"], zr1),
          bom={"kind": "fab", "material": "12 mm foam-faced strip"})
-    part("Bottom air dam", "19in Rack", "steel", [box(xl0, yfr, zs1, xr1, yfr + 12, zr0)],
+    part("Bottom air dam", "19in Rack", "steel", dam(zs1, zr0, zr0, D["z_rack0"]),
          bom={"kind": "fab", "material": "12 mm foam-faced strip"})
 
     # ======================================================== AC (reference)
@@ -736,7 +959,7 @@ def build_parts(P=None):
     pitch = P["ru_pitch"]
 
     def u_z(u):
-        return zr0 + (u - 1) * pitch
+        return D["z_rack0"] + (u - 1) * pitch                 # U1 starts at the rack datum, not the rail end
 
     def unit(name, u0, n, depth, blank=False):
         z0, z1 = u_z(u0), u_z(u0 + n)

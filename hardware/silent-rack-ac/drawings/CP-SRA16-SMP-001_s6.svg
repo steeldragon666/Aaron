@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 420 297" font-family="Arial, Helvetica, sans-serif">
+<defs>
+<marker id="aDim" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse"><path d="M0 1.5 L10 5 L0 8.5 z" fill="#15181c"/></marker>
+<pattern id="hatch" width="1.6" height="1.6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="1.6" stroke="#6d747c" stroke-width="0.25"/></pattern>
+<pattern id="ply" width="2.2" height="2.2" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><line x1="0" y1="0" x2="0" y2="2.2" stroke="#b58a4a" stroke-width="0.3"/></pattern>
+</defs>
+<rect x="0" y="0" width="420" height="297" fill="#ffffff"/>
+<rect x="8.00" y="8.00" width="404.00" height="281.00" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.60"/>
+<text x="14.00" y="16.00" font-size="2.50" text-anchor="start" font-weight="bold" fill="#15181c">NESTING ON 1200 x 800 BLANKS (MaxRects, 6 mm gap, 8 mm margin) - cad/dxf/nest/</text>
+<rect x="14.00" y="22.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="14.50" y="23.02" width="66.50" height="48.48" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="47.75" y="47.96" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">SL3</text>
+<rect x="81.38" y="32.60" width="3.12" height="38.90" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="83.64" y="52.05" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 83.64 52.05)">JR1</text>
+<rect x="84.88" y="26.05" width="2.36" height="45.45" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="86.67" y="48.77" font-size="1.77" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 86.67 48.77)">DA3</text>
+<rect x="81.38" y="27.02" width="2.50" height="5.21" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="83.28" y="29.62" font-size="1.88" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 83.28 29.62)">KB1</text>
+<rect x="81.38" y="23.17" width="5.21" height="2.50" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="83.98" y="25.12" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">KB1</text>
+<text x="14.00" y="75.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 1 - 93% used</text>
+<rect x="95.00" y="22.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="95.50" y="23.02" width="66.50" height="48.48" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="128.75" y="47.96" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">SR3</text>
+<rect x="162.38" y="26.05" width="2.36" height="45.45" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="164.17" y="48.77" font-size="1.77" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 164.17 48.77)">DA4</text>
+<rect x="165.11" y="39.63" width="2.36" height="31.87" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="166.90" y="55.56" font-size="1.77" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 166.90 55.56)">DA5</text>
+<rect x="162.38" y="23.17" width="5.21" height="2.50" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="164.98" y="25.12" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">KB1</text>
+<rect x="165.11" y="34.04" width="2.50" height="5.21" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="167.01" y="36.65" font-size="1.88" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 167.01 36.65)">KB1</text>
+<text x="95.00" y="75.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 2 - 92% used</text>
+<rect x="176.00" y="22.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="176.50" y="32.60" width="67.03" height="38.90" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="210.01" y="52.75" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">TP1</text>
+<rect x="176.50" y="24.99" width="53.75" height="7.23" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="203.38" y="29.31" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">SK3</text>
+<rect x="243.90" y="39.63" width="2.36" height="31.87" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="245.70" y="55.56" font-size="1.77" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 245.70 55.56)">DA5</text>
+<rect x="246.63" y="39.63" width="2.36" height="31.87" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="248.43" y="55.56" font-size="1.77" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 248.43 55.56)">DA5</text>
+<text x="176.00" y="75.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 3 - 84% used</text>
+<rect x="257.00" y="22.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="257.50" y="32.60" width="61.84" height="38.90" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="288.42" y="52.75" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">RP1</text>
+<rect x="257.50" y="24.99" width="53.75" height="7.23" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="284.38" y="29.31" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">SK3</text>
+<rect x="319.72" y="45.88" width="7.23" height="25.62" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="323.33" y="59.39" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">SK1</text>
+<rect x="319.72" y="30.50" width="11.25" height="15.00" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="325.34" y="38.70" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">WR1</text>
+<text x="257.00" y="75.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 4 - 84% used</text>
+<rect x="14.00" y="81.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="14.50" y="91.60" width="61.78" height="38.90" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="45.39" y="111.75" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">DL1</text>
+<rect x="14.50" y="88.10" width="66.50" height="3.12" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="47.75" y="90.36" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">JS1</text>
+<rect x="14.50" y="84.60" width="66.50" height="3.12" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="47.75" y="86.86" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">JS1</text>
+<rect x="76.66" y="104.88" width="7.23" height="25.62" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="80.27" y="118.39" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">SK2</text>
+<rect x="14.50" y="81.87" width="58.81" height="2.36" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="43.91" y="83.75" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">DA1</text>
+<rect x="84.26" y="98.62" width="2.36" height="31.87" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="86.06" y="114.56" font-size="1.77" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 86.06 114.56)">DA5</text>
+<text x="14.00" y="134.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 5 - 86% used</text>
+<rect x="95.00" y="81.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="95.50" y="96.62" width="66.50" height="33.88" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="128.75" y="114.26" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">SL2</text>
+<rect x="95.50" y="93.12" width="66.50" height="3.12" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="128.75" y="95.39" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">JS2</text>
+<rect x="95.50" y="89.62" width="66.50" height="3.12" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="128.75" y="91.89" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">JS2</text>
+<rect x="95.50" y="86.89" width="58.81" height="2.36" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="124.91" y="88.77" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">DA2</text>
+<text x="95.00" y="134.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 6 - 75% used</text>
+<rect x="176.00" y="81.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="176.50" y="96.62" width="66.50" height="33.88" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="209.75" y="114.26" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">SR2</text>
+<text x="176.00" y="134.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 7 - 60% used</text>
+<rect x="257.00" y="81.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="257.50" y="82.02" width="38.90" height="48.48" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="276.95" y="106.96" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">RP2</text>
+<text x="257.00" y="134.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 8 - 50% used</text>
+<rect x="14.00" y="140.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="14.50" y="141.21" width="38.90" height="48.29" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="33.95" y="166.05" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">DU1</text>
+<text x="14.00" y="193.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 9 - 50% used</text>
+<rect x="95.00" y="140.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="95.50" y="161.59" width="66.50" height="27.91" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="128.75" y="176.25" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">SL1</text>
+<text x="95.00" y="193.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 10 - 49% used</text>
+<rect x="176.00" y="140.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="176.50" y="161.59" width="66.50" height="27.91" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="209.75" y="176.25" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">SR1</text>
+<text x="176.00" y="193.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 1.2mm sheet 11 - 49% used</text>
+<rect x="257.00" y="140.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="257.50" y="151.79" width="65.84" height="37.71" rx="0.00" fill="#e9e2cf" stroke="#15181c" stroke-width="0.12"/>
+<text x="290.42" y="171.34" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">DT1</text>
+<text x="257.00" y="193.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">SS304 1.2mm sheet 1 - 66% used</text>
+<rect x="14.00" y="199.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="14.50" y="242.25" width="6.25" height="6.25" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="17.62" y="246.07" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">PD1</text>
+<rect x="14.50" y="235.62" width="6.25" height="6.25" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="17.62" y="239.45" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">PD1</text>
+<rect x="14.50" y="229.00" width="6.25" height="6.25" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="17.62" y="232.82" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">PD1</text>
+<rect x="14.50" y="222.38" width="6.25" height="6.25" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="17.62" y="226.20" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c">PD1</text>
+<text x="14.00" y="252.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">plate 8mm sheet 1 - 4% used</text>
+<rect x="95.00" y="199.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="95.50" y="246.62" width="1.88" height="1.88" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="96.44" y="248.26" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">PC1</text>
+<rect x="95.50" y="244.38" width="1.88" height="1.88" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="96.44" y="246.01" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">PC1</text>
+<rect x="95.50" y="242.12" width="1.88" height="1.88" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="96.44" y="243.76" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">PC1</text>
+<rect x="95.50" y="239.88" width="1.88" height="1.88" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="96.44" y="241.51" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">PC1</text>
+<text x="95.00" y="252.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">plate 3mm sheet 1 - 0% used</text>
+<rect x="176.00" y="199.00" width="75.00" height="50.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<rect x="176.50" y="203.43" width="2.89" height="45.08" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="178.64" y="225.96" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 178.64 225.96)">RR1</text>
+<rect x="176.50" y="200.16" width="45.08" height="2.89" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="199.04" y="202.31" font-size="1.10" text-anchor="middle" font-weight="normal" fill="#15181c">RR1</text>
+<rect x="179.76" y="203.43" width="2.89" height="45.08" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="181.90" y="225.96" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 181.90 225.96)">RR1</text>
+<rect x="183.02" y="203.43" width="2.89" height="45.08" rx="0.00" fill="#dfe6ee" stroke="#15181c" stroke-width="0.12"/>
+<text x="185.17" y="225.96" font-size="2.00" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 185.17 225.96)">RR1</text>
+<text x="176.00" y="252.20" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">steel 2mm sheet 1 - 14% used</text>
+<text x="338.00" y="26.00" font-size="2.40" text-anchor="start" font-weight="bold" fill="#15181c">NOTES</text>
+<text x="338.00" y="31.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">Blanks are the 1200 x 800 sheet / bed size. Each nest</text>
+<text x="338.00" y="34.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">DXF has the parts on CUT and the blank on SHEET.</text>
+<text x="338.00" y="37.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c"></text>
+<text x="338.00" y="40.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">11 steel 1.2 blanks: the big skins cannot share a</text>
+<text x="338.00" y="43.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">blank (no two fit together), so their offcuts</text>
+<text x="338.00" y="46.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">carry the strips, stiffeners, keepers and skirts.</text>
+<text x="338.00" y="49.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c"></text>
+<text x="338.00" y="52.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">PD1 (8 mm), PC1 (3 mm) and RR1 (2 mm) are small:</text>
+<text x="338.00" y="55.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">cut them from offcuts or order them as cut parts;</text>
+<text x="338.00" y="58.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">their nests are shown for completeness.</text>
+<text x="338.00" y="61.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c"></text>
+<text x="338.00" y="64.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">Parts may turn 90 deg (no grain on coated steel).</text>
+<text x="338.00" y="67.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">6 mm between parts, 8 mm from the blank edge.</text>
+<rect x="272.00" y="247.00" width="140.00" height="42.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.50"/>
+<text x="274.00" y="253.20" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">PROJECT</text>
+<text x="291.00" y="253.20" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">SRA-16 Silent AC Rack - laser-cut sheet-metal parts</text>
+<text x="274.00" y="259.50" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">TITLE</text>
+<text x="291.00" y="259.50" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">Nesting on 1200 x 800 blanks</text>
+<line x1="272.00" y1="254.90" x2="412.00" y2="254.90" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="265.80" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DOC NO.</text>
+<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 6 OF 6   REV A</text>
+<line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">1:16 @ A3   UNITS mm   LAYOUT v1.2.0</text>
+<line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
+<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-09-27   DRAWN Claude (AI) for Carbon Project</text>
+<line x1="272.00" y1="273.80" x2="412.00" y2="273.80" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<text x="274.00" y="284.70" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">STATUS</text>
+<text x="291.00" y="284.70" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">FOR CUTTING - DXF is the master; confirm hardware (sheet 5)</text>
+<line x1="272.00" y1="280.10" x2="412.00" y2="280.10" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+<line x1="289.00" y1="247.00" x2="289.00" y2="289.00" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
+</svg>

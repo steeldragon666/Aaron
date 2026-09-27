@@ -20,9 +20,48 @@ sys.path.insert(0, HERE)
 import rack_layout as RL  # noqa: E402
 import weldment as WM  # noqa: E402
 import make_weld_pack as WP  # noqa: E402
+import sheetmetal as SMP  # noqa: E402
+import make_sheet_pack as MSP  # noqa: E402
 
-SHEET = (2440.0, 1220.0)   # standard AU sheet
+SHEET = (2440.0, 1220.0)   # standard AU sheet (interior ply)
 KERF = 4.0
+# laser-cut sheet metal (CP-SRA16-SMP-001), indicative AUD Sept 2026 - get a quote with the DXF zip
+SM_PRICE = {"blank": {("Steel sheet (Zincanneal or CR4)", 1.2): 45.0, ("Stainless 304 sheet, 2B", 1.2): 145.0},
+            "cut_m": 1.10, "pierce": 0.12, "bend": 2.50, "setup": 120.0, "coat_m2": 32.0, "tray_weld": 90.0}
+SM_OTHER = {"RR1": "bought as 19in rack strips (Rack)", "PD1": "weld pack PL1, from flat bar (Frame)",
+            "PC1": "weld pack PL2, from flat bar (Frame)"}      # in the DXF pack as a make option only
+
+
+def sheet_metal_costs(sm, nests):
+    """Purchase rows and a per-material summary for the laser-cut parts (blanks, cutting, folding, coat)."""
+    ps = [p for p in sm["parts"] if p.id not in SM_OTHER]
+    rows, summ = [], OrderedDict()
+    for key, sheets in nests.items():
+        ids = {p.id for sh_ in sheets for p, *_ in sh_}
+        if not ids - set(SM_OTHER):
+            continue
+        n = len(sheets)
+        price = SM_PRICE["blank"].get(key, 60.0)
+        rows.append(["Sheet metal", "%s %g mm, %gx%g blank" % (key[0], key[1], *MSP.BLANK), n, "blank", price,
+                     "nest in cad/dxf/nest/"])
+        summ[key] = {"blanks": n}
+    cut_m = sum(p.qty * p.cut_length() for p in ps) / 1000.0
+    pierces = sum(p.qty * p.pierces() for p in ps)
+    bends = sum(p.qty * len(p.bends) for p in ps)
+    rows.append(["Sheet metal", "Laser cutting: %.0f m cut, %d pierces, + setup" % (cut_m, pierces), 1, "job",
+                 round(cut_m * SM_PRICE["cut_m"] + pierces * SM_PRICE["pierce"] + SM_PRICE["setup"], 2),
+                 "%d parts, %d pieces" % (len(ps), sum(p.qty for p in ps))])
+    rows.append(["Sheet metal", "Folding: %d bends on %d parts" % (bends, sum(1 for p in ps if p.bends)), 1, "job",
+                 round(bends * SM_PRICE["bend"], 2), "R = t, K 0.33 flat blanks"])
+    coat = sum(p.qty * p.area() * (2 if p.mat == "skin" else 1) for p in ps if p.mat in ("skin", "sm")) / 1e6
+    rows.append(["Sheet metal", "Powder coat RAL 7035: %.1f m2 of face (skins both sides)" % coat, 1, "job",
+                 round(coat * SM_PRICE["coat_m2"], 2), "coat after folding, before MLV"])
+    rows.append(["Sheet metal", "DT1 drip tray: TIG-weld 4 corners, leak test, passivate", 1, "ea",
+                 SM_PRICE["tray_weld"], "fabricator"])
+    mass = {"steel": sum(p.qty * p.mass() for p in ps if p.mat in ("skin", "sm")),
+            "tray": sum(p.qty * p.mass() for p in ps if p.mat == "ss12")}
+    return rows, summ, mass, {"cut_m": cut_m, "pierces": pierces, "bends": bends, "coat_m2": coat,
+                              "parts": len(ps), "pieces": sum(p.qty for p in ps)}
 
 
 def bbox(part):
@@ -72,10 +111,16 @@ def main():
     sheet_groups = defaultdict(list)          # material -> [(L, W)]
     profile_len = defaultdict(float)          # section/material -> total mm
     fab_rows, purchased = [], defaultdict(lambda: {"qty": 0, "len": 0.0, "parts": []})
+    sm = SMP.build()
+    nests = MSP.nest(sm)
+    sm_rows, sm_summ, sm_mass, sm_tot = sheet_metal_costs(sm, nests)
     for p in parts:
         b = p["bom"]
         k = b.get("kind")
         dims = sorted(bbox(p), reverse=True)
+        if SMP.DOC_NO in b.get("material", "") or "Joint cover strip" in b.get("material", "") or \
+                "Door stiffener" in b.get("material", "") or "stainless, folded" in b.get("material", ""):
+            continue                                  # laser-cut parts: bom/sheet_metal_parts.csv
         if k == "sheet":
             L, Wd, T = dims
             note = "cut-outs" if p["cut"] else ""
@@ -119,16 +164,17 @@ def main():
         g = p["group"]
         if g.startswith("AC ") or g.startswith("Example IT"):
             continue
+        if SMP.DOC_NO.lower() in mat or "joint cover strip" in mat or "door stiffener" in mat or \
+                "stainless, folded" in mat:
+            continue                                  # from the sheet-metal pack below
         if "ply" in mat or "mdf" in mat:
-            mass["Plywood"] += v * dens["ply"]
+            mass["Plywood (interior: floor, partition, shelf, boxes)"] += v * dens["ply"]
         elif "vinyl" in mat:
             mass["Mass-loaded vinyl"] += v * dens["mvl"]
         elif "acoustic foam" in mat:
             mass["Acoustic foam"] += v * dens["foam"]
         elif "steel shs" in mat or "steel flat bar" in mat or "castor pad" in mat or "rail spacer" in mat:
             continue                                  # from the weldment below
-        elif "stainless" in mat:
-            mass["Stainless drip tray (1.2 mm)"] += v * 7.9e-6 * (1.2 / 2.0)
         elif "rack strip" in mat:
             mass["19in rack strips"] += v * 7.85e-6
         elif "castor" in mat:
@@ -140,6 +186,8 @@ def main():
         else:
             mass["Seals, ducts, hardware (est.)"] += 0.0
     mass["Seals, ducts, hardware (est.)"] += 9.0
+    mass["Steel skins, doors, strips, skirts (%s)" % SMP.DOC_NO] = sm_mass["steel"]
+    mass["Stainless drip tray DT1 (1.2 mm)"] = sm_mass["tray"]
     mass["Welded steel frame, %s (weldment)" % wm["sec_shs"]] = wt["mass_weldment_kg"]
     mass["Rail spacers RS1 (SHS, bolted)"] = wt["mass_spacers_kg"]
     cabinet_kg = sum(mass.values())
@@ -161,10 +209,13 @@ def main():
     def add(cat, item, qty, unit, unit_aud, note=""):
         bom.append([cat, item, qty, unit, unit_aud, round(qty * unit_aud, 2), note])
 
+    for r in sm_rows:
+        add(*r)
     for m, n in ply_sheets.items():
-        add("Panels", m + " - 2440x1220 sheet", n, "sheet", 165.0 if "18" in m else (150.0 if "15" in m else 110.0),
-            "shelf-nested, %.0f mm kerf" % KERF)
-    add("Acoustic", "Mass-loaded vinyl 5 kg/m2 (3 mm), roll", math.ceil(mlv_m2), "m2", 42.0, "bond to ply inside face")
+        add("Interior ply", m + " - 2440x1220 sheet", n, "sheet", 165.0 if "18" in m else 110.0,
+            "floor, partition, shelf, lined boxes")
+    add("Acoustic", "Mass-loaded vinyl 5 kg/m2 (3 mm), roll", math.ceil(mlv_m2), "m2", 42.0,
+        "bond inside the skins; punch D8 at the frame screws")
     add("Acoustic", "Melamine acoustic foam (FR) %g/25/20 mm panels" % D["frame"], math.ceil(foam_m2), "m2", 55.0,
         "flame-retardant; not PU egg-crate")
     add("Acoustic", "Acoustic sealant (non-hardening) 300 ml", 3, "tube", 28.0, "all panel joints")
@@ -174,13 +225,11 @@ def main():
         q = float(qty)
         add("Frame", item, int(q) if q.is_integer() else q, unit, float(unit_aud), "weld pack %s" % WM.DOC_NO)
     n_scr = int(math.ceil(wt["rivnuts"] * 1.05 / 10.0) * 10)
-    add("Frame", "M6 x 35 flanged button-head screw, black (panel fixing)", n_scr, "ea", 0.30,
-        "15 ply + 3 MLV into rivnut")
+    add("Frame", "M6 x 20 flanged button-head screw, black (panel fixing)", n_scr, "ea", 0.25,
+        "1.2 skin (+ strip) + 3 MLV into rivnut")
     add("Frame", "M6 x 50 bolt + washers + packers (RS1 rail spacers)", 12, "set", 0.80, "3 per spacer")
     add("Base", "Levelling castor, 75 mm wheel, 200 kg, braked, 92 mm, 4-bolt plate", 4, "ea", 38.0,
         "M8 into the tapped pads; match the 60 mm hole square")
-    add("Base", "Stainless drip tray 1.2 mm 304 (fabricated)", 1, "ea", 220.0, "full bay floor, 25 upstand")
-    add("Base", "Perforated steel skirts 1.5 mm (set of 4, powder coat)", 1, "set", 140.0, "plinth intake")
     add("Base", "Neoprene/Sorbothane isolation mat 480x360x10", 1, "ea", 45.0, "under AC")
     add("Base", "AC retention bar + 2 toggle clamps", 1, "set", 45.0, "")
     add("Drain", "Tank bulkhead 25 mm + tundish", 1, "ea", 24.0, "")
@@ -196,17 +245,26 @@ def main():
     add("Seals", "EPDM D-profile door/panel seal (double row)", round(door_seal_m, 1), "m", 3.2, "")
     add("Seals", "EPDM closed-cell foam gasket tape 20x10 / 10x10", round(gasket_m, 1), "m", 2.8, "docking + hood")
     add("Seals", "Nylon brush strip 25 mm in alu carrier", round(brush_m, 1), "m", 18.0, "under-AC + cable entry")
-    add("Doors", "Lift-off hinges, heavy duty", 6, "ea", 14.0, "3 per door")
-    add("Doors", "Compression cam latches (keyed)", 4, "ea", 24.0, "2 per door")
-    add("Doors", "Pull handles 160 mm", 2, "ea", 12.0, "")
-    add("Doors", "Polycarbonate 6 mm window panes 140x200", 2, "ea", 9.0, "double glazed")
-    add("Rack", "19in rack strips, 2 mm steel, %dU" % D["ru_count"], 4, "ea", 22.0, "EIA-310 square hole")
+    hw = purchased
+    n_hinge = hw.get([m for m in hw if m.startswith("Lift-off butt hinge")][0])["qty"]
+    n_latch = hw.get("Adjustable toggle latch, stainless, riveted")["qty"]
+    n_rivet = sum(1 for p in sm["parts"] for h in p.holes if h["d"] == SMP.SM["rivet"] for _ in range(p.qty))
+    add("Doors", "Lift-off butt hinge 100 mm, stainless, 2 mm leaves (drill to suit)", n_hinge, "ea", 14.0,
+        "riveted, 3 + 3 per hinge")
+    add("Doors", "Adjustable toggle (draw) latch, stainless", n_latch, "ea", 18.0, "hook in the KB1 keeper slot")
+    add("Doors", "Blind rivet 4.8 x 8 stainless, dome head (pack 100)", 1, "pack", 28.0, "%d used" % n_rivet)
+    add("Doors", "Pull handles 160 mm c/c, M5", 2, "ea", 12.0, "")
+    add("Doors", "Polycarbonate 6 mm window panes %gx%g" % (D["win_w"] + 40, D["win_h"] + 40), 2, "ea", 9.0,
+        "double glazed, drilled 8 x D5")
+    add("Doors", "EPDM 10 mm window spacer frame + 8 x M4 x 35 + nyloc", 1, "set", 12.0, "clamped by WR1")
+    add("Rack", "19in rack strips, 2 mm steel, %dU" % D["ru_count"], 4, "ea", 22.0,
+        "EIA-310 square hole (or laser-cut RR1 with the pack)")
     add("Rack", "Cage nuts + M6 screws (pack 50)", 1, "pack", 18.0, "")
     add("Rack", "1U tool-less blanking panels", 8, "ea", 7.0, "fill all unused RU")
     add("Rack", "0U / 1U PDU 8-way 10 A", 1, "ea", 120.0, "IT load only - AC on its own GPO")
     add("Controls", "ESP32 + 3x SHT31 + IR LED + leak sensor + 2 reed switches", 1, "kit", 85.0,
         "ESPHome: temps, AC IR restart, alerts")
-    add("Consumables", "Screws, foil tape, cable ties, labels", 1, "lot", 80.0, "")
+    add("Consumables", "Screws (M5 spigot/handles, M4 grommet), foil tape, cable ties, labels", 1, "lot", 80.0, "")
     total = sum(r[5] for r in bom)
     with open(os.path.join(ROOT, "bom", "BOM.csv"), "w", newline="") as fh:
         w = csv.writer(fh)
@@ -220,7 +278,7 @@ def main():
           "(Sept 2026), budgeting only** - get supplier quotes." % RL.VERSION, "",
           "## Headline", "",
           "| Item | Value |", "|---|---|",
-          "| External size | %.0f W x %.0f D x %.0f H mm |" % (D["ext_w"], D["ext_d"], D["ext_h"]),
+          "| External size | %.1f W x %.1f D x %.1f H mm |" % (D["ext_w"], D["ext_d"], D["ext_h"]),
           "| Rack space | %d RU (EIA-310, %.0f mm rail spacing) |" % (D["ru_count"], D["rail_spacing"]),
           "| Cabinet mass (empty, est.) | %.0f kg |" % cabinet_kg,
           "| + Dimplex GDC14RBA | 31.5 kg |",
@@ -229,6 +287,17 @@ def main():
     for m, s in sheet_summary.items():
         buy = "%d sheets 2440x1220" % s["sheets_2440x1220"] if "sheets_2440x1220" in s else "%.1f m2 (+15%%)" % s["buy_m2"]
         md.append("| %s | %d | %.2f | %s |" % (m, s["parts"], s["area_m2"], buy))
+    md += ["", "## Laser-cut sheet metal (%s)" % SMP.DOC_NO, "",
+           "Flat patterns, DXFs and nests: `docs/SHEET_METAL.md`, `cad/dxf/`, `drawings/%s.pdf`. No piece is larger "
+           "than %.0f x %.0f." % (SMP.DOC_NO, D["sheet_max_l"], D["sheet_max_w"]), "",
+           "| Quantity | Value |", "|---|---:|",
+           "| Parts / pieces costed | %d / %d |" % (sm_tot["parts"], sm_tot["pieces"])]
+    for key, s_ in sm_summ.items():
+        md.append("| %s %g mm, %gx%g blanks | %d |" % (key[0], key[1], MSP.BLANK[0], MSP.BLANK[1], s_["blanks"]))
+    md += ["| Cut length | %.0f m |" % sm_tot["cut_m"], "| Pierces | %d |" % sm_tot["pierces"],
+           "| Bends | %d |" % sm_tot["bends"], "| Powder-coated face | %.1f m2 |" % sm_tot["coat_m2"],
+           "| Mass (steel + tray) | %.1f kg |" % (sm_mass["steel"] + sm_mass["tray"]), "",
+           "Also in the DXF pack, costed elsewhere: " + "; ".join("%s %s" % kv for kv in SM_OTHER.items()) + "."]
     md += ["", "## Frame and profiles", "",
            "The frame is welded %s: cut list, weld plan and drawings are in `docs/FRAME_WELD_PLAN.md` and "
            "`drawings/%s.pdf` (weldment %.1f kg, %d SHS bars)." % (
@@ -250,8 +319,9 @@ def main():
     md += ["", "Full part-by-part cut list: `bom/cut_list.csv`."]
     with open(os.path.join(ROOT, "bom", "BOM.md"), "w") as fh:
         fh.write("\n".join(md) + "\n")
-    print("cabinet %.0f kg, materials AUD %.0f, ply sheets %s, foam %.1f m2, MLV %.1f m2, frame %.1f m"
-          % (cabinet_kg, total, ply_sheets, foam_m2, mlv_m2, frame_m))
+    print("cabinet %.0f kg, materials AUD %.0f, sheet metal %s blanks, ply sheets %s, foam %.1f m2, MLV %.1f m2, "
+          "frame %.1f m" % (cabinet_kg, total, {"%s %g" % k: v["blanks"] for k, v in sm_summ.items()}, ply_sheets,
+                            foam_m2, mlv_m2, frame_m))
 
 
 if __name__ == "__main__":

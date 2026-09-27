@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Drawing | CP-SRA16-FRM-001, 6 sheets (`drawings/CP-SRA16-FRM-001.pdf`) |
-| Generated | `tools/make_weld_pack.py` from `rack_layout.py` v1.1.0 on 2026-09-27 |
+| Generated | `tools/make_weld_pack.py` from `rack_layout.py` v1.2.0 on 2026-09-27 |
 | Frame | 30x30x2.0 SHS C350L0 to AS/NZS 1163, welded; outside 614 W x 1064 D x 1766.2 H mm |
 | Mass | 43.1 kg weldment + 4.9 kg loose rail spacers |
 | Welds | 38 SHS joints all round + 10 ledge stitch runs + 4 caps + 4 pads, about 8.1 m |
@@ -13,7 +13,7 @@
 
 ## 1. Why 30 x 30 and what changed in the design
 
-The frame was bolted 40 x 40 aluminium T-slot. It is now welded 30x30 steel SHS. Because the frame depth is also the acoustic lining depth, the model now uses 30 mm melamine in the frame bays (was 40). The outside stays 650 x 1100, so the inside grows to 554 x 1004 mm and the height drops to 1884.2 mm.
+The frame was bolted 40 x 40 aluminium T-slot. It is now welded 30x30 steel SHS. Because the frame depth is also the acoustic lining depth, the model now uses 30 mm melamine in the frame bays (was 40). The outside stays 622.4 x 1072.4, so the inside grows to 554 x 1004 mm and the height drops to 1870.4 mm.
 
 - **Ledges:** 20 x 3 flat bar, edge-welded, carries the floor, partition and shelf ply. A 20 mm angle does not fit under the ply inside a 30 mm rail.
 - **Castor pads:** 8 mm plate under each corner, 4 x M8 tapped. The castors are 92 mm high (`caster_h` 100 minus the pad).
@@ -82,7 +82,7 @@ Drill Ø9.0 for M6 steel rivnuts, flat head, grip 0.5-3 mm, on the centreline of
   - bottom face of the base rails, for the skirts, kept 30 mm clear of the castor pads.
 - **Members drilled on two faces:** the second face's holes fall midway between the first face's, so the rivnut bodies (about 14 mm long) never meet inside the 26 mm bore.
 - **One piece, two positions:** S1, C2 and C3 are each used at two levels. As a base rail, the second face points down for the plinth skirt. As a top rail, the same holes point up for the top panel. The pieces are interchangeable until a bench ledge is welded on.
-- **Panel screws:** M6 x 35 flanged button head through 15 mm ply and 3 mm MLV (sheet 4, detail F). Check at least 6 mm of thread engagement in the rivnut you buy.
+- **Panel screws:** M6 x 20 flanged button head through the 1.2 mm steel skin (and joint strip) and 3 mm MLV (sheet 4, detail F). The skin holes are in the sheet-metal pack CP-SRA16-SMP-001. Check at least 6 mm of thread engagement in the rivnut you buy.
 - **Rack uprights U1:** the inner face gets 3 rivnuts for the RS1 spacer bolts.
 - **Castor pads PL1:** 4 x M8 tapped through on a 60 mm square.
   - Match the pattern to the castor you buy.

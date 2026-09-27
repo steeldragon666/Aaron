@@ -69,7 +69,12 @@ window.renderView = ({ hide = [], dir, target = null, fov = 28, clipX = null, fl
   renderer.setSize(w, h); camera.aspect = w / h;
   for (const n of Object.values(nodes)) n.visible = true;
   let missing = [];
-  for (const n of hide) { const o = nodes[san(n)]; if (o) o.visible = false; else missing.push(n); }
+  for (const n of hide) {                         // 'Name*' hides every part whose name starts with Name
+    const hits = n.endsWith('*') ? Object.keys(nodes).filter(k => k.startsWith(san(n.slice(0, -1)))) : [san(n)];
+    const found = hits.filter(k => nodes[k]);
+    for (const k of found) nodes[k].visible = false;
+    if (!found.length) missing.push(n);
+  }
   flows.clear(); if (flowsX !== null) window.addFlows(flowsX);
   const planes = clipX === null ? [] : [new THREE.Plane(new THREE.Vector3(-1, 0, 0), clipX)];
   model.traverse(o => { if (o.material) o.material.clippingPlanes = planes; });
