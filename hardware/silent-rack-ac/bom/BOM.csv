@@ -1,9 +1,9 @@
 category,item,qty,unit,unit_AUD_indicative,line_AUD,notes
 Sheet metal,"Steel sheet (Zincanneal or CR4) 1.2 mm, 1200x800 blank",11,blank,45.0,495.0,nest in cad/dxf/nest/
 Sheet metal,"Stainless 304 sheet, 2B 1.2 mm, 1200x800 blank",1,blank,145.0,145.0,nest in cad/dxf/nest/
-Sheet metal,"Laser cutting: 82 m cut, 333 pierces, + setup",1,job,250.49,250.49,"25 parts, 34 pieces"
+Sheet metal,"Laser cutting: 82 m cut, 336 pierces, + setup",1,job,250.96,250.96,"25 parts, 34 pieces"
 Sheet metal,Folding: 20 bends on 10 parts,1,job,50.0,50.0,"R = t, K 0.33 flat blanks"
-Sheet metal,Powder coat RAL 7035: 13.8 m2 of face (skins both sides),1,job,442.1,442.1,"coat after folding, before MLV"
+Sheet metal,Powder coat RAL 7035: 13.8 m2 of face (skins both sides),1,job,442.07,442.07,"coat after folding, before MLV"
 Sheet metal,"DT1 drip tray: TIG-weld 4 corners, leak test, passivate",1,ea,90.0,90.0,fabricator
 Interior ply,Birch ply 18 mm - 2440x1220 sheet,1,sheet,165.0,165.0,"floor, partition, shelf, lined boxes"
 Interior ply,Birch ply 12 mm - 2440x1220 sheet,1,sheet,110.0,110.0,"floor, partition, shelf, lined boxes"
@@ -28,7 +28,7 @@ Drain,Tank bulkhead 25 mm + tundish,1,ea,24.0,24.0,
 Drain,16 mm ID clear PVC hose,3,m,4.5,13.5,fall >= 1:50 to waste
 Drain,Hose barbs / quick connects,3,ea,6.0,18.0,
 Drain,Mini condensate pump (only if no floor waste),1,ea,180.0,180.0,optional
-Printed parts,"PETG filament, 1 kg spool",2,spool,32.0,64.0,"8 pieces, 1.35 kg, about 35 h: hood, collar, keepers"
+Printed parts,"PETG filament, 1 kg spool",2,spool,32.0,64.0,"18 pieces, 1.60 kg, about 43 h: hood, collar, keepers"
 Printed parts,"ASA filament, 1 kg spool",2,spool,40.0,80.0,"6 pieces, 1.05 kg, about 32 h: exhaust elbow, wall spigot and their gauges"
 Printed parts,"Fixings: 6 x 4x20 pan-head, 2 x M4x25 + 4 x M5x25 button head, nylocs, washers",1,set,18.0,18.0,"hood to shelf, keepers, wall spigot"
 Printed parts,"Two-part epoxy 25 ml + acetone (laps), 3 x 10 closed-cell foam tape 5 m",1,set,30.0,30.0,"hood and collar laps (epoxy), elbow lap (acetone), seals"
@@ -52,6 +52,11 @@ Rack,"19in rack strips, 2 mm steel, 16U",4,ea,22.0,88.0,EIA-310 square hole (or 
 Rack,Cage nuts + M6 screws (pack 50),1,pack,18.0,18.0,
 Rack,1U tool-less blanking panels,8,ea,7.0,56.0,fill all unused RU
 Rack,0U / 1U PDU 8-way 10 A,1,ea,120.0,120.0,IT load only - AC on its own GPO
-Controls,ESP32 + 3x SHT31 + IR LED + leak sensor + 2 reed switches,1,kit,85.0,85.0,"ESPHome: temps, AC IR restart, alerts"
+Controls,"Touchscreen: Waveshare ESP32-S3-Touch-LCD-4.3B, room SHT41, buzzer, door contact",1,set,97.5,97.5,"CP-SRA16-ELC-001, bom/electronics.csv"
+Controls,"Rack node: ESP32-S3-DevKitC-1, RS485, 5 V buck, relay, carrier board and parts",1,set,74.0,74.0,"CP-SRA16-ELC-001, bom/electronics.csv"
+Controls,"Sensors: 6 x DS18B20 probes, cold-side SHT41, tray float switch, lower door contact",1,set,61.0,61.0,"CP-SRA16-ELC-001, bom/electronics.csv"
+Controls,AC control: stick-on IR emitter + 3.5 mm socket lead,1,set,12.0,12.0,"CP-SRA16-ELC-001, bom/electronics.csv"
+Controls,"Cables: door bus + GX16, 8-core rear harness, leads, grommets, spiral wrap",1,set,39.8,39.8,"CP-SRA16-ELC-001, bom/electronics.csv"
+Controls,Power: 12 V 2 A plug pack (RCM) + DC extension,1,set,33.0,33.0,"CP-SRA16-ELC-001, bom/electronics.csv"
 Consumables,"Screws (M5 handles, M4 grommet), foil tape, cable ties, labels",1,lot,80.0,80.0,
-TOTAL,,,,,5084.31,"materials only, excl. AC, IT, GST, labour"
+TOTAL,,,,,5317.05,"materials only, excl. AC, IT, GST, labour"

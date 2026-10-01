@@ -47,7 +47,10 @@
 <circle cx="44.81" cy="31.42" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
 <circle cx="44.81" cy="47.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
 <circle cx="44.81" cy="39.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<text x="31.56" y="44.42" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">DU1</text>
+<circle cx="20.45" cy="40.66" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="25.05" cy="40.66" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="21.25" cy="43.16" r="0.50" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<text x="31.56" y="56.01" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">DU1</text>
 <line x1="13.00" y1="117.31" x2="50.12" y2="117.31" stroke="#15181c" stroke-width="0.40" stroke-linecap="butt"/>
 <rect x="21.31" y="113.81" width="20.50" height="4.42" rx="0.00" fill="#adb5bd" stroke="#15181c" stroke-width="0.15"/>
 <text x="31.56" y="121.81" font-size="2.30" text-anchor="middle" font-weight="bold" fill="#15181c">FRONT</text>
@@ -394,7 +397,7 @@
 <text x="267.70" y="62.70" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Door, upper</text>
 <text x="349.00" y="62.70" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1.2</text>
 <text x="378.30" y="62.70" font-size="1.75" text-anchor="end" font-weight="normal" fill="#15181c">622 x 773</text>
-<text x="387.00" y="62.70" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">12</text>
+<text x="387.00" y="62.70" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">15</text>
 <text x="400.50" y="62.70" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">0</text>
 <text x="255.00" y="65.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">DA1</text>
 <text x="263.50" y="65.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
@@ -566,7 +569,7 @@
 <text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">1:20 (elevations) @ A3   UNITS mm   LAYOUT v1.2.0</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
-<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-09-27   DRAWN Claude (AI) for Carbon Project</text>
+<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-01   DRAWN Claude (AI) for Carbon Project</text>
 <line x1="272.00" y1="273.80" x2="412.00" y2="273.80" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="284.70" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">STATUS</text>
 <text x="291.00" y="284.70" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">FOR CUTTING - DXF is the master; confirm hardware (sheet 5)</text>

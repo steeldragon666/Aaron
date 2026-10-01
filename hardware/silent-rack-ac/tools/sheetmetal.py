@@ -40,6 +40,10 @@ SM = {
     "spigot_pcd": 190.0, "spigot_holes": 4,
     "grommet_pattern": (224.0, 64.0),
     "win_corner_r": 6.0, "slot_r": 5.0,
+    # touchscreen pod on the upper door (CP-SRA16-ELC-001): centre (cabinet x, height z), outline,
+    # two M4 rivnuts and the cable grommet, relative to the centre
+    "pod": {"xc": 135.0, "zc": 1505.0, "w": 128.0, "h": 91.0, "rivnut_d": 6.0, "bolts": ((-46.0, 28.0), (46.0, 28.0)),
+            "cable": (-30.0, -22.0), "cable_d": 20.0},
 }
 
 MATERIALS = OrderedDict([
@@ -338,6 +342,12 @@ def build(P=None):
                 pt.hole(D["hw_x_right"], zc + dz - dz0, SM["rivet"], "rivet, latch keeper KB1 (+ stiffener)")
         for dz in (10.0, hp + 10.0):
             pt.hole(D["hw_x_right"], h0 + dz - dz0, SM["m5"], "M5, pull handle (screws from inside)")
+        if pid == "DU1":
+            pd = SM["pod"]
+            for du, dv in pd["bolts"]:
+                pt.hole(pd["xc"] + du, pd["zc"] + dv - dz0, pd["rivnut_d"], "M4 rivnut, touchscreen pod (ELC-001)")
+            pt.hole(pd["xc"] + pd["cable"][0], pd["zc"] + pd["cable"][1] - dz0, pd["cable_d"],
+                    "touchscreen cable, rubber grommet (ELC-001)")
         if pid == "DL1":
             wx0, wz0 = D["win_xc"] - D["win_w"] / 2, D["win_zc"] - D["win_h"] / 2
             pt.cuts.append(dict(rrect(wx0, wz0 - dz0, wx0 + D["win_w"], wz0 + D["win_h"] - dz0, SM["win_corner_r"]),
@@ -601,6 +611,21 @@ def check(sm):
                 if gap < p.t:
                     probs.append("%s: holes at (%.1f, %.1f) and (%.1f, %.1f) only %.1f apart" % (
                         p.id, a[0], a[1], b[0], b[1], gap))
+    # the touchscreen pod sits clear of the upper door's stiffener frame, handle, hinges and latches
+    pd = SM["pod"]
+    px0, px1 = pd["xc"] - pd["w"] / 2, pd["xc"] + pd["w"] / 2
+    pz0, pz1 = pd["zc"] - pd["h"] / 2, pd["zc"] + pd["h"] / 2
+    ds = D["door_stiff"]
+    keep_out = [(D["stiff_x0"] - 5, D["stiff_x0"] + ds + 5, -1e9, 1e9, "left door stiffener"),
+                (D["stiff_x1"] - ds - 5, D["stiff_x1"] + 5, -1e9, 1e9, "right door stiffener")]
+    for zc in D["hinge_z_upper"] + D["latch_z_upper"]:
+        keep_out.append((-1e9, 1e9, zc - 60, zc + 60, "hinge/latch at z %.0f" % zc))
+    dz0, dz1 = D["door_up_z"]
+    if not (dz0 + 40 < pz0 and pz1 < dz1 - 40):
+        probs.append("touchscreen pod z %.0f-%.0f not inside the upper door" % (pz0, pz1))
+    for x0, x1, z0, z1, what in keep_out:
+        if px0 < x1 and x0 < px1 and pz0 < z1 and z0 < pz1:
+            probs.append("touchscreen pod overlaps the %s" % what)
     used = set()
     for p in sm["parts"]:
         used.update(h["src"] for h in p.holes if h["src"])

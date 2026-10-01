@@ -1,5 +1,5 @@
 piece,part,name,material,qty,print_x_mm,print_y_mm,print_z_mm,volume_cm3,mass_g_each,est_hours_each,plates,orientation,stl
-P1-1,P1,Hood body - left end,PETG,1,75.0,231.0,181.3,329.9,419.0,10.4,5,"end wall on the plate, tongue up",cad/print/stl/P1-1_hood_left_end.stl
+P1-1,P1,Hood body - left end,PETG,1,75.0,231.0,181.3,327.0,415.0,10.3,5,"end wall on the plate, tongue up",cad/print/stl/P1-1_hood_left_end.stl
 P1-2a,P1,"Hood body - middle, front channel",PETG,1,75.0,63.0,181.3,98.6,125.0,3.3,5,"rebate end on the plate, tongue up",cad/print/stl/P1-2a_hood_middle_front_channel.stl
 P1-2b,P1,"Hood body - middle, rear channel",PETG,1,75.0,111.0,181.3,124.2,158.0,4.1,6,"rebate end on the plate, tongue up",cad/print/stl/P1-2b_hood_middle_rear_channel.stl
 P1-3,P1,Hood body - right end,PETG,1,75.0,231.0,171.3,316.3,402.0,10.0,6,end wall on the plate,cad/print/stl/P1-3_hood_right_end.stl
@@ -10,5 +10,10 @@ P4-1,P4,Exhaust elbow - inlet half (socket),ASA,1,159.0,185.4,197.4,299.9,321.0,
 P4-2,P4,Exhaust elbow - outlet half (spigot),ASA,1,158.0,178.8,206.4,298.4,319.0,9.5,8,"male spigot on the plate, rebate up",cad/print/stl/P4-2_elbow_outlet_half_spigot.stl
 P5-1,P5,Wall spigot - flange + inner tube,ASA,1,230.0,230.0,50.2,229.5,246.0,7.3,9,flange face (outside) on the plate,cad/print/stl/P5-1_wall_spigot_flange_inner_tube.stl
 P5-2,P5,Wall spigot - outer tube,ASA,1,153.0,153.0,59.0,106.6,114.0,3.5,10,"hose end on the plate, tongue up",cad/print/stl/P5-2_wall_spigot_outer_tube.stl
+P6-1,P6,Touchscreen pod - shell,PETG,1,128.0,91.0,26.0,62.5,79.0,2.2,11,door side on the plate,cad/print/stl/P6-1_pod_shell.stl
+P6-2,P6,Touchscreen pod - bezel,PETG,1,128.0,91.0,10.0,31.8,40.0,1.2,11,front face on the plate,cad/print/stl/P6-2_pod_bezel.stl
+P7-1,P7,Rack node box - base,PETG,1,98.0,78.0,26.5,48.7,62.0,1.8,11,base on the plate,cad/print/stl/P7-1_node_box_base.stl
+P7-2,P7,Rack node box - lid,PETG,1,98.0,78.0,5.0,15.8,20.0,0.7,12,outer face on the plate,cad/print/stl/P7-2_node_box_lid.stl
+P8-1,P8,Clip - temperature probe,PETG,6,24.0,14.0,22.0,6.5,8.0,0.5,12,"magnet face on the plate, print 6",cad/print/stl/P8-1_clip_temperature_probe_x6.stl
 G1,G,Gauge - elbow socket over the AC spigot,ASA,1,159.0,159.0,12.0,23.1,25.0,1.0,1,print first,cad/print/stl/G1_gauge_elbow_socket_over_the_ac_spigot.stl
 G2,G,Gauge - male spigot into the 150 duct,ASA,1,149.0,149.0,15.0,27.1,29.0,1.1,2,print first,cad/print/stl/G2_gauge_male_spigot_into_the_150_duct.stl

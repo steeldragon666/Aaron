@@ -7,6 +7,7 @@
 | Drawing | `drawings/CP-SRA16-GA-001.svg` (A3, 1:15) |
 | Frame | Welded 30 × 30 × 2.0 SHS: weld pack `drawings/CP-SRA16-FRM-001.pdf` (6 sheets) and `docs/FRAME_WELD_PLAN.md` |
 | Skins | Laser-cut 1.2 mm steel, every piece within 1200 × 800: sheet-metal pack `drawings/CP-SRA16-SMP-001.pdf` (6 sheets), DXFs in `cad/dxf/`, `docs/SHEET_METAL.md` |
+| Controls | ESP32-S3 rack node + 4.3 in touchscreen: `drawings/CP-SRA16-ELC-001.pdf` (5 sheets), firmware in `firmware/`, `docs/ELECTRONICS.md` |
 | Status | Concept. Tape-check the AC dimensions in §3 before cutting panels. |
 
 ## 1. Brief
@@ -140,18 +141,15 @@ Mass-law transmission loss of the wall is about 18 / 24 / 30 / 36 dB at 125 / 25
 - Remove the AC's bottom drain plug and fit a 16 mm hose. It runs to a **tundish and 25 mm bulkhead** in the rear-left of the stainless **drip tray**, which covers the whole bay floor with a 25 mm upstand. From there it drops through the floor and runs in the plinth to a **16 mm barb at the rear**, 60 mm above the floor, 136.2 mm from the right edge as seen from behind (clear of the castor pad).
 - The barb is only 60 mm up, so run the hose to a **floor waste lower than that**. Otherwise use the optional **mini condensate pump** or a bucket with a level sensor.
 - Why a continuous drain: the unit's "water full" switch stops the compressor when its internal tank fills. On a 24/7 server rack that stop would be an outage.
-- A leak sensor in the tray reports to the monitor.
+- A float switch in the tray reports to the rack node ("water in tray" alarm).
 
 ## 9. Electrical and controls
 
 - **Circuits.** Put the AC (1.7 kW, about 7.5 A) on its own 10 A GPO. Put the IT load on separate circuits or a UPS. Total demand can reach about 4.5 kW, so have an electrician confirm circuit capacity. Do not run the AC from the IT UPS.
-- **Monitor.** An ESP32 running ESPHome (about AUD 85) reads:
-  - cold-aisle, hot-aisle and condenser-zone temperatures;
-  - the tray leak sensor;
-  - two door reed switches.
-
-  It also has an **IR LED aimed at the AC's receiver**, and it can shut the servers down through NUT or IPMI.
-- **Automatic restart.** Portable ACs often stay off after a power cut. The monitor re-sends POWER, COOL, HIGH and the setpoint when power returns, and alarms if the cold aisle goes above 30 °C.
+- **Controls (CP-SRA16-ELC-001, `docs/ELECTRONICS.md`).** An ESP32-S3 **rack node** in the front plenum reads six DS18B20 probes - cold side top and middle and the AC supply on the front-left rail spacer; hot side top and AC return on the rear-left rail spacer; the condenser exhaust in the elbow - plus a humidity sensor, the tray float switch and the lower door. Every 5 s it decides whether the AC should run, at what setpoint and fan speed, and sends the AC's own IR remote codes from a stick-on emitter. A **4.3 in touchscreen** on the upper door shows the state and takes the settings over RS485, and links the rack to Home Assistant over Wi-Fi. The node needs neither the screen nor the network to keep the rack cool. Kit about AUD 320, 12 V, about 3 W, on the UPS.
+- **Setpoint trim and eco.** At normal load the AC runs on its own thermostat; the node trims its setpoint (whole degrees) so the 10-minute average intake meets the target (22 °C). At light load (the servers warm the air by less than 4 K) eco pulls the rack 2 K below the target, switches the AC off, and on again 2 K above it - long quiet spells, with at least 15 min on and 5 min off.
+- **Automatic restart.** Portable ACs come back from a power cut in standby. The node sees that the AC is not cooling (supply air vs return, exhaust vs room) and re-sends its state; with the optional mains detect it re-sends 30 s after the socket comes back. Simulated: cooling again 1.8 min after the power returns (0.5 min with mains detect).
+- **Alarms and shutdown.** Intake 27 °C is a warning; 32 °C for 120 s raises an IT shutdown request - relay K1 gives a dry contact for a UPS or server input, and Home Assistant gets the same signal for NUT or ssh. Missing probes, water in the tray, a door left open, a dead AC socket and condensation risk are all alarms; unknown readings always mean AC on.
 - **Viewing window.** The lower door has a double-glazed polycarbonate window (140 × 200) over the AC display. You can read the unit's temperature and use the IR remote through it.
 
 ## 10. Construction
@@ -203,12 +201,13 @@ Build order:
 7. Fit the skins: MLV bonded inside each skin, then the foam. Fit the side skins bottom to top with the JS strips over the joints, then the rear skins with the JR strip, then the top skin. Put acoustic sealant under every strip edge.
 8. Bolt the printed wall spigot through the rear skin. Fit the internal duct, cut to length and insulated, on its inner tube, and hang the front end from the shelf in line with the elbow outlet. Seal the penetration.
 9. Fit the riser box and plinth skirts SK1-SK3, then the cable box and brush strip.
-10. Build and hang the doors: bond the stiffener angles, rivet the hinges and KB1 keepers, fit the window and seals. Then rivet the toggle latches to the right-hand skins and adjust them to pull the doors onto the seal.
+10. Build and hang the doors: bond the stiffener angles, rivet the hinges and KB1 keepers, fit the window and seals. Then rivet the toggle latches to the right-hand skins and adjust them to pull the doors onto the seal. Fit the touchscreen pod (P6) on the upper door's rivnuts, the node box (P7) on the front-left rail spacer and the probe clips (P8), and run the cables as on sheet 4 of CP-SRA16-ELC-001: everything that goes into the bay passes through the hood port.
 11. Roll the AC in:
     1. Fit the printed elbow on the AC spigot (it stays on the AC).
     2. Lift the hood collar onto its keepers.
     3. Push the AC back into the gaskets: the elbow outlet slides into the duct. Clamp the retention bar.
     4. Turn the keepers out so the collar drops onto the AC, then connect the drain hose.
+    5. Plug in the IR emitter and stick it on the AC over its IR receiver (unplug it before rolling the AC out).
 
 ## 11. Commissioning
 
@@ -217,8 +216,9 @@ Build order:
 | Smoke-pencil leak test at the door seals, docking frame and hood | no visible draw-through |
 | 24 h temperature log at full IT load | cold aisle 18-27 °C; AC compressor not short-cycling |
 | Sound at 1 m, doors open vs closed | about 25 dB(A) or more reduction |
-| Pour 1 L into the tray | drains away and the leak alarm fires |
-| Pull the mains plug, then restore it | the monitor restarts the AC within 1 minute |
+| Pour 1 L into the tray; lift the float switch | drains away; the "water in tray" alarm fires |
+| Pull the AC's mains plug, then restore it | the rack node has the AC cooling again within 2 minutes (30 s with mains detect) |
+| Electronics | the commissioning steps in `docs/ELECTRONICS.md` (probes, AC protocol, doors, shutdown relay) |
 
 ## 12. CAD verification performed
 
@@ -247,10 +247,10 @@ The Fusion script was not run inside Fusion from here. It shows its own volume c
 
 The model is fully parametric: RU count (12-20), width (600-700), depth (900-1200) and wall build-up. That makes a "silent rack with integrated cooling" product family straightforward.
 
-- **Materials:** about AUD 5.1k at retail prices (see `bom/BOM.md`). The welded frame is about AUD 0.8k and the laser-cut, folded and coated sheet metal about AUD 1.5k. Expect less at volume.
+- **Materials:** about AUD 5.3k at retail prices (see `bom/BOM.md`). The welded frame is about AUD 0.8k, the laser-cut, folded and coated sheet metal about AUD 1.5k and the control kit about AUD 0.3k. Expect less at volume.
 - **For a sellable kit:**
   - laser-cut steel skins (the DXFs and nests are already generated) and CNC-cut foam;
   - the welded SHS frame, already detailed for production: per-mark STEP files for tube laser cutting, and a jig can be built from the side-frame sheet;
   - the cold hood, collar and exhaust parts, already printable on a desktop printer (CP-SRA16-PRT-001), or injection-moulded at volume;
-  - the ESP32 monitor.
+  - the control electronics (CP-SRA16-ELC-001), already firmware-complete and simulated; at volume the carrier becomes a small PCB with the ESP32-S3 module on it.
 - **To validate:** measure dB(A) and thermal performance on the prototype. Those figures are the data a product sheet would need.

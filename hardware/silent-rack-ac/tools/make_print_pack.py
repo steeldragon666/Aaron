@@ -42,7 +42,9 @@ OVERHANG_MAX = 50.0                    # deg from vertical a face may lean befor
 OK_WIDTH = 6.0                         # an overhang strip this narrow prints anyway (short bridge / ledge)
 GAP = 6.0                              # spacing between parts on a shared plate
 PLATE_MAX_G = 700.0                    # a fresh 1 kg spool always finishes a plate (brim, purge, a restart)
-PRINT_ORDER = ("G", "P2", "P1", "P3", "P4", "P5")   # plates are numbered in this order: print them in turn
+PRINT_ORDER = ("G", "P2", "P1", "P3", "P4", "P5", "P6", "P7", "P8")   # plates are numbered in this order
+LOOSE = ("G", "P8")                    # parts with no fixed installed position (gauges, clips)
+OWN_PLATES = ("P6", "P7", "P8")        # electronics mounts: their own plates (print them when convenient)
 DUCT = "Exhaust duct (insulated)"
 FOAM_RING = 3.0                        # closed-cell foam ring on the elbow shoulder, compressed to half by the duct
 ZIP_DATE = (2026, 1, 1, 0, 0, 0)
@@ -122,8 +124,8 @@ def pack_plates(pieces, printer):
         for k in range(p["qty"]):
             items.append({"piece": p, "k": k, "w": p["dims"][0], "d": p["dims"][1], "h": p["dims"][2]})
     plates = []
-    for mat in PP.MATERIALS:
-        its = sorted([i for i in items if i["piece"]["mat"] == mat],
+    for mat, own in [(m, o) for m in PP.MATERIALS for o in (False, True)]:
+        its = sorted([i for i in items if i["piece"]["mat"] == mat and (i["piece"]["part"] in OWN_PLATES) == own],
                      key=lambda i: (-round(i["w"] * i["d"]), i["piece"]["id"], i["k"]))
         shared = []
         for it in its:
@@ -222,7 +224,7 @@ def clash_check(pack):
     hb = I["hood_box"]
     hinfo = pack["parts"]["P1"]["info"]
     z_arm = pack["parts"]["P3"]["z_arm"]
-    fixed = [p for p in pack["pieces"] if p["part"] in ("P1", "P4", "P5")]
+    fixed = [p for p in pack["pieces"] if p["part"] in ("P1", "P4", "P5", "P6", "P7")]
     configs = OrderedDict()
     k_stow = pack["parts"]["P3"]["solids"]
     k_hold = [PP.keeper(x, y, hb[2], z_arm, 0.0) for x, y in hinfo["keepers"]]
@@ -311,15 +313,16 @@ def exploded_figure(pack, path):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-    groups = [("Cold-air hood: body sections, drop collar, keepers", ("P1", "P2", "P3"), (-60.0, 28.0)),
-              ("Exhaust: elbow halves, wall spigot", ("P4", "P5"), (-35.0, 22.0))]
-    fig = plt.figure(figsize=(16, 7.6))
+    groups = [("Cold-air hood: body sections, drop collar, keepers", ("P1", "P2", "P3"), (-60.0, 28.0), 1.15),
+              ("Exhaust: elbow halves, wall spigot", ("P4", "P5"), (-35.0, 22.0), 1.15),
+              ("Electronics: touchscreen pod, node box", ("P6", "P7"), (-62.0, 18.0), 0.9)]
+    fig = plt.figure(figsize=(20, 7.6))
     light = np.array([-0.4, -0.6, 0.7])
     light /= np.linalg.norm(light)
-    for gi, (title, pids, (az, el)) in enumerate(groups):
+    for gi, (title, pids, (az, el), zoom) in enumerate(groups):
         a, e = math.radians(az), math.radians(el)
         eye = np.array([math.cos(e) * math.cos(a), math.cos(e) * math.sin(a), math.sin(e)])
-        ax = fig.add_subplot(1, 2, gi + 1, projection="3d")
+        ax = fig.add_subplot(1, len(groups), gi + 1, projection="3d")
         ax.computed_zorder = False
         tris, fcs, labels = [], [], []
         for p in pack["pieces"]:
@@ -327,6 +330,8 @@ def exploded_figure(pack, path):
                 continue
             sols = [p["solid"]] if p["part"] != "P3" else pack["parts"]["P3"]["solids"]
             off = _explode(p, pack)
+            if p["part"] in ("P6", "P7"):                   # the two are far apart in the rack: show side by side
+                off = off + _bring(p, pack)
             col = np.array(PP.MATERIALS[p["mat"]]["colour"])
             for s in sols:
                 m = mesh_of(s, 0.3, 0.3)
@@ -354,7 +359,7 @@ def exploded_figure(pack, path):
         ax.set_xlim(lo[0], hi[0])
         ax.set_ylim(lo[1], hi[1])
         ax.set_zlim(lo[2], hi[2])
-        ax.set_box_aspect(tuple(hi - lo), zoom=1.15)
+        ax.set_box_aspect(tuple(hi - lo), zoom=zoom)
         ax.view_init(elev=el, azim=az)
         ax.set_axis_off()
         ax.set_title(title, fontsize=11)
@@ -363,6 +368,16 @@ def exploded_figure(pack, path):
     fig.subplots_adjust(left=0.0, right=1.0, bottom=0.0, top=0.92, wspace=0.0)
     fig.savefig(path, dpi=110)
     plt.close(fig)
+
+
+def _bring(p, pack):
+    """The pod (on the door) and the node box (in the plenum) are 300 mm apart: bring the box next to
+    the pod for the picture."""
+    if p["part"] != "P7":
+        return np.zeros(3)
+    pod = pack["parts"]["P6"]["solids"][0].BoundingBox()
+    nb = pack["parts"]["P7"]["solids"][0].BoundingBox()
+    return np.array([pod.xmax + 60.0 - nb.xmin, pod.ymin - nb.ymin, pod.zmin - nb.zmin])
 
 
 def _explode(p, pack):
@@ -383,6 +398,10 @@ def _explode(p, pack):
         return np.array([60.0, -60.0, -170.0])
     if p["part"] == "P4":
         return np.array([0.0, 0.0, 0.0]) if p["id"].endswith("-1") else np.array([0.0, 60.0, 60.0])
+    if p["part"] == "P6":                       # bezel forward of the shell
+        return np.array([0.0, -40.0, 0.0]) if p["id"].endswith("-2") else np.zeros(3)
+    if p["part"] == "P7":                       # lid off to the side
+        return np.array([45.0, 0.0, 0.0]) if p["id"].endswith("-2") else np.zeros(3)
     if p["part"] == "P5":                       # pulled in from the rear wall to sit just past the elbow
         ei, wi = pack["parts"]["P4"]["info"], pack["parts"]["P5"]["info"]
         dy = ei["outlet_end"].y + 60.0 + 90.0 - wi["y_in0"]
@@ -397,8 +416,8 @@ def write_step(pack, path):
         r, g, b = PP.MATERIALS[p["mat"]]["colour"]
         sols = [p["solid"]] if p["part"] != "P3" else pack["parts"]["P3"]["solids"]
         for j, s in enumerate(sols):
-            if p["part"] == "G":
-                continue                                    # gauges have no installed position
+            if p["part"] in LOOSE:
+                continue                                    # no installed position
             nm = "%s %s" % (p["id"], p["name"]) + (" (%d)" % (j + 1) if len(sols) > 1 else "")
             assy.add(s, name=nm, color=cq.Color(r, g, b, 1.0))
     assy.export(path, exportType="STEP")
@@ -467,7 +486,11 @@ def doc_md(pack, plates, report):
            "P3": "Turn buttons under the hood floor: lift the collar onto them to roll the AC in or out.",
            "P4": "The socket that fits over the AC spigot and the male outlet are custom; a stock elbow needs adapters.",
            "P5": "The flange is drilled to the laser-cut rear-skin pattern; the outer tube carries a hose bead.",
-           "G": "Ten-minute prints that prove the two critical fits before the long prints."}
+           "G": "Ten-minute prints that prove the two critical fits before the long prints.",
+           "P6": "Holds the 4.3 inch touchscreen on the upper door; bolts to two rivnuts and covers the cable grommet "
+                 "(see `docs/ELECTRONICS.md`).",
+           "P7": "Holds the rack node's carrier board inside the front plenum, on magnets.",
+           "P8": "Hold the temperature probes (and the humidity sensor's lead) in the air stream, on magnets."}
     for pid, pi in PP.PART_INFO.items():
         ps = [p for p in pcs if p["part"] == pid]
         md.append("| %s %s | %s | %s | %s | %s |" % (
@@ -514,7 +537,9 @@ def doc_md(pack, plates, report):
            "2. **Collar (%s).** Glue the halves; check the outline against the AC louvres." % pls("P2"),
            "3. **Hood and keepers (%s).** Dry-fit the sections and check that the collar slides in the floor "
            "opening before gluing." % pls("P1", "P3"),
-           "4. **Elbow and wall spigot (%s)** in ASA." % pls("P4", "P5"), "",
+           "4. **Elbow and wall spigot (%s)** in ASA." % pls("P4", "P5"),
+           "5. **Electronics mounts (%s):** the touchscreen pod, the node box and the clips, any time before the "
+           "electronics go in." % pls("P6", "P7", "P8"), "",
            "## Assembly", "",
            "**Hood body (P1).** Dry-fit first. The tongue on each section (inner half of the wall, %.0f mm long) slides "
            "into the rebate on the next one with %.1f mm clearance per face. Glue with two-part epoxy or a "
@@ -523,8 +548,10 @@ def doc_md(pack, plates, report):
            "the top face, offer the hood up under the shelf so the top opening lines up with the shelf opening, and "
            "screw it up into the ply with 6 x 4 mm x 20 pan-head screws through the holes in the top. Drive them "
            "from below with the AC out: the rear row through the floor opening, the front row through the %d mm "
-           "driver holes in the floor; then tape over the driver holes." % (
-               PP.PR["lap_l"], PP.PR["lap_cl"], PP.PR["driver_d"]),
+           "driver holes in the floor; then tape over the driver holes. The round port in the left end (P1-1) "
+           "takes a %.0f mm membrane grommet: the electronics cables pass through it from the front plenum into "
+           "the bay (`docs/ELECTRONICS.md`)." % (
+               PP.PR["lap_l"], PP.PR["lap_cl"], PP.PR["driver_d"], PP.EL["hood_port"][2]),
            "",
            "**Drop collar (P2).** Glue the two halves the same way. Bond the 10 x 10 EPDM gasket under the foot and "
            "run 3 x 10 mm closed-cell foam tape round the outside of the wall as a wiper. Drop it into the hood floor "
@@ -550,6 +577,17 @@ def doc_md(pack, plates, report):
            "%.0f mm chamfers lead it in) and the shoulder seals on the duct end." % (
                pack["duct"]["length"], pack["duct"]["model_length"], pack["duct"]["trim"], PP.PR["spigot_l"],
                PP.PR["lead_in"]),
+           "",
+           "**Touchscreen pod (P6).** Fit the two M4 rivnuts in the upper door and the rubber grommet in the cable "
+           "hole, cut the door foam back round the grommet, then screw the shell to the rivnuts (heads inside). Feed "
+           "the cable through, wire the panel (`docs/ELECTRONICS.md`), stick the foam pads on the four posts, sit "
+           "the panel in the bezel and screw the bezel on with 4 x M3 x 12. The room sensor sits in the vented "
+           "compartment at the bottom right. Print it in black PETG if you have it.",
+           "",
+           "**Node box and clips (P7, P8).** Glue the magnets in with epoxy, flush, all the same way up. The node "
+           "box sticks to the front face of the left front rail spacer just above the shelf; the clips stick to "
+           "the rail spacers and hold each probe about 16 mm off the steel, in the moving air (positions: sheet 4 "
+           "of `drawings/CP-SRA16-ELC-001.pdf`).",
            "",
            "**Wall spigot (P5).** Glue the outer tube P5-2 into the flange groove of P5-1 (its tongue). Put a 3 mm "
            "foam ring or a bead of silicone on the flange face, push the inner tube through the rear skin from "

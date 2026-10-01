@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Drawing | CP-SRA16-SMP-001, 6 sheets (`drawings/CP-SRA16-SMP-001.pdf`) |
-| Generated | `tools/make_sheet_pack.py` from `rack_layout.py` v1.2.0 on 2026-09-27 |
+| Generated | `tools/make_sheet_pack.py` from `rack_layout.py` v1.2.0 on 2026-10-01 |
 | DXF | `cad/dxf/cut/` (cut geometry only), `cad/dxf/info/` (+ bend lines, ID etch, notes), `cad/dxf/nest/` (nested 1200x800 blanks), all zipped in `cad/dxf/SRA16_sheet_metal_DXF.zip` |
 | Size limit | every flat blank fits 1200 x 800 (checked) |
 | Skins | 1.2 mm steel, powder coated, 3 mm MLV bonded inside; the welded frame is unchanged |
@@ -35,7 +35,7 @@ The 15 mm ply skins are now laser-cut 1.2 mm steel. The frame and the inside of 
 | JR1 | 1 | Joint strip, rear skin | Steel sheet (Zincanneal or CR4) | 1.2 | 622.4 x 50.0 | 3 | 0 | over the rear-skin joint |
 | TP1 | 1 | Top skin | Steel sheet (Zincanneal or CR4) | 1.2 | 622.4 x 1072.4 | 13 | 0 | top, over the top rails and post caps (front at the bottom) |
 | DL1 | 1 | Door, lower (AC bay) | Steel sheet (Zincanneal or CR4) | 1.2 | 622.4 x 988.5 | 23 | 0 | front, frame z 0.0-988.5 above datum A |
-| DU1 | 1 | Door, upper (rack) | Steel sheet (Zincanneal or CR4) | 1.2 | 622.4 x 772.7 | 12 | 0 | front, frame z 991.5-1764.2 above datum A |
+| DU1 | 1 | Door, upper (rack) | Steel sheet (Zincanneal or CR4) | 1.2 | 622.4 x 772.7 | 15 | 0 | front, frame z 991.5-1764.2 above datum A |
 | DA1 | 1 | Door stiffener, lower door, left vertical | Steel sheet (Zincanneal or CR4) | 1.2 | 941.0 x 37.7 | 9 | 1 | inside the lower door, left edge; flat leg bonded to the skin, leg inboard |
 | DA2 | 1 | Door stiffener, lower door, right vertical | Steel sheet (Zincanneal or CR4) | 1.2 | 941.0 x 37.7 | 6 | 1 | inside the lower door, right edge; flat leg bonded to the skin, leg inboard |
 | DA3 | 1 | Door stiffener, upper door, left vertical | Steel sheet (Zincanneal or CR4) | 1.2 | 727.2 x 37.7 | 6 | 1 | inside the upper door, left edge; flat leg bonded to the skin, leg inboard |

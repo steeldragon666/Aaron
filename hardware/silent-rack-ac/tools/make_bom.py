@@ -6,6 +6,7 @@ SRA-16 Silent AC Rack - generated from rack_layout.py so it tracks the CAD.
 Outputs: bom/cut_list.csv, bom/BOM.csv, bom/BOM.md
 Prices are indicative AUD retail (Sept 2026) for budgeting only - get quotes.
 The 3D-printed parts come from cad/print/print_report.json: run tools/make_print_pack.py first.
+The control electronics come from bom/electronics.csv: run tools/make_electronics.py first.
 """
 import csv
 import json
@@ -32,6 +33,15 @@ SM_PRICE = {"blank": {("Steel sheet (Zincanneal or CR4)", 1.2): 45.0, ("Stainles
 SM_OTHER = {"RR1": "bought as 19in rack strips (Rack)", "PD1": "weld pack PL1, from flat bar (Frame)",
             "PC1": "weld pack PL2, from flat bar (Frame)"}      # in the DXF pack as a make option only
 PRT_DOC = "CP-SRA16-PRT-001"           # 3D-printed parts pack (tools/make_print_pack.py)
+ELC_DOC = "CP-SRA16-ELC-001"           # control electronics kit (tools/make_electronics.py)
+ELC_GROUPS = OrderedDict([             # one purchase line per group of bom/electronics.csv
+    ("Touchscreen", "Touchscreen: Waveshare ESP32-S3-Touch-LCD-4.3B, room SHT41, buzzer, door contact"),
+    ("Rack node", "Rack node: ESP32-S3-DevKitC-1, RS485, 5 V buck, relay, carrier board and parts"),
+    ("Sensors", "Sensors: 6 x DS18B20 probes, cold-side SHT41, tray float switch, lower door contact"),
+    ("AC control", "AC control: stick-on IR emitter + 3.5 mm socket lead"),
+    ("Cables", "Cables: door bus + GX16, 8-core rear harness, leads, grommets, spiral wrap"),
+    ("Power", "Power: 12 V 2 A plug pack (RCM) + DC extension"),
+])
 PRT_WASTE = 1.15                       # filament bought per kg printed: brims, purge, one failed start
 
 
@@ -112,6 +122,17 @@ def main():
     if not os.path.exists(prt_path):
         sys.exit("cad/print/print_report.json missing: run tools/make_print_pack.py first")
     prt = json.load(open(prt_path))
+    elc_path = os.path.join(ROOT, "bom", "electronics.csv")
+    if not os.path.exists(elc_path):
+        sys.exit("bom/electronics.csv missing: run tools/make_electronics.py first")
+    elc_rows = [r for r in csv.DictReader(open(elc_path)) if r["group"] != "TOTAL"]
+    elc = OrderedDict((g, 0.0) for g in ELC_GROUPS)
+    elc_opt = 0.0
+    for r in elc_rows:
+        if r["optional"]:
+            elc_opt += float(r["line_AUD"])
+        else:
+            elc[r["group"]] += float(r["line_AUD"])
 
     # ------------------------------------------------------------ cut list
     cut_rows = []
@@ -280,8 +301,8 @@ def main():
     add("Rack", "Cage nuts + M6 screws (pack 50)", 1, "pack", 18.0, "")
     add("Rack", "1U tool-less blanking panels", 8, "ea", 7.0, "fill all unused RU")
     add("Rack", "0U / 1U PDU 8-way 10 A", 1, "ea", 120.0, "IT load only - AC on its own GPO")
-    add("Controls", "ESP32 + 3x SHT31 + IR LED + leak sensor + 2 reed switches", 1, "kit", 85.0,
-        "ESPHome: temps, AC IR restart, alerts")
+    for g, desc in ELC_GROUPS.items():
+        add("Controls", desc, 1, "set", round(elc[g], 2), "%s, bom/electronics.csv" % ELC_DOC)
     add("Consumables", "Screws (M5 handles, M4 grommet), foil tape, cable ties, labels", 1, "lot", 80.0, "")
     total = sum(r[5] for r in bom)
     with open(os.path.join(ROOT, "bom", "BOM.csv"), "w", newline="") as fh:
@@ -328,6 +349,15 @@ def main():
     for m, t in prt["totals"].items():
         md.append("| %s printed | %.2f kg, about %.0f h |" % (m, t["mass_g"] / 1000.0, t["hours"]))
     md += ["| Internal duct | cut to %.0f mm |" % prt["duct"]["length"]]
+    md += ["", "## Control electronics (%s)" % ELC_DOC, "",
+           "ESP32-S3 rack node with 6 temperature probes and IR control of the AC, plus a 4.3 inch touchscreen "
+           "on the upper door, joined by RS485. Parts in `bom/electronics.csv`, wiring in `drawings/%s.pdf`, "
+           "build and commissioning in `docs/ELECTRONICS.md`." % ELC_DOC, "",
+           "| Group | AUD |", "|---|---:|"]
+    for g, v in elc.items():
+        md.append("| %s | %.0f |" % (g, v))
+    md += ["| **Kit** | **%.0f** |" % sum(elc.values()),
+           "| Options, not in the total (mains detect, beacon) | %.0f |" % elc_opt]
     md += ["", "## Frame and profiles", "",
            "The frame is welded %s: cut list, weld plan and drawings are in `docs/FRAME_WELD_PLAN.md` and "
            "`drawings/%s.pdf` (weldment %.1f kg, %d SHS bars)." % (

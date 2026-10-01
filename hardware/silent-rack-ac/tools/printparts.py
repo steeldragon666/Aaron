@@ -15,6 +15,9 @@ wall spigot and the rear-skin bolt holes), not retyped here.
   P5  Exhaust wall spigot  ASA   flange + inner tube (A), outer tube for the flex hose (B)
   G1  Socket gauge         ASA   print first: must slide over the AC spigot
   G2  Spigot gauge         ASA   print first: the 150 duct must slide over it
+  P6  Touchscreen pod      PETG  bezel + shell for the 4.3in panel, on the upper door (CP-SRA16-ELC-001)
+  P7  Rack node box        PETG  base + lid for the node carrier, on magnets inside the front plenum
+  P8  Probe clips          PETG  magnet clips for the temperature probes
 
 Sections are joined by glued half-laps: the inner half of the wall on one
 piece runs LAP_L past the cut into a matching rebate in the next piece, so the
@@ -37,7 +40,7 @@ import cadquery as cq  # noqa: E402
 import rack_layout as RL  # noqa: E402
 
 DOC_NO = "CP-SRA16-PRT-001"
-REV = "A"
+REV = "B"
 V = cq.Vector
 
 # Usable volume: bed less a brim margin each side, height less some headroom.  "exclude" is the
@@ -265,12 +268,18 @@ def hood_body(I, C):
     keepers = [(xm - PR["keeper_dx"], yk), (xm + PR["keeper_dx"], yk)]
     for x, y in keepers:
         body = body.cut(cyl((x, y, z0 - 1), (x, y, z0 + t + 1), PR["screw_d"] / 2))
+    # cable port for the electronics harness (CP-SRA16-ELC-001): through the left end wall into the bay,
+    # the wall thinned from inside round it so a standard membrane grommet grips
+    py, pz, pd, pcb, pwt = EL["hood_port"]
+    port = (x0, y0 + py, z1 - pz)
+    body = body.cut(cyl((x0 - 1, port[1], port[2]), (x0 + t + 1, port[1], port[2]), pd / 2.0))
+    body = body.cut(cyl((x0 + pwt, port[1], port[2]), (x0 + t + 1, port[1], port[2]), pcb / 2.0))
     body = one_solid(body.clean())
 
     def core(d):
         return body.intersect(prism_yz(prof, x0 + d, x1 - d, inset=d))
     info = {"profile": prof, "x": (x0, x1), "holes_top": holes_top, "drivers": drivers, "keepers": keepers,
-            "z_step": zst, "bump_y": yb, "z0": z0, "z1": z1, "floor_open": fo}
+            "z_step": zst, "bump_y": yb, "z0": z0, "z1": z1, "floor_open": fo, "port": port}
     return body, core, info
 
 
@@ -380,6 +389,134 @@ def gauges(I):
     g1 = rev([(rs + c_, 0.0), (rs + t, 0.0), (rs + t, 12.0), (rs, 12.0), (rs, c_)], (0, 0, 0), (0, 0, 1))
     g2 = rev([(ro2 - t, 0.0), (ro2 - c_, 0.0), (ro2, c_), (ro2, 15.0), (ro2 - t, 15.0)], (0, 0, 0), (0, 0, 1))
     return g1, g2
+
+
+# ---------------------------------------------------------------- electronics mounts (CP-SRA16-ELC-001)
+EL = {
+    # Waveshare ESP32-S3-Touch-LCD-4.3B: PCB 112.4 x 75.1 with the cover glass over all of it; the
+    # board's depth is not published, so the pod clamps it on 2 mm foam pads (+-1.5 mm)
+    "board": (112.4, 75.1), "board_t": 8.0, "window": (106.0, 69.0), "pod_wall": 2.4, "pod_back": 3.0,
+    "pod_shell": 26.0, "pod_bezel": 10.0, "pod_r": 8.0, "lip": 2.0,
+    # node carrier: 70 x 90 mm prototype board on M2.5 standoffs (holes 2 mm in from the corners)
+    "pcb": (70.0, 90.0), "pcb_holes": (66.0, 86.0), "box_wall": 2.0, "box_base": 2.5, "box_in_h": 24.0,
+    "box_lid": 2.0, "magnet": (20.4, 5.2), "box_at": (36.5, 125.0, 1215.0),
+    "clip_magnet": (10.3, 3.2), "probe_d": 6.3,
+    # hood cable port: centre 31 mm behind the hood's front face and 42 mm below its top, D25 for a
+    # 25 mm membrane grommet, wall thinned to 2 mm over D35 round it
+    "hood_port": (31.0, 42.0, 25.0, 35.0, 2.0),
+}
+
+
+def rrect(w, h, z0, z1, r):
+    """Rounded rectangle in local XY, centred, from z0 to z1."""
+    sh = cq.Workplane("XY", origin=(0, 0, z0)).rect(w, h).extrude(z1 - z0)
+    return (sh.edges("|Z").fillet(r) if r > 0 else sh).val()
+
+
+def pod_frame():
+    """Pod placement: local XY is the door face (x right, y up), local z points out of the door, so
+    (x, y, z) -> (xc + x, -z, zc + y).  At the door holes of CP-SRA16-SMP-001 (sheetmetal.SM["pod"])."""
+    import sheetmetal as SMP
+    pd = SMP.SM["pod"]
+    return pd, lambda sh: sh.rotate(V(0, 0, 0), V(1, 0, 0), 90).translate(V(pd["xc"], 0, pd["zc"]))
+
+
+def touch_pod():
+    """P6: shell (on the door) and bezel (holds the panel against its lip).  Local frame, z out of the door."""
+    pd, M = pod_frame()
+    e = EL
+    W, H, R = pd["w"], pd["h"], e["pod_r"]
+    t, tb, zs = e["pod_wall"], e["pod_back"], e["pod_shell"]
+    zb = zs + e["pod_bezel"]
+    shell = rrect(W, H, 0, zs, R).cut(rrect(W - 2 * t, H - 2 * t, tb, zs + 1, R - t))
+    corners = [(sx * 59.5, sy * 41.0) for sx in (-1, 1) for sy in (-1, 1)]
+    for x, y in corners:                                   # bezel screw bosses, M3 self-tapping
+        shell = shell.fuse(cyl((x, y, tb - 0.1), (x, y, zs), 3.5))
+    posts = [(sx * 50.0, sy * 32.0) for sx in (-1, 1) for sy in (-1, 1)]
+    for x, y in posts:                                     # press the PCB through 2 mm foam pads
+        shell = shell.fuse(cyl((x, y, tb - 0.1), (x, y, zs - 2.0), 3.0))
+    # room sensor compartment, bottom right, vented through the bottom wall
+    cx0, cy1 = 24.0, -H / 2 + t + 14.0
+    shell = shell.fuse(box(cx0, -H / 2 + t - 0.1, tb - 0.1, cx0 + 1.6, cy1 + 1.6, zs - 2.0))
+    shell = shell.fuse(box(cx0, cy1, tb - 0.1, W / 2 - t + 0.1, cy1 + 1.6, zs - 2.0))
+    for x, y in corners:
+        shell = shell.cut(cyl((x, y, tb + 2.0), (x, y, zs + 1), 1.25))
+    for k in range(4):
+        x = cx0 + 6.0 + 6.0 * k
+        shell = shell.cut(box(x, -H / 2 - 1, tb + 4.0, x + 1.8, -H / 2 + t + 1, tb + 16.0))
+    for du, dv in pd["bolts"]:                             # M4 into the door rivnuts, heads inside
+        shell = shell.cut(cyl((du, dv, -1), (du, dv, tb + 1), 2.25))
+        shell = shell.cut(cyl((du, dv, tb - 1.5), (du, dv, tb + 1), 4.6))
+    cu, cv = pd["cable"]
+    shell = shell.cut(cyl((cu, cv, -1), (cu, cv, tb + 1), 8.0))   # over the door's 20 mm grommet
+    shell = one_solid(shell.clean())
+    # bezel
+    bw, bh = e["board"]
+    bezel = rrect(W, H, zs, zb, R)
+    bezel = bezel.cut(rrect(bw + 1.0, bh + 1.0, zs - 1, zb - e["lip"], 1.0))
+    ww, wh = e["window"]
+    bezel = bezel.cut(rrect(ww, wh, zb - e["lip"] - 1, zb + 1, 3.0))
+    for x, y in corners:
+        bezel = bezel.cut(cyl((x, y, zs - 1), (x, y, zb + 1), 1.7))
+        bezel = bezel.cut(cq.Solid.makeCone(1.7, 3.4, 1.71, pnt=V(x, y, zb - 1.7), dir=V(0, 0, 1)))
+    bezel = one_solid(bezel.clean())
+    info = {"frame": M, "corners": corners, "bolts": pd["bolts"], "cable": pd["cable"], "depth": zb,
+            "pocket": (bw + 1.0, bh + 1.0, zb - e["lip"] - zs), "window": e["window"]}
+    return shell, bezel, info
+
+
+def node_box():
+    """P7: base and lid for the node carrier.  Local frame: board in XY, base plate at z = 0, magnets in
+    the +x end wall.  Installed at the left of the front plenum on the front-left rail spacer."""
+    e = EL
+    pw, ph = e["pcb"]
+    t, tb, hin = e["box_wall"], e["box_base"], e["box_in_h"]
+    iw, ih = pw + 4.0, ph + 4.0
+    W, H, Z = iw + 2 * t, ih + 2 * t, tb + hin
+    base = rrect(W, H, 0, Z, 3.0).cut(rrect(iw, ih, tb, Z + 1, 1.0))
+    mt = e["magnet"][1] + 1.8                              # thickened end wall for the magnets
+    base = base.fuse(box(W / 2 - t - mt, -ih / 2, tb - 0.1, W / 2 - t + 0.1, ih / 2, Z))
+    for sy in (-1, 1):
+        base = base.cut(cyl((W / 2 + 1, sy * 25.0, Z / 2 + 1.0), (W / 2 - e["magnet"][1], sy * 25.0, Z / 2 + 1.0),
+                            e["magnet"][0] / 2))
+    hx, hy = e["pcb_holes"]
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            x, y = sx * hx / 2, sy * hy / 2
+            base = base.fuse(cyl((x, y, tb - 0.1), (x, y, tb + 5.0), 3.0)).cut(cyl((x, y, tb + 1.0), (x, y, tb + 5.1), 1.1))
+    lid_pts = [(sx * (iw / 2 - 4.0), sy * (ih / 2 - 4.0)) for sx in (-1, 1) for sy in (-1, 1)]
+    for x, y in lid_pts:                                   # lid screws, M3 self-tapping
+        base = base.fuse(cyl((x, y, tb - 0.1), (x, y, Z), 3.5)).cut(cyl((x, y, tb + 2.0), (x, y, Z + 1), 1.25))
+    for x in (-22.0, 0.0, 22.0):                           # cable slots in the bottom wall, open at the top
+        base = base.cut(box(x - 3.5, -H / 2 - 1, Z - 9.0, x + 3.5, -H / 2 + t + 1, Z + 1))
+    base = base.cut(box(-W / 2 - 1, ih / 2 - 26.0, Z - 9.0, -W / 2 + t + 1, ih / 2 - 14.0, Z + 1))  # bus cable
+    base = one_solid(base.clean())
+    lid = rrect(W, H, Z, Z + e["box_lid"], 3.0)
+    lid = lid.fuse(rrect(iw - 0.6, ih - 0.6, Z - 3.0, Z + 0.1, 1.0).cut(rrect(iw - 3.0, ih - 3.0, Z - 4.0, Z + 1, 1.0)))
+    for x, y in lid_pts:
+        lid = lid.cut(box(x - 5.0, y - 5.0, Z - 3.1, x + 5.0, y + 5.0, Z)).cut(cyl((x, y, Z - 1), (x, y, Z + 3), 1.7))
+    lid = lid.cut(box(iw / 2 - mt - 0.5, -H / 2, Z - 3.1, W / 2 + 1, H / 2, Z))   # no rim along the magnet wall
+    lid = lid.cut(cyl((0.0, -30.0, Z - 4), (0.0, -30.0, Z + 3), 3.5))   # window for the IR receiver (learning)
+    lid = one_solid(lid.clean())
+    ax, ay, az = e["box_at"]
+
+    def place(sh):                                         # (x, y, z) -> (ax + z, ay + x, az + y)
+        return sh.rotate(V(0, 0, 0), V(1, 0, 0), 90).rotate(V(0, 0, 0), V(0, 0, 1), 90).translate(V(ax, ay, az))
+    return base, lid, {"frame": place, "outer": (W, H, Z + e["box_lid"]), "magnet_wall": W / 2}
+
+
+def clip(hole_d, n_holes=1):
+    """P8: magnet clip holding a probe (or several side by side) 16 mm off a steel face; back face at z = 0."""
+    e = EL
+    w = 14.0 + 10.0 * n_holes
+    blk = box(-w / 2, -7.0, 0, w / 2, 7.0, 22.0)
+    md, mh = e["clip_magnet"]
+    blk = blk.cut(cyl((0, 0, -1), (0, 0, mh), md / 2))
+    xs = [(-5.0 * (n_holes - 1)) + 10.0 * i for i in range(n_holes)]
+    for x in xs:
+        blk = blk.cut(cyl((x, -8, 16.0), (x, 8, 16.0), hole_d / 2))
+        blk = blk.cut(box(x - hole_d * 0.36, -8, 16.0, x + hole_d * 0.36, 8, 23.0))   # snap-in throat
+    return one_solid(blk.clean())
 
 
 # ---------------------------------------------------------------- sectioning
@@ -506,6 +643,7 @@ PART_INFO = OrderedDict([
             "hardware": ["6 x 4 mm x 20 pan-head wood screws into the shelf ply",
                          "aluminium foil tape over the driver holes in the floor once the screws are in",
                          "3 x 10 mm closed-cell foam tape on the top face (seal to the shelf)",
+                         "25 mm membrane grommet in the cable port (left end, CP-SRA16-ELC-001)",
                          "epoxy or PETG-rated CA glue for the laps"]}),
     ("P2", {"file": "collar", "name": "Hood drop collar", "mat": "PETG", "replaces": ["Cold air hood"],
             "hardware": ["10 x 10 EPDM closed-cell strip under the foot (model part 'Hood gasket')",
@@ -522,6 +660,15 @@ PART_INFO = OrderedDict([
             "hardware": ["4 x M5 x 25 button head + 4 x M5 nyloc + 8 washers",
                          "3 mm closed-cell foam ring or silicone under the flange", "acetone or ABS/ASA cement"]}),
     ("G", {"file": "gauge", "name": "Fit gauges", "mat": "ASA", "replaces": [], "hardware": []}),
+    ("P6", {"file": "pod", "name": "Touchscreen pod", "mat": "PETG", "replaces": [],
+            "hardware": ["2 x M4 rivnut (1.2 mm skin) in the upper door + 2 x M4 x 8 button head",
+                         "4 x M3 x 12 self-tapping pan head (bezel)", "20 mm rubber grommet for the cable",
+                         "4 x 10 x 10 x 2 mm foam pads (behind the panel)"]}),
+    ("P7", {"file": "node_box", "name": "Rack node box", "mat": "PETG", "replaces": [],
+            "hardware": ["2 x 20 x 5 mm neodymium disc magnets (glued)", "4 x M2.5 x 6 self-tapping (carrier board)",
+                         "4 x M3 x 8 self-tapping (lid)"]}),
+    ("P8", {"file": "clip", "name": "Probe clips", "mat": "PETG", "replaces": [],
+            "hardware": ["6 x 10 x 3 mm neodymium disc magnets (glued)"]}),
 ])
 
 
@@ -611,6 +758,23 @@ def build(P=None, printer="x1c"):
     ax = (I["wall"]["p1"] - I["wall"]["p0"]).normalized()
     add_piece("P5-1", "P5", "Wall spigot - flange + inner tube", A, tuple(ax), note="flange face (outside) on the plate")
     add_piece("P5-2", "P5", "Wall spigot - outer tube", B, tuple(ax), note="hose end on the plate, tongue up")
+
+    # electronics mounts
+    shell, bezel, pinfo = touch_pod()
+    M = pinfo["frame"]
+    parts["P6"] = {"solids": (M(shell), M(bezel)), "info": pinfo,
+                   "local": (shell, bezel)}
+    add_piece("P6-1", "P6", "Touchscreen pod - shell", parts["P6"]["solids"][0], (0, 1, 0),
+              note="door side on the plate")
+    add_piece("P6-2", "P6", "Touchscreen pod - bezel", parts["P6"]["solids"][1], (0, -1, 0),
+              note="front face on the plate")
+    nb, lid, ninfo = node_box()
+    M = ninfo["frame"]
+    parts["P7"] = {"solids": (M(nb), M(lid)), "info": ninfo}
+    add_piece("P7-1", "P7", "Rack node box - base", parts["P7"]["solids"][0], (-1, 0, 0), note="base on the plate")
+    add_piece("P7-2", "P7", "Rack node box - lid", parts["P7"]["solids"][1], (1, 0, 0), note="outer face on the plate")
+    add_piece("P8-1", "P8", "Clip - temperature probe", clip(EL["probe_d"]), (0, 0, -1), qty=6,
+              note="magnet face on the plate, print 6")
 
     # gauges
     g1, g2 = gauges(I)
@@ -712,6 +876,22 @@ def run_checks(I, C, parts, pieces, printer):
         math.hypot(hs[0][0] - x, hs[0][1] - z) + hs[0][2] / 2 + 5.0 < I["wall"]["rf"],
         "%d x D%.1f on PCD %.1f, flange D%.0f" % (len(hs), hs[0][2] if hs else 0, pcd[0] if pcd else 0,
                                                   2 * I["wall"]["rf"]))
+    # touchscreen pod against the upper-door holes (CP-SRA16-SMP-001)
+    import sheetmetal as SMP
+    sm = SMP.build(I["P"])
+    du = [p for p in sm["parts"] if p.id == "DU1"][0]
+    dz0 = du.place[2] + sm["D"]["z_base0"]
+    door = sorted((round(h["u"], 2), round(h["v"] + dz0, 2), h["d"]) for h in du.holes if "ELC-001" in h["use"])
+    pi = parts["P6"]["info"]
+    pd = SMP.SM["pod"]
+    pod = sorted([(round(pd["xc"] + du_, 2), round(pd["zc"] + dv, 2), pd["rivnut_d"]) for du_, dv in pi["bolts"]] +
+                 [(round(pd["xc"] + pi["cable"][0], 2), round(pd["zc"] + pi["cable"][1], 2), pd["cable_d"])])
+    chk("touchscreen pod holes = upper-door holes (DXF)", door == pod and len(door) == 3,
+        "%d holes, pod at x %.0f z %.0f" % (len(door), pd["xc"], pd["zc"]))
+    bw, bh = EL["board"]
+    pw, ph, pdp = pi["pocket"]
+    chk("panel fits the pod pocket, window inside the glass", pw - bw <= 1.2 and ph - bh <= 1.2 and
+        pi["window"][0] < bw - 4 and pi["window"][1] < bh - 4, "pocket %.1f x %.1f for %.1f x %.1f board" % (pw, ph, bw, bh))
     return out
 
 

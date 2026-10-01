@@ -112,31 +112,35 @@
 <text x="146.00" y="93.50" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">DU1  x1</text>
 <text x="166.00" y="93.50" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Door, upper (rack)</text>
 <text x="146.00" y="97.10" font-size="1.70" text-anchor="start" font-weight="normal" fill="#5b6168">Steel sheet (Zincanneal or CR4) 1.2 - powder coat RAL 7035 both sides</text>
-<path d="M195.94 142.87 L227.06 142.87 L227.06 104.23 L195.94 104.23 Z" fill="#eef1f4" stroke="#15181c" stroke-width="0.25" stroke-linejoin="round"/>
-<circle cx="198.25" cy="137.99" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="198.25" cy="136.24" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="198.25" cy="134.49" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="198.25" cy="113.90" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="198.25" cy="112.15" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="198.25" cy="110.40" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="224.75" cy="136.84" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="224.75" cy="135.64" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="224.75" cy="112.75" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="224.75" cy="111.55" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="224.75" cy="127.44" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="224.75" cy="119.44" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<line x1="195.94" y1="143.67" x2="195.94" y2="147.67" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
-<line x1="227.06" y1="143.67" x2="227.06" y2="147.67" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
-<line x1="195.94" y1="146.47" x2="227.06" y2="146.47" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
-<text x="211.50" y="149.07" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c">622.4</text>
-<line x1="195.14" y1="104.23" x2="191.54" y2="104.23" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
-<line x1="195.14" y1="142.87" x2="191.54" y2="142.87" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
-<line x1="192.74" y1="104.23" x2="192.74" y2="142.87" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
-<text x="191.84" y="123.55" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 191.84 123.55)">772.7</text>
+<path d="M195.94 141.57 L227.06 141.57 L227.06 102.93 L195.94 102.93 Z" fill="#eef1f4" stroke="#15181c" stroke-width="0.25" stroke-linejoin="round"/>
+<circle cx="198.25" cy="136.69" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="198.25" cy="134.94" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="198.25" cy="133.19" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="198.25" cy="112.60" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="198.25" cy="110.85" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="198.25" cy="109.10" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="224.75" cy="135.54" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="224.75" cy="134.34" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="224.75" cy="111.45" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="224.75" cy="110.25" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="224.75" cy="126.14" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="224.75" cy="118.14" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="200.39" cy="119.49" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="204.99" cy="119.49" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="201.19" cy="121.99" r="0.50" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<line x1="195.94" y1="142.37" x2="195.94" y2="146.37" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="227.06" y1="142.37" x2="227.06" y2="146.37" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="195.94" y1="145.17" x2="227.06" y2="145.17" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
+<text x="211.50" y="147.77" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c">622.4</text>
+<line x1="195.14" y1="102.93" x2="191.54" y2="102.93" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="195.14" y1="141.57" x2="191.54" y2="141.57" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="192.74" y1="102.93" x2="192.74" y2="141.57" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
+<text x="191.84" y="122.25" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 191.84 122.25)">772.7</text>
 <text x="273.00" y="93.50" font-size="1.90" text-anchor="end" font-weight="normal" fill="#5b6168">1:20</text>
-<text x="146.00" y="158.40" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">6 x D5 rivet, hinge door leaf</text>
-<text x="146.00" y="161.00" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">4 x D5 rivet, latch keeper KB1</text>
-<text x="146.00" y="163.60" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">2 x D5.5 M5, pull handle</text>
+<text x="146.00" y="155.80" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">6 x D5 rivet, hinge door leaf</text>
+<text x="146.00" y="158.40" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">4 x D5 rivet, latch keeper KB1</text>
+<text x="146.00" y="161.00" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">2 x D5.5 M5, pull handle</text>
+<text x="146.00" y="163.60" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">2 x D6 M4 rivnut, touchscreen pod</text>
 <rect x="276.00" y="89.30" width="131.00" height="76.30" rx="0.00" fill="none" stroke="#b8bec5" stroke-width="0.15"/>
 <text x="278.00" y="93.50" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">DA1  x1</text>
 <text x="298.00" y="93.50" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Door stiffener, lower door, left vertical</text>
@@ -247,7 +251,7 @@
 <text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">as noted per part @ A3   UNITS mm   LAYOUT v1.2.0</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
-<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-09-27   DRAWN Claude (AI) for Carbon Project</text>
+<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-01   DRAWN Claude (AI) for Carbon Project</text>
 <line x1="272.00" y1="273.80" x2="412.00" y2="273.80" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="284.70" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">STATUS</text>
 <text x="291.00" y="284.70" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">FOR CUTTING - DXF is the master; confirm hardware (sheet 5)</text>

@@ -1,0 +1,653 @@
+# SRA-16 touchscreen UI (LVGL, 800 x 480), shared by sra16-hmi.yaml and preview/sra16-hmi-preview.yaml.
+#
+# Expects these entities from the including file:
+#   sensors   n_cold n_hot n_cold_top n_cold_mid n_supply n_hot_top n_return n_exhaust n_rh n_dew
+#             n_cold_avg n_load_dt n_setpoint n_state n_alarms n_flags n_retries n_uptime n_ir_count
+#             room_t room_rh
+#   selects   sel_mode sel_fan        numbers  num_target num_warn num_crit     switch  sw_eco
+#   binary    door_upper link_ok      buttons  btn_send_ir btn_reset            script  alarm_silence
+#   text      ip_addr
+# Colours: background 0E1116, cards 171C23, text E6EDF3, muted 8B949E, cold 4EA1FF, hot FF7B5C,
+# good 3FB950, warning F2A33A, alarm F85149.
+
+lvgl:
+  buffer_size: 25%
+  default_font: montserrat_16
+  bg_color: 0x0E1116
+  theme:
+    label:
+      text_color: 0xE6EDF3
+    button:
+      bg_color: 0x262D36
+      bg_grad_color: 0x262D36
+      text_color: 0xE6EDF3
+      radius: 10
+      border_width: 0
+      shadow_width: 0
+      pressed:
+        bg_color: 0x3A4350
+      checked:
+        bg_color: 0x1F6FEB
+    switch:
+      bg_color: 0x30363D
+      indicator:
+        checked:
+          bg_color: 0x3FB950
+  style_definitions:
+    - id: card
+      bg_color: 0x171C23
+      bg_opa: COVER
+      radius: 14
+      border_width: 0
+      pad_all: 0
+      scrollbar_mode: "OFF"
+    - id: title
+      text_font: montserrat_14
+      text_color: 0x8B949E
+    - id: small
+      text_font: montserrat_16
+      text_color: 0xB1BAC4
+  pages:
+    - id: main_page
+      bg_color: 0x0E1116
+      pad_all: 0
+      scrollbar_mode: "OFF"
+      widgets:
+        - tabview:
+            id: tabs
+            position: BOTTOM
+            size: 58
+            width: 800
+            height: 480
+            content_style:
+              bg_color: 0x0E1116
+              bg_opa: COVER
+              pad_all: 0
+            tab_style:
+              bg_color: 0x161B22
+              text_color: 0x8B949E
+              text_font: montserrat_20
+              items:
+                bg_color: 0x161B22
+                text_color: 0x8B949E
+                checked:
+                  text_color: 0xE6EDF3
+                  bg_color: 0x21262D
+            tabs:
+              # ------------------------------------------------------------ STATUS
+              - name: Status
+                id: tab_status
+                scrollbar_mode: "OFF"
+                bg_color: 0x0E1116
+                bg_opa: COVER
+                pad_all: 10
+                widgets:
+                  - obj:
+                      styles: card
+                      x: 0
+                      y: 0
+                      width: 250
+                      height: 196
+                      widgets:
+                        - label: {styles: title, x: 14, y: 12, text: "COLD SIDE  -  server intake"}
+                        - label: {id: lbl_cold, x: 14, y: 36, text: "--.-°", text_font: montserrat_48, text_color: 0x4EA1FF}
+                        - label: {id: lbl_cold_sub, styles: small, x: 14, y: 104, text: "average --.-°"}
+                        - label: {id: lbl_cold_rh, styles: small, x: 14, y: 130, text: "RH --%  dew --.-°"}
+                        - label: {id: lbl_cold_tgt, styles: title, x: 14, y: 162, text: "target --.-°  warn --°"}
+                  - obj:
+                      styles: card
+                      x: 265
+                      y: 0
+                      width: 250
+                      height: 196
+                      widgets:
+                        - label: {styles: title, x: 14, y: 12, text: "HOT SIDE  -  server exhaust"}
+                        - label: {id: lbl_hot, x: 14, y: 36, text: "--.-°", text_font: montserrat_48, text_color: 0xFF7B5C}
+                        - label: {id: lbl_hot_sub, styles: small, x: 14, y: 104, text: "AC return --.-°"}
+                        - label: {id: lbl_load, styles: small, x: 14, y: 130, text: "IT load --"}
+                        - label: {styles: title, x: 14, y: 162, text: "rise across the servers"}
+                  - obj:
+                      styles: card
+                      x: 530
+                      y: 0
+                      width: 250
+                      height: 196
+                      widgets:
+                        - label: {styles: title, x: 14, y: 12, text: "AIR CONDITIONER"}
+                        - label: {id: lbl_state, x: 14, y: 40, text: "...", text_font: montserrat_28, text_color: 0x3FB950}
+                        - label: {id: lbl_ac_set, styles: small, x: 14, y: 84, text: "set --°  fan --"}
+                        - label: {id: lbl_ac_air, styles: small, x: 14, y: 110, text: "supply --.-°"}
+                        - label: {id: lbl_ac_exh, styles: small, x: 14, y: 136, text: "exhaust --.-°"}
+                        - label: {id: lbl_ac_eco, styles: title, x: 14, y: 162, text: ""}
+                  # controls
+                  - obj:
+                      styles: card
+                      x: 0
+                      y: 206
+                      width: 330
+                      height: 96
+                      widgets:
+                        - label: {styles: title, x: 14, y: 10, text: "MODE"}
+                        - button:
+                            id: btn_auto
+                            x: 12
+                            y: 34
+                            width: 96
+                            height: 50
+                            checkable: true
+                            widgets:
+                              - label: {text: "AUTO", align: CENTER, text_font: montserrat_20}
+                            on_click:
+                              - select.set: {id: sel_mode, option: "Auto"}
+                        - button:
+                            id: btn_on
+                            x: 116
+                            y: 34
+                            width: 96
+                            height: 50
+                            checkable: true
+                            widgets:
+                              - label: {text: "ON", align: CENTER, text_font: montserrat_20}
+                            on_click:
+                              - select.set: {id: sel_mode, option: "On"}
+                        - button:
+                            id: btn_off
+                            x: 220
+                            y: 34
+                            width: 96
+                            height: 50
+                            checkable: true
+                            widgets:
+                              - label: {text: "OFF", align: CENTER, text_font: montserrat_20}
+                            on_click:
+                              - select.set: {id: sel_mode, option: "Off"}
+                  - obj:
+                      styles: card
+                      x: 340
+                      y: 206
+                      width: 260
+                      height: 96
+                      widgets:
+                        - label: {styles: title, x: 14, y: 10, text: "INTAKE TARGET"}
+                        - button:
+                            x: 12
+                            y: 34
+                            width: 60
+                            height: 50
+                            widgets:
+                              - label: {text: "-", align: CENTER, text_font: montserrat_28}
+                            on_click:
+                              - number.decrement: {id: num_target, cycle: false}
+                        - label: {id: lbl_target, x: 80, y: 38, width: 100, text: "--.-°", text_align: CENTER, text_font: montserrat_36}
+                        - button:
+                            x: 188
+                            y: 34
+                            width: 60
+                            height: 50
+                            widgets:
+                              - label: {text: "+", align: CENTER, text_font: montserrat_28}
+                            on_click:
+                              - number.increment: {id: num_target, cycle: false}
+                  - obj:
+                      styles: card
+                      x: 610
+                      y: 206
+                      width: 170
+                      height: 96
+                      widgets:
+                        - label: {styles: title, x: 14, y: 10, text: "ECO (quiet)"}
+                        - switch:
+                            id: sw_eco_ui
+                            x: 14
+                            y: 40
+                            width: 80
+                            height: 40
+                            on_change:
+                              - if:
+                                  condition:
+                                    lambda: "return x != id(sw_eco).state;"
+                                  then:
+                                    - switch.toggle: sw_eco
+                        - label: {id: lbl_eco, styles: title, x: 102, y: 52, text: ""}
+                  # status strip / alarm bar
+                  - obj:
+                      id: strip
+                      styles: card
+                      x: 0
+                      y: 310
+                      width: 780
+                      height: 92
+                      on_click:
+                        - lvgl.tabview.select: {id: tabs, index: 2}
+                      widgets:
+                        - label: {id: lbl_alarm, x: 14, y: 10, width: 750, text: "All normal", text_font: montserrat_20, text_color: 0x3FB950}
+                        - led: {id: led_door_u, x: 14, y: 54, width: 16, height: 16, color: 0x3FB950, brightness: 100%}
+                        - label: {styles: small, x: 36, y: 52, text: "Upper door"}
+                        - led: {id: led_door_l, x: 146, y: 54, width: 16, height: 16, color: 0x3FB950, brightness: 100%}
+                        - label: {styles: small, x: 168, y: 52, text: "Lower door"}
+                        - led: {id: led_tray, x: 278, y: 54, width: 16, height: 16, color: 0x3FB950, brightness: 100%}
+                        - label: {styles: small, x: 300, y: 52, text: "Tray"}
+                        - led: {id: led_power, x: 362, y: 54, width: 16, height: 16, color: 0x3FB950, brightness: 100%}
+                        - label: {styles: small, x: 384, y: 52, text: "AC power"}
+                        - led: {id: led_link, x: 484, y: 54, width: 16, height: 16, color: 0x3FB950, brightness: 100%}
+                        - label: {styles: small, x: 506, y: 52, text: "Rack link"}
+                        - label: {id: lbl_room, styles: small, x: 610, y: 52, text: "Room --.-°"}
+
+              # ------------------------------------------------------------ SENSORS
+              - name: Sensors
+                id: tab_sensors
+                scrollbar_mode: "OFF"
+                bg_color: 0x0E1116
+                bg_opa: COVER
+                pad_all: 10
+                widgets:
+                  - obj:
+                      styles: card
+                      x: 0
+                      y: 0
+                      width: 385
+                      height: 404
+                      widgets:
+                        - label: {styles: title, x: 16, y: 12, text: "COLD SIDE (front plenum)"}
+                        - label: {styles: small, x: 16, y: 44, text: "Top"}
+                        - label: {id: s_cold_top, x: 230, y: 40, width: 140, text: "--.-°", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: small, x: 16, y: 92, text: "Middle (server intake)"}
+                        - label: {id: s_cold_mid, x: 230, y: 88, width: 140, text: "--.-°", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: small, x: 16, y: 140, text: "AC supply (hood outlet)"}
+                        - label: {id: s_supply, x: 230, y: 136, width: 140, text: "--.-°", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: small, x: 16, y: 188, text: "Humidity"}
+                        - label: {id: s_rh, x: 230, y: 184, width: 140, text: "--%", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: small, x: 16, y: 236, text: "Dew point"}
+                        - label: {id: s_dew, x: 230, y: 232, width: 140, text: "--.-°", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: small, x: 16, y: 284, text: "10-minute average"}
+                        - label: {id: s_cold_avg, x: 230, y: 280, width: 140, text: "--.-°", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: title, x: 16, y: 340, width: 355, text: "The AC is steered so the intake averages the target. Its own thermostat cycles the compressor, so the intake swings a few degrees.", long_mode: WRAP}
+                  - obj:
+                      styles: card
+                      x: 395
+                      y: 0
+                      width: 385
+                      height: 404
+                      widgets:
+                        - label: {styles: title, x: 16, y: 12, text: "HOT SIDE, AC AND ROOM"}
+                        - label: {styles: small, x: 16, y: 44, text: "Rear plenum top"}
+                        - label: {id: s_hot_top, x: 230, y: 40, width: 140, text: "--.-°", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: small, x: 16, y: 92, text: "AC return (bay)"}
+                        - label: {id: s_return, x: 230, y: 88, width: 140, text: "--.-°", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: small, x: 16, y: 140, text: "AC exhaust (elbow)"}
+                        - label: {id: s_exhaust, x: 230, y: 136, width: 140, text: "--.-°", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: small, x: 16, y: 188, text: "Rise across servers"}
+                        - label: {id: s_load, x: 230, y: 184, width: 140, text: "--.- K", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: small, x: 16, y: 236, text: "Room"}
+                        - label: {id: s_room, x: 230, y: 232, width: 140, text: "--.-°", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {styles: small, x: 16, y: 284, text: "Room humidity"}
+                        - label: {id: s_room_rh, x: 230, y: 280, width: 140, text: "--%", text_align: RIGHT, text_font: montserrat_28}
+                        - label: {id: s_info, styles: title, x: 16, y: 340, width: 355, text: "", long_mode: WRAP}
+
+              # ------------------------------------------------------------ ALARMS
+              - name: Alarms
+                id: tab_alarms
+                scrollbar_mode: "OFF"
+                bg_color: 0x0E1116
+                bg_opa: COVER
+                pad_all: 10
+                widgets:
+                  - obj:
+                      styles: card
+                      x: 0
+                      y: 0
+                      width: 780
+                      height: 330
+                      widgets:
+                        - label: {styles: title, x: 16, y: 12, text: "ACTIVE ALARMS"}
+                        - label:
+                            id: lbl_alarm_list
+                            x: 16
+                            y: 40
+                            width: 748
+                            height: 280
+                            text: "None."
+                            text_font: montserrat_20
+                            long_mode: WRAP
+                  - button:
+                      x: 0
+                      y: 342
+                      width: 250
+                      height: 62
+                      widgets:
+                        - label: {text: "Silence buzzer", align: CENTER, text_font: montserrat_20}
+                      on_click:
+                        - script.execute: alarm_silence
+                  - button:
+                      x: 265
+                      y: 342
+                      width: 250
+                      height: 62
+                      widgets:
+                        - label: {text: "Reset alarms", align: CENTER, text_font: montserrat_20}
+                      on_click:
+                        - button.press: btn_reset
+                  - button:
+                      x: 530
+                      y: 342
+                      width: 250
+                      height: 62
+                      widgets:
+                        - label: {text: "Re-send to AC", align: CENTER, text_font: montserrat_20}
+                      on_click:
+                        - button.press: btn_send_ir
+
+              # ------------------------------------------------------------ SETTINGS
+              - name: Settings
+                id: tab_settings
+                scrollbar_mode: "OFF"
+                bg_color: 0x0E1116
+                bg_opa: COVER
+                pad_all: 10
+                widgets:
+                  - obj:
+                      styles: card
+                      x: 0
+                      y: 0
+                      width: 385
+                      height: 404
+                      widgets:
+                        - label: {styles: title, x: 16, y: 12, text: "AC FAN"}
+                        - button:
+                            id: btn_fan_auto
+                            x: 14
+                            y: 36
+                            width: 110
+                            height: 50
+                            checkable: true
+                            widgets:
+                              - label: {text: "AUTO", align: CENTER, text_font: montserrat_20}
+                            on_click:
+                              - select.set: {id: sel_fan, option: "Auto"}
+                        - button:
+                            id: btn_fan_low
+                            x: 136
+                            y: 36
+                            width: 110
+                            height: 50
+                            checkable: true
+                            widgets:
+                              - label: {text: "LOW", align: CENTER, text_font: montserrat_20}
+                            on_click:
+                              - select.set: {id: sel_fan, option: "Low"}
+                        - button:
+                            id: btn_fan_high
+                            x: 258
+                            y: 36
+                            width: 110
+                            height: 50
+                            checkable: true
+                            widgets:
+                              - label: {text: "HIGH", align: CENTER, text_font: montserrat_20}
+                            on_click:
+                              - select.set: {id: sel_fan, option: "High"}
+                        - label: {styles: title, x: 16, y: 110, text: "WARNING ABOVE (intake)"}
+                        - button:
+                            x: 14
+                            y: 134
+                            width: 60
+                            height: 50
+                            widgets:
+                              - label: {text: "-", align: CENTER, text_font: montserrat_28}
+                            on_click:
+                              - number.decrement: {id: num_warn, cycle: false}
+                        - label: {id: lbl_warn, x: 82, y: 140, width: 110, text: "--°", text_align: CENTER, text_font: montserrat_28}
+                        - button:
+                            x: 200
+                            y: 134
+                            width: 60
+                            height: 50
+                            widgets:
+                              - label: {text: "+", align: CENTER, text_font: montserrat_28}
+                            on_click:
+                              - number.increment: {id: num_warn, cycle: false}
+                        - label: {styles: title, x: 16, y: 208, text: "SHUT IT DOWN ABOVE (intake)"}
+                        - button:
+                            x: 14
+                            y: 232
+                            width: 60
+                            height: 50
+                            widgets:
+                              - label: {text: "-", align: CENTER, text_font: montserrat_28}
+                            on_click:
+                              - number.decrement: {id: num_crit, cycle: false}
+                        - label: {id: lbl_crit, x: 82, y: 238, width: 110, text: "--°", text_align: CENTER, text_font: montserrat_28}
+                        - button:
+                            x: 200
+                            y: 232
+                            width: 60
+                            height: 50
+                            widgets:
+                              - label: {text: "+", align: CENTER, text_font: montserrat_28}
+                            on_click:
+                              - number.increment: {id: num_crit, cycle: false}
+                        - label: {styles: title, x: 16, y: 304, width: 355, text: "A shutdown request closes relay K1 in the rack node and sets the Home Assistant entity; the UPS, NUT or a script on the servers acts on it.", long_mode: WRAP}
+                  - obj:
+                      styles: card
+                      x: 395
+                      y: 0
+                      width: 385
+                      height: 404
+                      widgets:
+                        - label: {styles: title, x: 16, y: 12, text: "SYSTEM"}
+                        - label: {id: lbl_sys, styles: small, x: 16, y: 40, width: 355, text: "", long_mode: WRAP}
+
+script:
+  - id: ui_refresh
+    then:
+      - lvgl.label.update:
+          id: lbl_cold
+          text: !lambda 'return std::isnan(id(n_cold).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(n_cold).state);'
+      - lvgl.label.update:
+          id: lbl_cold_sub
+          text: !lambda 'return std::isnan(id(n_cold_avg).state) ? std::string("average --.-°") : str_sprintf("average %.1f°", id(n_cold_avg).state);'
+      - lvgl.label.update:
+          id: lbl_cold_rh
+          text: !lambda |-
+            if (std::isnan(id(n_rh).state)) return std::string("RH --");
+            return str_sprintf("RH %.0f%%  dew %.1f°", id(n_rh).state, id(n_dew).state);
+      - lvgl.label.update:
+          id: lbl_cold_tgt
+          text: !lambda 'return str_sprintf("target %.1f°   warning %.0f°", id(num_target).state, id(num_warn).state);'
+      - lvgl.label.update:
+          id: lbl_hot
+          text: !lambda 'return std::isnan(id(n_hot).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(n_hot).state);'
+      - lvgl.label.update:
+          id: lbl_hot_sub
+          text: !lambda 'return std::isnan(id(n_return).state) ? std::string("AC return --.-°") : str_sprintf("AC return %.1f°", id(n_return).state);'
+      - lvgl.label.update:
+          id: lbl_load
+          text: !lambda |-
+            float dt = id(n_load_dt).state;
+            if (std::isnan(dt)) return std::string("IT load --");
+            // AC air flow about 400 m3/h: 0.134 kW per kelvin of rise
+            return str_sprintf("+%.1f K  =  about %.1f kW", dt, dt * 0.134f);
+      - lvgl.label.update:
+          id: lbl_state
+          text: !lambda 'return std::string(sra::state_name((uint8_t) id(n_state).state));'
+          text_color: !lambda |-
+            int st = (int) id(n_state).state;
+            if (st == sra::ST_CRITICAL || st == sra::ST_NOT_COOLING || st == sra::ST_NO_POWER) return lv_color_hex(0xF85149);
+            if (st == sra::ST_ECO_OFF || st == sra::ST_OFF) return lv_color_hex(0x8B949E);
+            if (st == sra::ST_COOLING) return lv_color_hex(0x4EA1FF);
+            return lv_color_hex(0x3FB950);
+      - lvgl.label.update:
+          id: lbl_ac_set
+          text: !lambda |-
+            bool on = ((int) id(n_flags).state) & 1;
+            if (!on) return std::string("off");
+            return str_sprintf("set %.0f°   fan %s", id(n_setpoint).state, id(sel_fan).state.c_str());
+      - lvgl.label.update:
+          id: lbl_ac_air
+          text: !lambda 'return std::isnan(id(n_supply).state) ? std::string("supply --.-°") : str_sprintf("supply air %.1f°", id(n_supply).state);'
+      - lvgl.label.update:
+          id: lbl_ac_exh
+          text: !lambda 'return std::isnan(id(n_exhaust).state) ? std::string("exhaust --.-°") : str_sprintf("exhaust %.1f°", id(n_exhaust).state);'
+      - lvgl.label.update:
+          id: lbl_ac_eco
+          text: !lambda |-
+            int f = (int) id(n_flags).state;
+            if (f & 2) return std::string("eco: low load, cycling");
+            return std::string(id(n_retries).state > 0 ? "re-sending to the AC" : "");
+      - lvgl.widget.update:
+          id: btn_auto
+          state:
+            checked: !lambda 'return id(sel_mode).state == "Auto";'
+      - lvgl.widget.update:
+          id: btn_on
+          state:
+            checked: !lambda 'return id(sel_mode).state == "On";'
+      - lvgl.widget.update:
+          id: btn_off
+          state:
+            checked: !lambda 'return id(sel_mode).state == "Off";'
+      - lvgl.widget.update:
+          id: btn_fan_auto
+          state:
+            checked: !lambda 'return id(sel_fan).state == "Auto";'
+      - lvgl.widget.update:
+          id: btn_fan_low
+          state:
+            checked: !lambda 'return id(sel_fan).state == "Low";'
+      - lvgl.widget.update:
+          id: btn_fan_high
+          state:
+            checked: !lambda 'return id(sel_fan).state == "High";'
+      - lvgl.label.update:
+          id: lbl_target
+          text: !lambda 'return str_sprintf("%.1f°", id(num_target).state);'
+      - lvgl.widget.update:
+          id: sw_eco_ui
+          state:
+            checked: !lambda 'return id(sw_eco).state;'
+      - lvgl.label.update:
+          id: lbl_eco
+          text: !lambda 'return std::string(id(sw_eco).state ? "on" : "off");'
+      - lvgl.label.update:
+          id: lbl_warn
+          text: !lambda 'return str_sprintf("%.0f°", id(num_warn).state);'
+      - lvgl.label.update:
+          id: lbl_crit
+          text: !lambda 'return str_sprintf("%.0f°", id(num_crit).state);'
+      # status strip
+      - lvgl.led.update:
+          id: led_door_u
+          color: !lambda 'return lv_color_hex(id(door_upper).state ? 0xF2A33A : 0x3FB950);'
+      - lvgl.led.update:
+          id: led_door_l
+          color: !lambda 'return lv_color_hex(((int) id(n_flags).state & 8) ? 0xF2A33A : 0x3FB950);'
+      - lvgl.led.update:
+          id: led_tray
+          color: !lambda 'return lv_color_hex(((int) id(n_flags).state & 16) ? 0xF85149 : 0x3FB950);'
+      - lvgl.led.update:
+          id: led_power
+          color: !lambda |-
+            int f = (int) id(n_flags).state;
+            if (!(f & 256)) return lv_color_hex(0x484F58);       // mains detect not fitted
+            return lv_color_hex((f & 32) ? 0x3FB950 : 0xF85149);
+      - lvgl.led.update:
+          id: led_link
+          color: !lambda 'return lv_color_hex(id(link_ok).state ? 0x3FB950 : 0xF85149);'
+      - lvgl.label.update:
+          id: lbl_room
+          text: !lambda |-
+            if (std::isnan(id(room_t).state)) return std::string("Room --.-°");
+            return str_sprintf("Room %.1f°  %.0f%%", id(room_t).state, id(room_rh).state);
+      - lvgl.label.update:
+          id: lbl_alarm
+          text: !lambda |-
+            uint16_t a = (uint16_t) id(n_alarms).state;
+            if (!id(link_ok).state) return std::string("No answer from the rack node - check the door cable");
+            if (a == 0) return std::string("All normal");
+            static const char *const names[] = {"Intake above the warning", "INTAKE CRITICAL",
+              "Hot side above the warning", "AC NOT COOLING", "WATER IN THE TRAY", "A door is open",
+              "Sensor missing", "Condensation risk", "Manual OFF overridden (too hot)",
+              "SHUTDOWN REQUESTED", "AC has no power", "Touchscreen link lost"};
+            // most serious first
+            static const int order[] = {9, 1, 3, 4, 10, 0, 2, 6, 8, 7, 5, 11};
+            int n = 0, first = -1;
+            for (int i : order) if (a & (1u << i)) { n++; if (first < 0) first = i; }
+            if (n == 1) return std::string(names[first]);
+            return str_sprintf("%s  (+%d more)", names[first], n - 1);
+          text_color: !lambda |-
+            uint16_t a = (uint16_t) id(n_alarms).state;
+            if (!id(link_ok).state || (a & 0x061A)) return lv_color_hex(0xF85149);
+            return lv_color_hex(a ? 0xF2A33A : 0x3FB950);
+      # sensors tab
+      - lvgl.label.update:
+          id: s_cold_top
+          text: !lambda 'return std::isnan(id(n_cold_top).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(n_cold_top).state);'
+      - lvgl.label.update:
+          id: s_cold_mid
+          text: !lambda 'return std::isnan(id(n_cold_mid).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(n_cold_mid).state);'
+      - lvgl.label.update:
+          id: s_supply
+          text: !lambda 'return std::isnan(id(n_supply).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(n_supply).state);'
+      - lvgl.label.update:
+          id: s_rh
+          text: !lambda 'return std::isnan(id(n_rh).state) ? std::string("--%") : str_sprintf("%.0f%%", id(n_rh).state);'
+      - lvgl.label.update:
+          id: s_dew
+          text: !lambda 'return std::isnan(id(n_dew).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(n_dew).state);'
+      - lvgl.label.update:
+          id: s_cold_avg
+          text: !lambda 'return std::isnan(id(n_cold_avg).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(n_cold_avg).state);'
+      - lvgl.label.update:
+          id: s_hot_top
+          text: !lambda 'return std::isnan(id(n_hot_top).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(n_hot_top).state);'
+      - lvgl.label.update:
+          id: s_return
+          text: !lambda 'return std::isnan(id(n_return).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(n_return).state);'
+      - lvgl.label.update:
+          id: s_exhaust
+          text: !lambda 'return std::isnan(id(n_exhaust).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(n_exhaust).state);'
+      - lvgl.label.update:
+          id: s_load
+          text: !lambda 'return std::isnan(id(n_load_dt).state) ? std::string("--.- K") : str_sprintf("%.1f K", id(n_load_dt).state);'
+      - lvgl.label.update:
+          id: s_room
+          text: !lambda 'return std::isnan(id(room_t).state) ? std::string("--.-°") : str_sprintf("%.1f°", id(room_t).state);'
+      - lvgl.label.update:
+          id: s_room_rh
+          text: !lambda 'return std::isnan(id(room_rh).state) ? std::string("--%") : str_sprintf("%.0f%%", id(room_rh).state);'
+      - lvgl.label.update:
+          id: s_info
+          text: !lambda 'return str_sprintf("IR frames sent %.0f   node up %.0f h", id(n_ir_count).state, id(n_uptime).state / 60.0f);'
+      # alarms tab
+      - lvgl.label.update:
+          id: lbl_alarm_list
+          text: !lambda |-
+            uint16_t a = (uint16_t) id(n_alarms).state;
+            static const char *const text[] = {
+              "Intake above the warning limit. Check the AC is cooling and the doors are shut.",
+              "Intake above the critical limit. The servers will be asked to shut down.",
+              "Hot side above its warning limit.",
+              "The AC is not cooling after several re-sends. Check it is switched on and its power.",
+              "Water in the drip tray. Check the drain hose.",
+              "A door has been open for more than 10 minutes.",
+              "A temperature probe is missing on the cold or the hot side.",
+              "Humid room air in the rack: condensation risk. Keep the doors shut.",
+              "OFF was overridden because the rack got too hot.",
+              "SHUTDOWN REQUESTED: the intake stayed critical.",
+              "The AC socket has no power.",
+              "The rack node has not heard from this screen."};
+            std::string s;
+            if (!id(link_ok).state) s += "- No answer from the rack node: check the door cable and the 12 V supply.\n";
+            for (int i = 0; i < 12; i++) if (a & (1u << i)) { s += "- "; s += text[i]; s += "\n"; }
+            return s.empty() ? std::string("None.") : s;
+      - lvgl.label.update:
+          id: lbl_sys
+          text: !lambda |-
+            return str_sprintf("Address  %s\nRack node  %s\nAC target sent  %.0f°\nIR frames sent  %.0f\nRe-sends pending  %.0f\n\nFirmware  1.0.0 (CP-SRA16-ELC-001)",
+              id(ip_addr).state.c_str(), id(link_ok).state ? "online" : "OFFLINE",
+              id(n_setpoint).state, id(n_ir_count).state, id(n_retries).state);
+
+interval:
+  - interval: 2s
+    then:
+      - script.execute: ui_refresh

@@ -1,0 +1,464 @@
+# SRA-16 rack node (CP-SRA16-ELC-001) - ESP32-S3-DevKitC-1 on the node carrier, inside the rack.
+#
+# Reads every rack probe, runs the cooling supervisor (components/sra_control/sra_control.h),
+# drives the AC through its IR remote protocol, closes the SHUTDOWN relay (K1, J3) when the IT
+# should shut down, and serves its data and settings to the door touchscreen over RS485 Modbus
+# (it is the server, address 1).  It needs no network to work: Wi-Fi is only for updates and
+# works best with the doors open (the rack is a steel box).  Pins and connectors: sheet 2 of
+# drawings/CP-SRA16-ELC-001.pdf.
+#
+# Commissioning (docs/ELECTRONICS.md): fill in the probe addresses and the AC protocol below.
+
+substitutions:
+  name: sra16-node
+  friendly_name: SRA-16 rack node
+  # Which IR protocol the AC speaks: press its remote at the node with this firmware running and
+  # read the log ("Received Coolix" -> coolix, "Received Midea" -> midea_ir).
+  ac_protocol: coolix
+  # DS18B20 probe addresses; the log prints every probe it finds on each bus at boot
+  t_cold_top: "0x0000000000000001"
+  t_cold_mid: "0x0000000000000002"
+  t_supply: "0x0000000000000003"
+  t_hot_top: "0x0000000000000004"
+  t_return: "0x0000000000000005"
+  t_exhaust: "0x0000000000000006"
+  # "true" once the optional mains-detect plug pack is wired to MAINS
+  mains_fitted: "false"
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  project:
+    name: carbonproject.sra16-node
+    version: "1.0.0"
+  includes:
+    - components/sra_control/sra_control.h
+  on_boot:
+    priority: -100
+    then:
+      - script.execute: apply_settings
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf
+
+logger:
+  level: INFO
+  hardware_uart: USB_SERIAL_JTAG   # UART1 is the RS485 bus
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  reboot_timeout: 0s               # never reboot for want of Wi-Fi: this is a controller
+  power_save_mode: none
+
+api:
+  encryption:
+    key: !secret api_key
+  reboot_timeout: 0s
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+# ------------------------------------------------------------------ RS485 to the touchscreen
+uart:
+  id: rs485
+  tx_pin: GPIO17
+  rx_pin: GPIO18
+  baud_rate: 19200
+
+modbus:
+  id: mb
+  uart_id: rs485
+  role: server
+
+# ------------------------------------------------------------------ probes
+one_wire:
+  - platform: gpio
+    id: ow_cold        # J5: front plenum, the front-left rail spacer (T1, T2, T3)
+    pin: GPIO6
+  - platform: gpio
+    id: ow_hot         # J6 / harness W2: hood port, the exhaust elbow (T6), up into the rear plenum (T5, T4)
+    pin: GPIO7
+
+i2c:
+  sda: GPIO8
+  scl: GPIO9
+  frequency: 50kHz     # the SHT41 sits on a 0.5 m lead
+
+sensor:
+  - platform: dallas_temp
+    one_wire_id: ow_cold
+    address: ${t_cold_top}
+    id: t_cold_top
+    name: Cold side top
+    update_interval: 10s
+  - platform: dallas_temp
+    one_wire_id: ow_cold
+    address: ${t_cold_mid}
+    id: t_cold_mid
+    name: Cold side middle
+    update_interval: 10s
+  - platform: dallas_temp
+    one_wire_id: ow_cold
+    address: ${t_supply}
+    id: t_supply
+    name: AC supply air
+    update_interval: 10s
+  - platform: dallas_temp
+    one_wire_id: ow_hot
+    address: ${t_hot_top}
+    id: t_hot_top
+    name: Hot side top
+    update_interval: 10s
+  - platform: dallas_temp
+    one_wire_id: ow_hot
+    address: ${t_return}
+    id: t_return
+    name: AC return air
+    update_interval: 10s
+  - platform: dallas_temp
+    one_wire_id: ow_hot
+    address: ${t_exhaust}
+    id: t_exhaust
+    name: AC exhaust
+    update_interval: 10s
+  - platform: sht4x
+    temperature:
+      id: sht_t
+      name: Cold side (SHT41)
+    humidity:
+      id: sht_rh
+      name: Cold side humidity
+    update_interval: 10s
+
+  # what the controller decided (also served to the touchscreen)
+  - platform: template
+    id: o_setpoint
+    name: AC setpoint sent
+    unit_of_measurement: "°C"
+    accuracy_decimals: 0
+  - platform: template
+    id: o_cold_avg
+    name: Cold side average
+    unit_of_measurement: "°C"
+    accuracy_decimals: 1
+  - platform: template
+    id: o_load_dt
+    name: Server temperature rise
+    unit_of_measurement: "K"
+    accuracy_decimals: 1
+  - platform: template
+    id: o_dew_point
+    name: Cold side dew point
+    unit_of_measurement: "°C"
+    accuracy_decimals: 1
+  - platform: template
+    id: o_alarms
+    name: Alarm bits
+    accuracy_decimals: 0
+  - platform: uptime
+    id: up
+    name: Uptime
+
+text_sensor:
+  - platform: template
+    id: o_state
+    name: Cooling state
+
+binary_sensor:
+  - platform: gpio
+    id: door_lower
+    name: Lower door open
+    pin:
+      number: GPIO10
+      mode: INPUT_PULLUP
+    device_class: door       # reed switch closes when the door is shut: open = high
+    filters:
+      - delayed_on_off: 500ms
+  - platform: gpio
+    id: leak
+    name: Tray water
+    pin:
+      number: GPIO11
+      mode: INPUT_PULLUP
+      inverted: true         # float switch closes on water
+    device_class: moisture
+    filters:
+      - delayed_on: 5s
+  - platform: gpio
+    id: mains
+    name: AC socket live
+    pin:
+      number: GPIO12
+      mode: INPUT_PULLUP
+      inverted: true         # optocoupler pulls low while the plug pack is powered
+    device_class: power
+    filters:
+      - delayed_on_off: 2s
+  - platform: template
+    id: o_shutdown
+    name: IT shutdown request
+    device_class: problem
+  - platform: template
+    id: o_ac_on
+    name: AC on (commanded)
+  - platform: template
+    id: o_eco
+    name: Eco cycling
+
+# ------------------------------------------------------------------ SHUTDOWN relay
+# K1 on the carrier: J3 COM-NO closes while the controller asks for the IT to shut down (a dry
+# contact for a UPS or server input).  Off at boot; the request is latched until alarms are reset.
+output:
+  - platform: gpio
+    id: shutdown_relay
+    pin: GPIO13
+
+# ------------------------------------------------------------------ AC by IR
+remote_transmitter:
+  id: ir_tx
+  pin: GPIO4
+  carrier_duty_percent: 50%
+  non_blocking: true
+
+remote_receiver:
+  id: ir_rx
+  pin:
+    number: GPIO5
+    inverted: true
+    mode: INPUT_PULLUP
+  dump: all          # commissioning: shows which protocol the AC remote uses
+
+climate:
+  - platform: ${ac_protocol}
+    id: ac
+    name: Rack AC (IR)
+    transmitter_id: ir_tx
+    receiver_id: ir_rx
+    supports_heat: false
+
+# ------------------------------------------------------------------ settings, kept across reboots
+# The controller itself and its last outputs live in sra::controller() / sra::last_outputs().
+globals:
+  - id: g_mode
+    type: int
+    restore_value: true
+    initial_value: "0"
+  - id: g_target
+    type: float
+    restore_value: true
+    initial_value: "22.0"
+  - id: g_eco
+    type: bool
+    restore_value: true
+    initial_value: "true"
+  - id: g_fan
+    type: int
+    restore_value: true
+    initial_value: "0"
+  - id: g_warn_cold
+    type: float
+    restore_value: true
+    initial_value: "27.0"
+  - id: g_crit_cold
+    type: float
+    restore_value: true
+    initial_value: "32.0"
+  # written by the touchscreen every poll
+  - id: g_door_upper
+    type: bool
+    initial_value: "false"
+  - id: g_room
+    type: float
+    initial_value: "NAN"
+  - id: g_hmi_seen
+    type: uint32_t
+    initial_value: "0"
+  - id: g_cold          # what the controller used this step
+    type: float
+    initial_value: "NAN"
+  - id: g_hot
+    type: float
+    initial_value: "NAN"
+  - id: g_ir_count
+    type: uint16_t
+    initial_value: "0"
+
+script:
+  - id: apply_settings
+    then:
+      - lambda: |-
+          auto &s = sra::controller().s;
+          s.mode = (uint8_t) clamp(id(g_mode), 0, 2);
+          s.target = clamp(id(g_target), 18.0f, 27.0f);
+          s.eco = id(g_eco);
+          s.fan = (uint8_t) clamp(id(g_fan), 0, 2);
+          s.warn_cold = clamp(id(g_warn_cold), s.target + 2.0f, 35.0f);
+          s.crit_cold = clamp(id(g_crit_cold), s.warn_cold + 2.0f, 40.0f);
+          sra::controller().request_send();
+
+interval:
+  - interval: 5s
+    then:
+      - lambda: |-
+          auto ok = [](float v) { return !std::isnan(v) && v > -40.0f && v < 85.0f; };
+          auto mean2 = [&](float a, float b) {
+            if (ok(a) && ok(b)) return (a + b) / 2.0f;
+            return ok(a) ? a : (ok(b) ? b : NAN);
+          };
+          // the SHT41 also reads the cold side; it stands in if both cold probes are lost
+          float cold = mean2(id(t_cold_top).state, id(t_cold_mid).state);
+          if (std::isnan(cold) && ok(id(sht_t).state)) cold = id(sht_t).state;
+          float hot = NAN;
+          for (float v : {id(t_hot_top).state, id(t_return).state})
+            if (ok(v) && (std::isnan(hot) || v > hot)) hot = v;
+          sra::Inputs in;
+          in.cold = cold;
+          in.hot = hot;
+          in.supply = ok(id(t_supply).state) ? id(t_supply).state : NAN;
+          in.ret = ok(id(t_return).state) ? id(t_return).state : NAN;
+          in.exhaust = ok(id(t_exhaust).state) ? id(t_exhaust).state : NAN;
+          in.room = id(g_room);
+          in.rh_cold = id(sht_rh).state;
+          in.door_open = id(door_lower).state || id(g_door_upper);
+          in.leak = id(leak).state;
+          in.mains = ${mains_fitted} ? id(mains).state : true;
+          id(g_cold) = cold;
+          id(g_hot) = hot;
+          sra::Outputs o = sra::controller().step(in, millis() / 1000);
+          if (millis() - id(g_hmi_seen) > 60000) o.alarms |= sra::AL_LINK;
+          sra::last_outputs() = o;
+          if (o.send) {
+            auto call = id(ac).make_call();
+            call.set_mode(o.ac_on ? climate::CLIMATE_MODE_COOL : climate::CLIMATE_MODE_OFF);
+            call.set_target_temperature(o.setpoint);
+            call.set_fan_mode(o.fan == sra::FAN_LOW ? climate::CLIMATE_FAN_LOW
+                              : o.fan == sra::FAN_HIGH ? climate::CLIMATE_FAN_HIGH
+                                                       : climate::CLIMATE_FAN_AUTO);
+            call.perform();
+            id(g_ir_count)++;
+            ESP_LOGI("sra", "IR: %s %.0f degC fan %d (%s)", o.ac_on ? "COOL" : "OFF", o.setpoint, o.fan,
+                     sra::state_name(o.state));
+          }
+          id(o_setpoint).publish_state(o.setpoint);
+          id(o_cold_avg).publish_state(o.cold_avg);
+          id(o_load_dt).publish_state(o.load_dt);
+          id(o_dew_point).publish_state(o.dew_point);
+          id(o_alarms).publish_state(o.alarms);
+          id(o_shutdown).publish_state(o.shutdown);
+          id(shutdown_relay).set_state(o.shutdown);
+          id(o_ac_on).publish_state(o.ac_on);
+          id(o_eco).publish_state(o.eco);
+          if (id(o_state).state != sra::state_name(o.state)) id(o_state).publish_state(sra::state_name(o.state));
+
+# ------------------------------------------------------------------ Modbus register map (holding registers)
+# 0x00-0x13 status (read), 0x20-0x25 settings (read/write), 0x30-0x33 written by the touchscreen.
+# Temperatures are degC x 10 as signed words; -32768 means "no reading".
+modbus_server:
+  - modbus_id: mb
+    address: 1
+    registers:
+      - {address: 0x00, value_type: S_WORD, read_lambda: "return sra::t10(id(g_cold));"}
+      - {address: 0x01, value_type: S_WORD, read_lambda: "return sra::t10(id(g_hot));"}
+      - {address: 0x02, value_type: S_WORD, read_lambda: "return sra::t10(id(t_cold_top).state);"}
+      - {address: 0x03, value_type: S_WORD, read_lambda: "return sra::t10(id(t_cold_mid).state);"}
+      - {address: 0x04, value_type: S_WORD, read_lambda: "return sra::t10(id(t_supply).state);"}
+      - {address: 0x05, value_type: S_WORD, read_lambda: "return sra::t10(id(t_hot_top).state);"}
+      - {address: 0x06, value_type: S_WORD, read_lambda: "return sra::t10(id(t_return).state);"}
+      - {address: 0x07, value_type: S_WORD, read_lambda: "return sra::t10(id(t_exhaust).state);"}
+      - {address: 0x08, value_type: S_WORD, read_lambda: "return sra::t10(id(sht_rh).state);"}
+      - {address: 0x09, value_type: S_WORD, read_lambda: "return sra::t10(sra::last_outputs().dew_point);"}
+      - {address: 0x0A, value_type: S_WORD, read_lambda: "return sra::t10(sra::last_outputs().cold_avg);"}
+      - {address: 0x0B, value_type: S_WORD, read_lambda: "return sra::t10(sra::last_outputs().load_dt);"}
+      - {address: 0x0C, value_type: S_WORD, read_lambda: "return sra::t10(sra::last_outputs().setpoint);"}
+      - {address: 0x0D, value_type: U_WORD, read_lambda: "return sra::last_outputs().state;"}
+      - {address: 0x0E, value_type: U_WORD, read_lambda: "return sra::last_outputs().alarms;"}
+      - address: 0x0F
+        value_type: U_WORD
+        read_lambda: |-
+          const auto &o = sra::last_outputs();
+          return (uint16_t) ((o.ac_on ? 1 : 0) | (o.eco ? 2 : 0) | (o.shutdown ? 4 : 0) |
+                             (id(door_lower).state ? 8 : 0) | (id(leak).state ? 16 : 0) |
+                             (id(mains).state ? 32 : 0) | (o.cooling == 1 ? 64 : 0) |
+                             (o.cooling >= 0 ? 128 : 0) | (${mains_fitted} ? 256 : 0));
+      - {address: 0x10, value_type: U_WORD, read_lambda: "return sra::last_outputs().retries;"}
+      - {address: 0x11, value_type: U_WORD, read_lambda: "return (uint16_t) std::min(65535.0f, id(up).state / 60.0f);"}
+      - {address: 0x12, value_type: U_WORD, read_lambda: "return id(g_ir_count);"}
+      - {address: 0x13, value_type: U_WORD, read_lambda: "return 100;"}
+      - address: 0x20
+        value_type: U_WORD
+        read_lambda: "return id(g_mode);"
+        write_lambda: |-
+          if (x > 2) return false;
+          id(g_mode) = x;
+          id(apply_settings).execute();
+          return true;
+      - address: 0x21
+        value_type: S_WORD
+        read_lambda: "return sra::t10(id(g_target));"
+        write_lambda: |-
+          if (x < 180 || x > 270) return false;
+          id(g_target) = x / 10.0f;
+          id(apply_settings).execute();
+          return true;
+      - address: 0x22
+        value_type: U_WORD
+        read_lambda: "return id(g_eco) ? 1 : 0;"
+        write_lambda: |-
+          id(g_eco) = x != 0;
+          id(apply_settings).execute();
+          return true;
+      - address: 0x23
+        value_type: U_WORD
+        read_lambda: "return id(g_fan);"
+        write_lambda: |-
+          if (x > 2) return false;
+          id(g_fan) = x;
+          id(apply_settings).execute();
+          return true;
+      - address: 0x24
+        value_type: S_WORD
+        read_lambda: "return sra::t10(id(g_warn_cold));"
+        write_lambda: |-
+          if (x < 240 || x > 350) return false;
+          id(g_warn_cold) = x / 10.0f;
+          id(apply_settings).execute();
+          return true;
+      - address: 0x25
+        value_type: S_WORD
+        read_lambda: "return sra::t10(id(g_crit_cold));"
+        write_lambda: |-
+          if (x < 280 || x > 400) return false;
+          id(g_crit_cold) = x / 10.0f;
+          id(apply_settings).execute();
+          return true;
+      - address: 0x30
+        value_type: U_WORD
+        read_lambda: "return id(g_door_upper) ? 1 : 0;"
+        write_lambda: |-
+          id(g_door_upper) = x != 0;
+          id(g_hmi_seen) = millis();
+          return true;
+      - address: 0x31
+        value_type: S_WORD
+        read_lambda: "return sra::t10(id(g_room));"
+        write_lambda: |-
+          id(g_room) = (x == -32768) ? NAN : x / 10.0f;
+          return true;
+      - address: 0x32
+        value_type: U_WORD
+        read_lambda: "return 0;"
+        write_lambda: |-
+          if (x == 1) sra::controller().request_send();         // send the IR state now
+          else if (x == 2) sra::controller().reset_alarms();    // clear latched alarms
+          else return false;
+          return true;
+      - address: 0x33
+        value_type: U_WORD
+        read_lambda: "return (uint16_t) (id(g_hmi_seen) / 1000);"
+        write_lambda: |-
+          id(g_hmi_seen) = millis();
+          return true;

@@ -1,0 +1,39 @@
+{
+ "doc": "CP-SRA16-ELC-001",
+ "rev": "A",
+ "kit_aud": 317.3,
+ "options_aud": 33.0,
+ "power_w_typ": 3.12,
+ "checks": [
+  {
+   "check": "control-core unit tests (g++ -Wall -Wextra -Werror)",
+   "ok": true,
+   "detail": "105 checks passed, 0 failed"
+  },
+  {
+   "check": "thermal simulation with the real control core",
+   "ok": true,
+   "detail": "18/18 scenario checks"
+  },
+  {
+   "check": "node firmware GPIOs = carrier nets",
+   "ok": true,
+   "detail": "firmware [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18], carrier [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18]"
+  },
+  {
+   "check": "Modbus map: node = this table, screen uses a subset",
+   "ok": true,
+   "detail": "30 registers; the screen uses 29 (not: 0x13)"
+  },
+  {
+   "check": "carrier fits the node box P7",
+   "ok": true,
+   "detail": "board 70x90 in P7; terminal row 66.5 of 70 mm; stack 22.4 of 26.5 mm"
+  },
+  {
+   "check": "power budget within the plug pack and the 5 V buck",
+   "ok": true,
+   "detail": "peak 0.50 A at 12 V (plug pack 2 A), 5 V rail 392 mA peak (U3 1 A); typical 3.1 W"
+  }
+ ]
+}
