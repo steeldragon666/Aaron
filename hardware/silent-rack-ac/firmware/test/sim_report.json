@@ -1,0 +1,188 @@
+{
+ "model": {
+  "m_hi": 134.0,
+  "m_lo": 100.0,
+  "eps": 0.65,
+  "t_evap": 6.0,
+  "q_fan": 60.0,
+  "p_comp": 1300.0,
+  "m_cond": 110.0,
+  "c_cold": 25000.0,
+  "c_hot": 60000.0,
+  "ua_cold": 2.0,
+  "ua_hot": 5.0,
+  "th_band": 0.5,
+  "restart_s": 180,
+  "min_run_s": 60
+ },
+ "checks": [
+  {
+   "scenario": "Steady 1.5 kW, room 26 degC",
+   "check": "cold side averages at or below the target",
+   "ok": true,
+   "detail": "average 19.4 degC (target 22), swing 15.8-25.0"
+  },
+  {
+   "scenario": "Steady 1.5 kW, room 26 degC",
+   "check": "cold side peaks below the warning",
+   "ok": true,
+   "detail": "max 25.0 degC"
+  },
+  {
+   "scenario": "Steady 1.5 kW, room 26 degC",
+   "check": "no alarms once settled",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "scenario": "Steady 1.5 kW, room 26 degC",
+   "check": "setpoint steady (no hunting)",
+   "ok": true,
+   "detail": "0 setpoint changes in hours 2-8"
+  },
+  {
+   "scenario": "Light load 0.2 kW, room 21 degC (eco)",
+   "check": "AC off most of the time",
+   "ok": true,
+   "detail": "on 20% of hours 2-12"
+  },
+  {
+   "scenario": "Light load 0.2 kW, room 21 degC (eco)",
+   "check": "AC cycles, never faster than its minimum times",
+   "ok": true,
+   "detail": "19 switches, shortest gap 15 min"
+  },
+  {
+   "scenario": "Light load 0.2 kW, room 21 degC (eco)",
+   "check": "cold side never above the warning",
+   "ok": true,
+   "detail": "max 24.0 degC"
+  },
+  {
+   "scenario": "Power cut 20 min, IT on UPS, AC back in standby (no mains detect)",
+   "check": "AC restarted after the power returned",
+   "ok": true,
+   "detail": "1.8 min after power back (limit 20 min)"
+  },
+  {
+   "scenario": "Power cut 20 min, IT on UPS, AC back in standby (no mains detect)",
+   "check": "IT shutdown requested while the AC was down",
+   "ok": true,
+   "detail": "10 min into the cut"
+  },
+  {
+   "scenario": "Power cut 20 min, IT on UPS, AC back in standby (no mains detect)",
+   "check": "cold side peak held under 40 degC",
+   "ok": true,
+   "detail": "peak 37.6 degC"
+  },
+  {
+   "scenario": "Power cut 20 min, IT on UPS, AC back in standby (with mains detect)",
+   "check": "AC restarted after the power returned",
+   "ok": true,
+   "detail": "0.5 min after power back (limit 1 min)"
+  },
+  {
+   "scenario": "Power cut 20 min, IT on UPS, AC back in standby (with mains detect)",
+   "check": "IT shutdown requested while the AC was down",
+   "ok": true,
+   "detail": "10 min into the cut"
+  },
+  {
+   "scenario": "Power cut 20 min, IT on UPS, AC back in standby (with mains detect)",
+   "check": "cold side peak held under 40 degC",
+   "ok": true,
+   "detail": "peak 37.5 degC"
+  },
+  {
+   "scenario": "Compressor fails at 2 h (IT shuts down on request)",
+   "check": "not-cooling alarm within 20 min",
+   "ok": true,
+   "detail": "15 min after the failure"
+  },
+  {
+   "scenario": "Compressor fails at 2 h (IT shuts down on request)",
+   "check": "shutdown requested",
+   "ok": true,
+   "detail": "9 min after the failure"
+  },
+  {
+   "scenario": "Compressor fails at 2 h (IT shuts down on request)",
+   "check": "IT stopped before the cold side reached 38 degC",
+   "ok": true,
+   "detail": "cold side 36.5 degC when the IT stopped"
+  },
+  {
+   "scenario": "Load step 0.3 to 2.2 kW at 3 h, room 28 degC",
+   "check": "AC on within 5 min of the step",
+   "ok": true,
+   "detail": "3.0 min"
+  },
+  {
+   "scenario": "Load step 0.3 to 2.2 kW at 3 h, room 28 degC",
+   "check": "cold side peak below the warning",
+   "ok": true,
+   "detail": "peak 20.0 degC"
+  }
+ ],
+ "scenarios": [
+  {
+   "name": "Steady 1.5 kW, room 26 degC",
+   "ir_sends": 8,
+   "alarms_first_s": {
+    "cold warn": 0
+   },
+   "shutdown_at_s": null
+  },
+  {
+   "name": "Light load 0.2 kW, room 21 degC (eco)",
+   "ir_sends": 20,
+   "alarms_first_s": {},
+   "shutdown_at_s": null
+  },
+  {
+   "name": "Power cut 20 min, IT on UPS, AC back in standby (no mains detect)",
+   "ir_sends": 22,
+   "alarms_first_s": {
+    "cold warn": 0,
+    "cold critical": 7685,
+    "hot warn": 7735,
+    "shutdown": 7805,
+    "not cooling": 8110
+   },
+   "shutdown_at_s": 7805
+  },
+  {
+   "name": "Power cut 20 min, IT on UPS, AC back in standby (with mains detect)",
+   "ir_sends": 13,
+   "alarms_first_s": {
+    "cold warn": 0,
+    "no AC power": 7200,
+    "cold critical": 7685,
+    "hot warn": 7735,
+    "shutdown": 7805
+   },
+   "shutdown_at_s": 7805
+  },
+  {
+   "name": "Compressor fails at 2 h (IT shuts down on request)",
+   "ir_sends": 28,
+   "alarms_first_s": {
+    "cold warn": 0,
+    "cold critical": 7645,
+    "hot warn": 7745,
+    "shutdown": 7765,
+    "not cooling": 8115
+   },
+   "shutdown_at_s": 7765
+  },
+  {
+   "name": "Load step 0.3 to 2.2 kW at 3 h, room 28 degC",
+   "ir_sends": 16,
+   "alarms_first_s": {
+    "cold warn": 0
+   },
+   "shutdown_at_s": null
+  }
+ ]
+}

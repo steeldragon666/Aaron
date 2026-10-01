@@ -1,0 +1,140 @@
+{
+ "layout_version": "1.2.0",
+ "params": {
+  "ru_count": 16,
+  "ru_pitch": 44.45,
+  "ext_w": 622.4,
+  "ext_d": 1072.4,
+  "front_plenum": 130.0,
+  "rail_spacing": 700.0,
+  "skin_t": 1.2,
+  "mlv_t": 3.0,
+  "frame": 30.0,
+  "sheet_max_l": 1200.0,
+  "sheet_max_w": 800.0,
+  "strip_w": 50.0,
+  "strip_t": 1.2,
+  "door_stiff": 20.0,
+  "caster_h": 100.0,
+  "floor_t": 18.0,
+  "cleat": 20.0,
+  "cleat_t": 3.0,
+  "pad_t": 8.0,
+  "pad_w": 100.0,
+  "tray_t": 2.0,
+  "tray_lip": 25.0,
+  "iso_t": 10.0,
+  "underfloor_foam": 20.0,
+  "ac_front_gap": 25.0,
+  "hood_h": 80.0,
+  "shelf_t": 18.0,
+  "shelf_foam": 25.0,
+  "top_clear": 15.0,
+  "rack_bottom_gap": 5.0,
+  "partition_t": 12.0,
+  "partition_foam": 25.0,
+  "dock_gap": 10.0,
+  "ac_w": 476.0,
+  "ac_d": 358.0,
+  "ac_h": 840.0,
+  "ac_body_z": 45.0,
+  "ac_notch_w": 215.0,
+  "ac_notch_d": 178.0,
+  "ac_split_z": 420.0,
+  "ac_notch_top_z": 751.0,
+  "ac_exh_od": 150.0,
+  "ac_exh_collar_h": 40.0,
+  "ac_out_w": 350.0,
+  "ac_out_d": 110.0,
+  "ac_out_y": 70.0,
+  "ac_drain_x": 30.0,
+  "ac_drain_z": 40.0,
+  "ac_disp_x": 190.0,
+  "ac_disp_z": 690.0,
+  "hood_margin": 15.0,
+  "exh_insul": 10.0,
+  "exh_bend_r": 150.0,
+  "win_w": 140.0,
+  "win_h": 200.0
+ },
+ "summary": {
+  "external_mm": [
+   622.4,
+   1072.4,
+   1870.4
+  ],
+  "internal_width_mm": 553.9999999999999,
+  "internal_depth_mm": 1004.0,
+  "rack_units": 16,
+  "rack_zone_z_mm": [
+   1110.0,
+   1821.2
+  ],
+  "ac_bay_floor_z_mm": 142.0,
+  "ac_side_gap_mm": 38.99999999999994,
+  "front_plenum_mm": 130.0,
+  "rail_spacing_mm": 700.0,
+  "rear_plenum_mm": 174.0,
+  "exhaust_outlet_xyz_mm": [
+   441.69999999999993,
+   1072.4,
+   752.0
+  ],
+  "drain_outlet_xyz_mm": [
+   103.19999999999995,
+   1097.4,
+   60.0
+  ],
+  "partition_z_mm": 562.0,
+  "frame": "30x30 steel SHS, welded",
+  "frame_outer_mm": [
+   614.0,
+   1064.0,
+   1766.2
+  ]
+ },
+ "warnings": [],
+ "clashes": [],
+ "overall_bbox_mm": [
+  -10.0,
+  -36.0,
+  0.0,
+  636.4,
+  1132.4,
+  1870.4
+ ],
+ "groups": {
+  "Frame": {
+   "parts": 37,
+   "volume_mm3": 20467280.0
+  },
+  "Panels & Doors": {
+   "parts": 43,
+   "volume_mm3": 28762801.0
+  },
+  "Acoustic Lining": {
+   "parts": 20,
+   "volume_mm3": 188522474.0
+  },
+  "Base, Tray & Drain": {
+   "parts": 16,
+   "volume_mm3": 13043055.0
+  },
+  "Airflow & Seals": {
+   "parts": 16,
+   "volume_mm3": 23563492.0
+  },
+  "19in Rack": {
+   "parts": 10,
+   "volume_mm3": 3206918.0
+  },
+  "AC Dimplex GDC14RBA (ref)": {
+   "parts": 14,
+   "volume_mm3": 122544230.0
+  },
+  "Example IT (ref)": {
+   "parts": 8,
+   "volume_mm3": 135636650.0
+  }
+ }
+}

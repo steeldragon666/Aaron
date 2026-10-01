@@ -1,0 +1,17 @@
+mark,qty,description,section,cut_length_mm,ends,holes_each,mass_each_kg,mass_total_kg,sub_assembly,positions
+P1,2,Post,30x30x2.0 SHS,1763.2,square,8,2.96,5.92,SA-L/R,post FL; post FR
+P2,1,Post,30x30x2.0 SHS,1763.2,square,15,2.96,2.96,SA-L,post RL
+P3,1,Post,30x30x2.0 SHS,1763.2,square,15,2.96,2.96,SA-R,post RR
+S1,4,Side rail,30x30x2.0 SHS,1004.0,square,9,1.68,6.74,SA-L/R,Base left; Base right; Top left; Top right
+S2,4,Side rail,30x30x2.0 SHS,1004.0,square,5,1.68,6.74,SA-L/R,Mid left; Mid right; Shelf left; Shelf right
+C1,1,Cross rail,30x30x2.0 SHS,554.0,square,3,0.93,0.93,BOX,Base front
+C2,2,Cross rail,30x30x2.0 SHS,554.0,square,5,0.93,1.86,BOX,Base rear; Top rear
+C3,3,Cross rail,30x30x2.0 SHS,554.0,square,3,0.93,2.79,BOX,Mid rear; Shelf rear; Top front
+C4,1,Cross rail,30x30x2.0 SHS,554.0,square,0,0.93,0.93,BOX,Shelf front
+U1,4,Rack upright,30x30x2.0 SHS,731.2,square,7,1.23,4.91,SA-L/R,upright front left; upright front right; upright rear left; upright rear right
+RS1,4,"Rail spacer (LOOSE - bolted, not welded)",30x30x2.0 SHS,731.2,square,0,1.23,4.91,LOOSE,spacer front left; spacer front right; spacer rear left; spacer rear right
+F1,4,Ledge (flat bar),20x3 FB,1004.0,square,0,0.47,1.89,SA-L/R,floor left; floor right; shelf left; shelf right
+F2,2,Ledge (flat bar),20x3 FB,611.0,square,0,0.29,0.58,SA-L/R,partition left; partition right
+F3,4,Ledge (flat bar),20x3 FB,514.0,square,0,0.24,0.97,BENCH,floor front; floor rear; partition rear; shelf rear
+PL1,4,"Castor pad, 4x M8 tapped",PL 100x100x8,100.0,-,0,0.63,2.51,FINAL,corner FL; corner FR; corner RL; corner RR
+PL2,4,Post top cap,PL 30x30x3,30,-,0,0.021,0.08,FINAL,top of each post

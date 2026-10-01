@@ -1,0 +1,9 @@
+cable,from,to,type,length_m,route
+W1,J2 (node),touchscreen terminals,"4-core 0.22 shielded, GX16-4 inline",1.5,node box front slot - front-left corner of the front plenum - hinge loop 300 mm in spiral wrap at z 1450 (GX16 on the cabinet side) - upper door grommet - pod
+W2,"J6, J3, J10 (node)","T4, T5, T6; UPS contact; mains charger",8-core 0.22 shielded,3.5,"bottom slot - down the front-left corner - hood port - back along the bay's left wall under the shelf (T6 on a branch tied along the exhaust duct) - up through the shelf's return opening - rear-left rail spacer (T5, then T4) - cable entry"
+W3,J5 (node),"T1, T2, T3","probe leads, 1 m",1.0,"front-left rail spacer face, clipped"
+W4,J7 (node),IR emitter (plugs in),3.5 mm socket lead,1.5,hood port - socket tied in the bay's top-front-left corner - emitter over the AC's IR receiver
+W5,J8 (node),tray float switch,2-core 0.22,1.8,"hood port - down the AC's left side gap - tray, front left"
+W6,J9 (node),lower door contact,2-core 0.22,1.0,hood port - under the hood's front edge
+W7,J4 (node),SHT41 cold side,4-core 0.22,0.5,"up the front-left rail spacer, P8-1 clip at z 1300"
+W8,J1 (node),12 V plug pack,DC lead + 2 m extension,3.5,"PDU - (rear: down the return opening, bay, hood port) - bottom slot"

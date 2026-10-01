@@ -1,0 +1,62 @@
+category,item,qty,unit,unit_AUD_indicative,line_AUD,notes
+Sheet metal,"Steel sheet (Zincanneal or CR4) 1.2 mm, 1200x800 blank",11,blank,45.0,495.0,nest in cad/dxf/nest/
+Sheet metal,"Stainless 304 sheet, 2B 1.2 mm, 1200x800 blank",1,blank,145.0,145.0,nest in cad/dxf/nest/
+Sheet metal,"Laser cutting: 82 m cut, 336 pierces, + setup",1,job,250.96,250.96,"25 parts, 34 pieces"
+Sheet metal,Folding: 20 bends on 10 parts,1,job,50.0,50.0,"R = t, K 0.33 flat blanks"
+Sheet metal,Powder coat RAL 7035: 13.8 m2 of face (skins both sides),1,job,442.07,442.07,"coat after folding, before MLV"
+Sheet metal,"DT1 drip tray: TIG-weld 4 corners, leak test, passivate",1,ea,90.0,90.0,fabricator
+Interior ply,Birch ply 18 mm - 2440x1220 sheet,1,sheet,165.0,165.0,"floor, partition, shelf, lined boxes"
+Interior ply,Birch ply 12 mm - 2440x1220 sheet,1,sheet,110.0,110.0,"floor, partition, shelf, lined boxes"
+Acoustic,"Mass-loaded vinyl 5 kg/m2 (3 mm), roll",8,m2,42.0,336.0,bond inside the skins; punch D8 at the frame screws
+Acoustic,Melamine acoustic foam (FR) 30/25/20 mm panels,8,m2,55.0,440.0,flame-retardant; not PU egg-crate
+Acoustic,Acoustic sealant (non-hardening) 300 ml,3,tube,28.0,84.0,all panel joints
+Acoustic,Spray contact adhesive (foam/MLV),3,can,22.0,66.0,
+Frame,"30x30x2.0 SHS C350L0, 6.5 m length (incl. RS1 spacers)",4,len,52.0,208.0,weld pack CP-SRA16-FRM-001
+Frame,"Flat bar 20x3, 6.0 m length (ledges)",2,len,22.0,44.0,weld pack CP-SRA16-FRM-001
+Frame,"Flat bar 100x8 (castor pads, 4 x 100 + saw)",0.45,m,32.0,14.4,weld pack CP-SRA16-FRM-001
+Frame,Flat bar 30x3 (post caps),0.2,m,6.0,1.2,weld pack CP-SRA16-FRM-001
+Frame,"M6 steel rivnut, flat head, grip 0.5-3 (+10%)",170,ea,0.35,59.5,weld pack CP-SRA16-FRM-001
+Frame,M8 x 12 set screw 8.8 + spring washer (castors),16,ea,0.4,6.4,weld pack CP-SRA16-FRM-001
+Frame,"Welding wire, gas, discs, primer (share)",1,lot,60.0,60.0,weld pack CP-SRA16-FRM-001
+Frame,Blast + zinc primer + powder coat (frame),1,job,320.0,320.0,weld pack CP-SRA16-FRM-001
+Frame,"M6 x 20 flanged button-head screw, black (panel fixing)",160,ea,0.25,40.0,1.2 skin (+ strip) + 3 MLV into rivnut
+Frame,M6 x 50 bolt + washers + packers (RS1 rail spacers),12,set,0.8,9.6,3 per spacer
+Base,"Levelling castor, 75 mm wheel, 200 kg, braked, 92 mm, 4-bolt plate",4,ea,38.0,152.0,M8 into the tapped pads; match the 60 mm hole square
+Base,Neoprene/Sorbothane isolation mat 480x360x10,1,ea,45.0,45.0,under AC
+Base,AC retention bar + 2 toggle clamps,1,set,45.0,45.0,
+Drain,Tank bulkhead 25 mm + tundish,1,ea,24.0,24.0,
+Drain,16 mm ID clear PVC hose,3,m,4.5,13.5,fall >= 1:50 to waste
+Drain,Hose barbs / quick connects,3,ea,6.0,18.0,
+Drain,Mini condensate pump (only if no floor waste),1,ea,180.0,180.0,optional
+Printed parts,"PETG filament, 1 kg spool",2,spool,32.0,64.0,"18 pieces, 1.60 kg, about 43 h: hood, collar, keepers"
+Printed parts,"ASA filament, 1 kg spool",2,spool,40.0,80.0,"6 pieces, 1.05 kg, about 32 h: exhaust elbow, wall spigot and their gauges"
+Printed parts,"Fixings: 6 x 4x20 pan-head, 2 x M4x25 + 4 x M5x25 button head, nylocs, washers",1,set,18.0,18.0,"hood to shelf, keepers, wall spigot"
+Printed parts,"Two-part epoxy 25 ml + acetone (laps), 3 x 10 closed-cell foam tape 5 m",1,set,30.0,30.0,"hood and collar laps (epoxy), elbow lap (acetone), seals"
+Airflow,Lined inlet riser + cable gland boxes (12 mm ply),1,set,0.0,0.0,from ply offcuts
+Airflow,"150 mm galvanised rigid duct, 1 m",1,ea,25.0,25.0,cut to 584 mm (docs/PRINTED_PARTS.md)
+Airflow,Perforated hanger strap 1 m + screws,1,ea,6.0,6.0,holds the duct in line with the elbow
+Airflow,10 mm closed-cell duct insulation (self-adhesive),1,m2,25.0,25.0,internal duct
+Airflow,6 mm closed-cell insulation (self-adhesive),1,m2,22.0,22.0,printed elbow P4
+Airflow,150 mm insulated acoustic flex duct,3,m,32.0,96.0,cabinet -> window/wall vent
+Airflow,150 mm wall/window vent with backdraft flap,1,ea,65.0,65.0,
+Seals,EPDM D-profile door/panel seal (double row),13.2,m,3.2,42.24,
+Seals,EPDM closed-cell foam gasket tape 20x10 / 10x10,4.1,m,2.8,11.48,docking + hood
+Seals,Nylon brush strip 25 mm in alu carrier,0.8,m,18.0,14.4,under-AC + cable entry
+Doors,"Lift-off butt hinge 100 mm, stainless, 2 mm leaves (drill to suit)",5,ea,14.0,70.0,"riveted, 3 + 3 per hinge"
+Doors,"Adjustable toggle (draw) latch, stainless",4,ea,18.0,72.0,hook in the KB1 keeper slot
+Doors,"Blind rivet 4.8 x 8 stainless, dome head (pack 100)",1,pack,28.0,28.0,85 used
+Doors,"Pull handles 160 mm c/c, M5",2,ea,12.0,24.0,
+Doors,Polycarbonate 6 mm window panes 180x240,2,ea,9.0,18.0,"double glazed, drilled 8 x D5"
+Doors,EPDM 10 mm window spacer frame + 8 x M4 x 35 + nyloc,1,set,12.0,12.0,clamped by WR1
+Rack,"19in rack strips, 2 mm steel, 16U",4,ea,22.0,88.0,EIA-310 square hole (or laser-cut RR1 with the pack)
+Rack,Cage nuts + M6 screws (pack 50),1,pack,18.0,18.0,
+Rack,1U tool-less blanking panels,8,ea,7.0,56.0,fill all unused RU
+Rack,0U / 1U PDU 8-way 10 A,1,ea,120.0,120.0,IT load only - AC on its own GPO
+Controls,"Touchscreen: Waveshare ESP32-S3-Touch-LCD-4.3B, room SHT41, buzzer, door contact",1,set,97.5,97.5,"CP-SRA16-ELC-001, bom/electronics.csv"
+Controls,"Rack node: ESP32-S3-DevKitC-1, RS485, 5 V buck, relay, carrier board and parts",1,set,74.0,74.0,"CP-SRA16-ELC-001, bom/electronics.csv"
+Controls,"Sensors: 6 x DS18B20 probes, cold-side SHT41, tray float switch, lower door contact",1,set,61.0,61.0,"CP-SRA16-ELC-001, bom/electronics.csv"
+Controls,AC control: stick-on IR emitter + 3.5 mm socket lead,1,set,12.0,12.0,"CP-SRA16-ELC-001, bom/electronics.csv"
+Controls,"Cables: door bus + GX16, 8-core rear harness, leads, grommets, spiral wrap",1,set,39.8,39.8,"CP-SRA16-ELC-001, bom/electronics.csv"
+Controls,Power: 12 V 2 A plug pack (RCM) + DC extension,1,set,33.0,33.0,"CP-SRA16-ELC-001, bom/electronics.csv"
+Consumables,"Screws (M5 handles, M4 grommet), foil tape, cable ties, labels",1,lot,80.0,80.0,
+TOTAL,,,,,5317.05,"materials only, excl. AC, IT, GST, labour"

@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+cad/fusion/SilentRackAC/fusion_build_report.json
+tools/render/vendor/

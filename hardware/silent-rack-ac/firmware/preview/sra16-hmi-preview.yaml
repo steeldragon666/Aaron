@@ -1,0 +1,122 @@
+# Desktop preview of the touchscreen UI (ESPHome host platform + SDL), with made-up rack values.
+#   esphome run preview/sra16-hmi-preview.yaml      (needs libsdl2-dev)
+# The preview steps through scenes (normal, eco off at low load, alarms) and the four tabs every
+# 4 s so that tools/make_electronics.py can screenshot every screen from one run.
+
+esphome:
+  name: sra16-hmi-preview
+  includes:
+    - ../components/sra_control/sra_control.h
+
+host:
+
+logger:
+  level: WARN
+
+display:
+  - platform: sdl
+    id: disp
+    auto_clear_enabled: false
+    update_interval: never
+    dimensions:
+      width: 800
+      height: 480
+
+touchscreen:
+  - platform: sdl
+    id: touch
+
+packages:
+  ui: !include ../hmi/ui.yaml
+
+globals:
+  - id: g_t
+    type: float
+    initial_value: "0"
+  - id: g_scene
+    type: int
+    initial_value: "0"
+  - id: g_step
+    type: int
+    initial_value: "-1"
+
+interval:
+  - interval: 4s
+    then:
+      - lambda: |-
+          id(g_step)++;
+          id(g_scene) = (id(g_step) / 4) % 3;
+          id(sw_eco).publish_state(true);
+      - if:
+          condition:
+            lambda: "return id(g_step) % 4 == 0;"
+          then:
+            - lvgl.tabview.select: {id: tabs, index: 0, animated: false}
+      - if:
+          condition:
+            lambda: "return id(g_step) % 4 == 1;"
+          then:
+            - lvgl.tabview.select: {id: tabs, index: 1, animated: false}
+      - if:
+          condition:
+            lambda: "return id(g_step) % 4 == 2;"
+          then:
+            - lvgl.tabview.select: {id: tabs, index: 2, animated: false}
+      - if:
+          condition:
+            lambda: "return id(g_step) % 4 == 3;"
+          then:
+            - lvgl.tabview.select: {id: tabs, index: 3, animated: false}
+
+text_sensor:
+  - platform: template
+    id: ip_addr
+    lambda: 'return std::string("192.168.1.48  sra16-hmi.local");'
+
+sensor:
+  - {platform: template, id: n_cold, lambda: "return id(g_scene) == 2 ? 28.4f + id(g_t) : (id(g_scene) == 1 ? 23.1f : 21.6f + id(g_t));", update_interval: 1s}
+  - {platform: template, id: n_hot, lambda: "return id(g_scene) == 2 ? 41.2f : (id(g_scene) == 1 ? 25.0f : 32.9f + id(g_t));", update_interval: 1s}
+  - {platform: template, id: n_cold_top, lambda: "return id(g_scene) == 2 ? 29.0f : (id(g_scene) == 1 ? 23.7f : 22.2f);", update_interval: 1s}
+  - {platform: template, id: n_cold_mid, lambda: "return id(g_scene) == 2 ? 27.8f : (id(g_scene) == 1 ? 22.5f : 21.0f);", update_interval: 1s}
+  - {platform: template, id: n_supply, lambda: "return id(g_scene) == 1 ? 23.4f : (id(g_scene) == 2 ? 36.0f : 14.3f);", update_interval: 1s}
+  - {platform: template, id: n_hot_top, lambda: "return id(g_scene) == 2 ? 41.2f : (id(g_scene) == 1 ? 25.0f : 32.9f);", update_interval: 1s}
+  - {platform: template, id: n_return, lambda: "return id(g_scene) == 2 ? 40.0f : (id(g_scene) == 1 ? 24.2f : 31.7f);", update_interval: 1s}
+  - {platform: template, id: n_exhaust, lambda: "return id(g_scene) == 0 ? 47.8f : 26.5f;", update_interval: 1s}
+  - {platform: template, id: n_rh, lambda: "return 38.0f;", update_interval: 1s}
+  - {platform: template, id: n_dew, lambda: "return sra::dew_point_c(id(g_scene) == 2 ? 28.4f : (id(g_scene) == 1 ? 23.1f : 21.6f), 38.0f);", update_interval: 1s}
+  - {platform: template, id: n_cold_avg, lambda: "return id(g_scene) == 1 ? 22.4f : (id(g_scene) == 2 ? 27.9f : 21.2f);", update_interval: 1s}
+  - {platform: template, id: n_load_dt, lambda: "return id(g_scene) == 1 ? 1.6f : 11.3f;", update_interval: 1s}
+  - {platform: template, id: n_setpoint, lambda: "return id(g_scene) == 2 ? 17.0f : 28.0f;", update_interval: 1s}
+  - {platform: template, id: n_state, lambda: "return id(g_scene) == 1 ? (float) sra::ST_ECO_OFF : (id(g_scene) == 2 ? (float) sra::ST_NOT_COOLING : (float) sra::ST_COOLING);", update_interval: 1s}
+  - {platform: template, id: n_alarms, lambda: "return id(g_scene) == 2 ? (float) (sra::AL_COLD_WARN | sra::AL_NOT_COOLING | sra::AL_DOOR) : 0.0f;", update_interval: 1s}
+  - {platform: template, id: n_flags, lambda: "return id(g_scene) == 1 ? 2.0f + 256 + 32 : (id(g_scene) == 2 ? 1.0f + 8 + 256 + 32 : 1.0f + 64 + 128 + 256 + 32);", update_interval: 1s}
+  - {platform: template, id: n_retries, lambda: "return id(g_scene) == 2 ? 3.0f : 0.0f;", update_interval: 1s}
+  - {platform: template, id: n_uptime, lambda: "return 3127.0f;", update_interval: 1s}
+  - {platform: template, id: n_ir_count, lambda: "return 41.0f;", update_interval: 1s}
+  - {platform: template, id: room_t, lambda: "return 24.3f;", update_interval: 1s}
+  - {platform: template, id: room_rh, lambda: "return 52.0f;", update_interval: 1s}
+
+select:
+  - {platform: template, id: sel_mode, options: ["Auto", "On", "Off"], initial_option: "Auto", optimistic: true}
+  - {platform: template, id: sel_fan, options: ["Auto", "Low", "High"], initial_option: "Auto", optimistic: true}
+
+number:
+  - {platform: template, id: num_target, min_value: 18, max_value: 27, step: 0.5, initial_value: 22, optimistic: true}
+  - {platform: template, id: num_warn, min_value: 24, max_value: 35, step: 1, initial_value: 27, optimistic: true}
+  - {platform: template, id: num_crit, min_value: 28, max_value: 40, step: 1, initial_value: 32, optimistic: true}
+
+switch:
+  - {platform: template, id: sw_eco, optimistic: true, restore_mode: ALWAYS_ON}
+
+binary_sensor:
+  - {platform: template, id: door_upper, lambda: "return id(g_scene) == 2;"}
+  - {platform: template, id: link_ok, lambda: "return true;"}
+
+button:
+  - {platform: template, id: btn_send_ir}
+  - {platform: template, id: btn_reset}
+
+script:
+  - id: alarm_silence
+    then:
+      - logger.log: "silence"
