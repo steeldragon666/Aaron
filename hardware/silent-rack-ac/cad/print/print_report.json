@@ -1,0 +1,667 @@
+{
+ "doc": "CP-SRA16-PRT-001",
+ "rev": "A",
+ "layout_version": "1.2.0",
+ "printer": "x1c",
+ "usable_mm": [
+  250.0,
+  250.0,
+  250.0
+ ],
+ "design": {
+  "wall": 4.0,
+  "lap_l": 10.0,
+  "lap_cl": 0.2,
+  "slide": 2.0,
+  "drop": 3.0,
+  "lift": 15.0,
+  "lip": 6.0,
+  "lip_t": 4.0,
+  "foot_t": 3.0,
+  "screw_d": 4.5,
+  "driver_d": 10.0,
+  "keeper_w": 12.0,
+  "keeper_l": 26.0,
+  "keeper_t": 4.0,
+  "keeper_dx": 155.0,
+  "fit_socket": 0.5,
+  "fit_spigot": 0.5,
+  "spigot_l": 40.0,
+  "lead_in": 1.0,
+  "seat": 3.5,
+  "tongue_b": 5.0,
+  "bead": 1.5
+ },
+ "checks": [
+  [
+   "every piece fits the Bambu Lab X1 Carbon (250 x 250 x 250 usable, clear of the 18x28 corner)",
+   true,
+   ""
+  ],
+  [
+   "every piece is one valid closed solid",
+   true,
+   ""
+  ],
+  [
+   "P1 sections: no overlap, volume adds up",
+   true,
+   "overlap 0.000 mm3, part 870661, sections 869068, glue clearance 1593 mm3"
+  ],
+  [
+   "P2 sections: no overlap, volume adds up",
+   true,
+   "overlap 0.000 mm3, part 192912, sections 192746, glue clearance 166 mm3"
+  ],
+  [
+   "P4 sections: no overlap, volume adds up",
+   true,
+   "overlap 0.000 mm3, part 599468, sections 598291, glue clearance 1177 mm3"
+  ],
+  [
+   "hood top opening = shelf cold opening",
+   true,
+   "66.2-556.2 x 54.2-159.2"
+  ],
+  [
+   "collar foot clears the AC outlet by the hood margin",
+   true,
+   "min margin 15.0 mm (hood_margin 15)"
+  ],
+  [
+   "collar seats on the model hood gasket (same outline and hole)",
+   true,
+   "gasket 400.0 x 160.0, hole 380.0 x 140.0"
+  ],
+  [
+   "every hood screw can be driven straight up from below (floor opening or driver hole)",
+   true,
+   "6 screws, 3 through driver holes"
+  ],
+  [
+   "raised collar + gasket clears the AC top",
+   true,
+   "15.0 mm"
+  ],
+  [
+   "elbow socket slides over the AC spigot",
+   true,
+   "socket bore D151.0 over spigot D150.0, seat D144.0"
+  ],
+  [
+   "elbow outlet spigot fits inside the duct",
+   true,
+   "OD 149.0 in duct bore 150.0"
+  ],
+  [
+   "elbow outlet on the duct axis",
+   true,
+   "x 441.7 z 752.0"
+  ],
+  [
+   "wall spigot inner tube passes the skin hole and fits the duct",
+   true,
+   "OD 149.0, skin hole D152.0, duct bore 150.0"
+  ],
+  [
+   "flange bolt holes = rear-skin M5 holes (DXF)",
+   true,
+   "4 x D5.5 on PCD 190.0, flange D230"
+  ],
+  [
+   "every STL is closed, consistently wound and matches its solid (<1% volume)",
+   true,
+   ""
+  ],
+  [
+   "no overhang steeper than 50 deg off vertical wider than 6 mm (prints without supports)",
+   true,
+   ""
+  ],
+  [
+   "no clash with the 161 other rack parts or each other - running (collar on the AC)",
+   true,
+   "internal duct cut to 584 mm, sealing on the elbow shoulder"
+  ],
+  [
+   "no clash with the 161 other rack parts or each other - service (collar on the keepers)",
+   true,
+   "internal duct cut to 584 mm, sealing on the elbow shoulder"
+  ],
+  [
+   "no clash with the 161 other rack parts or each other - AC out (collar hanging)",
+   true,
+   "internal duct cut to 584 mm, sealing on the elbow shoulder"
+  ]
+ ],
+ "pieces": [
+  {
+   "id": "P1-1",
+   "name": "Hood body - left end",
+   "material": "PETG",
+   "qty": 1,
+   "print_mm": [
+    75.0,
+    231.0,
+    181.33
+   ],
+   "volume_mm3": 329879.0,
+   "mass_g": 418.9,
+   "hours": 10.43,
+   "overhang": {
+    "faces_area_mm2": 65.7,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 2.54
+   },
+   "plates": [
+    5
+   ],
+   "stl": "P1-1_hood_left_end.stl"
+  },
+  {
+   "id": "P1-2a",
+   "name": "Hood body - middle, front channel",
+   "material": "PETG",
+   "qty": 1,
+   "print_mm": [
+    75.0,
+    63.0,
+    181.33
+   ],
+   "volume_mm3": 98643.0,
+   "mass_g": 125.3,
+   "hours": 3.29,
+   "overhang": {
+    "faces_area_mm2": 351.6,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 2.54
+   },
+   "plates": [
+    5
+   ],
+   "stl": "P1-2a_hood_middle_front_channel.stl"
+  },
+  {
+   "id": "P1-2b",
+   "name": "Hood body - middle, rear channel",
+   "material": "PETG",
+   "qty": 1,
+   "print_mm": [
+    75.0,
+    111.0,
+    181.33
+   ],
+   "volume_mm3": 124224.0,
+   "mass_g": 157.8,
+   "hours": 4.08,
+   "overhang": {
+    "faces_area_mm2": 405.1,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 2.17
+   },
+   "plates": [
+    6
+   ],
+   "stl": "P1-2b_hood_middle_rear_channel.stl"
+  },
+  {
+   "id": "P1-3",
+   "name": "Hood body - right end",
+   "material": "PETG",
+   "qty": 1,
+   "print_mm": [
+    75.0,
+    231.0,
+    171.33
+   ],
+   "volume_mm3": 316323.0,
+   "mass_g": 401.7,
+   "hours": 10.01,
+   "overhang": {
+    "faces_area_mm2": 65.7,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 2.54
+   },
+   "plates": [
+    6
+   ],
+   "stl": "P1-3_hood_right_end.stl"
+  },
+  {
+   "id": "P2-1",
+   "name": "Drop collar - left half",
+   "material": "PETG",
+   "qty": 1,
+   "print_mm": [
+    216.0,
+    166.0,
+    31.0
+   ],
+   "volume_mm3": 98416.0,
+   "mass_g": 125.0,
+   "hours": 3.29,
+   "overhang": {
+    "faces_area_mm2": 0,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 0.0
+   },
+   "plates": [
+    3
+   ],
+   "stl": "P2-1_collar_left_half.stl"
+  },
+  {
+   "id": "P2-2",
+   "name": "Drop collar - right half",
+   "material": "PETG",
+   "qty": 1,
+   "print_mm": [
+    206.0,
+    166.0,
+    31.0
+   ],
+   "volume_mm3": 94330.0,
+   "mass_g": 119.8,
+   "hours": 3.16,
+   "overhang": {
+    "faces_area_mm2": 0,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 0.0
+   },
+   "plates": [
+    4
+   ],
+   "stl": "P2-2_collar_right_half.stl"
+  },
+  {
+   "id": "P3-1",
+   "name": "Collar keeper",
+   "material": "PETG",
+   "qty": 2,
+   "print_mm": [
+    38.0,
+    12.0,
+    10.0
+   ],
+   "volume_mm3": 2220.0,
+   "mass_g": 2.8,
+   "hours": 0.32,
+   "overhang": {
+    "faces_area_mm2": 0,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 0.0
+   },
+   "plates": [
+    5
+   ],
+   "stl": "P3-1_keeper_x2.stl"
+  },
+  {
+   "id": "P4-1",
+   "name": "Exhaust elbow - inlet half (socket)",
+   "material": "ASA",
+   "qty": 1,
+   "print_mm": [
+    159.0,
+    185.44,
+    197.43
+   ],
+   "volume_mm3": 299940.0,
+   "mass_g": 320.9,
+   "hours": 9.51,
+   "overhang": {
+    "faces_area_mm2": 343.8,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 2.47
+   },
+   "plates": [
+    7
+   ],
+   "stl": "P4-1_elbow_inlet_half_socket.stl"
+  },
+  {
+   "id": "P4-2",
+   "name": "Exhaust elbow - outlet half (spigot)",
+   "material": "ASA",
+   "qty": 1,
+   "print_mm": [
+    158.0,
+    178.8,
+    206.43
+   ],
+   "volume_mm3": 298351.0,
+   "mass_g": 319.2,
+   "hours": 9.46,
+   "overhang": {
+    "faces_area_mm2": 0,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 0.0
+   },
+   "plates": [
+    8
+   ],
+   "stl": "P4-2_elbow_outlet_half_spigot.stl"
+  },
+  {
+   "id": "P5-1",
+   "name": "Wall spigot - flange + inner tube",
+   "material": "ASA",
+   "qty": 1,
+   "print_mm": [
+    230.0,
+    230.0,
+    50.2
+   ],
+   "volume_mm3": 229530.0,
+   "mass_g": 245.6,
+   "hours": 7.33,
+   "overhang": {
+    "faces_area_mm2": 1114.9,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 2.4
+   },
+   "plates": [
+    9
+   ],
+   "stl": "P5-1_wall_spigot_flange_inner_tube.stl"
+  },
+  {
+   "id": "P5-2",
+   "name": "Wall spigot - outer tube",
+   "material": "ASA",
+   "qty": 1,
+   "print_mm": [
+    153.0,
+    153.0,
+    59.0
+   ],
+   "volume_mm3": 106575.0,
+   "mass_g": 114.0,
+   "hours": 3.54,
+   "overhang": {
+    "faces_area_mm2": 0,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 0.0
+   },
+   "plates": [
+    10
+   ],
+   "stl": "P5-2_wall_spigot_outer_tube.stl"
+  },
+  {
+   "id": "G1",
+   "name": "Gauge - elbow socket over the AC spigot",
+   "material": "ASA",
+   "qty": 1,
+   "print_mm": [
+    159.0,
+    159.0,
+    12.0
+   ],
+   "volume_mm3": 23135.0,
+   "mass_g": 24.8,
+   "hours": 0.96,
+   "overhang": {
+    "faces_area_mm2": 0,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 0.0
+   },
+   "plates": [
+    1
+   ],
+   "stl": "G1_gauge_elbow_socket_over_the_ac_spigot.stl"
+  },
+  {
+   "id": "G2",
+   "name": "Gauge - male spigot into the 150 duct",
+   "material": "ASA",
+   "qty": 1,
+   "print_mm": [
+    149.0,
+    149.0,
+    15.0
+   ],
+   "volume_mm3": 27099.0,
+   "mass_g": 29.0,
+   "hours": 1.09,
+   "overhang": {
+    "faces_area_mm2": 0,
+    "unsupported_mm2": 0,
+    "widest_ok_mm": 0.0
+   },
+   "plates": [
+    2
+   ],
+   "stl": "G2_gauge_male_spigot_into_the_150_duct.stl"
+  }
+ ],
+ "plates": [
+  {
+   "no": 1,
+   "material": "ASA",
+   "items": [
+    [
+     "G1",
+     48.5,
+     48.5,
+     0
+    ]
+   ],
+   "height_mm": 12.0,
+   "mass_g": 25.0,
+   "hours": 1.0
+  },
+  {
+   "no": 2,
+   "material": "ASA",
+   "items": [
+    [
+     "G2",
+     53.5,
+     53.5,
+     0
+    ]
+   ],
+   "height_mm": 15.0,
+   "mass_g": 29.0,
+   "hours": 1.1
+  },
+  {
+   "no": 3,
+   "material": "PETG",
+   "items": [
+    [
+     "P2-1",
+     20.0,
+     45.0,
+     0
+    ]
+   ],
+   "height_mm": 31.0,
+   "mass_g": 125.0,
+   "hours": 3.3
+  },
+  {
+   "no": 4,
+   "material": "PETG",
+   "items": [
+    [
+     "P2-2",
+     25.0,
+     45.0,
+     0
+    ]
+   ],
+   "height_mm": 31.0,
+   "mass_g": 120.0,
+   "hours": 3.2
+  },
+  {
+   "no": 5,
+   "material": "PETG",
+   "items": [
+    [
+     "P1-1",
+     24.0,
+     3.0,
+     0
+    ],
+    [
+     "P1-2a",
+     105.0,
+     3.0,
+     0
+    ],
+    [
+     "P3-1",
+     186.0,
+     3.0,
+     0
+    ],
+    [
+     "P3-1",
+     3.0,
+     240.0,
+     0
+    ]
+   ],
+   "height_mm": 181.3,
+   "mass_g": 550.0,
+   "hours": 14.4
+  },
+  {
+   "no": 6,
+   "material": "PETG",
+   "items": [
+    [
+     "P1-3",
+     24.0,
+     3.0,
+     0
+    ],
+    [
+     "P1-2b",
+     105.0,
+     3.0,
+     0
+    ]
+   ],
+   "height_mm": 181.3,
+   "mass_g": 559.0,
+   "hours": 14.1
+  },
+  {
+   "no": 7,
+   "material": "ASA",
+   "items": [
+    [
+     "P4-1",
+     48.5,
+     35.3,
+     0
+    ]
+   ],
+   "height_mm": 197.4,
+   "mass_g": 321.0,
+   "hours": 9.5
+  },
+  {
+   "no": 8,
+   "material": "ASA",
+   "items": [
+    [
+     "P4-2",
+     49.0,
+     38.6,
+     0
+    ]
+   ],
+   "height_mm": 206.4,
+   "mass_g": 319.0,
+   "hours": 9.5
+  },
+  {
+   "no": 9,
+   "material": "ASA",
+   "items": [
+    [
+     "P5-1",
+     21.0,
+     13.0,
+     0
+    ]
+   ],
+   "height_mm": 50.2,
+   "mass_g": 246.0,
+   "hours": 7.3
+  },
+  {
+   "no": 10,
+   "material": "ASA",
+   "items": [
+    [
+     "P5-2",
+     51.5,
+     51.5,
+     0
+    ]
+   ],
+   "height_mm": 59.0,
+   "mass_g": 114.0,
+   "hours": 3.5
+  }
+ ],
+ "totals": {
+  "PETG": {
+   "pieces": 8,
+   "mass_g": 1354.0,
+   "hours": 34.9,
+   "aud": 43.33,
+   "aud_kg": 32.0,
+   "use": "cold side: hood, collar, keepers (water-resistant, tough; carries 12-18 degC air)"
+  },
+  "ASA": {
+   "pieces": 6,
+   "mass_g": 1054.0,
+   "hours": 31.9,
+   "aud": 42.14,
+   "aud_kg": 40.0,
+   "use": "hot side: exhaust elbow, wall spigot and their gauges (exhaust air up to about 60 degC)"
+  }
+ },
+ "installed_mass_g": 2354.0,
+ "duct": {
+  "trim": 4.5,
+  "ring": 3.0,
+  "length": 584.0,
+  "model_length": 590.0
+ },
+ "hardware": {
+  "P1": [
+   "6 x 4 mm x 20 pan-head wood screws into the shelf ply",
+   "aluminium foil tape over the driver holes in the floor once the screws are in",
+   "3 x 10 mm closed-cell foam tape on the top face (seal to the shelf)",
+   "epoxy or PETG-rated CA glue for the laps"
+  ],
+  "P2": [
+   "10 x 10 EPDM closed-cell strip under the foot (model part 'Hood gasket')",
+   "3 x 10 mm closed-cell foam tape round the outside (wiper seal)",
+   "epoxy or PETG-rated CA glue for the laps"
+  ],
+  "P3": [
+   "2 x M4 x 25 button head + 2 x M4 nyloc + 4 washers"
+  ],
+  "P4": [
+   "acetone (solvent-weld the lap) or ABS/ASA cement",
+   "aluminium foil tape",
+   "6 mm self-adhesive closed-cell insulation, about 0.25 m2",
+   "3 mm closed-cell foam ring on the shoulder (seals on the duct end)",
+   "perforated hanger strap, about 0.4 m, + 2 screws into the shelf ply (holds the duct in line)"
+  ],
+  "P5": [
+   "4 x M5 x 25 button head + 4 x M5 nyloc + 8 washers",
+   "3 mm closed-cell foam ring or silicone under the flange",
+   "acetone or ABS/ASA cement"
+  ]
+ }
+}

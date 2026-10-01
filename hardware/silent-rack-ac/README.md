@@ -13,8 +13,9 @@ A sealed, acoustically lined server cabinet. The existing **Dimplex GDC14RBA** p
 | Drain | 16 mm barb at the rear, 60 mm above floor, 136.2 mm from the right edge (viewed from behind). Full-floor stainless drip tray + leak sensor. |
 | Frame | Welded 30 × 30 × 2.0 steel SHS, 43 kg. Full cut list and weld plan: [drawings/CP-SRA16-FRM-001.pdf](drawings/CP-SRA16-FRM-001.pdf), [docs/FRAME_WELD_PLAN.md](docs/FRAME_WELD_PLAN.md) |
 | Skins | Laser-cut 1.2 mm steel, 46 pieces, none larger than 1200 × 800, every hole cut. DXFs: [cad/dxf/SRA16_sheet_metal_DXF.zip](cad/dxf/SRA16_sheet_metal_DXF.zip); drawings: [drawings/CP-SRA16-SMP-001.pdf](drawings/CP-SRA16-SMP-001.pdf); notes: [docs/SHEET_METAL.md](docs/SHEET_METAL.md) |
+| Printed parts | Cold-air hood, drop collar and keepers (PETG); exhaust elbow and wall spigot (ASA). 14 pieces on 10 plates, sectioned for a **Bambu Lab X1 Carbon**, no supports. STLs: [cad/print/SRA16_print_x1c.zip](cad/print/SRA16_print_x1c.zip); notes: [docs/PRINTED_PARTS.md](docs/PRINTED_PARTS.md) |
 | Acoustics | 1.2 mm steel + 5 kg/m² MLV + 30 mm FR melamine foam. Lined labyrinth intake. About 25-30 dB(A) reduction expected. |
-| Mass / cost | About 192 kg empty (+31.5 kg AC). Materials about AUD 5.0k indicative. |
+| Mass / cost | About 193 kg empty (+31.5 kg AC). Materials about AUD 5.1k indicative. |
 
 ## Open it in Fusion
 
@@ -50,6 +51,7 @@ The rating-plate dimensions are certain. Everything else about the AC was measur
 | `drawings/CP-SRA16-SMP-001.pdf` (+ `_s1..s6.svg`) | Sheet-metal pack, 6 × A3: skin layout + parts list, flat patterns, rails + hardware + details, nesting |
 | `cad/dxf/` (`cut/`, `info/`, `nest/`, zip), `docs/SHEET_METAL.md`, `bom/sheet_metal_*.csv` | Laser-cutting DXFs (1:1 mm), per-part list and nests on 1200 × 800 blanks |
 | `cad/exports/SRA16_frame_weldment.step`, `cad/exports/frame_members/` | Frame weldment (true SHS, holes) and one STEP per mark for tube laser cutting |
+| `cad/print/` (`stl/`, zip, STEP, report), `docs/PRINTED_PARTS.md`, `bom/printed_parts.csv` | 3D-printed parts: one STL per piece in print orientation, plates, Bambu Studio settings, assembly, checks |
 | `docs/DESIGN.md` | Design basis: airflow, thermal, acoustics, drain, controls, build order, commissioning |
 | `renders/` | Renders + voxel airflow-zone sections |
 | `tools/` | Build, verify, draw, BOM and render scripts |
@@ -62,9 +64,10 @@ python3 tools/build_cadquery.py        # solids, interference check, STEP + GLB,
 python3 tools/zone_check.py            # airflow zones sealed? (voxel flood-fill)
 python3 tools/test_fusion_script.py    # Fusion script against a stand-in adsk API
 python3 tools/make_drawings.py         # A3 GA drawing
-python3 tools/make_bom.py              # BOM, cut list, mass
 python3 tools/make_weld_pack.py        # frame weld pack: 6 A3 sheets + PDF, CSVs, weldment STEP
 python3 tools/make_sheet_pack.py       # sheet-metal pack: DXFs, nests, 6 A3 sheets + PDF, CSVs
+python3 tools/make_print_pack.py       # printed parts: STLs sectioned for the X1C, zip, STEP, plates, checks
+python3 tools/make_bom.py              # BOM, cut list, mass (reads the print pack report)
 node tools/render/render.mjs           # renders (Playwright + Chromium)
 ```
 
@@ -82,3 +85,8 @@ Override parameters on the command line, for example `python3 tools/build_cadque
   - every frame rivnut has a matching hole;
   - holes clear edges, bends and each other;
   - the 19-inch rail bolts match all four uprights.
+- Printed-parts checks pass:
+  - every piece fits the X1C (250 mm cube, clear of the no-print corner) and prints without supports;
+  - every STL is closed and matches its solid;
+  - no clash with the rest of the rack with the collar down, raised on its keepers, or hanging with the AC out;
+  - the fits to the AC spigot, the duct, the shelf opening and the rear-skin bolt holes are checked against the model.

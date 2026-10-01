@@ -813,7 +813,7 @@ def build_parts(P=None):
          [box(hb[0] + 6, hb[1] + 6, hz_col1 + 6, hb[2] - 6, hb[3] - 6, hz_top - 6),
           box(ox0, oy0, hz_col0 - 1, ox1, oy1, hz_col1 + 7),
           box(cold_open[0], cold_open[1], hz_top - 7, cold_open[2], cold_open[3], hz_top + 1)],
-         bom={"kind": "fab", "material": "6 mm PP sheet / 3D-printed PETG, drop-collar"})
+         bom={"kind": "fab", "material": "3D-printed PETG, CP-SRA16-PRT-001 P1-P3 (body, drop collar, keepers)"})
     part("Hood gasket", "Airflow & Seals", "gasket",
          [box(ox0 - 10, oy0 - 10, za1, ox1 + 10, oy1 + 10, hz_col0)],
          [box(ox0, oy0, za1 - 1, ox1, oy1, hz_col0 + 1)],
@@ -862,7 +862,7 @@ def build_parts(P=None):
           cyl((ex, D["exh_y"], ezc - sock), (ex, D["exh_y"], ezc), ro)],
          [elbow(ec, (1, 0, 0), (0, -1, 0), (0, 0, 1), Rb, ri, pad=1.0),
           cyl((ex, D["exh_y"], ezc - sock - 1), (ex, D["exh_y"], ezc + 0.5), ri)],
-         bom={"kind": "purchased", "material": "150 mm 90deg rigid elbow + 10 mm insulation"})
+         bom={"kind": "fab", "material": "3D-printed ASA, CP-SRA16-PRT-001 P4 + 6 mm insulation"})
     y_run0 = D["exh_run_y0"]
     part("Exhaust duct (insulated)", "Airflow & Seals", "hot",
          [cyl((ex, y_run0, ez), (ex, DP - s, ez), ro)],
@@ -871,7 +871,7 @@ def build_parts(P=None):
     part("Exhaust wall spigot", "Airflow & Seals", "hot",
          [cyl((ex, DP - s, ez), (ex, DP + 60, ez), ri), cyl((ex, DP, ez), (ex, DP + 6, ez), ri + 40)],
          [cyl((ex, DP - s - 1, ez), (ex, DP + 61, ez), ri - 3)],
-         bom={"kind": "purchased", "material": "150 mm flanged wall spigot"})
+         bom={"kind": "fab", "material": "3D-printed ASA, CP-SRA16-PRT-001 P5 (flange + outer tube)"})
     # cable entry: lined chamber behind the rear-panel slot
     cb = (D["x_mid"] - 150, Y1 - 80, zt0 - 166, D["x_mid"] + 150, Y1, zt0 - 20)
     part("Cable gland box", "Airflow & Seals", "steel",

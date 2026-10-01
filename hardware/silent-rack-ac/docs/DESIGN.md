@@ -77,7 +77,7 @@ The zones are separated as follows:
   - two gasketed docking posts at the AC's rear corners;
   - a brush strip under the AC's rear edge.
 
-The AC is pushed back into the gaskets and held by a retention bar with toggle clamps. To service it, lift the hood collar, release the bar and roll the AC out.
+The AC is pushed back into the gaskets and held by a retention bar with toggle clamps. To service it, lift the hood collar onto its keepers, release the bar and roll the AC out; the exhaust elbow comes out with it.
 
 **Verified in CAD:** `tools/zone_check.py` voxelises every part on a 2.5 mm grid and flood-fills the air spaces. It adds a voxel plane through every sheet thinner than the grid, so the 1.2 mm skins seal. All ten checks pass:
 
@@ -180,23 +180,35 @@ The outer skins are **laser-cut 1.2 mm steel** (pack **CP-SRA16-SMP-001**, `docs
 | DXF | `cad/dxf/cut/` (cut layer only), `cad/dxf/info/` (bend lines, ID etch, notes), `cad/dxf/nest/` (11 steel + 1 stainless 1200 × 800 blanks), zipped in `cad/dxf/SRA16_sheet_metal_DXF.zip` |
 | Fixing | M6 × 20 flanged button heads into the frame rivnuts. The MLV behind the skin is punched Ø8 and acts as the gasket. Hinges, toggle latches and keepers are riveted (4.8 mm), so the frame needs no extra holes. |
 
+The cold-air hood and the exhaust parts are **3D-printed** (pack **CP-SRA16-PRT-001**, `docs/PRINTED_PARTS.md`), sectioned for a Bambu Lab X1 Carbon.
+
+| | |
+|---|---|
+| Parts | P1 hood body (4 sections), P2 drop collar (2 halves), P3 keepers (2), P4 exhaust elbow (2 halves), P5 wall spigot (2), and 2 fit gauges: 14 pieces on 10 plates |
+| Material | PETG on the cold side (1.35 kg, about 35 h); ASA for the exhaust, which runs up to about 60 °C (1.05 kg, about 32 h) |
+| Size limit | Every piece fits 250 × 250 × 250 (the X1C's 256 mm volume less a brim margin), clear of the no-print corner, and prints without supports |
+| Joints | Glued half-laps, 10 mm long, 0.2 mm clearance per face; the outside stays flush |
+| Collar | A separate drop collar that slides in the hood floor and seals on the AC top under its own weight. Two turn-button keepers hold it 15 mm up while the AC is rolled. |
+| Exhaust | The elbow socket fits over the AC spigot onto a conical seat. The elbow rides in with the AC: its outlet slides into the duct as the AC docks. The wall-spigot flange is drilled to the rear-skin hole pattern. |
+| Files | `cad/print/stl/` (one STL per piece, in print orientation), `cad/print/SRA16_print_x1c.zip`, `cad/print/SRA16_printed_parts.step` (installed position) |
+
 Build order:
 
-1. Confirm M1-M8 and update `rack_layout.py`, then run `tools/build_cadquery.py`, `tools/make_drawings.py`, `tools/make_bom.py`, `tools/make_weld_pack.py` and `tools/make_sheet_pack.py`.
-2. Fabricate the frame to the weld pack: cut, drill, bench ledges, SA-L and SA-R, box, pads and caps, then coat and fit the rivnuts. Order the laser-cut parts with the DXF zip at the same time, then have them folded and powder coated.
+1. Confirm M1-M8 and update `rack_layout.py`, then run `tools/build_cadquery.py`, `tools/make_drawings.py`, `tools/make_weld_pack.py`, `tools/make_sheet_pack.py`, `tools/make_print_pack.py` and `tools/make_bom.py`.
+2. Fabricate the frame to the weld pack: cut, drill, bench ledges, SA-L and SA-R, box, pads and caps, then coat and fit the rivnuts. Order the laser-cut parts with the DXF zip at the same time, then have them folded and powder coated. Start the printed parts too: the two gauges first, then the plates in number order (about 67 h of printing).
 3. Fit the castors (M8 into the pads), the bay floor ply on its ledges, the drip tray and the drain bulkhead.
 4. Fit the partition on its ledges with its lining, the docking posts, gaskets and brush strip.
-5. Fit the shelf ply on its ledges with its lining, and the cold hood with its drop collar.
+5. Fit the shelf ply on its ledges with its lining. Glue up the printed hood, screw it up to the shelf ply from below (rear row through the floor opening, front row through the driver holes), fit the keepers and drop the collar in.
 6. Bolt the RS1 rail spacers (air dams) to the uprights, packed to suit, then fit the 19-inch strips.
 7. Fit the skins: MLV bonded inside each skin, then the foam. Fit the side skins bottom to top with the JS strips over the joints, then the rear skins with the JR strip, then the top skin. Put acoustic sealant under every strip edge.
-8. Fit the exhaust elbow, duct and wall spigot, with insulation. Seal the penetration.
+8. Bolt the printed wall spigot through the rear skin. Fit the internal duct, cut to length and insulated, on its inner tube, and hang the front end from the shelf in line with the elbow outlet. Seal the penetration.
 9. Fit the riser box and plinth skirts SK1-SK3, then the cable box and brush strip.
 10. Build and hang the doors: bond the stiffener angles, rivet the hinges and KB1 keepers, fit the window and seals. Then rivet the toggle latches to the right-hand skins and adjust them to pull the doors onto the seal.
 11. Roll the AC in:
-    1. Lift the hood collar.
-    2. Push the AC back into the gaskets and clamp the retention bar.
-    3. Lower the collar.
-    4. Connect the exhaust elbow and drain hose.
+    1. Fit the printed elbow on the AC spigot (it stays on the AC).
+    2. Lift the hood collar onto its keepers.
+    3. Push the AC back into the gaskets: the elbow outlet slides into the duct. Clamp the retention bar.
+    4. Turn the keepers out so the collar drops onto the AC, then connect the drain hose.
 
 ## 11. Commissioning
 
@@ -235,11 +247,10 @@ The Fusion script was not run inside Fusion from here. It shows its own volume c
 
 The model is fully parametric: RU count (12-20), width (600-700), depth (900-1200) and wall build-up. That makes a "silent rack with integrated cooling" product family straightforward.
 
-- **Materials:** about AUD 5.0k at retail prices (see `bom/BOM.md`). The welded frame is about AUD 0.8k and the laser-cut, folded and coated sheet metal about AUD 1.5k. Expect less at volume.
+- **Materials:** about AUD 5.1k at retail prices (see `bom/BOM.md`). The welded frame is about AUD 0.8k and the laser-cut, folded and coated sheet metal about AUD 1.5k. Expect less at volume.
 - **For a sellable kit:**
   - laser-cut steel skins (the DXFs and nests are already generated) and CNC-cut foam;
   - the welded SHS frame, already detailed for production: per-mark STEP files for tube laser cutting, and a jig can be built from the side-frame sheet;
-  - an injection-moulded or 3D-printed cold hood;
-  - a standard 150 mm exhaust kit;
+  - the cold hood, collar and exhaust parts, already printable on a desktop printer (CP-SRA16-PRT-001), or injection-moulded at volume;
   - the ESP32 monitor.
 - **To validate:** measure dB(A) and thermal performance on the prototype. Those figures are the data a product sheet would need.

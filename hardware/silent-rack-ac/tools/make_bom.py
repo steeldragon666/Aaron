@@ -5,6 +5,7 @@ SRA-16 Silent AC Rack - generated from rack_layout.py so it tracks the CAD.
 
 Outputs: bom/cut_list.csv, bom/BOM.csv, bom/BOM.md
 Prices are indicative AUD retail (Sept 2026) for budgeting only - get quotes.
+The 3D-printed parts come from cad/print/print_report.json: run tools/make_print_pack.py first.
 """
 import csv
 import json
@@ -30,6 +31,8 @@ SM_PRICE = {"blank": {("Steel sheet (Zincanneal or CR4)", 1.2): 45.0, ("Stainles
             "cut_m": 1.10, "pierce": 0.12, "bend": 2.50, "setup": 120.0, "coat_m2": 32.0, "tray_weld": 90.0}
 SM_OTHER = {"RR1": "bought as 19in rack strips (Rack)", "PD1": "weld pack PL1, from flat bar (Frame)",
             "PC1": "weld pack PL2, from flat bar (Frame)"}      # in the DXF pack as a make option only
+PRT_DOC = "CP-SRA16-PRT-001"           # 3D-printed parts pack (tools/make_print_pack.py)
+PRT_WASTE = 1.15                       # filament bought per kg printed: brims, purge, one failed start
 
 
 def sheet_metal_costs(sm, nests):
@@ -105,6 +108,10 @@ def main():
     wm = WM.build()                                   # welded frame: cut list, mass, purchase (CP-SRA16-FRM-001)
     wt = wm["totals"]
     vols = json.load(open(os.path.join(ROOT, "cad", "fusion", "SilentRackAC", "expected_volumes.json")))["volumes_mm3"]
+    prt_path = os.path.join(ROOT, "cad", "print", "print_report.json")
+    if not os.path.exists(prt_path):
+        sys.exit("cad/print/print_report.json missing: run tools/make_print_pack.py first")
+    prt = json.load(open(prt_path))
 
     # ------------------------------------------------------------ cut list
     cut_rows = []
@@ -167,6 +174,8 @@ def main():
         if SMP.DOC_NO.lower() in mat or "joint cover strip" in mat or "door stiffener" in mat or \
                 "stainless, folded" in mat:
             continue                                  # from the sheet-metal pack below
+        if PRT_DOC.lower() in mat:
+            continue                                  # from the print pack below
         if "ply" in mat or "mdf" in mat:
             mass["Plywood (interior: floor, partition, shelf, boxes)"] += v * dens["ply"]
         elif "vinyl" in mat:
@@ -181,13 +190,12 @@ def main():
             mass["Castors"] += 1.4
         elif "polycarbonate" in mat:
             mass["Window glazing"] += v * dens["pc"]
-        elif "pp sheet" in mat:
-            mass["Cold hood"] += 1.6
         else:
             mass["Seals, ducts, hardware (est.)"] += 0.0
     mass["Seals, ducts, hardware (est.)"] += 9.0
     mass["Steel skins, doors, strips, skirts (%s)" % SMP.DOC_NO] = sm_mass["steel"]
     mass["Stainless drip tray DT1 (1.2 mm)"] = sm_mass["tray"]
+    mass["3D-printed hood, collar, elbow, wall spigot (%s)" % PRT_DOC] = prt["installed_mass_g"] / 1000.0
     mass["Welded steel frame, %s (weldment)" % wm["sec_shs"]] = wt["mass_weldment_kg"]
     mass["Rail spacers RS1 (SHS, bolted)"] = wt["mass_spacers_kg"]
     cabinet_kg = sum(mass.values())
@@ -236,10 +244,20 @@ def main():
     add("Drain", "16 mm ID clear PVC hose", 3, "m", 4.5, "fall >= 1:50 to waste")
     add("Drain", "Hose barbs / quick connects", 3, "ea", 6.0, "")
     add("Drain", "Mini condensate pump (only if no floor waste)", 1, "ea", 180.0, "optional")
-    add("Airflow", "Cold-air hood, 6 mm PP (fab) with drop collar", 1, "ea", 90.0, "or 3D-print PETG")
+    for mat, t in prt["totals"].items():
+        add("Printed parts", "%s filament, 1 kg spool" % mat, int(math.ceil(t["mass_g"] * PRT_WASTE / 1000.0)), "spool",
+            t["aud_kg"], "%d pieces, %.2f kg, about %.0f h: %s" % (t["pieces"], t["mass_g"] / 1000.0, t["hours"],
+                                                                   t["use"].split(":")[1].split("(")[0].strip()))
+    add("Printed parts", "Fixings: 6 x 4x20 pan-head, 2 x M4x25 + 4 x M5x25 button head, nylocs, washers", 1, "set",
+        18.0, "hood to shelf, keepers, wall spigot")
+    add("Printed parts", "Two-part epoxy 25 ml + acetone (laps), 3 x 10 closed-cell foam tape 5 m", 1, "set", 30.0,
+        "hood and collar laps (epoxy), elbow lap (acetone), seals")
     add("Airflow", "Lined inlet riser + cable gland boxes (12 mm ply)", 1, "set", 0.0, "from ply offcuts")
-    add("Airflow", "150 mm rigid 90deg elbow + 0.6 m duct + flanged wall spigot", 1, "set", 85.0, "")
-    add("Airflow", "10 mm closed-cell duct insulation (self-adhesive)", 2, "m2", 25.0, "elbow + duct")
+    add("Airflow", "150 mm galvanised rigid duct, 1 m", 1, "ea", 25.0,
+        "cut to %.0f mm (docs/PRINTED_PARTS.md)" % prt["duct"]["length"])
+    add("Airflow", "Perforated hanger strap 1 m + screws", 1, "ea", 6.0, "holds the duct in line with the elbow")
+    add("Airflow", "10 mm closed-cell duct insulation (self-adhesive)", 1, "m2", 25.0, "internal duct")
+    add("Airflow", "6 mm closed-cell insulation (self-adhesive)", 1, "m2", 22.0, "printed elbow P4")
     add("Airflow", "150 mm insulated acoustic flex duct", 3, "m", 32.0, "cabinet -> window/wall vent")
     add("Airflow", "150 mm wall/window vent with backdraft flap", 1, "ea", 65.0, "")
     add("Seals", "EPDM D-profile door/panel seal (double row)", round(door_seal_m, 1), "m", 3.2, "")
@@ -264,7 +282,7 @@ def main():
     add("Rack", "0U / 1U PDU 8-way 10 A", 1, "ea", 120.0, "IT load only - AC on its own GPO")
     add("Controls", "ESP32 + 3x SHT31 + IR LED + leak sensor + 2 reed switches", 1, "kit", 85.0,
         "ESPHome: temps, AC IR restart, alerts")
-    add("Consumables", "Screws (M5 spigot/handles, M4 grommet), foil tape, cable ties, labels", 1, "lot", 80.0, "")
+    add("Consumables", "Screws (M5 handles, M4 grommet), foil tape, cable ties, labels", 1, "lot", 80.0, "")
     total = sum(r[5] for r in bom)
     with open(os.path.join(ROOT, "bom", "BOM.csv"), "w", newline="") as fh:
         w = csv.writer(fh)
@@ -298,6 +316,18 @@ def main():
            "| Bends | %d |" % sm_tot["bends"], "| Powder-coated face | %.1f m2 |" % sm_tot["coat_m2"],
            "| Mass (steel + tray) | %.1f kg |" % (sm_mass["steel"] + sm_mass["tray"]), "",
            "Also in the DXF pack, costed elsewhere: " + "; ".join("%s %s" % kv for kv in SM_OTHER.items()) + "."]
+    pl_mats = OrderedDict()
+    for pl in prt["plates"]:
+        pl_mats[pl["material"]] = pl_mats.get(pl["material"], 0) + 1
+    md += ["", "## 3D-printed parts (%s)" % PRT_DOC, "",
+           "Cold-air hood, drop collar and keepers in PETG; exhaust elbow and wall spigot in ASA. Sectioned for the "
+           "%s, STLs and settings in `cad/print/` and `docs/PRINTED_PARTS.md`." % prt["printer"].upper(), "",
+           "| Quantity | Value |", "|---|---:|",
+           "| Pieces (incl. 2 fit gauges) | %d |" % sum(t["pieces"] for t in prt["totals"].values()),
+           "| Plates | %d (%s) |" % (len(prt["plates"]), ", ".join("%d %s" % (n, m) for m, n in pl_mats.items()))]
+    for m, t in prt["totals"].items():
+        md.append("| %s printed | %.2f kg, about %.0f h |" % (m, t["mass_g"] / 1000.0, t["hours"]))
+    md += ["| Internal duct | cut to %.0f mm |" % prt["duct"]["length"]]
     md += ["", "## Frame and profiles", "",
            "The frame is welded %s: cut list, weld plan and drawings are in `docs/FRAME_WELD_PLAN.md` and "
            "`drawings/%s.pdf` (weldment %.1f kg, %d SHS bars)." % (

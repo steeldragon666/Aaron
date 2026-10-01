@@ -1,0 +1,14 @@
+piece,part,name,material,qty,print_x_mm,print_y_mm,print_z_mm,volume_cm3,mass_g_each,est_hours_each,plates,orientation,stl
+P1-1,P1,Hood body - left end,PETG,1,75.0,231.0,181.3,329.9,419.0,10.4,5,"end wall on the plate, tongue up",cad/print/stl/P1-1_hood_left_end.stl
+P1-2a,P1,"Hood body - middle, front channel",PETG,1,75.0,63.0,181.3,98.6,125.0,3.3,5,"rebate end on the plate, tongue up",cad/print/stl/P1-2a_hood_middle_front_channel.stl
+P1-2b,P1,"Hood body - middle, rear channel",PETG,1,75.0,111.0,181.3,124.2,158.0,4.1,6,"rebate end on the plate, tongue up",cad/print/stl/P1-2b_hood_middle_rear_channel.stl
+P1-3,P1,Hood body - right end,PETG,1,75.0,231.0,171.3,316.3,402.0,10.0,6,end wall on the plate,cad/print/stl/P1-3_hood_right_end.stl
+P2-1,P2,Drop collar - left half,PETG,1,216.0,166.0,31.0,98.4,125.0,3.3,3,lip on the plate,cad/print/stl/P2-1_collar_left_half.stl
+P2-2,P2,Drop collar - right half,PETG,1,206.0,166.0,31.0,94.3,120.0,3.2,4,lip on the plate,cad/print/stl/P2-2_collar_right_half.stl
+P3-1,P3,Collar keeper,PETG,2,38.0,12.0,10.0,2.2,3.0,0.3,5,"arm on the plate, print 2",cad/print/stl/P3-1_keeper_x2.stl
+P4-1,P4,Exhaust elbow - inlet half (socket),ASA,1,159.0,185.4,197.4,299.9,321.0,9.5,7,"socket on the plate, tongue up",cad/print/stl/P4-1_elbow_inlet_half_socket.stl
+P4-2,P4,Exhaust elbow - outlet half (spigot),ASA,1,158.0,178.8,206.4,298.4,319.0,9.5,8,"male spigot on the plate, rebate up",cad/print/stl/P4-2_elbow_outlet_half_spigot.stl
+P5-1,P5,Wall spigot - flange + inner tube,ASA,1,230.0,230.0,50.2,229.5,246.0,7.3,9,flange face (outside) on the plate,cad/print/stl/P5-1_wall_spigot_flange_inner_tube.stl
+P5-2,P5,Wall spigot - outer tube,ASA,1,153.0,153.0,59.0,106.6,114.0,3.5,10,"hose end on the plate, tongue up",cad/print/stl/P5-2_wall_spigot_outer_tube.stl
+G1,G,Gauge - elbow socket over the AC spigot,ASA,1,159.0,159.0,12.0,23.1,25.0,1.0,1,print first,cad/print/stl/G1_gauge_elbow_socket_over_the_ac_spigot.stl
+G2,G,Gauge - male spigot into the 150 duct,ASA,1,149.0,149.0,15.0,27.1,29.0,1.1,2,print first,cad/print/stl/G2_gauge_male_spigot_into_the_150_duct.stl
