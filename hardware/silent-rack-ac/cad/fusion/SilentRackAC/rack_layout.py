@@ -22,7 +22,7 @@ manual and should be tape-checked before cutting panels.
 
 import math
 
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 
 DEFAULTS = {
     # --- rack / envelope -------------------------------------------------
@@ -87,6 +87,11 @@ DEFAULTS = {
     "exh_bend_r": 150.0,     # exhaust elbow centreline radius (1.0 D)
     "win_w": 140.0,          # lower-door viewing window (AC display + IR remote)
     "win_h": 200.0,
+    # --- office air: cold air to the next room through the right side --------
+    "office_ports": 1,       # 1 = supply (fan) + return port pair in the right side, 0 = none
+    "office_duct_d": 60.0,   # flexible duct bore = spigot OD (duct slides on, hose clamp)
+    "office_fan": 80.0,      # booster fan frame (square, 25 mm deep) in the supply sleeve
+    "office_dz": 215.0,      # port centres above the divider shelf top
 }
 
 # name -> (unit, description) ; unit "mm" or "" (count)
@@ -146,6 +151,10 @@ PARAM_DOC = {
     "exh_bend_r": ("mm", "Exhaust elbow centreline radius"),
     "win_w": ("mm", "Viewing window width"),
     "win_h": ("mm", "Viewing window height"),
+    "office_ports": ("", "Office air port pairs, right side (0 = none)"),
+    "office_duct_d": ("mm", "Office flex duct bore (= spigot OD)"),
+    "office_fan": ("mm", "Office booster fan frame size"),
+    "office_dz": ("mm", "Office port centres above the shelf top"),
 }
 
 GROUPS = [
@@ -216,6 +225,11 @@ HW = {
 # plinth skirts (folded L under the base rails, between the castor pads)
 SKIRT = {"inset": 6.0, "flange": 28.0, "floor_gap": 10.0, "pad_gap": 2.0, "slot_z": (35.0, 75.0),
          "slot_fr": 50.0, "pitch_fr": 72.0, "slot_side": 60.0, "pitch_side": 85.0, "drain_d": 20.5}
+# office air ports (CP-SRA16-PRT-001 P9-P12): a printed sleeve in the side lining holds a 25 mm PC fan on a
+# foam gasket against its end plate; a flange + duct spigot outside, 4 x M3 through grille, fan, skin, flange
+OFFICE = {"fan_t": 25.0, "gasket": 2.0, "wall": 3.0, "plate": 3.0, "grille": 2.5, "flange_t": 3.0,
+          "flange_m": 4.0, "spigot_l": 45.0, "spigot_t": 2.4, "bolt_d": 3.4, "duct_t": 3.0, "duct_stub": 150.0}
+FAN_HOLES = {40.0: 32.0, 50.0: 40.0, 60.0: 50.0, 70.0: 60.0, 80.0: 71.5, 92.0: 82.5, 120.0: 105.0}  # frame: hole square
 
 
 def even_positions(a0, a1, pitch, nmin=2):
@@ -425,6 +439,16 @@ def derive(P):
     D["hinge_z_upper"] = up if len(up) <= 2 else [up[0], up[-1]]
     D["latch_z_lower"] = [lo[0], lo[-1]] if len(lo) > 1 else lo
     D["latch_z_upper"] = [up[0], up[-1]] if len(up) > 1 else up
+    # office air: supply (fan) in the side lining of the front plenum, return into the rear plenum,
+    # both centred in their foam bay at one height; the ducts run straight out through the wall
+    D["office_z"] = D["z_shelf1"] + P["office_dz"]
+    D["office_sleeve"] = P["office_fan"] + 2 * OFFICE["wall"]
+    D["office_flange"] = P["office_fan"] + 2 * OFFICE["flange_m"]
+    D["office_hole_d"] = P["office_duct_d"] - 4.0                    # skin, MLV and end plate: just over the bore
+    D["office_bolts"] = FAN_HOLES.get(P["office_fan"], 0.0)
+    D["office"] = [] if P["office_ports"] < 1 else [
+        {"name": "supply", "zone": "cold", "fan": True, "y": (D["y_in0"] + D["y_frail"]) / 2.0, "z": D["office_z"]},
+        {"name": "return", "zone": "hot", "fan": False, "y": (D["y_rrail"] + D["y_in1"]) / 2.0, "z": D["office_z"]}]
     return D
 
 
@@ -488,6 +512,47 @@ def validate(D):
             and D["z_base1"] + DOOR_CLEAR + D["door_stiff"] < D["win_zc"] - gz
             and D["win_zc"] + gz < D["z_srail0"] - DOOR_CLEAR - D["door_stiff"]):
         w.append("Window glazing unit clashes with the lower-door stiffener frame")
+    w += validate_office(D)
+    return w
+
+
+def validate_office(D):
+    """Office air ports: sleeve in its foam bay, flange clear of the latches, joint strips and panel screws."""
+    w = []
+    if not D["office"]:
+        return w
+    if not D["office_bolts"]:
+        w.append("office_fan %g is not a standard PC fan size %s" % (D["office_fan"], sorted(FAN_HOLES)))
+    if D["frame"] - OFFICE["plate"] < OFFICE["fan_t"] + OFFICE["gasket"] - 1e-6:
+        w.append("Office fan + gasket (%g) do not fit the %g mm side lining" % (
+            OFFICE["fan_t"] + OFFICE["gasket"], D["frame"] - OFFICE["plate"]))
+    if D["office_duct_d"] - 2 * OFFICE["spigot_t"] > D["office_fan"] - 4.0:
+        w.append("Office duct bore is larger than the fan's own bore")
+    h, hf = D["office_sleeve"] / 2.0, D["office_flange"] / 2.0
+    if D["office_bolts"] / 2.0 + OFFICE["bolt_d"] / 2.0 + 2.0 > hf:
+        w.append("Office flange too small for the fan bolt square")
+    bays = {"supply": (D["y_in0"], D["y_frail"]), "return": (D["y_rrail"], D["y_in1"])}
+    f, s = D["frame"], D["skin"]
+    screw_lines = (s + f / 2.0, D["y_frail"] + f / 2.0, D["y_rrail"] - f / 2.0, D["ext_d"] - s - f / 2.0)
+    latch_y1 = D["hw_y_side"] + 49.0                                # toggle latch body, front edge of the side
+    for op in D["office"]:
+        y, z = op["y"], op["z"]
+        y0, y1 = bays[op["name"]]
+        if y - h < y0 + 10.0 or y + h > y1 - 10.0:
+            w.append("Office %s sleeve (%.0f) leaves under 10 mm of lining in its %.0f mm bay" % (
+                op["name"], 2 * h, y1 - y0))
+        if z - h < D["z_srail1"] + 10.0 or z + h > D["z_toprail0"] - 10.0:
+            w.append("Office %s sleeve is not inside the rack-zone side lining" % op["name"])
+        if y - hf < latch_y1 + 10.0:
+            for zl in D["latch_z_lower"] + D["latch_z_upper"]:
+                if abs(z - zl) < hf + HW["keeper_h"] / 2.0 + 10.0:
+                    w.append("Office %s flange within 10 mm of the toggle latch at z %.0f" % (op["name"], zl))
+        for zj in D["side_splits"]:
+            if abs(z - zj) < hf + D["strip_w"] / 2.0 + 5.0:
+                w.append("Office %s flange runs onto the side joint strip at z %.0f" % (op["name"], zj))
+        for yc in screw_lines:
+            if abs(y - yc) < hf + 12.0:
+                w.append("Office %s flange within 12 mm of the panel screw line at y %.0f" % (op["name"], yc))
     return w
 
 
@@ -597,12 +662,20 @@ def build_parts(P=None):
     def pieces(cuts):
         zs = [zb0] + list(cuts) + [zt1]
         return [(zs[i] + (0.5 if i else 0.0), zs[i + 1] - (0.5 if i < len(zs) - 2 else 0.0)) for i in range(len(zs) - 1)]
+
+    def office_holes(x0, x1, za=-1e9, zb=1e9):
+        """Office port holes through the right-side skin / MLV between x0 and x1 (ports within za..zb)."""
+        return [cyl((x0, op["y"], op["z"]), (x1, op["y"], op["z"]), D["office_hole_d"] / 2.0)
+                for op in D["office"] if za < op["z"] < zb]
     # side skins: one piece per bay between the split rails, cover strip over each joint
     for side, (xs0, xs1), (xm0, xm1), (xj0, xj1) in (("left", (0, sk), (sk, s), (-st, 0)),
                                                      ("right", (W - sk, W), (W - s, W - sk), (W, W + st))):
+        rt = side == "right"
         for i, (za, zb) in enumerate(pieces(D["side_splits"])):
-            part("Side panel %s %d" % (side, i + 1), "Panels & Doors", "sheet", [box(xs0, s, za, xs1, DP - s, zb)], bom=SKIN)
-        part("Side panel %s MLV" % side, "Panels & Doors", "mlv", [box(xm0, s, zb0, xm1, DP - s, zt1)], bom=MLV)
+            part("Side panel %s %d" % (side, i + 1), "Panels & Doors", "sheet", [box(xs0, s, za, xs1, DP - s, zb)],
+                 office_holes(xs0 - 1, xs1 + 1, za, zb) if rt else [], bom=SKIN)
+        part("Side panel %s MLV" % side, "Panels & Doors", "mlv", [box(xm0, s, zb0, xm1, DP - s, zt1)],
+             office_holes(xm0 - 1, xm1 + 1) if rt else [], bom=MLV)
         for j, zj in enumerate(D["side_splits"]):
             part("Joint strip %s %d" % (side, j + 1), "Panels & Doors", "sheet",
                  [box(xj0, s, zj - sw2, xj1, DP - s, zj + sw2)], bom=STRIP)
@@ -688,8 +761,11 @@ def build_parts(P=None):
         bays = [("lower", Y0, Y1, zb1, zm0), ("mid", Y0, Y1, zm1, zs0),
                 ("rack front", Y0, yf0, zs1, zt0), ("rack middle", yf1, yr0, zs1, zt0),
                 ("rack rear", yr1, Y1, zs1, zt0)]
+        oh = D["office_sleeve"] / 2.0
         for bn, ya, yb, za, zb in bays:
-            part("Foam side %s %s" % (side, bn), "Acoustic Lining", "foam", [box(xa, ya, za, xb, yb, zb)], bom=F40)
+            sleeves = [box(xa - 1, op["y"] - oh, op["z"] - oh, xb + 1, op["y"] + oh, op["z"] + oh) for op in D["office"]
+                       if side == "right" and ya < op["y"] < yb and za < op["z"] < zb]
+            part("Foam side %s %s" % (side, bn), "Acoustic Lining", "foam", [box(xa, ya, za, xb, yb, zb)], sleeves, bom=F40)
     exh_hole_foam = cyl((ex, Y1 - 1, ez), (ex, DP - s + 1, ez), D["exh_ro"] + 2)
     part("Foam rear lower", "Acoustic Lining", "foam", [box(X0, Y1, zb1, X1, DP - s, zm0)], bom=F40)
     part("Foam rear mid", "Acoustic Lining", "foam", [box(X0, Y1, zm1, X1, DP - s, zs0)], [exh_hole_foam], bom=F40)
@@ -884,6 +960,49 @@ def build_parts(P=None):
          [box(slot[0], DP - s, slot[2], slot[1], DP, slot[3])],
          bom={"kind": "purchased", "material": "Brush-strip cable grommet 200x40"})
 
+    # office air: cold supply out of the front plenum (fan in the sleeve), office air back into the rear
+    # plenum; each port = grille + sleeve in the side lining, flange + duct spigot outside the skin
+    O = OFFICE
+    fan = P["office_fan"]
+    h, hi, hf = D["office_sleeve"] / 2.0, D["office_sleeve"] / 2.0 - O["wall"], D["office_flange"] / 2.0
+    xe, xf = W - s, W + O["flange_t"]                       # sleeve end plate on the MLV; flange outer face
+    xs1 = xf + O["spigot_l"]
+    rd, rb = P["office_duct_d"] / 2.0, P["office_duct_d"] / 2.0 - O["spigot_t"]
+    rg = fan / 2.0 - 2.0                                    # fan bore = grille opening
+    for op in D["office"]:
+        nm, y, z = op["name"], op["y"], op["z"]
+        col = "cold" if op["zone"] == "cold" else "room"
+        slots_ = []                                         # grille: 9 mm slots on a 12 mm pitch across the bore
+        for dz in (-30.0, -18.0, -6.0, 6.0, 18.0, 30.0):
+            c = math.sqrt(max(rg ** 2 - (abs(dz) + 4.5) ** 2, 0.0))
+            slots_.append(box(X1 - O["grille"] - 1, y - c, z + dz - 4.5, X1 + 1, y + c, z + dz + 4.5))
+        part("Office %s grille" % nm, "Airflow & Seals", col, [box(X1 - O["grille"], y - h, z - h, X1, y + h, z + h)],
+             slots_, bom={"kind": "fab", "material": "3D-printed PETG, CP-SRA16-PRT-001 P10 (office port grille)"})
+        part("Office %s sleeve" % nm, "Airflow & Seals", col, [box(X1, y - h, z - h, xe, y + h, z + h)],
+             [box(X1 - 1, y - hi, z - hi, xe - O["plate"], y + hi, z + hi),
+              cyl((xe - O["plate"] - 1, y, z), (xe + 1, y, z), D["office_hole_d"] / 2.0)],
+             bom={"kind": "fab", "material": "3D-printed PETG, CP-SRA16-PRT-001 P9 (office port sleeve)"})
+        if op["fan"]:
+            fx1 = X1 + O["fan_t"]
+            part("Office supply fan", "Airflow & Seals", "it_body",
+                 [box(X1, y - fan / 2.0, z - fan / 2.0, fx1, y + fan / 2.0, z + fan / 2.0)],
+                 [cyl((X1 - 1, y, z), (fx1 + 1, y, z), rg)],
+                 bom={"kind": "purchased", "material": "%g mm PWM fan, 12 V 4-pin (Noctua NF-A8 PWM or equal)" % fan})
+            part("Office supply fan rotor", "Airflow & Seals", "it_blank",
+                 [cyl((X1 + 2, y, z), (fx1 - 3, y, z), 15.0),
+                  box(X1 + 4, y - rg + 1.5, z - 1.5, fx1 - 5, y + rg - 1.5, z + 1.5),
+                  box(X1 + 4, y - 1.5, z - rg + 1.5, fx1 - 5, y + 1.5, z + rg - 1.5)])
+        part("Office %s spigot" % nm, "Airflow & Seals", col,
+             [box(W, y - hf, z - hf, xf, y + hf, z + hf), cyl((xf, y, z), (xs1, y, z), rd)],
+             [cyl((W - 1, y, z), (xs1 + 1, y, z), rb)],
+             bom={"kind": "fab", "material": "3D-printed PETG, CP-SRA16-PRT-001 P11 (flange + %g duct spigot)"
+                  % P["office_duct_d"]})
+        part("Office %s duct (flex %g)" % (nm, P["office_duct_d"]), "Airflow & Seals", "alu",
+             [cyl((xf + 8.0, y, z), (xs1 + O["duct_stub"], y, z), rd + O["duct_t"])],
+             [cyl((xf + 7.0, y, z), (xs1 + O["duct_stub"] + 1, y, z), rd + 0.25)],
+             bom={"kind": "purchased", "material": "Flexible duct %g mm + hose clamp, through the office wall "
+                  "(owner supplied)" % P["office_duct_d"]})
+
     # ======================================================== 19in RACK
     RL = {"kind": "purchased", "material": "19in rack strip, 2 mm steel, %dU" % P["ru_count"]}
     zr0, zr1 = D["rail_z0"], D["rail_z1"]
@@ -1004,6 +1123,7 @@ def summary(D):
         "frame": "%gx%g steel SHS, welded" % (D["frame"], D["frame"]),
         "frame_outer_mm": (D["ext_w"] - 2 * D["skin"], D["ext_d"] - 2 * D["skin"],
                            round(D["z_toprail1"] - D["z_base0"], 1)),
+        "office_ports_xyz_mm": {op["name"]: (D["ext_w"], round(op["y"], 1), round(op["z"], 1)) for op in D["office"]},
     }
 
 

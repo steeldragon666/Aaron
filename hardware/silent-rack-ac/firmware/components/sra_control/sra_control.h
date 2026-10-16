@@ -10,7 +10,11 @@
 //   - low IT load (eco): pull the rack down, switch the AC off, switch it back on when it warms
 //     up - long quiet off periods, compressor-friendly minimum on and off times;
 //   - notices when the AC is not cooling (power cut, missed IR) and re-sends the state;
-//   - raises alarms and, if the cold side stays critical, asks for the IT to shut down.
+//   - raises alarms and, if the cold side stays critical, asks for the IT to shut down;
+//   - office air (optional kit): a fan in the right side pushes cold-side air through a duct to the next
+//     room, whose air comes back into the hot side.  The rack always comes first: the office is only
+//     served while the rack is in hand, and while it is, eco is held off and the cold side is pulled
+//     down to the office supply temperature (colder air carries more heat through a small duct).
 // Decisions use smoothed temperatures: a cycling compressor swings the cold side by several
 // kelvin.  Alarms use the raw readings.
 // Fail-safe rule: anything unknown (no cold or hot reading, over-temperature) means "AC on".
@@ -35,6 +39,16 @@ enum State : uint8_t {
   ST_CRITICAL = 8,     // cold side above the critical limit
 };
 
+enum OfficeMode : uint8_t { OFFICE_OFF = 0, OFFICE_AUTO = 1, OFFICE_ON = 2 };
+enum OfficeState : uint8_t {
+  OF_OFF = 0,       // office air switched off (or no office kit)
+  OF_IDLE = 1,      // auto: the office is at its target
+  OF_COOLING = 2,   // fan running, cold air to the office
+  OF_WAIT = 3,      // the office calls, the cold side is not yet colder than the office (or the fan rests)
+  OF_BLOCKED = 4,   // the office calls, the rack comes first (warm rack, alarm, AC off or without power)
+  OF_NO_PROBE = 5,  // auto, but no office temperature
+};
+
 enum Alarm : uint16_t {
   AL_COLD_WARN = 1u << 0,     // cold side above warn_cold
   AL_COLD_CRIT = 1u << 1,     // cold side above crit_cold
@@ -48,6 +62,7 @@ enum Alarm : uint16_t {
   AL_SHUTDOWN = 1u << 9,      // IT shutdown requested
   AL_NO_POWER = 1u << 10,     // AC socket dead (mains-detect input)
   AL_LINK = 1u << 11,         // reserved: set by the touchscreen when the node stops answering
+  AL_OFFICE_FAN = 1u << 12,   // office fan told to run but not turning (tach)
 };
 
 struct Settings {
@@ -77,6 +92,19 @@ struct Settings {
   uint32_t crit_delay_s = 120;  // the rack heats about 1 K/min with the AC down at full load
   uint32_t mains_delay_s = 30;  // re-send this long after the AC socket comes back
   uint32_t min_send_gap_s = 10; // never transmit more often than this
+  // office air (docs/OFFICE_AIR.md)
+  uint8_t office_mode = OFFICE_OFF;
+  float office_target = 24.0f;    // cool the office to this, degC
+  float office_band = 1.0f;       // calls above target + band/2, stops below target - band/2
+  float office_supply = 18.0f;    // cold-side target while the office calls (kept 2 K over the room dew point)
+  float office_dt_min = 1.5f;     // fan only while the cold side is this much below the office
+  float office_span = 2.0f;       // fan from min (call stops) to max (this much warmer)
+  uint8_t office_fan_min = 30;    // %
+  uint8_t office_fan_max = 100;   // %
+  float office_block_dt = 1.5f;   // rack first: no office air while the cold side averages this over target
+  uint32_t office_min_s = 120;    // shortest fan run and rest
+  float office_rpm_min = 300.0f;  // slower than this while told to run = stalled or unplugged
+  uint32_t office_fan_alarm_s = 60;
 };
 
 struct Inputs {
@@ -90,6 +118,9 @@ struct Inputs {
   bool door_open = false;
   bool leak = false;
   bool mains = true;     // AC socket live; leave true when the input is not fitted
+  float office = NAN;    // office air (probe T7 in the return grille)
+  float office_rpm = NAN;  // office fan tach; NAN when not measured
+  float rh_room = NAN;   // room relative humidity, % (touchscreen sensor)
 };
 
 struct Outputs {
@@ -106,6 +137,9 @@ struct Outputs {
   float dew_point = NAN;
   float cold_avg = NAN;  // averaged server intake
   float load_dt = NAN;   // averaged hot - cold while the AC runs (a load estimate)
+  uint8_t office_pct = 0;  // office fan, % (0 = stopped)
+  uint8_t office_state = OF_OFF;
+  float target = NAN;    // cold-side target in use (lower while the office calls)
 };
 
 inline float dew_point_c(float t, float rh) {
@@ -219,10 +253,43 @@ class Controller {
       retries_ = 0;
     }
 
+    // ---- office air: does the office call, and may it have cold air (the rack comes first)?
+    const bool office_ok = !std::isnan(in.office);
+    if (s.office_mode == OFFICE_ON) office_call_ = true;
+    else if (s.office_mode != OFFICE_AUTO || !office_ok) office_call_ = false;
+    else if (in.office >= s.office_target + s.office_band / 2.0f) office_call_ = true;
+    else if (in.office <= s.office_target - s.office_band / 2.0f) office_call_ = false;
+    if (!std::isnan(cold_avg_)) {
+      if (cold_avg_ > s.target + s.office_block_dt) office_hot_ = true;
+      else if (cold_avg_ <= s.target + 0.5f) office_hot_ = false;
+    }
+    const uint16_t office_block = AL_COLD_WARN | AL_COLD_CRIT | AL_HOT_WARN | AL_LEAK | AL_SENSOR |
+                                  AL_CONDENSATION | AL_NO_POWER;
+    const bool office_blocked = office_hot_ || (al & office_block) || not_cooling_ || shutdown_ ||
+                                s.mode == MODE_OFF;
+    const bool office_on = office_call_ && !office_blocked;
+    // colder supply air while the office calls, but 2 K over the room dew point (a dry office grille)
+    float office_sup = s.office_supply;
+    const float room_dp = dew_point_c(in.room, in.rh_room);
+    if (!std::isnan(room_dp) && room_dp + 2.0f > office_sup) office_sup = room_dp + 2.0f;
+    const float target = office_on ? std::min(s.target, office_sup) : s.target;
+    if (office_on != office_on_) {
+      office_on_ = office_on;
+      if (office_on) {            // a first guess for the colder air; the old setpoint comes back after
+        sp_rack_ = sp_trim_;
+        sp_trim_ = clamp_sp(std::min(sp_trim_, std::round(target + s.sp_offset)));
+      } else {
+        sp_trim_ = clamp_sp(std::max(sp_trim_, sp_rack_));
+      }
+      t_trim_ = now;
+      err_sum_ = 0.0f;
+      err_t_ = 0;
+    }
+
     // ---- on or off?
     const bool too_hot = (cold_ok && cold >= s.warn_cold) || (hot_ok && hot >= s.warn_hot);
     const bool low_load = !std::isnan(load_dt_) && load_dt_ < s.eco_dt + (eco_ ? 1.0f : 0.0f);
-    eco_ = s.mode == MODE_AUTO && s.eco && cold_ok && hot_ok && !too_hot && low_load;
+    eco_ = s.mode == MODE_AUTO && s.eco && cold_ok && hot_ok && !too_hot && low_load && !office_on;
     bool want_on = on_;
     if (s.mode == MODE_OFF) {
       want_on = false;
@@ -232,6 +299,9 @@ class Controller {
       }
     } else if (s.mode == MODE_ON || !s.eco || !cold_ok || !hot_ok || too_hot) {
       want_on = true;
+    } else if (office_on) {
+      // the office wants cold air: back on, after the compressor's rest
+      if (!on_ && now - t_switch_ >= s.min_off_s) want_on = true;
     } else if (on_) {
       // pulled down far enough at low load: switch off
       if (eco_ && cold_avg_ <= s.target - s.eco_band && now - t_switch_ >= s.min_on_s) want_on = false;
@@ -253,7 +323,7 @@ class Controller {
     // averages the target.  The trim acts on the mean error over its whole window, which a
     // cycling compressor cannot alias.
     if (on_ && cold_ok && !eco_) {
-      float e = cold_avg_ - s.target;
+      float e = cold_avg_ - target;
       err_sum_ += e * (float) dt;
       err_t_ += dt;
       bool fast = e > 3.0f;
@@ -324,6 +394,43 @@ class Controller {
       t_sent_ = now;
     }
 
+    // ---- office fan: runs while the office may have air and the cold side is clearly colder than the
+    // office; shortest run and rest, except that a block stops it at once
+    const bool useful = office_ok ? (!std::isnan(cold_avg_) &&
+                                     in.office - cold_avg_ >= s.office_dt_min - (fan_on_ ? 0.5f : 0.0f))
+                                  : s.office_mode == OFFICE_ON;
+    const bool want_fan = office_on && useful;
+    if (want_fan != fan_on_ && (!office_on || now - t_fan_ >= s.office_min_s)) {
+      fan_on_ = want_fan;
+      t_fan_ = now;
+    }
+    uint8_t pct = 0;
+    if (fan_on_) {
+      float x = 1.0f;
+      if (s.office_mode == OFFICE_AUTO && office_ok) {
+        x = (in.office - (s.office_target - s.office_band / 2.0f)) / std::max(s.office_span, 0.1f);
+        x = x < 0.0f ? 0.0f : (x > 1.0f ? 1.0f : x);
+      }
+      pct = (uint8_t) std::lround(s.office_fan_min + x * (float) (s.office_fan_max - s.office_fan_min));
+    }
+    if (fan_on_ && !std::isnan(in.office_rpm) && in.office_rpm < s.office_rpm_min) {
+      if (!fan_slow_) {
+        fan_slow_ = true;
+        t_fan_slow_ = now;
+      }
+      if (now - t_fan_slow_ >= s.office_fan_alarm_s) al |= AL_OFFICE_FAN;
+    } else {
+      fan_slow_ = false;
+    }
+    o.office_pct = pct;
+    o.target = target;
+    if (s.office_mode == OFFICE_OFF) o.office_state = OF_OFF;
+    else if (s.office_mode == OFFICE_AUTO && !office_ok) o.office_state = OF_NO_PROBE;
+    else if (office_call_ && office_blocked) o.office_state = OF_BLOCKED;
+    else if (fan_on_) o.office_state = OF_COOLING;
+    else if (office_call_) o.office_state = OF_WAIT;
+    else o.office_state = OF_IDLE;
+
     if (shutdown_) al |= AL_SHUTDOWN;
     o.ac_on = on_;
     o.setpoint = sp;
@@ -357,11 +464,12 @@ class Controller {
   bool started_ = false, on_ = true, want_send_ = false, sent_once_ = false, eco_ = false;
   bool door_open_ = false, crit_ = false, shutdown_ = false, damp_ = false;
   bool not_cooling_ = false, last_mains_ = true, mains_back_ = false;
-  float sp_trim_ = 25.0f, last_sp_ = 25.0f, cold_avg_ = NAN, load_dt_ = NAN, err_sum_ = 0.0f;
+  bool office_call_ = false, office_hot_ = false, office_on_ = false, fan_on_ = false, fan_slow_ = false;
+  float sp_trim_ = 25.0f, last_sp_ = 25.0f, cold_avg_ = NAN, load_dt_ = NAN, err_sum_ = 0.0f, sp_rack_ = 25.0f;
   uint32_t err_t_ = 0;
   uint8_t retries_ = 0, off_resends_ = 0, last_fan_ = FAN_AUTO;
   uint32_t t_switch_ = 0, t_trim_ = 0, t_verify_ = 0, t_door_ = 0, t_crit_ = 0, t_last_ = 0;
-  uint32_t t_sent_ = 0, t_mains_ = 0, t_off_check_ = 0, t_damp_ = 0;
+  uint32_t t_sent_ = 0, t_mains_ = 0, t_off_check_ = 0, t_damp_ = 0, t_fan_ = 0, t_fan_slow_ = 0;
 };
 
 // Modbus encoding used by the node and the touchscreen: degC (or %) x 10 as a signed word,
@@ -396,6 +504,18 @@ inline const char *state_name(uint8_t st) {
     case ST_NOT_COOLING: return "Not cooling";
     case ST_NO_POWER: return "No AC power";
     case ST_CRITICAL: return "CRITICAL";
+    default: return "?";
+  }
+}
+
+inline const char *office_state_name(uint8_t st) {
+  switch (st) {
+    case OF_OFF: return "Off";
+    case OF_IDLE: return "Idle";
+    case OF_COOLING: return "Cooling";
+    case OF_WAIT: return "Waiting";
+    case OF_BLOCKED: return "Rack first";
+    case OF_NO_PROBE: return "No office probe";
     default: return "?";
   }
 }

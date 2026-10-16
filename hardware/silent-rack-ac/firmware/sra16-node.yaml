@@ -2,8 +2,8 @@
 #
 # Reads every rack probe, runs the cooling supervisor (components/sra_control/sra_control.h),
 # drives the AC through its IR remote protocol, closes the SHUTDOWN relay (K1, J3) when the IT
-# should shut down, and serves its data and settings to the door touchscreen over RS485 Modbus
-# (it is the server, address 1).  It needs no network to work: Wi-Fi is only for updates and
+# should shut down, runs the office air fan (J11) when the office kit is fitted, and serves its data
+# and settings to the door touchscreen over RS485 Modbus (it is the server, address 1).  It needs no network to work: Wi-Fi is only for updates and
 # works best with the doors open (the rack is a steel box).  Pins and connectors: sheet 2 of
 # drawings/CP-SRA16-ELC-001.pdf.
 #
@@ -22,15 +22,19 @@ substitutions:
   t_hot_top: "0x0000000000000004"
   t_return: "0x0000000000000005"
   t_exhaust: "0x0000000000000006"
+  t_office: "0x0000000000000007"   # T7, office air: in the return wall grille, on the hot bus
   # "true" once the optional mains-detect plug pack is wired to MAINS
   mains_fitted: "false"
+  # office air kit (docs/OFFICE_AIR.md): "false" without it; the mode it starts in (0 off, 1 auto)
+  office_fitted: "true"
+  office_mode_default: "1"
 
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   project:
     name: carbonproject.sra16-node
-    version: "1.0.0"
+    version: "1.1.0"
   includes:
     - components/sra_control/sra_control.h
   on_boot:
@@ -80,7 +84,8 @@ one_wire:
     id: ow_cold        # J5: front plenum, the front-left rail spacer (T1, T2, T3)
     pin: GPIO6
   - platform: gpio
-    id: ow_hot         # J6 / harness W2: hood port, the exhaust elbow (T6), up into the rear plenum (T5, T4)
+    id: ow_hot         # J6 / harness W2: hood port, the exhaust elbow (T6), up into the rear plenum (T5, T4);
+                       # the office probe T7 (W10) is spliced in at T5
     pin: GPIO7
 
 i2c:
@@ -125,6 +130,24 @@ sensor:
     id: t_exhaust
     name: AC exhaust
     update_interval: 10s
+  - platform: dallas_temp
+    one_wire_id: ow_hot
+    address: ${t_office}
+    id: t_office
+    name: Office (T7)
+    update_interval: 10s
+  - platform: pulse_counter
+    id: office_rpm
+    name: Office fan speed
+    pin:
+      number: GPIO15     # J11-3 tach; R18 on the carrier pulls it up
+      mode:
+        input: true
+    unit_of_measurement: rpm
+    accuracy_decimals: 0
+    update_interval: 10s
+    filters:
+      - multiply: 0.5    # two pulses per turn
   - platform: sht4x
     temperature:
       id: sht_t
@@ -159,6 +182,16 @@ sensor:
     id: o_alarms
     name: Alarm bits
     accuracy_decimals: 0
+  - platform: template
+    id: o_office_pct
+    name: Office fan
+    unit_of_measurement: "%"
+    accuracy_decimals: 0
+  - platform: template
+    id: o_target
+    name: Cold side target in use
+    unit_of_measurement: "°C"
+    accuracy_decimals: 1
   - platform: uptime
     id: up
     name: Uptime
@@ -167,6 +200,9 @@ text_sensor:
   - platform: template
     id: o_state
     name: Cooling state
+  - platform: template
+    id: o_office_state
+    name: Office air state
 
 binary_sensor:
   - platform: gpio
@@ -216,6 +252,13 @@ output:
   - platform: gpio
     id: shutdown_relay
     pin: GPIO13
+  # office air fan on J11: Q3 pulls the fan's PWM line low, so the output is inverted; 0 % holds Q3 on and
+  # the fan stopped (both specified fans stop at 0 % PWM), and R16 does the same while the node boots
+  - platform: ledc
+    id: office_pwm
+    pin: GPIO14
+    frequency: 25000 Hz
+    inverted: true
 
 # ------------------------------------------------------------------ AC by IR
 remote_transmitter:
@@ -267,11 +310,30 @@ globals:
     type: float
     restore_value: true
     initial_value: "32.0"
+  - id: g_office_mode
+    type: int
+    restore_value: true
+    initial_value: "${office_mode_default}"
+  - id: g_office_target
+    type: float
+    restore_value: true
+    initial_value: "24.0"
+  - id: g_office_supply
+    type: float
+    restore_value: true
+    initial_value: "18.0"
+  - id: g_office_fan_max
+    type: int
+    restore_value: true
+    initial_value: "100"
   # written by the touchscreen every poll
   - id: g_door_upper
     type: bool
     initial_value: "false"
   - id: g_room
+    type: float
+    initial_value: "NAN"
+  - id: g_room_rh
     type: float
     initial_value: "NAN"
   - id: g_hmi_seen
@@ -298,6 +360,11 @@ script:
           s.fan = (uint8_t) clamp(id(g_fan), 0, 2);
           s.warn_cold = clamp(id(g_warn_cold), s.target + 2.0f, 35.0f);
           s.crit_cold = clamp(id(g_crit_cold), s.warn_cold + 2.0f, 40.0f);
+          s.office_mode = ${office_fitted} ? (uint8_t) clamp(id(g_office_mode), 0, 2) : (uint8_t) sra::OFFICE_OFF;
+          s.office_target = clamp(id(g_office_target), 20.0f, 28.0f);
+          s.office_supply = clamp(id(g_office_supply), 16.0f, 22.0f);
+          s.office_fan_max = (uint8_t) clamp(id(g_office_fan_max), 30, 100);
+          s.office_fan_min = std::min<uint8_t>(30, s.office_fan_max);
           sra::controller().request_send();
 
 interval:
@@ -326,6 +393,9 @@ interval:
           in.door_open = id(door_lower).state || id(g_door_upper);
           in.leak = id(leak).state;
           in.mains = ${mains_fitted} ? id(mains).state : true;
+          in.office = ok(id(t_office).state) ? id(t_office).state : NAN;
+          in.office_rpm = ${office_fitted} ? id(office_rpm).state : NAN;
+          in.rh_room = id(g_room_rh);
           id(g_cold) = cold;
           id(g_hot) = hot;
           sra::Outputs o = sra::controller().step(in, millis() / 1000);
@@ -352,10 +422,15 @@ interval:
           id(shutdown_relay).set_state(o.shutdown);
           id(o_ac_on).publish_state(o.ac_on);
           id(o_eco).publish_state(o.eco);
+          id(office_pwm).set_level(o.office_pct / 100.0f);
+          id(o_office_pct).publish_state(o.office_pct);
+          id(o_target).publish_state(o.target);
+          if (id(o_office_state).state != sra::office_state_name(o.office_state))
+            id(o_office_state).publish_state(sra::office_state_name(o.office_state));
           if (id(o_state).state != sra::state_name(o.state)) id(o_state).publish_state(sra::state_name(o.state));
 
 # ------------------------------------------------------------------ Modbus register map (holding registers)
-# 0x00-0x13 status (read), 0x20-0x25 settings (read/write), 0x30-0x33 written by the touchscreen.
+# 0x00-0x18 status (read), 0x20-0x29 settings (read/write), 0x30-0x34 written by the touchscreen.
 # Temperatures are degC x 10 as signed words; -32768 means "no reading".
 modbus_server:
   - modbus_id: mb
@@ -387,7 +462,14 @@ modbus_server:
       - {address: 0x10, value_type: U_WORD, read_lambda: "return sra::last_outputs().retries;"}
       - {address: 0x11, value_type: U_WORD, read_lambda: "return (uint16_t) std::min(65535.0f, id(up).state / 60.0f);"}
       - {address: 0x12, value_type: U_WORD, read_lambda: "return id(g_ir_count);"}
-      - {address: 0x13, value_type: U_WORD, read_lambda: "return 100;"}
+      - {address: 0x13, value_type: U_WORD, read_lambda: "return 110;"}
+      - {address: 0x14, value_type: S_WORD, read_lambda: "return sra::t10(id(t_office).state);"}
+      - {address: 0x15, value_type: U_WORD, read_lambda: "return sra::last_outputs().office_pct;"}
+      - address: 0x16
+        value_type: U_WORD
+        read_lambda: "return std::isnan(id(office_rpm).state) ? 0 : (uint16_t) std::min(65535.0f, id(office_rpm).state);"
+      - {address: 0x17, value_type: U_WORD, read_lambda: "return sra::last_outputs().office_state;"}
+      - {address: 0x18, value_type: S_WORD, read_lambda: "return sra::t10(sra::last_outputs().target);"}
       - address: 0x20
         value_type: U_WORD
         read_lambda: "return id(g_mode);"
@@ -435,6 +517,38 @@ modbus_server:
           id(g_crit_cold) = x / 10.0f;
           id(apply_settings).execute();
           return true;
+      - address: 0x26
+        value_type: U_WORD
+        read_lambda: "return ${office_fitted} ? id(g_office_mode) : 0;"
+        write_lambda: |-
+          if (x > 2) return false;
+          id(g_office_mode) = x;
+          id(apply_settings).execute();
+          return true;
+      - address: 0x27
+        value_type: S_WORD
+        read_lambda: "return sra::t10(id(g_office_target));"
+        write_lambda: |-
+          if (x < 200 || x > 280) return false;
+          id(g_office_target) = x / 10.0f;
+          id(apply_settings).execute();
+          return true;
+      - address: 0x28
+        value_type: S_WORD
+        read_lambda: "return sra::t10(id(g_office_supply));"
+        write_lambda: |-
+          if (x < 160 || x > 220) return false;
+          id(g_office_supply) = x / 10.0f;
+          id(apply_settings).execute();
+          return true;
+      - address: 0x29
+        value_type: U_WORD
+        read_lambda: "return id(g_office_fan_max);"
+        write_lambda: |-
+          if (x < 30 || x > 100) return false;
+          id(g_office_fan_max) = x;
+          id(apply_settings).execute();
+          return true;
       - address: 0x30
         value_type: U_WORD
         read_lambda: "return id(g_door_upper) ? 1 : 0;"
@@ -461,4 +575,10 @@ modbus_server:
         read_lambda: "return (uint16_t) (id(g_hmi_seen) / 1000);"
         write_lambda: |-
           id(g_hmi_seen) = millis();
+          return true;
+      - address: 0x34
+        value_type: S_WORD
+        read_lambda: "return sra::t10(id(g_room_rh));"
+        write_lambda: |-
+          id(g_room_rh) = (x == -32768) ? NAN : x / 10.0f;
           return true;

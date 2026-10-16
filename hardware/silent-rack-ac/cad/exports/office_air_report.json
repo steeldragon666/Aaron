@@ -1,0 +1,218 @@
+{
+ "geometry": {
+  "d": 0.06,
+  "a_d": 0.00283,
+  "a_b": 0.00239,
+  "a_s": 0.0065,
+  "f10": 0.51972,
+  "f12": 0.77948,
+  "open10_pct": 74.42617,
+  "open12_pct": 77.94846
+ },
+ "duct_friction": 0.05,
+ "fan_derate": 0.85,
+ "systems": {
+  "0.5 m": {
+   "k_total": 9.51,
+   "elements": {
+    "supply: fan grille P10 + entry": 0.82,
+    "supply: fan outlet into the end-plate hole": 0.44,
+    "supply: spigot bore into the duct": 0.03,
+    "supply: flex duct, 0.5 m": 0.42,
+    "supply: office wall grille P12, free outlet": 3.59,
+    "return: office wall grille P12 + entry": 1.59,
+    "return: flex duct, 0.5 m": 0.42,
+    "return: duct into the spigot bore": 0.11,
+    "return: bore into the empty sleeve": 0.56,
+    "return: fan grille P10, free outlet": 1.55
+   },
+   "fans": {
+    "nf-a8": {
+     "m3h": 16.0,
+     "pa": 14.1,
+     "duct_m_s": 1.57,
+     "w_per_k": 5.35
+    },
+    "nf-a8x2": {
+     "m3h": 21.1,
+     "pa": 24.5,
+     "duct_m_s": 2.07,
+     "w_per_k": 7.06
+    },
+    "p8max": {
+     "m3h": 23.0,
+     "pa": 29.2,
+     "duct_m_s": 2.26,
+     "w_per_k": 7.71
+    },
+    "p8maxx2": {
+     "m3h": 29.9,
+     "pa": 49.4,
+     "duct_m_s": 2.94,
+     "w_per_k": 10.03
+    }
+   }
+  },
+  "1.0 m": {
+   "k_total": 10.35,
+   "elements": {
+    "supply: fan grille P10 + entry": 0.82,
+    "supply: fan outlet into the end-plate hole": 0.44,
+    "supply: spigot bore into the duct": 0.03,
+    "supply: flex duct, 1.0 m": 0.83,
+    "supply: office wall grille P12, free outlet": 3.59,
+    "return: office wall grille P12 + entry": 1.59,
+    "return: flex duct, 1.0 m": 0.83,
+    "return: duct into the spigot bore": 0.11,
+    "return: bore into the empty sleeve": 0.56,
+    "return: fan grille P10, free outlet": 1.55
+   },
+   "fans": {
+    "nf-a8": {
+     "m3h": 15.4,
+     "pa": 14.3,
+     "duct_m_s": 1.52,
+     "w_per_k": 5.17
+    },
+    "nf-a8x2": {
+     "m3h": 20.4,
+     "pa": 25.0,
+     "duct_m_s": 2.01,
+     "w_per_k": 6.84
+    },
+    "p8max": {
+     "m3h": 22.3,
+     "pa": 29.7,
+     "duct_m_s": 2.19,
+     "w_per_k": 7.46
+    },
+    "p8maxx2": {
+     "m3h": 29.1,
+     "pa": 50.6,
+     "duct_m_s": 2.85,
+     "w_per_k": 9.73
+    }
+   }
+  },
+  "2.0 m": {
+   "k_total": 12.01,
+   "elements": {
+    "supply: fan grille P10 + entry": 0.82,
+    "supply: fan outlet into the end-plate hole": 0.44,
+    "supply: spigot bore into the duct": 0.03,
+    "supply: flex duct, 2.0 m": 1.67,
+    "supply: office wall grille P12, free outlet": 3.59,
+    "return: office wall grille P12 + entry": 1.59,
+    "return: flex duct, 2.0 m": 1.67,
+    "return: duct into the spigot bore": 0.11,
+    "return: bore into the empty sleeve": 0.56,
+    "return: fan grille P10, free outlet": 1.55
+   },
+   "fans": {
+    "nf-a8": {
+     "m3h": 14.5,
+     "pa": 14.6,
+     "duct_m_s": 1.42,
+     "w_per_k": 4.85
+    },
+    "nf-a8x2": {
+     "m3h": 19.3,
+     "pa": 25.8,
+     "duct_m_s": 1.89,
+     "w_per_k": 6.45
+    },
+    "p8max": {
+     "m3h": 21.0,
+     "pa": 30.6,
+     "duct_m_s": 2.06,
+     "w_per_k": 7.02
+    },
+    "p8maxx2": {
+     "m3h": 27.5,
+     "pa": 52.6,
+     "duct_m_s": 2.7,
+     "w_per_k": 9.21
+    }
+   }
+  }
+ },
+ "example": {
+  "office_c": 26.0,
+  "office_rh": 55.0,
+  "supply_c": 18.0,
+  "office_dew_c": 16.3,
+  "loop_dew_c": 10.5,
+  "cases": {
+   "nf-a8": {
+    "m3h": 15.4,
+    "sensible_w": 41,
+    "water_g_h": 67,
+    "water_l_day": 1.6,
+    "latent_w": 46
+   },
+   "nf-a8x2": {
+    "m3h": 20.4,
+    "sensible_w": 55,
+    "water_g_h": 89,
+    "water_l_day": 2.1,
+    "latent_w": 61
+   },
+   "p8max": {
+    "m3h": 22.3,
+    "sensible_w": 60,
+    "water_g_h": 98,
+    "water_l_day": 2.3,
+    "latent_w": 67
+   },
+   "p8maxx2": {
+    "m3h": 29.1,
+    "sensible_w": 78,
+    "water_g_h": 128,
+    "water_l_day": 3.1,
+    "latent_w": 87
+   }
+  }
+ },
+ "fans": {
+  "nf-a8": {
+   "name": "1 x Noctua NF-A8 PWM",
+   "short": "1 x NF-A8",
+   "n": 1,
+   "p_mm": 2.37,
+   "q": 55.5,
+   "rpm": 2200,
+   "noise": "17.7 dB(A) at full speed",
+   "note": "standard: silent"
+  },
+  "nf-a8x2": {
+   "name": "2 x NF-A8 PWM, push-pull",
+   "short": "2 x NF-A8",
+   "n": 2,
+   "p_mm": 2.37,
+   "q": 55.5,
+   "rpm": 2200,
+   "noise": "about 21 dB(A)",
+   "note": "second fan in the return sleeve"
+  },
+  "p8max": {
+   "name": "1 x Arctic P8 Max",
+   "short": "1 x P8 Max",
+   "n": 1,
+   "p_mm": 5.3,
+   "q": 67.96,
+   "rpm": 5000,
+   "noise": "clearly audible above ~3000 rpm",
+   "note": "boost: cap it with 'Office fan max'"
+  },
+  "p8maxx2": {
+   "name": "2 x Arctic P8 Max, push-pull",
+   "short": "2 x P8 Max",
+   "n": 2,
+   "p_mm": 5.3,
+   "q": 67.96,
+   "rpm": 5000,
+   "noise": "clearly audible above ~3000 rpm",
+   "note": "most air the 60 mm ducts take"
+  }
+ }
+}

@@ -40,7 +40,7 @@ import sheetmetal as SMP  # noqa: E402
 import make_weld_pack as WP  # noqa: E402
 from make_weld_pack import Svg, INK, THIN, TODAY, table, heading, paragraph  # noqa: E402
 
-DOC_NO, REV = "CP-SRA16-ELC-001", "A"
+DOC_NO, REV = "CP-SRA16-ELC-001", "B"
 N_SHEETS = 5
 BLUE, RED, GREEN, AMBER, GREY = "#2f6db5", "#c0392b", "#2e8b57", "#d68910", "#8a9199"
 COLD_FILL, HOT_FILL, BAY_FILL = "#e3eefb", "#fbe6e0", "#f3f0e8"
@@ -58,6 +58,8 @@ GPIO = [
     (11, "LEAK", "J8-1 (R9)", "tray float switch, closes on water", "leak"),
     (12, "MAINS", "U5 collector", "AC socket live: optocoupler pulls low", "mains"),
     (13, "SD_RLY", "Q2 base (R8)", "SHUTDOWN relay K1 -> J3", "shutdown_relay"),
+    (14, "FAN_PWM", "Q3 base (R15; R16 holds it on)", "office fan PWM 25 kHz, open collector to J11-4", "office_pwm"),
+    (15, "FAN_TACH", "J11-3 (R17; R18 10k to 3V3)", "office fan speed, 2 pulses per turn", "office_rpm"),
     (17, "TXD", "U2 DI/TXD", "RS485 transmit (UART1, 19200 8N1)", "rs485"),
     (18, "RXD", "U2 RO/RXD", "RS485 receive", "rs485"),
 ]
@@ -74,6 +76,7 @@ CONN = [
     ("J8", "2-way terminal 3.5 mm", ["LEAK", "0V"], "tray float switch (W5)"),
     ("J9", "2-way terminal 3.5 mm", ["DOOR", "0V"], "lower door contact (W6)"),
     ("J10", "2-way terminal 3.5 mm", ["5V+", "5V-"], "mains detect, optional (W2)"),
+    ("J11", "4-pin PC fan header, 2.54 mm", ["0V", "+12V", "TACH", "PWM"], "office air fan (W9); 2nd fan on a Y-lead"),
 ]
 
 # carrier parts: ref, value / part, function
@@ -101,6 +104,11 @@ CARRIER = [
     ("C2", "100uF 10 V", "5 V bulk"),
     ("C3", "4.7uF", "U4 supply"),
     ("C4-C7", "100nF", "input filters, U2 decoupling"),
+    ("Q3", "PN2222A", "office fan PWM, open collector (J11-4)"),
+    ("F2", "PTC 0.5 A hold", "office fan 12 V (J11-2)"),
+    ("R15, R17", "1k", "Q3 base; tach series"),
+    ("R16, R18", "10k", "FAN_PWM pull-up (fan held off while the node boots); tach pull-up"),
+    ("C8", "1nF", "tach filter"),
 ]
 
 # board placement, mm, board centre = origin, x along the 70 side (- = box front, towards the door),
@@ -115,6 +123,8 @@ PLACE = [  # ref, x0, y0, x1, y1, label, fill
     ("U4", -3.0, -33.0, 3.0, -27.0, "U4", "#dddddd"),
     ("U5", -7.5, -20.0, -1.0, -14.0, "U5", "#eeeeee"),
     ("J4", -34.0, -35.0, -22.0, -29.0, "J4", "#f6e7c8"),
+    ("J11", -5.0, 36.0, 5.5, 41.5, "J11", "#f6e7c8"),
+    ("FAN", -5.0, 19.0, 5.5, 34.0, "fan\nQ3\nF2", "#ece6f6"),
 ]
 TERM_ROW = ["J5", "J6", "J3", "J7", "J8", "J9", "J10", "J1"]   # bottom edge, left to right, 3.5 mm pitch
 
@@ -153,8 +163,17 @@ KIT = [
     ("Cables", "loop", "Spiral wrap 10 mm, adhesive cable-tie mounts, ties, heat shrink, ferrules", "", 1, 14.0, False),
     ("Power", "W8", "12 V 2 A regulated plug pack, RCM, 5.5 x 2.1", "on the UPS-backed PDU", 1, 25.0, False),
     ("Power", "W8", "DC 5.5 x 2.1 extension 2 m + socket-to-terminal pigtail", "", 1, 8.0, False),
+    ("Office air", "FAN", "80 mm 4-pin PWM fan, 12 V, stops at 0 % PWM", "Noctua NF-A8 PWM (0.08 A); boost: Arctic "
+     "P8 Max", 1, 25.0, False),
+    ("Office air", "T7", "DS18B20 waterproof probe, 6 x 50 mm stainless, 3 m lead", "office air, in the return wall "
+     "grille P12", 1, 7.0, False),
+    ("Office air", "W9", "4-pin PWM fan extension lead, 1 m", "J11 to the supply fan", 1, 6.0, False),
+    ("Office air", "J11, Q3, F2", "4-pin fan header 2.54 mm, PN2222A, PTC 0.5 A, 2 x 1k, 2 x 10k, 1 nF",
+     "fan drive on the carrier", 1, 3.0, False),
     ("Options", "J10", "Mains detect: 5 V USB charger (RCM) + USB-A lead to bare ends", "in a double adaptor on the "
      "AC's GPO", 1, 15.0, True),
+    ("Options", "FAN2", "Second fan for push-pull, 4-pin Y-lead, 3 m 4-core lead", "in the return sleeve; about 30 % "
+     "more air (docs/OFFICE_AIR.md)", 1, 38.0, True),
     ("Options", "DO1", "12 V LED beacon", "on the alarm output", 1, 18.0, True),
 ]
 
@@ -175,6 +194,14 @@ HARNESS = [
     ("W7", "J4 (node)", "SHT41 cold side", "4-core 0.22", 0.5, "up the front-left rail spacer, P8-1 clip at z 1300"),
     ("W8", "J1 (node)", "12 V plug pack", "DC lead + 2 m extension", 3.5,
      "PDU - (rear: down the return opening, bay, hood port) - bottom slot"),
+    ("W9", "J11 (node)", "office supply fan (P9, front plenum, right side)", "4-pin PWM fan extension", 1.0,
+     "node box bottom slot - along the shelf's front edge to the right rail spacer - up its front face to z 1290 - "
+     "into the supply sleeve through the notch at the bottom of its grille"),
+    ("W10", "T7 office probe", "J6 via W2, spliced at T5", "probe lead, 3 m", 3.0,
+     "office: return wall grille P12 - inside the return duct - return sleeve slot (rear plenum, right) - along "
+     "the rear plenum floor to the rear-left rail spacer - spliced into W2 with T4 and T5"),
+    ("W11", "Y-lead on W9 (option)", "second fan, return sleeve", "4-core 0.22", 3.0,
+     "with W2: hood port - bay - the shelf's return opening - rear plenum floor - return sleeve (push-pull option)"),
 ]
 
 # Modbus holding registers on the node (server 1, 19200 8N1): address, name, type, scale/unit, access
@@ -186,14 +213,21 @@ MODBUS = [
     (0x08, "Cold side RH", "S16", "0.1 %", "R"), (0x09, "Dew point", "S16", "0.1 degC", "R"),
     (0x0A, "Cold side average", "S16", "0.1 degC", "R"), (0x0B, "Rise across the servers", "S16", "0.1 K", "R"),
     (0x0C, "Setpoint sent", "S16", "0.1 degC", "R"), (0x0D, "State (0-8)", "U16", "enum", "R"),
-    (0x0E, "Alarm bits", "U16", "bits 0-11", "R"), (0x0F, "Flags", "U16", "bits 0-8", "R"),
+    (0x0E, "Alarm bits", "U16", "bits 0-12", "R"), (0x0F, "Flags", "U16", "bits 0-8", "R"),
     (0x10, "Retries", "U16", "count", "R"), (0x11, "Uptime", "U16", "min", "R"),
-    (0x12, "IR frames sent", "U16", "count", "R"), (0x13, "Firmware version", "U16", "100 = 1.0.0", "R"),
+    (0x12, "IR frames sent", "U16", "count", "R"), (0x13, "Firmware version", "U16", "110 = 1.1.0", "R"),
+    (0x14, "Office (T7)", "S16", "0.1 degC", "R"), (0x15, "Office fan", "U16", "%", "R"),
+    (0x16, "Office fan speed", "U16", "rpm", "R"), (0x17, "Office air state (0-5)", "U16", "enum", "R"),
+    (0x18, "Cold-side target in use", "S16", "0.1 degC", "R"),
     (0x20, "Mode: 0 auto, 1 on, 2 off", "U16", "enum", "R/W"), (0x21, "Intake target", "S16", "0.1 degC, 18-27", "R/W"),
     (0x22, "Eco allowed", "U16", "0/1", "R/W"), (0x23, "AC fan: 0 auto, 1 low, 2 high", "U16", "enum", "R/W"),
     (0x24, "Intake warning", "S16", "0.1 degC, 24-35", "R/W"), (0x25, "Shutdown limit", "S16", "0.1 degC, 28-40", "R/W"),
+    (0x26, "Office air: 0 off, 1 auto, 2 on", "U16", "enum", "R/W"), (0x27, "Office target", "S16", "0.1 degC, 20-28", "R/W"),
+    (0x28, "Office supply (cold side while it calls)", "S16", "0.1 degC, 16-22", "R/W"),
+    (0x29, "Office fan maximum", "U16", "%, 30-100", "R/W"),
     (0x30, "Upper door open (from the screen)", "U16", "0/1", "W"), (0x31, "Room temperature", "S16", "0.1 degC", "W"),
     (0x32, "Command: 1 send IR now, 2 reset alarms", "U16", "", "W"), (0x33, "Heartbeat", "U16", "count", "W"),
+    (0x34, "Room humidity (from the screen)", "S16", "0.1 %", "W"),
 ]
 FLAGS = ["AC on (commanded)", "eco", "shutdown request", "lower door open", "water", "AC socket live",
          "compressor running", "compressor state known", "mains detect fitted"]
@@ -215,7 +249,15 @@ ALARMS = [("0", "intake warning", "cold side >= warning (27)", "screen, beep"),
           ("8", "user OFF overridden", "off, but intake hit the warning", "screen"),
           ("9", "IT shutdown", "critical for 120 s (latched)", "K1 closes, beep"),
           ("10", "AC socket dead", "mains-detect input low", "beep"),
-          ("11", "link", "no screen heartbeat 60 s / node not answering", "screen")]
+          ("11", "link", "no screen heartbeat 60 s / node not answering", "screen"),
+          ("12", "office fan", "told to run, under 300 rpm for 60 s", "screen")]
+OFFICE_STATES = [("Off", "office air switched off (or no office kit)"),
+                 ("Idle", "auto: the office is at its target"),
+                 ("Cooling", "the fan runs: cold-side air to the office, its air back to the hot side"),
+                 ("Waiting", "the office calls; the cold side is not yet 1.5 K colder than it (or the fan rests)"),
+                 ("Rack first", "the office calls, but the rack is warm (cold side 1.5 K over target), an alarm "
+                                "is up, or the AC is off by the user / without power"),
+                 ("No office probe", "auto, but no reading from T7")]
 SETTINGS = [("Intake target", "22.0 degC", "average of the cold side the AC is trimmed to"),
             ("Warning / shutdown limit", "27 / 32 degC", "ASHRAE A1 recommended max / hard limit"),
             ("Eco", "on", "AC off at low load: rise across the servers < 4 K"),
@@ -225,7 +267,11 @@ SETTINGS = [("Intake target", "22.0 degC", "average of the cold side the AC is t
             ("Trim", "20 min (2 min when 3 K hot)", "on the mean error over the window"),
             ("Not-cooling check", "15 min (3 min when hot)", "then re-send, 3 times, then alarm"),
             ("Shutdown delay", "120 s", "cold side above the limit before K1 closes"),
-            ("IR send gap", ">= 10 s", "never floods the AC")]
+            ("IR send gap", ">= 10 s", "never floods the AC"),
+            ("Office air", "Auto (kit fitted)", "Off / Auto / On (On ignores the office probe)"),
+            ("Office target", "24 degC", "calls above 24.5, satisfied below 23.5"),
+            ("Office supply", "18 degC", "cold-side target while it calls; >= room dew point + 2 K"),
+            ("Office fan", "30-100 %", "over 2 K of call; 1.5 K colder than the office; 2 min run")]
 
 # where things go in the rack (layout coordinates: x right from the left skin, y back from the front, z up)
 SPOTS = [  # id, what, x, y, z, how
@@ -244,6 +290,8 @@ SPOTS = [  # id, what, x, y, z, how
     ("POD", "Touchscreen (P6)", 135, -30, 1505, "outside the upper door, 2 x M4 rivnuts"),
     ("HP", "Hood port", 54, 70, 1045, "P1-1 left end, 25 mm membrane grommet"),
     ("HL", "Hinge loop + GX16", 40, 50, 1450, "300 mm loop in spiral wrap, between the hinges"),
+    ("OS", "Office supply port", 603, 99, 1320, "sleeve P9 in the right lining, fan blowing out; W9 from J11"),
+    ("OR", "Office return port", 603, 951, 1320, "office air back in; probe T7's lead (W10) comes in with it"),
 ]
 
 POWER = [  # load, rail, mA typical, mA peak
@@ -253,6 +301,7 @@ POWER = [  # load, rail, mA typical, mA peak
     ("IR emitter (while sending)", "5 V", 0, 22),
     ("Relay K1 (shutdown only)", "12 V", 0, 13),
     ("Buzzer / beacon (alarm only)", "12 V", 0, 30),
+    ("Office fan, NF-A8 PWM (2 x P8 Max: about 0.6 A)", "12 V", 60, 80),
 ]
 
 
@@ -320,9 +369,12 @@ def check_fit():
     row = sum(3.5 * len(pins_of[j]) for j in TERM_ROW)
     stack = e["box_base"] + 5.0 + 1.6 + 8.5 + 1.6 + 3.2
     inside = e["box_base"] + e["box_in_h"]
-    ok = on_board and row <= pw - 2.0 and stack <= inside - 3.0 and set(TERM_ROW) | {"J2", "J4"} == set(pins_of)
-    return ok, "board %gx%g in P7; terminal row %.1f of %.0f mm; stack %.1f of %.1f mm" % (
-        pw, ph, row, pw, stack, inside)
+    clash = ["%s/%s" % (a[0], b[0]) for i, a in enumerate(PLACE) for b in PLACE[i + 1:]
+             if a[1] < b[3] and b[1] < a[3] and a[2] < b[4] and b[2] < a[4]]
+    ok = (on_board and not clash and row <= pw - 2.0 and stack <= inside - 3.0 and
+          set(TERM_ROW) | {"J2", "J4", "J11"} == set(pins_of))
+    return ok, "board %gx%g in P7; terminal row %.1f of %.0f mm; stack %.1f of %.1f mm; %s" % (
+        pw, ph, row, pw, stack, inside, ("overlaps: " + ", ".join(clash)) if clash else "no overlaps")
 
 
 def check_power():
@@ -698,19 +750,20 @@ def sheet2():
     # ---------------- U1 (column B) with its nets
     ux, uy, uw = 120, 30, 28
     pins_l = [(4, "IR_TX"), (5, "IR_RX"), (6, "OW_COLD"), (7, "OW_HOT"), (8, "SDA"), (9, "SCL"),
-              (10, "DOOR_LO"), (11, "LEAK"), (12, "MAINS"), (13, "SD_RLY")]
+              (10, "DOOR_LO"), (11, "LEAK"), (12, "MAINS"), (13, "SD_RLY"), (14, "FAN_PWM"), (15, "FAN_TACH")]
+    pitch = 5.0
     pins_r = [("5V", "+5V_U1"), ("3V3", "+3V3"), ("GND", "0V"), ("GPIO17", "TXD"), ("GPIO18", "RXD")]
-    uh = 6.0 * len(pins_l) + 6
+    uh = pitch * len(pins_l) + 6
     sh.rect(ux, uy, uw, uh, sw=0.45, fill="#dbe7f5")
     sh.text(ux + uw / 2, uy - 4.2, "U1  ESP32-S3-DevKitC-1", size=2.0, anchor="middle", weight="bold")
     sh.text(ux + uw / 2, uy - 1.4, "N8R8: GPIO35-37 are the PSRAM's", size=1.4, anchor="middle", c=THIN)
     for i, (g, net) in enumerate(pins_l):
-        yy = uy + 5 + i * 6.0
+        yy = uy + 5 + i * pitch
         sh.line(ux - 6, yy, ux, yy, w=0.25)
         sh.text(ux + 1.2, yy + 0.6, "GPIO%d" % g, size=1.6)
         netflag(sh, ux - 6, yy, net, right=False)
     for i, (p, net) in enumerate(pins_r):
-        yy = uy + 5 + i * 6.0
+        yy = uy + 5 + i * pitch
         sh.line(ux + uw, yy, ux + uw + 6, yy, w=0.25)
         sh.text(ux + uw - 1.2, yy + 0.6, p, size=1.6, anchor="end")
         if net == "0V":
@@ -799,6 +852,39 @@ def sheet2():
         wire(sh, [pts[1], (pts[1][0] + 3, pts[1][1]), (pts[1][0] + 3, pts[1][1] + 0.5)])
         gnd(sh, pts[1][0] + 3, pts[1][1] + 0.5)
     sh.text(15, 161.6, "Polarity is set in the firmware; rails without a name are +3V3.", size=1.4, c=THIN)
+
+    # ---------------- OFFICE AIR FAN (column A, under the inputs)
+    cell(sh, 12, 166, 89, 50, "OFFICE AIR FAN  (J11, 4-pin PC fan)")
+    p0, p12, pt, pp = conn(sh, 16, 174, "J11", ["0V", "+12V", "TACH", "PWM"], side="right", title="", pitch=4.5)
+    wire(sh, [p0, (27, p0[1])])
+    gnd(sh, 27, p0[1])
+    wire(sh, [p12, (31, p12[1])])
+    resistor(sh, 31, p12[1], vertical=False, ref="F2", val="PTC", L=10)
+    wire(sh, [(41, p12[1]), (43, p12[1])])
+    rail(sh, 43, p12[1], "+12V")
+    wire(sh, [pt, (33, pt[1])])
+    resistor(sh, 33, pt[1], vertical=False, ref="R17", val="1k", L=9)
+    wire(sh, [(42, pt[1]), (62, pt[1])])
+    dot(sh, 47, pt[1])
+    resistor(sh, 47, pt[1] - 9, vertical=True, ref="R18", val="10k", L=9)
+    rail(sh, 47, pt[1] - 9, "+3V3")
+    dot(sh, 53, pt[1])
+    capacitor(sh, 53, pt[1], "C8", "1n", L=7)
+    gnd(sh, 53, pt[1] + 7)
+    netflag(sh, 62, pt[1], "FAN_TACH")
+    wire(sh, [pp, (28, pp[1]), (28, 199.0), (73, 199.0)])           # PWM: open collector of Q3
+    c, e = npn(sh, 69, 203.4, "Q3", "PN2222A")
+    gnd(sh, e[0], e[1])
+    resistor(sh, 57, 203.4, vertical=False, ref="R15", val="1k", L=10)
+    wire(sh, [(67, 203.4), (69, 203.4)])
+    wire(sh, [(48, 203.4), (57, 203.4)])
+    dot(sh, 52, 203.4)
+    resistor(sh, 52, 203.4, vertical=True, ref="R16", val="10k", L=7)
+    rail(sh, 52, 210.4, "+3V3", up=False)
+    netflag(sh, 48, 203.4, "FAN_PWM", right=False)
+    mtext(sh, 78, 174.5, "Fans that stop at\n0 % PWM (NF-A8 PWM,\nP8 Max). R16 keeps\nQ3 on - the fan off -\n"
+          "while the node boots.", size=1.3, c=THIN)
+    mtext(sh, 15, 196.5, "W9 to the fan.\nPush-pull: Y-lead,\ntach from fan 1.", size=1.3, c=THIN)
 
     # ---------------- MAINS DETECT (column B bottom)
     cell(sh, 104, 124, 64, 62, "MAINS DETECT (option)")
@@ -978,14 +1064,14 @@ def sheet2():
           rh=2.8)
     # ---------------- tables (bottom left)
     rows = [("GPIO%d" % g, n, w, f) for g, n, w, f, _ in GPIO]
-    table(sh, 12, 192, [(14, "l"), (18, "l"), (24, "l"), (70, "l")], rows, head=("Pin", "Net", "Goes to", "Function"),
-          size=1.5, rh=3.0)
+    yt = table(sh, 12, 220, [(14, "l"), (18, "l"), (30, "l"), (64, "l")], rows, head=("Pin", "Net", "Goes to",
+                                                                                      "Function"), size=1.5, rh=3.0)
     rows = [(r, t, " / ".join(p), u) for r, t, p, u in CONN]
-    table(sh, 142, 192, [(9, "l"), (27, "l"), (29, "l"), (50, "l")], rows, head=("Conn", "Type", "Pins 1..n", "To"),
+    table(sh, 142, 220, [(9, "l"), (27, "l"), (29, "l"), (50, "l")], rows, head=("Conn", "Type", "Pins 1..n", "To"),
           size=1.4, rh=3.0)
-    sh.text(12, 237, "Build: sockets for U1, then U3 and U2, then the terminal row. With U1 out, power J1: +5 V, "
+    sh.text(12, yt + 4.0, "Build: sockets for U1, then U3 and U2, then the terminal row. With U1 out, power J1: +5 V, "
             "+12 V on J2; fit U1: +3V3.", size=1.6)
-    sh.text(12, 240.4, "Keep the 12 V wiring on the board's door-side half; 1-Wire and I2C short and away from "
+    sh.text(12, yt + 7.4, "Keep the 12 V wiring on the board's door-side half; 1-Wire and I2C short and away from "
             "K1. Pull-ups and filters as drawn.", size=1.6)
     title_block(sh, 2, "Node carrier: schematic, board, parts")
     return sh
@@ -994,14 +1080,14 @@ def sheet2():
 # ======================================================================= sheet 3 - pod, harness, modbus
 HA_ENTITIES = [
     ("sensor", "cold / hot side, T1-T6, room, RH, dew point, cold average, rise across the servers, setpoint "
-               "sent, alarm bits, IR frames, uptime"),
-    ("binary_sensor", "8 alarms (intake warning / critical, not cooling, water, door, probe, condensation, "
-                      "AC socket), upper door, rack link, IT shutdown request"),
-    ("select", "cooling mode (auto / on / off), AC fan (auto / low / high)"),
-    ("number", "intake target, intake warning, shutdown limit"),
+               "sent, alarm bits, IR frames, uptime; office T7, office fan % and rpm"),
+    ("binary_sensor", "9 alarms (intake warning / critical, not cooling, water, door, probe, condensation, "
+                      "AC socket, office fan), upper door, rack link, IT shutdown request"),
+    ("select", "cooling mode (auto / on / off), AC fan (auto / low / high), office air (off / auto / on)"),
+    ("number", "intake target, intake warning, shutdown limit; office target, office supply, office fan max"),
     ("switch", "eco (quiet at low load)"),
     ("button", "re-send state to the AC, reset alarms"),
-    ("text_sensor", "cooling state, IP address"),
+    ("text_sensor", "cooling state, office air state, IP address"),
 ]
 
 
@@ -1142,7 +1228,7 @@ def spot(sid):
 
 
 def zone_col(sid):
-    return RED if sid in ("T4", "T5", "T6") else (BLUE if sid in ("T1", "T2", "T3", "RH", "DU") else AMBER)
+    return RED if sid in ("T4", "T5", "T6", "OR") else (BLUE if sid in ("T1", "T2", "T3", "RH", "DU", "OS") else AMBER)
 
 
 def marker(sh, cx, cy, sid, col):
@@ -1201,7 +1287,9 @@ def sheet4():
             ([(hp[0], hp[2]), (46, 1000), (60, 900), (250, 850), (300, 832)], AMBER, "1 0.6"),
             ([(hp[0], hp[2]), (90, 1005)], AMBER, None)):
         sh.poly([F(*p_) for p_ in pts], w=0.45, c=col, dash=dash)
-    for sid in ("T1", "T2", "T3", "RH", "DU", "DL", "IR", "LK"):
+    if D["office"]:                                     # W9: node box -> shelf edge -> right rail spacer -> fan
+        sh.poly([F(*p_) for p_ in ((56, 1166), (60, 1112), (562, 1112), (572, 1290), (603, 1320))], w=0.45, c=GREEN)
+    for sid in ("T1", "T2", "T3", "RH", "DU", "DL", "IR", "LK") + (("OS",) if D["office"] else ()):
         _, _, x, y, z, _ = spot(sid)
         marker(sh, *F(x, z), sid, zone_col(sid))
     cx, cy = F(hp[0], hp[2])
@@ -1266,7 +1354,10 @@ def sheet4():
             ([hp_s, (62, 950), (59, 832)], AMBER, "1 0.6"), ([hp_s, (48, 400), (90, 140)], AMBER, None),
             ([hp_s, (50, 1004)], AMBER, None)):
         sh.poly([S(*p_) for p_ in pts], w=0.45, c=col, dash=dash)
-    for sid in ("T1", "T2", "T3", "RH", "T4", "T5", "T6", "LK", "DL", "DU", "IR"):
+    if D["office"]:                                     # W10: T7's lead from the return port to W2 at T5 (far wall)
+        sh.poly([S(*p_) for p_ in ((951, 1320), (930, 1150), (880, 1130))], w=0.45, c=GREEN, dash="1 0.6")
+    for sid in ("T1", "T2", "T3", "RH", "T4", "T5", "T6", "LK", "DL", "DU", "IR") + (
+            ("OS", "OR") if D["office"] else ()):
         _, _, x, y, z, _ = spot(sid)
         marker(sh, *S(y, z), sid, zone_col(sid))
     cx, cy = S(*hp_s)
@@ -1293,11 +1384,12 @@ def sheet4():
         size=1.55, lh=2.6)
     for i, (col, lab) in enumerate(((BLUE, "W1 door bus; cold-side leads"),
                                     (AMBER, "W4 IR, W5 leak, W6 lower door, via HP"),
-                                    (RED, "W2 rear harness: T6, T5, T4, UPS, mains"))):
+                                    (RED, "W2 rear harness: T6, T5, T4, UPS, mains"),
+                                    (GREEN, "office air: W9 fan (front view), W10 probe T7 (dashed, far wall)"))):
         yy = yb + 2 + i * 3.2
         sh.line(tx, yy, tx + 8, yy, w=0.6, c=col, dash="1 0.6" if False else None)
         sh.text(tx + 10, yy + 0.6, lab, size=1.55)
-    yd = yb + 14
+    yd = yb + 17
 
     # ---------------- detail A: hood port (P1-1 left end, seen from the left), 1:4
     import printparts as PP
@@ -1398,6 +1490,8 @@ COMMISSION = [
     "Unplug a probe lead: 'probe missing', 3 beeps a minute, AC kept on.",
     "Shutdown: set the limit to 28, warm T1 and T2: K1 closes 120 s later. Only",
     "then wire J3 to the UPS / server input. Reset with 'Reset alarms'.",
+    "Office air: warm T7 in your hand. 'Office air' shows Waiting, then Cooling",
+    "once the rack is cold; the fan spins up and its rpm shows. Unplug W9: fan alarm.",
     "Leave it a day: the cold-side average should sit at the target.",
 ]
 
@@ -1454,8 +1548,16 @@ def sheet5(rep):
         "target + 2 or a hot side of 32. Unknown readings or over-temperature always mean AC on."],
         size=1.6, lh=2.65)
     heading(sh, 14, yb + 5, "ALARMS  (register 0x0E: bit)", size=2.4)
-    table(sh, 14, yb + 8, [(7, "c"), (28, "l"), (62, "l"), (47, "l")], ALARMS, head=("Bit", "Alarm", "When", "Action"),
-          size=1.5, rh=2.8)
+    yb = table(sh, 14, yb + 8, [(7, "c"), (28, "l"), (62, "l"), (47, "l")], ALARMS,
+               head=("Bit", "Alarm", "When", "Action"), size=1.5, rh=2.8)
+    heading(sh, 14, yb + 6, "OFFICE AIR  (register 0x17; docs/OFFICE_AIR.md)", size=2.4)
+    yb = table(sh, 14, yb + 9, [(24, "l"), (120, "l")], OFFICE_STATES, head=("State", "Meaning"), size=1.5, rh=2.8)
+    paragraph(sh, 14, yb + 4, [
+        "The office calls when T7 passes its target + 0.5 K. While it calls and the rack is in hand, eco is held",
+        "off and the cold side is pulled down to the office supply temperature (18, or 2 K over the room dew",
+        "point); the fan runs, faster the warmer the office, while the cold side is 1.5 K colder than the",
+        "office. A warm rack, an alarm or the user's OFF stops it at once: the rack always comes first."],
+        size=1.55, lh=2.6)
 
     # ---------------- middle: settings, simulation, commissioning
     mx = 166
@@ -1488,8 +1590,10 @@ def sheet5(rep):
     rx = 300
     heading(sh, rx, 25, "SIMULATED DAYS  (renders/controls_sim.png)", size=2.2)
     if os.path.exists(img):
-        w = 106.0
-        h = w * 1620.0 / 1300.0
+        from PIL import Image
+        iw, ih = Image.open(img).size
+        w = min(106.0, 196.0 * iw / ih)                # no taller than the space above the title block
+        h = w * ih / iw
         sh.rect(rx, 28, w, h, sw=0.3, fill="#ffffff")
         image(sh, rx, 28, w, h, img)
         mtext(sh, rx, 28 + h + 4, "Lines: hot side (red), cold side (blue), AC supply and return.\n"
@@ -1603,7 +1707,11 @@ def write_md(tot, rep, checks, files):
           "- **AC control** - a stick-on IR emitter over the AC's receiver, on a 3.5 mm socket in the bay so the "
           "AC still rolls out for its filters (unplug, roll, plug back).",
           "- **Shutdown** - relay K1 on the node gives a dry contact for a UPS or server input; Home Assistant "
-          "sees the same request and can shut servers down over the network (NUT / ssh).", ""]
+          "sees the same request and can shut servers down over the network (NUT / ssh).",
+          "- **Office air** (kit option) - a PWM fan in the right-hand side pushes cold-side air through a 60 mm "
+          "duct into the next room; the room's air comes back into the hot side through a second duct. The node "
+          "drives the fan from J11 (PWM + speed), reads the office from probe T7 in the return grille, and only "
+          "serves the office while the rack is in hand. Performance and installation: `docs/OFFICE_AIR.md`.", ""]
     L += ["## Kit parts", ""]
     rows = [(g, ref, item, spec, q, "%.2f" % u, "%.2f" % (q * u), "option" if o else "")
             for g, ref, item, spec, q, u, o in KIT]
@@ -1671,6 +1779,8 @@ def write_md(tot, rep, checks, files):
     L += md_table(["Setting", "Default", "Notes"], SETTINGS)
     L += [""]
     L += md_table(["Bit", "Alarm", "When", "Action"], ALARMS)
+    L += ["", "Office air (register 0x17):", ""]
+    L += md_table(["State", "Meaning"], OFFICE_STATES)
     L += ["", "## Modbus map (sheet 3)", "",
           "Node = server 1, holding registers, RS485 19 200 8N1. Temperatures are 0.1 degC signed; -32768 means "
           "no reading. Flags 0x0F: " + ", ".join("bit %d %s" % (i, f) for i, f in enumerate(FLAGS)) + ".", ""]
@@ -1689,7 +1799,10 @@ def write_md(tot, rep, checks, files):
           "7. **Alarms.** Unplug a probe lead: 'probe missing' shows and the AC is forced on.",
           "8. **Shutdown.** Temporarily set the shutdown limit to 28 and warm T1/T2: K1 closes 120 s later. "
           "Only then wire J3 to the UPS or server input; reset with 'Reset alarms'.",
-          "9. Leave it running for a day and check that the cold-side average sits at the target.", ""]
+          "9. **Office air.** Put T7's address in `t_office`. Warm T7 in your hand: 'Office air' shows Waiting, "
+          "then Cooling once the cold side is 1.5 K colder than T7; the fan spins up and its speed shows. "
+          "Unplug W9 while it runs: the 'office fan' alarm comes up a minute later.",
+          "10. Leave it running for a day and check that the cold-side average sits at the target.", ""]
     L += ["## Verification", ""]
     L += md_table(["Check", "Result", "Detail"], [(c, "OK" if ok else "**FAIL**", d) for c, ok, d in checks])
     L += ["", "Simulation (`tools/sim_controller.py`, plot `renders/controls_sim.png`):", ""]

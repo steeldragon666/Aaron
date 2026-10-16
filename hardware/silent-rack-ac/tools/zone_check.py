@@ -10,8 +10,11 @@ strips seal), flood-fills the air spaces and proves that:
     is sealed from the room and from the condenser zone,
   * the CONDENSER zone (under the partition) is fed with room air via the
     plinth labyrinth, and
-  * the EXHAUST duct interior is sealed from the return zone and vents out.
-The AC and the IT equipment are the only intended links between zones.
+  * the EXHAUST duct interior is sealed from the return zone and vents out,
+  * the OFFICE ports (when fitted) draw from the cold plenum and return into
+    the hot plenum; their ducts are closed off at the skin, as the duct
+    carries on into the office rather than into the room.
+The AC, the IT equipment and the office are the only intended links between zones.
 
 Writes renders/zones_*.png section maps and cad/exports/zone_report.json.
 Usage: python3 tools/zone_check.py [voxel_mm]
@@ -110,6 +113,14 @@ def main(argv):
         sub = owner[ia:ib, ja:jb, ka:kb]
         sub[m] = pi
 
+    # office ducts: the duct carries on through the wall into the office, so close each port at the skin
+    plug = len(parts)
+    names = [p["name"] for p in parts] + ["office duct (continues into the office)"]
+    for op in D["office"]:
+        q = RL.cyl((W - D["skin_t"] - 0.1, op["y"], op["z"]), (W + 0.1, op["y"], op["z"]), D["office_hole_d"] / 2.0 + 1.0)
+        m = prim_mask(q, gx, gy, gz) & (owner < 0)
+        owner[m] = plug
+
     air = owner < 0
     labels, nlab = ndi.label(air)
     faces = [labels[0], labels[-1], labels[:, 0], labels[:, -1], labels[:, :, 0], labels[:, :, -1]]
@@ -140,6 +151,8 @@ def main(argv):
         "plinth_void": (xm, D["ext_d"] / 2, 50.0),
         "exhaust_duct": (D["exh_x"], (D["exh_run_y0"] + D["y_in1"]) / 2, D["exh_run_z"]),
     }
+    for op in D["office"]:                                   # in the sleeve's end-plate hole, off the fan hub
+        seeds["office_%s_port" % op["name"]] = (D["ext_w"] - D["skin"] - 1.5, op["y"], op["z"] + 15.0)
     res = {}
     for k, pt in seeds.items():
         L = lab(pt)
@@ -163,6 +176,9 @@ def main(argv):
         "exhaust duct sealed from hot return": exh != hot and exh != cond,
         "exhaust duct vents out through rear spigot": res["exhaust_duct"]["vents_to_room"],
     }
+    if D["office"]:
+        checks["office supply duct draws from the cold plenum"] = res["office_supply_port"]["label"] == cold
+        checks["office return duct feeds the hot return"] = res["office_return_port"]["label"] == hot
     ok = all(checks.values())
 
     def leak_path(seed):
@@ -198,7 +214,7 @@ def main(argv):
             path = leak_path(seeds[name])
             print("  leak from %s to the room (last steps, with the parts beside them):" % name)
             for c in path[-6:]:
-                beside = sorted({parts[owner[n_]]["name"] for n_ in
+                beside = sorted({names[owner[n_]] for n_ in
                                  [tuple(np.clip(np.array(c) + d, 0, [nx - 1, ny - 1, nz - 1])) for d in
                                   ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1))]
                                  if owner[n_] >= 0})
@@ -207,7 +223,8 @@ def main(argv):
     # ------------------------------------------------------------ section maps
     zone_rgb = {cold: (0.30, 0.60, 0.98), hot: (0.95, 0.42, 0.25),
                 cond: (0.35, 0.78, 0.42), exh: (1.00, 0.72, 0.10)}
-    cols = np.array([p["color"] for p in parts] + [(1, 1, 1)])
+    office_rgb = (0.58, 0.36, 0.82)
+    cols = np.array([p["color"] for p in parts] + [office_rgb, (1, 1, 1)])
 
     def section(axis, pos):                                     # images on the uniform planes only
         if axis == "x":
@@ -222,6 +239,7 @@ def main(argv):
         img = np.ones(own.shape + (3,))
         solid = own >= 0
         img[solid] = cols[own[solid]] * 0.55 + 0.45 * 0.62      # muted solids
+        img[own == plug] = office_rgb
         for L, c in zone_rgb.items():
             img[lb == L] = c
         other = (~solid) & ~np.isin(lb, list(zone_rgb)) & ~np.isin(lb, list(boundary))
@@ -243,6 +261,8 @@ def main(argv):
                   Patch(color=zone_rgb[cond], label="Room air to condenser"),
                   Patch(color=zone_rgb[exh], label="Condenser exhaust (to outdoors)"),
                   Patch(color=(0.85, 0.80, 0.95), label="Sealed void")]
+        if D["office"]:
+            legend.append(Patch(color=office_rgb, label="Duct on to the office"))
         for axis, pos, title in (("x", D["x_mid"], "Section A-A: centreline (X = %.0f)" % D["x_mid"]),
                                  ("x", D["exh_x"], "Section B-B: exhaust plane (X = %.1f)" % D["exh_x"])):
             img = section(axis, pos)
@@ -257,18 +277,23 @@ def main(argv):
             fig.savefig(fn, dpi=130)
             plt.close(fig)
             out[title] = os.path.relpath(fn, ROOT)
-        img = section("z", 700.0)
-        fig, ax = plt.subplots(figsize=(7.2, 11))
-        ax.imshow(np.transpose(img, (1, 0, 2)), extent=(0, W, DP, 0), interpolation="nearest")
-        ax.set_xlabel("Width X (mm)")
-        ax.set_ylabel("Depth Y (mm)  front (top) -> rear")
-        ax.set_title("Section C-C: plan through AC bay (Z = 700)", fontsize=11)
-        ax.legend(handles=legend, loc="upper center", bbox_to_anchor=(0.5, -0.06), ncol=2, fontsize=8, frameon=False)
-        fig.tight_layout()
-        fn = os.path.join(rdir, "zones_z_700.png")
-        fig.savefig(fn, dpi=130)
-        plt.close(fig)
-        out["Section C-C"] = os.path.relpath(fn, ROOT)
+        plans = [(700.0, "Section C-C", "plan through AC bay")]
+        if D["office"]:
+            plans.append((D["office_z"], "Section D-D", "plan through the office air ports"))
+        for zp, tag, what in plans:
+            img = section("z", zp)
+            fig, ax = plt.subplots(figsize=(7.2, 11))
+            ax.imshow(np.transpose(img, (1, 0, 2)), extent=(0, W, DP, 0), interpolation="nearest")
+            ax.set_xlabel("Width X (mm)")
+            ax.set_ylabel("Depth Y (mm)  front (top) -> rear")
+            ax.set_title("%s: %s (Z = %.0f)" % (tag, what, zp), fontsize=11)
+            ax.legend(handles=legend, loc="upper center", bbox_to_anchor=(0.5, -0.06), ncol=2, fontsize=8,
+                      frameon=False)
+            fig.tight_layout()
+            fn = os.path.join(rdir, "zones_z_%d.png" % int(zp))
+            fig.savefig(fn, dpi=130)
+            plt.close(fig)
+            out[tag] = os.path.relpath(fn, ROOT)
     except Exception as e:  # images are optional
         print("  (section images skipped: %s)" % e)
 

@@ -19,6 +19,8 @@ const views = [
   { file: 'cutaway_front_right.png', hide: [...doors, ...rightSide], dir: [1.25, -1.0, 0.7], fov: 26, margin: 0.92 },
   { file: 'section_airflow.png', hide: [...doors, ...top], clipX: 330, flowsX: 322, dir: [1, 0.0, 0.12], fov: 24, margin: 0.98, w: 1100, h: 1500 },
   { file: 'ac_bay_detail.png', hide: [...doors, ...rightSide], dir: [1.1, -0.55, 0.35], target: [360, 470, 560], fov: 30, margin: 0.55 },
+  // office air: both ports on the right side with the flex duct stubs (docs/OFFICE_AIR.md)
+  { file: 'office_ports.png', dir: [1.0, -0.42, 0.22], target: [700, 525, 1330], fov: 26, margin: 0.52 },
 ];
 // three.js is fetched once with curl (trusts the system CA bundle) and served to the
 // page through request interception, so the browser never needs network/TLS access.

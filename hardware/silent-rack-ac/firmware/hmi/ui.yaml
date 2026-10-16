@@ -3,8 +3,9 @@
 # Expects these entities from the including file:
 #   sensors   n_cold n_hot n_cold_top n_cold_mid n_supply n_hot_top n_return n_exhaust n_rh n_dew
 #             n_cold_avg n_load_dt n_setpoint n_state n_alarms n_flags n_retries n_uptime n_ir_count
-#             room_t room_rh
-#   selects   sel_mode sel_fan        numbers  num_target num_warn num_crit     switch  sw_eco
+#             room_t room_rh   office air: n_office n_office_pct n_office_rpm n_office_state n_target
+#   selects   sel_mode sel_fan sel_office
+#   numbers   num_target num_warn num_crit num_office_target                 switch  sw_eco
 #   binary    door_upper link_ok      buttons  btn_send_ir btn_reset            script  alarm_silence
 #   text      ip_addr
 # Colours: background 0E1116, cards 171C23, text E6EDF3, muted 8B949E, cold 4EA1FF, hot FF7B5C,
@@ -432,10 +433,72 @@ lvgl:
                       x: 395
                       y: 0
                       width: 385
-                      height: 404
+                      height: 214
+                      widgets:
+                        - label: {styles: title, x: 16, y: 12, text: "OFFICE AIR  (cold air next door)"}
+                        - button:
+                            id: btn_office_off
+                            x: 14
+                            y: 36
+                            width: 110
+                            height: 50
+                            checkable: true
+                            widgets:
+                              - label: {text: "OFF", align: CENTER, text_font: montserrat_20}
+                            on_click:
+                              - select.set: {id: sel_office, option: "Off"}
+                        - button:
+                            id: btn_office_auto
+                            x: 136
+                            y: 36
+                            width: 110
+                            height: 50
+                            checkable: true
+                            widgets:
+                              - label: {text: "AUTO", align: CENTER, text_font: montserrat_20}
+                            on_click:
+                              - select.set: {id: sel_office, option: "Auto"}
+                        - button:
+                            id: btn_office_on
+                            x: 258
+                            y: 36
+                            width: 110
+                            height: 50
+                            checkable: true
+                            widgets:
+                              - label: {text: "ON", align: CENTER, text_font: montserrat_20}
+                            on_click:
+                              - select.set: {id: sel_office, option: "On"}
+                        - label: {styles: title, x: 16, y: 102, text: "OFFICE TARGET"}
+                        - button:
+                            x: 14
+                            y: 124
+                            width: 60
+                            height: 50
+                            widgets:
+                              - label: {text: "-", align: CENTER, text_font: montserrat_28}
+                            on_click:
+                              - number.decrement: {id: num_office_target, cycle: false}
+                        - label: {id: lbl_office_tgt, x: 82, y: 130, width: 110, text: "--.-°", text_align: CENTER, text_font: montserrat_28}
+                        - button:
+                            x: 200
+                            y: 124
+                            width: 60
+                            height: 50
+                            widgets:
+                              - label: {text: "+", align: CENTER, text_font: montserrat_28}
+                            on_click:
+                              - number.increment: {id: num_office_target, cycle: false}
+                        - label: {id: lbl_office, styles: small, x: 16, y: 184, width: 355, text: ""}
+                  - obj:
+                      styles: card
+                      x: 395
+                      y: 224
+                      width: 385
+                      height: 180
                       widgets:
                         - label: {styles: title, x: 16, y: 12, text: "SYSTEM"}
-                        - label: {id: lbl_sys, styles: small, x: 16, y: 40, width: 355, text: "", long_mode: WRAP}
+                        - label: {id: lbl_sys, styles: small, x: 16, y: 38, width: 355, text: "", long_mode: WRAP}
 
 script:
   - id: ui_refresh
@@ -493,7 +556,12 @@ script:
           text: !lambda |-
             int f = (int) id(n_flags).state;
             if (f & 2) return std::string("eco: low load, cycling");
-            return std::string(id(n_retries).state > 0 ? "re-sending to the AC" : "");
+            if (id(n_retries).state > 0) return std::string("re-sending to the AC");
+            int os = (int) id(n_office_state).state;
+            if (os == sra::OF_COOLING) return str_sprintf("office air: fan %.0f%%", id(n_office_pct).state);
+            if (os == sra::OF_WAIT) return std::string("office air: cooling down first");
+            if (os == sra::OF_BLOCKED) return std::string("office air: rack first");
+            return std::string("");
       - lvgl.widget.update:
           id: btn_auto
           state:
@@ -534,6 +602,30 @@ script:
       - lvgl.label.update:
           id: lbl_crit
           text: !lambda 'return str_sprintf("%.0f°", id(num_crit).state);'
+      # office air card
+      - lvgl.widget.update:
+          id: btn_office_off
+          state:
+            checked: !lambda 'return id(sel_office).state == "Off";'
+      - lvgl.widget.update:
+          id: btn_office_auto
+          state:
+            checked: !lambda 'return id(sel_office).state == "Auto";'
+      - lvgl.widget.update:
+          id: btn_office_on
+          state:
+            checked: !lambda 'return id(sel_office).state == "On";'
+      - lvgl.label.update:
+          id: lbl_office_tgt
+          text: !lambda 'return str_sprintf("%.1f°", id(num_office_target).state);'
+      - lvgl.label.update:
+          id: lbl_office
+          text: !lambda |-
+            std::string t = std::isnan(id(n_office).state) ? std::string("office --.-°")
+                                                           : str_sprintf("office %.1f°", id(n_office).state);
+            if (id(n_office_pct).state > 0)
+              t += str_sprintf("   fan %.0f%%  %.0f rpm", id(n_office_pct).state, id(n_office_rpm).state);
+            return t + "   " + sra::office_state_name((uint8_t) id(n_office_state).state);
       # status strip
       - lvgl.led.update:
           id: led_door_u
@@ -567,9 +659,9 @@ script:
             static const char *const names[] = {"Intake above the warning", "INTAKE CRITICAL",
               "Hot side above the warning", "AC NOT COOLING", "WATER IN THE TRAY", "A door is open",
               "Sensor missing", "Condensation risk", "Manual OFF overridden (too hot)",
-              "SHUTDOWN REQUESTED", "AC has no power", "Touchscreen link lost"};
+              "SHUTDOWN REQUESTED", "AC has no power", "Touchscreen link lost", "Office fan not turning"};
             // most serious first
-            static const int order[] = {9, 1, 3, 4, 10, 0, 2, 6, 8, 7, 5, 11};
+            static const int order[] = {9, 1, 3, 4, 10, 0, 2, 6, 8, 7, 5, 11, 12};
             int n = 0, first = -1;
             for (int i : order) if (a & (1u << i)) { n++; if (first < 0) first = i; }
             if (n == 1) return std::string(names[first]);
@@ -617,7 +709,10 @@ script:
           text: !lambda 'return std::isnan(id(room_rh).state) ? std::string("--%") : str_sprintf("%.0f%%", id(room_rh).state);'
       - lvgl.label.update:
           id: s_info
-          text: !lambda 'return str_sprintf("IR frames sent %.0f   node up %.0f h", id(n_ir_count).state, id(n_uptime).state / 60.0f);'
+          text: !lambda |-
+            std::string t = str_sprintf("IR frames sent %.0f   node up %.0f h", id(n_ir_count).state, id(n_uptime).state / 60.0f);
+            if (!std::isnan(id(n_office).state)) t += str_sprintf("\nOffice %.1f°, fan %.0f%%", id(n_office).state, id(n_office_pct).state);
+            return t;
       # alarms tab
       - lvgl.label.update:
           id: lbl_alarm_list
@@ -635,15 +730,16 @@ script:
               "OFF was overridden because the rack got too hot.",
               "SHUTDOWN REQUESTED: the intake stayed critical.",
               "The AC socket has no power.",
-              "The rack node has not heard from this screen."};
+              "The rack node has not heard from this screen.",
+              "The office air fan is told to run but is not turning. Check its lead (W9) and the fan."};
             std::string s;
             if (!id(link_ok).state) s += "- No answer from the rack node: check the door cable and the 12 V supply.\n";
-            for (int i = 0; i < 12; i++) if (a & (1u << i)) { s += "- "; s += text[i]; s += "\n"; }
+            for (int i = 0; i < 13; i++) if (a & (1u << i)) { s += "- "; s += text[i]; s += "\n"; }
             return s.empty() ? std::string("None.") : s;
       - lvgl.label.update:
           id: lbl_sys
           text: !lambda |-
-            return str_sprintf("Address  %s\nRack node  %s\nAC target sent  %.0f°\nIR frames sent  %.0f\nRe-sends pending  %.0f\n\nFirmware  1.0.0 (CP-SRA16-ELC-001)",
+            return str_sprintf("Address  %s\nRack node  %s\nAC target sent  %.0f°\nIR frames sent  %.0f\nRe-sends pending  %.0f\nFirmware  1.1.0 (CP-SRA16-ELC-001)",
               id(ip_addr).state.c_str(), id(link_ok).state ? "online" : "OFFLINE",
               id(n_setpoint).state, id(n_ir_count).state, id(n_retries).state);
 

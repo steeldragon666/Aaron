@@ -14,64 +14,72 @@
 <text x="121.20" y="35.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO4</text>
 <path d="M114.00 35.00 L112.80 33.60 L105.85 33.60 L105.85 36.40 L112.80 36.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
 <text x="106.45" y="35.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">IR_TX</text>
-<line x1="114.00" y1="41.00" x2="120.00" y2="41.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="121.20" y="41.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO5</text>
-<path d="M114.00 41.00 L112.80 39.60 L105.85 39.60 L105.85 42.40 L112.80 42.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="106.45" y="41.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">IR_RX</text>
-<line x1="114.00" y1="47.00" x2="120.00" y2="47.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="121.20" y="47.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO6</text>
-<path d="M114.00 47.00 L112.80 45.60 L103.55 45.60 L103.55 48.40 L112.80 48.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="104.15" y="47.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">OW_COLD</text>
-<line x1="114.00" y1="53.00" x2="120.00" y2="53.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="121.20" y="53.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO7</text>
-<path d="M114.00 53.00 L112.80 51.60 L104.70 51.60 L104.70 54.40 L112.80 54.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="105.30" y="53.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">OW_HOT</text>
-<line x1="114.00" y1="59.00" x2="120.00" y2="59.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="121.20" y="59.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO8</text>
-<path d="M114.00 59.00 L112.80 57.60 L108.15 57.60 L108.15 60.40 L112.80 60.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="108.75" y="59.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">SDA</text>
+<line x1="114.00" y1="40.00" x2="120.00" y2="40.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="121.20" y="40.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO5</text>
+<path d="M114.00 40.00 L112.80 38.60 L105.85 38.60 L105.85 41.40 L112.80 41.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="106.45" y="40.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">IR_RX</text>
+<line x1="114.00" y1="45.00" x2="120.00" y2="45.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="121.20" y="45.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO6</text>
+<path d="M114.00 45.00 L112.80 43.60 L103.55 43.60 L103.55 46.40 L112.80 46.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="104.15" y="45.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">OW_COLD</text>
+<line x1="114.00" y1="50.00" x2="120.00" y2="50.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="121.20" y="50.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO7</text>
+<path d="M114.00 50.00 L112.80 48.60 L104.70 48.60 L104.70 51.40 L112.80 51.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="105.30" y="50.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">OW_HOT</text>
+<line x1="114.00" y1="55.00" x2="120.00" y2="55.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="121.20" y="55.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO8</text>
+<path d="M114.00 55.00 L112.80 53.60 L108.15 53.60 L108.15 56.40 L112.80 56.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="108.75" y="55.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">SDA</text>
+<line x1="114.00" y1="60.00" x2="120.00" y2="60.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="121.20" y="60.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO9</text>
+<path d="M114.00 60.00 L112.80 58.60 L108.15 58.60 L108.15 61.40 L112.80 61.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="108.75" y="60.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">SCL</text>
 <line x1="114.00" y1="65.00" x2="120.00" y2="65.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="121.20" y="65.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO9</text>
-<path d="M114.00 65.00 L112.80 63.60 L108.15 63.60 L108.15 66.40 L112.80 66.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="108.75" y="65.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">SCL</text>
-<line x1="114.00" y1="71.00" x2="120.00" y2="71.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="121.20" y="71.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO10</text>
-<path d="M114.00 71.00 L112.80 69.60 L103.55 69.60 L103.55 72.40 L112.80 72.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="104.15" y="71.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">DOOR_LO</text>
-<line x1="114.00" y1="77.00" x2="120.00" y2="77.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="121.20" y="77.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO11</text>
-<path d="M114.00 77.00 L112.80 75.60 L107.00 75.60 L107.00 78.40 L112.80 78.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="107.60" y="77.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">LEAK</text>
-<line x1="114.00" y1="83.00" x2="120.00" y2="83.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="121.20" y="83.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO12</text>
-<path d="M114.00 83.00 L112.80 81.60 L105.85 81.60 L105.85 84.40 L112.80 84.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="106.45" y="83.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">MAINS</text>
-<line x1="114.00" y1="89.00" x2="120.00" y2="89.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="121.20" y="89.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO13</text>
-<path d="M114.00 89.00 L112.80 87.60 L104.70 87.60 L104.70 90.40 L112.80 90.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="105.30" y="89.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">SD_RLY</text>
+<text x="121.20" y="65.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO10</text>
+<path d="M114.00 65.00 L112.80 63.60 L103.55 63.60 L103.55 66.40 L112.80 66.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="104.15" y="65.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">DOOR_LO</text>
+<line x1="114.00" y1="70.00" x2="120.00" y2="70.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="121.20" y="70.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO11</text>
+<path d="M114.00 70.00 L112.80 68.60 L107.00 68.60 L107.00 71.40 L112.80 71.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="107.60" y="70.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">LEAK</text>
+<line x1="114.00" y1="75.00" x2="120.00" y2="75.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="121.20" y="75.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO12</text>
+<path d="M114.00 75.00 L112.80 73.60 L105.85 73.60 L105.85 76.40 L112.80 76.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="106.45" y="75.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">MAINS</text>
+<line x1="114.00" y1="80.00" x2="120.00" y2="80.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="121.20" y="80.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO13</text>
+<path d="M114.00 80.00 L112.80 78.60 L104.70 78.60 L104.70 81.40 L112.80 81.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="105.30" y="80.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">SD_RLY</text>
+<line x1="114.00" y1="85.00" x2="120.00" y2="85.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="121.20" y="85.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO14</text>
+<path d="M114.00 85.00 L112.80 83.60 L103.55 83.60 L103.55 86.40 L112.80 86.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="104.15" y="85.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">FAN_PWM</text>
+<line x1="114.00" y1="90.00" x2="120.00" y2="90.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="121.20" y="90.60" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">GPIO15</text>
+<path d="M114.00 90.00 L112.80 88.60 L102.40 88.60 L102.40 91.40 L112.80 91.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="103.00" y="90.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">FAN_TACH</text>
 <line x1="148.00" y1="35.00" x2="154.00" y2="35.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
 <text x="146.80" y="35.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">5V</text>
 <path d="M154.00 35.00 L155.20 33.60 L163.30 33.60 L163.30 36.40 L155.20 36.40 Z" fill="#eef4fb" stroke="#c0392b" stroke-width="0.25" stroke-linejoin="round"/>
 <text x="155.60" y="35.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#c0392b">+5V_U1</text>
-<line x1="148.00" y1="41.00" x2="154.00" y2="41.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="146.80" y="41.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">3V3</text>
-<path d="M154.00 41.00 L155.20 39.60 L161.00 39.60 L161.00 42.40 L155.20 42.40 Z" fill="#eef4fb" stroke="#c0392b" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="155.60" y="41.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#c0392b">+3V3</text>
-<line x1="148.00" y1="47.00" x2="154.00" y2="47.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="146.80" y="47.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">GND</text>
-<line x1="154.00" y1="47.00" x2="154.00" y2="48.40" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<line x1="152.20" y1="48.40" x2="155.80" y2="48.40" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
-<line x1="152.80" y1="49.00" x2="155.20" y2="49.00" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
-<line x1="153.40" y1="49.60" x2="154.60" y2="49.60" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
-<line x1="148.00" y1="53.00" x2="154.00" y2="53.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="146.80" y="53.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">GPIO17</text>
-<path d="M154.00 53.00 L155.20 51.60 L159.85 51.60 L159.85 54.40 L155.20 54.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="155.60" y="53.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">TXD</text>
-<line x1="148.00" y1="59.00" x2="154.00" y2="59.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
-<text x="146.80" y="59.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">GPIO18</text>
-<path d="M154.00 59.00 L155.20 57.60 L159.85 57.60 L159.85 60.40 L155.20 60.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
-<text x="155.60" y="59.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">RXD</text>
+<line x1="148.00" y1="40.00" x2="154.00" y2="40.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="146.80" y="40.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">3V3</text>
+<path d="M154.00 40.00 L155.20 38.60 L161.00 38.60 L161.00 41.40 L155.20 41.40 Z" fill="#eef4fb" stroke="#c0392b" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="155.60" y="40.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#c0392b">+3V3</text>
+<line x1="148.00" y1="45.00" x2="154.00" y2="45.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="146.80" y="45.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">GND</text>
+<line x1="154.00" y1="45.00" x2="154.00" y2="46.40" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="152.20" y1="46.40" x2="155.80" y2="46.40" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<line x1="152.80" y1="47.00" x2="155.20" y2="47.00" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<line x1="153.40" y1="47.60" x2="154.60" y2="47.60" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<line x1="148.00" y1="50.00" x2="154.00" y2="50.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="146.80" y="50.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">GPIO17</text>
+<path d="M154.00 50.00 L155.20 48.60 L159.85 48.60 L159.85 51.40 L155.20 51.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="155.60" y="50.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">TXD</text>
+<line x1="148.00" y1="55.00" x2="154.00" y2="55.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="146.80" y="55.60" font-size="1.60" text-anchor="end" font-weight="normal" fill="#15181c">GPIO18</text>
+<path d="M154.00 55.00 L155.20 53.60 L159.85 53.60 L159.85 56.40 L155.20 56.40 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="155.60" y="55.65" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">RXD</text>
 <text x="134.00" y="100.00" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#c0392b">3.3 V logic: never 5 V</text>
 <text x="134.00" y="102.03" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#c0392b">on a GPIO</text>
 <text x="116.00" y="108.00" font-size="1.50" text-anchor="start" font-weight="normal" fill="#5b6168">2 x 22-way sockets</text>
@@ -351,6 +359,104 @@
 <line x1="68.80" y1="147.50" x2="71.20" y2="147.50" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
 <line x1="69.40" y1="148.10" x2="70.60" y2="148.10" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
 <text x="15.00" y="161.60" font-size="1.40" text-anchor="start" font-weight="normal" fill="#5b6168">Polarity is set in the firmware; rails without a name are +3V3.</text>
+<rect x="12.00" y="166.00" width="89.00" height="50.00" rx="1.00" fill="none" stroke="#9aa1a8" stroke-width="0.20" stroke-dasharray="1.2 0.8"/>
+<text x="13.50" y="169.40" font-size="2.00" text-anchor="start" font-weight="bold" fill="#5b6168">OFFICE AIR FAN  (J11, 4-pin PC fan)</text>
+<rect x="16.00" y="174.00" width="7.00" height="19.60" rx="0.00" fill="#fbf3e2" stroke="#15181c" stroke-width="0.30"/>
+<text x="19.50" y="173.00" font-size="1.80" text-anchor="middle" font-weight="bold" fill="#15181c">J11</text>
+<text x="19.50" y="178.40" font-size="1.40" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
+<line x1="23.00" y1="177.85" x2="25.00" y2="177.85" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="25.40" y="177.35" font-size="1.40" text-anchor="start" font-weight="normal" fill="#5b6168">0V</text>
+<text x="19.50" y="182.90" font-size="1.40" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<line x1="23.00" y1="182.35" x2="25.00" y2="182.35" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="25.40" y="181.85" font-size="1.40" text-anchor="start" font-weight="normal" fill="#5b6168">+12V</text>
+<text x="19.50" y="187.40" font-size="1.40" text-anchor="middle" font-weight="normal" fill="#15181c">3</text>
+<line x1="23.00" y1="186.85" x2="25.00" y2="186.85" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="25.40" y="186.35" font-size="1.40" text-anchor="start" font-weight="normal" fill="#5b6168">TACH</text>
+<text x="19.50" y="191.90" font-size="1.40" text-anchor="middle" font-weight="normal" fill="#15181c">4</text>
+<line x1="23.00" y1="191.35" x2="25.00" y2="191.35" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="25.40" y="190.85" font-size="1.40" text-anchor="start" font-weight="normal" fill="#5b6168">PWM</text>
+<path d="M25.00 177.85 L27.00 177.85" fill="none" stroke="#15181c" stroke-width="0.30" stroke-linejoin="round"/>
+<line x1="27.00" y1="177.85" x2="27.00" y2="179.25" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="25.20" y1="179.25" x2="28.80" y2="179.25" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<line x1="25.80" y1="179.85" x2="28.20" y2="179.85" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<line x1="26.40" y1="180.45" x2="27.60" y2="180.45" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<path d="M25.00 182.35 L31.00 182.35" fill="none" stroke="#15181c" stroke-width="0.30" stroke-linejoin="round"/>
+<line x1="31.00" y1="182.35" x2="33.70" y2="182.35" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<rect x="33.70" y="181.25" width="4.60" height="2.20" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<line x1="38.30" y1="182.35" x2="41.00" y2="182.35" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="36.00" y="180.55" font-size="1.60" text-anchor="middle" font-weight="normal" fill="#15181c">F2 PTC</text>
+<path d="M41.00 182.35 L43.00 182.35" fill="none" stroke="#15181c" stroke-width="0.30" stroke-linejoin="round"/>
+<line x1="43.00" y1="182.35" x2="43.00" y2="180.75" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="41.40" y1="180.75" x2="44.60" y2="180.75" stroke="#c0392b" stroke-width="0.45" stroke-linecap="butt"/>
+<text x="43.00" y="179.85" font-size="1.60" text-anchor="middle" font-weight="bold" fill="#c0392b">+12V</text>
+<path d="M25.00 186.85 L33.00 186.85" fill="none" stroke="#15181c" stroke-width="0.30" stroke-linejoin="round"/>
+<line x1="33.00" y1="186.85" x2="35.20" y2="186.85" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<rect x="35.20" y="185.75" width="4.60" height="2.20" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<line x1="39.80" y1="186.85" x2="42.00" y2="186.85" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="37.50" y="185.05" font-size="1.60" text-anchor="middle" font-weight="normal" fill="#15181c">R17 1k</text>
+<path d="M42.00 186.85 L62.00 186.85" fill="none" stroke="#15181c" stroke-width="0.30" stroke-linejoin="round"/>
+<circle cx="47.00" cy="186.85" r="0.55" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<line x1="47.00" y1="177.85" x2="47.00" y2="180.05" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<rect x="45.90" y="180.05" width="2.20" height="4.60" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<line x1="47.00" y1="184.65" x2="47.00" y2="186.85" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="48.80" y="182.15" font-size="1.60" text-anchor="start" font-weight="bold" fill="#15181c">R18</text>
+<text x="48.80" y="184.15" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">10k</text>
+<line x1="47.00" y1="177.85" x2="47.00" y2="176.25" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="45.40" y1="176.25" x2="48.60" y2="176.25" stroke="#c0392b" stroke-width="0.45" stroke-linecap="butt"/>
+<text x="47.00" y="175.35" font-size="1.60" text-anchor="middle" font-weight="bold" fill="#c0392b">+3V3</text>
+<circle cx="53.00" cy="186.85" r="0.55" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<line x1="53.00" y1="186.85" x2="53.00" y2="189.65" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="51.20" y1="189.65" x2="54.80" y2="189.65" stroke="#15181c" stroke-width="0.45" stroke-linecap="butt"/>
+<line x1="51.20" y1="191.05" x2="54.80" y2="191.05" stroke="#15181c" stroke-width="0.45" stroke-linecap="butt"/>
+<line x1="53.00" y1="191.05" x2="53.00" y2="193.85" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="55.40" y="190.15" font-size="1.60" text-anchor="start" font-weight="bold" fill="#15181c">C8</text>
+<text x="55.40" y="192.15" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">1n</text>
+<line x1="53.00" y1="193.85" x2="53.00" y2="195.25" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="51.20" y1="195.25" x2="54.80" y2="195.25" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<line x1="51.80" y1="195.85" x2="54.20" y2="195.85" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<line x1="52.40" y1="196.45" x2="53.60" y2="196.45" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<path d="M62.00 186.85 L63.20 185.45 L73.60 185.45 L73.60 188.25 L63.20 188.25 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="63.60" y="187.50" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">FAN_TACH</text>
+<path d="M25.00 191.35 L28.00 191.35 L28.00 199.00 L73.00 199.00" fill="none" stroke="#15181c" stroke-width="0.30" stroke-linejoin="round"/>
+<circle cx="72.00" cy="203.40" r="3.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<line x1="69.00" y1="203.40" x2="71.00" y2="203.40" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="71.00" y1="201.60" x2="71.00" y2="205.20" stroke="#15181c" stroke-width="0.45" stroke-linecap="butt"/>
+<line x1="71.00" y1="202.60" x2="73.00" y2="200.80" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="71.00" y1="204.20" x2="73.00" y2="206.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="71.90" y1="205.20" x2="72.90" y2="205.95" stroke="#15181c" stroke-width="0.20" marker-end="url(#aDim)"/>
+<line x1="73.00" y1="200.80" x2="73.00" y2="199.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="73.00" y1="206.00" x2="73.00" y2="207.80" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="75.60" y="203.00" font-size="1.60" text-anchor="start" font-weight="bold" fill="#15181c">Q3</text>
+<text x="75.60" y="205.00" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">PN2222A</text>
+<line x1="73.00" y1="207.80" x2="73.00" y2="209.20" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="71.20" y1="209.20" x2="74.80" y2="209.20" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<line x1="71.80" y1="209.80" x2="74.20" y2="209.80" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<line x1="72.40" y1="210.40" x2="73.60" y2="210.40" stroke="#15181c" stroke-width="0.30" stroke-linecap="butt"/>
+<line x1="57.00" y1="203.40" x2="59.70" y2="203.40" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<rect x="59.70" y="202.30" width="4.60" height="2.20" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<line x1="64.30" y1="203.40" x2="67.00" y2="203.40" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="62.00" y="201.60" font-size="1.60" text-anchor="middle" font-weight="normal" fill="#15181c">R15 1k</text>
+<path d="M67.00 203.40 L69.00 203.40" fill="none" stroke="#15181c" stroke-width="0.30" stroke-linejoin="round"/>
+<path d="M48.00 203.40 L57.00 203.40" fill="none" stroke="#15181c" stroke-width="0.30" stroke-linejoin="round"/>
+<circle cx="52.00" cy="203.40" r="0.55" fill="#15181c" stroke="#15181c" stroke-width="0.00"/>
+<line x1="52.00" y1="203.40" x2="52.00" y2="204.60" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<rect x="50.90" y="204.60" width="2.20" height="4.60" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.25"/>
+<line x1="52.00" y1="209.20" x2="52.00" y2="210.40" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="53.80" y="206.70" font-size="1.60" text-anchor="start" font-weight="bold" fill="#15181c">R16</text>
+<text x="53.80" y="208.70" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">10k</text>
+<line x1="52.00" y1="210.40" x2="52.00" y2="212.00" stroke="#15181c" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="50.40" y1="212.00" x2="53.60" y2="212.00" stroke="#c0392b" stroke-width="0.45" stroke-linecap="butt"/>
+<text x="52.00" y="214.20" font-size="1.60" text-anchor="middle" font-weight="bold" fill="#c0392b">+3V3</text>
+<path d="M48.00 203.40 L46.80 202.00 L37.55 202.00 L37.55 204.80 L46.80 204.80 Z" fill="#eef4fb" stroke="#2f6db5" stroke-width="0.25" stroke-linejoin="round"/>
+<text x="38.15" y="204.05" font-size="1.60" text-anchor="start" font-weight="bold" fill="#2f6db5">FAN_PWM</text>
+<text x="78.00" y="174.50" font-size="1.30" text-anchor="start" font-weight="normal" fill="#5b6168">Fans that stop at</text>
+<text x="78.00" y="176.25" font-size="1.30" text-anchor="start" font-weight="normal" fill="#5b6168">0 % PWM (NF-A8 PWM,</text>
+<text x="78.00" y="178.01" font-size="1.30" text-anchor="start" font-weight="normal" fill="#5b6168">P8 Max). R16 keeps</text>
+<text x="78.00" y="179.76" font-size="1.30" text-anchor="start" font-weight="normal" fill="#5b6168">Q3 on - the fan off -</text>
+<text x="78.00" y="181.52" font-size="1.30" text-anchor="start" font-weight="normal" fill="#5b6168">while the node boots.</text>
+<text x="15.00" y="196.50" font-size="1.30" text-anchor="start" font-weight="normal" fill="#5b6168">W9 to the fan.</text>
+<text x="15.00" y="198.25" font-size="1.30" text-anchor="start" font-weight="normal" fill="#5b6168">Push-pull: Y-lead,</text>
+<text x="15.00" y="200.01" font-size="1.30" text-anchor="start" font-weight="normal" fill="#5b6168">tach from fan 1.</text>
 <rect x="104.00" y="124.00" width="64.00" height="62.00" rx="1.00" fill="none" stroke="#9aa1a8" stroke-width="0.20" stroke-dasharray="1.2 0.8"/>
 <text x="105.50" y="127.40" font-size="2.00" text-anchor="start" font-weight="bold" fill="#5b6168">MAINS DETECT (option)</text>
 <rect x="108.00" y="140.00" width="7.00" height="8.80" rx="0.00" fill="#fbf3e2" stroke="#15181c" stroke-width="0.30"/>
@@ -627,6 +733,12 @@
 <text x="324.44" y="108.10" font-size="1.60" text-anchor="middle" font-weight="bold" fill="#15181c">U5</text>
 <rect x="287.25" y="122.50" width="15.00" height="7.50" rx="0.00" fill="#f6e7c8" stroke="#15181c" stroke-width="0.30"/>
 <text x="294.75" y="126.85" font-size="1.60" text-anchor="middle" font-weight="bold" fill="#15181c">J4</text>
+<rect x="323.50" y="34.38" width="13.12" height="6.88" rx="0.00" fill="#f6e7c8" stroke="#15181c" stroke-width="0.30"/>
+<text x="330.06" y="38.41" font-size="1.60" text-anchor="middle" font-weight="bold" fill="#15181c">J11</text>
+<rect x="323.50" y="43.75" width="13.12" height="18.75" rx="0.00" fill="#ece6f6" stroke="#15181c" stroke-width="0.30"/>
+<text x="330.06" y="51.12" font-size="1.60" text-anchor="middle" font-weight="bold" fill="#15181c">fan</text>
+<text x="330.06" y="53.73" font-size="1.40" text-anchor="middle" font-weight="normal" fill="#15181c">Q3</text>
+<text x="330.06" y="56.33" font-size="1.40" text-anchor="middle" font-weight="normal" fill="#15181c">F2</text>
 <rect x="287.25" y="132.50" width="13.12" height="10.00" rx="0.00" fill="#8fbf8f" stroke="#15181c" stroke-width="0.30"/>
 <text x="293.81" y="138.80" font-size="1.50" text-anchor="middle" font-weight="bold" fill="#15181c">J5</text>
 <rect x="300.38" y="132.50" width="13.12" height="10.00" rx="0.00" fill="#8fbf8f" stroke="#15181c" stroke-width="0.30"/>
@@ -745,7 +857,25 @@
 <text x="268.70" y="223.15" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">C4-C7</text>
 <text x="286.70" y="223.15" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">100nF</text>
 <text x="330.70" y="223.15" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">input filters, U2 decoupling</text>
-<rect x="268.00" y="157.00" width="142.00" height="67.20" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
+<rect x="268.00" y="224.20" width="142.00" height="2.80" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="268.70" y="225.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">Q3</text>
+<text x="286.70" y="225.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">PN2222A</text>
+<text x="330.70" y="225.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">office fan PWM, open collector (J11-4)</text>
+<text x="268.70" y="228.75" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">F2</text>
+<text x="286.70" y="228.75" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">PTC 0.5 A hold</text>
+<text x="330.70" y="228.75" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">office fan 12 V (J11-2)</text>
+<rect x="268.00" y="229.80" width="142.00" height="2.80" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="268.70" y="231.55" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">R15, R17</text>
+<text x="286.70" y="231.55" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">1k</text>
+<text x="330.70" y="231.55" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">Q3 base; tach series</text>
+<text x="268.70" y="234.35" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">R16, R18</text>
+<text x="286.70" y="234.35" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">10k</text>
+<text x="330.70" y="234.35" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">FAN_PWM pull-up (fan held off while the node boots); tach pull-up</text>
+<rect x="268.00" y="235.40" width="142.00" height="2.80" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="268.70" y="237.15" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">C8</text>
+<text x="286.70" y="237.15" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">1nF</text>
+<text x="330.70" y="237.15" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">tach filter</text>
+<rect x="268.00" y="157.00" width="142.00" height="81.20" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
 <line x1="268.00" y1="159.80" x2="410.00" y2="159.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="268.00" y1="162.60" x2="410.00" y2="162.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="268.00" y1="165.40" x2="410.00" y2="165.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
@@ -769,149 +899,170 @@
 <line x1="268.00" y1="215.80" x2="410.00" y2="215.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="268.00" y1="218.60" x2="410.00" y2="218.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="268.00" y1="221.40" x2="410.00" y2="221.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="286.00" y1="157.00" x2="286.00" y2="224.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="330.00" y1="157.00" x2="330.00" y2="224.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<rect x="12.00" y="192.00" width="126.00" height="3.00" rx="0.00" fill="#e6ebf0" stroke="none" stroke-width="0.00"/>
-<text x="12.70" y="193.95" font-size="1.50" text-anchor="start" font-weight="bold" fill="#15181c">Pin</text>
-<text x="26.70" y="193.95" font-size="1.50" text-anchor="start" font-weight="bold" fill="#15181c">Net</text>
-<text x="44.70" y="193.95" font-size="1.50" text-anchor="start" font-weight="bold" fill="#15181c">Goes to</text>
-<text x="68.70" y="193.95" font-size="1.50" text-anchor="start" font-weight="bold" fill="#15181c">Function</text>
-<text x="12.70" y="196.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO4</text>
-<text x="26.70" y="196.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">IR_TX</text>
-<text x="44.70" y="196.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">Q1 base (R5)</text>
-<text x="68.70" y="196.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">IR emitter, 38 kHz carrier (remote_transmitter)</text>
-<rect x="12.00" y="198.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="12.70" y="199.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO5</text>
-<text x="26.70" y="199.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">IR_RX</text>
-<text x="44.70" y="199.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">U4 OUT</text>
-<text x="68.70" y="199.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">IR receiver: learning, protocol check (remote_receiver)</text>
-<text x="12.70" y="202.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO6</text>
-<text x="26.70" y="202.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">OW_COLD</text>
-<text x="44.70" y="202.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J5-2</text>
-<text x="68.70" y="202.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">1-Wire, cold probes T1-T3 (R1 4.7k pull-up)</text>
-<rect x="12.00" y="204.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="12.70" y="205.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO7</text>
-<text x="26.70" y="205.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">OW_HOT</text>
-<text x="44.70" y="205.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J6-2</text>
-<text x="68.70" y="205.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">1-Wire, hot probes T4-T6 (R2 2.2k pull-up)</text>
-<text x="12.70" y="208.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO8</text>
-<text x="26.70" y="208.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">SDA</text>
-<text x="44.70" y="208.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J4-3</text>
-<text x="68.70" y="208.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">I2C data, SHT41 cold-side humidity</text>
-<rect x="12.00" y="210.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="12.70" y="211.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO9</text>
-<text x="26.70" y="211.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">SCL</text>
-<text x="44.70" y="211.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J4-4</text>
-<text x="68.70" y="211.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">I2C clock (50 kHz on the 0.5 m lead)</text>
-<text x="12.70" y="214.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO10</text>
-<text x="26.70" y="214.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">DOOR_LO</text>
-<text x="44.70" y="214.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J9-1 (R11)</text>
-<text x="68.70" y="214.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">lower door contact, closed when shut</text>
-<rect x="12.00" y="216.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="12.70" y="217.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO11</text>
-<text x="26.70" y="217.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">LEAK</text>
-<text x="44.70" y="217.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J8-1 (R9)</text>
-<text x="68.70" y="217.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">tray float switch, closes on water</text>
-<text x="12.70" y="220.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO12</text>
-<text x="26.70" y="220.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">MAINS</text>
-<text x="44.70" y="220.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">U5 collector</text>
-<text x="68.70" y="220.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">AC socket live: optocoupler pulls low</text>
-<rect x="12.00" y="222.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="12.70" y="223.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO13</text>
-<text x="26.70" y="223.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">SD_RLY</text>
-<text x="44.70" y="223.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">Q2 base (R8)</text>
-<text x="68.70" y="223.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">SHUTDOWN relay K1 -&gt; J3</text>
-<text x="12.70" y="226.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO17</text>
-<text x="26.70" y="226.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">TXD</text>
-<text x="44.70" y="226.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">U2 DI/TXD</text>
-<text x="68.70" y="226.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">RS485 transmit (UART1, 19200 8N1)</text>
-<rect x="12.00" y="228.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="12.70" y="229.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO18</text>
-<text x="26.70" y="229.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">RXD</text>
-<text x="44.70" y="229.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">U2 RO/RXD</text>
-<text x="68.70" y="229.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">RS485 receive</text>
-<rect x="12.00" y="192.00" width="126.00" height="39.00" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
-<line x1="12.00" y1="195.00" x2="138.00" y2="195.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="198.00" x2="138.00" y2="198.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="201.00" x2="138.00" y2="201.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="204.00" x2="138.00" y2="204.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="207.00" x2="138.00" y2="207.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="210.00" x2="138.00" y2="210.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="213.00" x2="138.00" y2="213.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="216.00" x2="138.00" y2="216.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="219.00" x2="138.00" y2="219.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="222.00" x2="138.00" y2="222.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="225.00" x2="138.00" y2="225.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="12.00" y1="228.00" x2="138.00" y2="228.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="26.00" y1="192.00" x2="26.00" y2="231.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="44.00" y1="192.00" x2="44.00" y2="231.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="68.00" y1="192.00" x2="68.00" y2="231.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<rect x="142.00" y="192.00" width="115.00" height="3.00" rx="0.00" fill="#e6ebf0" stroke="none" stroke-width="0.00"/>
-<text x="142.70" y="193.95" font-size="1.40" text-anchor="start" font-weight="bold" fill="#15181c">Conn</text>
-<text x="151.70" y="193.95" font-size="1.40" text-anchor="start" font-weight="bold" fill="#15181c">Type</text>
-<text x="178.70" y="193.95" font-size="1.40" text-anchor="start" font-weight="bold" fill="#15181c">Pins 1..n</text>
-<text x="207.70" y="193.95" font-size="1.40" text-anchor="start" font-weight="bold" fill="#15181c">To</text>
-<text x="142.70" y="196.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J1</text>
-<text x="151.70" y="196.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">2-way terminal 3.5 mm</text>
-<text x="178.70" y="196.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">+12V / 0V</text>
-<text x="207.70" y="196.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">12 V in: plug pack on the UPS-backed PDU (W8)</text>
-<rect x="142.00" y="198.00" width="115.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="142.70" y="199.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J2</text>
-<text x="151.70" y="199.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">4-way terminal 3.5 mm</text>
-<text x="178.70" y="199.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">+12V / 0V / A / B</text>
-<text x="207.70" y="199.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">door bus W1 to the touchscreen</text>
-<text x="142.70" y="202.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J3</text>
-<text x="151.70" y="202.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3-way terminal 3.5 mm</text>
-<text x="178.70" y="202.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">COM / NO / NC</text>
-<text x="207.70" y="202.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">SHUTDOWN dry contact (K1) on W2</text>
-<rect x="142.00" y="204.00" width="115.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="142.70" y="205.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J4</text>
-<text x="151.70" y="205.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">JST-XH 4-way</text>
-<text x="178.70" y="205.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3V3 / 0V / SDA / SCL</text>
-<text x="207.70" y="205.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">SHT41 cold-side humidity (W7)</text>
-<text x="142.70" y="208.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J5</text>
-<text x="151.70" y="208.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3-way terminal 3.5 mm</text>
-<text x="178.70" y="208.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3V3 / DQ / 0V</text>
-<text x="207.70" y="208.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">cold probes T1 T2 T3 (W3)</text>
-<rect x="142.00" y="210.00" width="115.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="142.70" y="211.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J6</text>
-<text x="151.70" y="211.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3-way terminal 3.5 mm</text>
-<text x="178.70" y="211.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3V3 / DQ / 0V</text>
-<text x="207.70" y="211.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">hot probes T4 T5 T6 on harness W2</text>
-<text x="142.70" y="214.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J7</text>
-<text x="151.70" y="214.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">2-way terminal 3.5 mm</text>
-<text x="178.70" y="214.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">IR+ / IR-</text>
-<text x="207.70" y="214.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">IR emitter socket lead W4</text>
-<rect x="142.00" y="216.00" width="115.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="142.70" y="217.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J8</text>
-<text x="151.70" y="217.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">2-way terminal 3.5 mm</text>
-<text x="178.70" y="217.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">LEAK / 0V</text>
-<text x="207.70" y="217.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">tray float switch (W5)</text>
-<text x="142.70" y="220.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J9</text>
-<text x="151.70" y="220.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">2-way terminal 3.5 mm</text>
-<text x="178.70" y="220.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">DOOR / 0V</text>
-<text x="207.70" y="220.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">lower door contact (W6)</text>
-<rect x="142.00" y="222.00" width="115.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="142.70" y="223.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J10</text>
-<text x="151.70" y="223.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">2-way terminal 3.5 mm</text>
-<text x="178.70" y="223.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">5V+ / 5V-</text>
-<text x="207.70" y="223.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">mains detect, optional (W2)</text>
-<rect x="142.00" y="192.00" width="115.00" height="33.00" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
-<line x1="142.00" y1="195.00" x2="257.00" y2="195.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="142.00" y1="198.00" x2="257.00" y2="198.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="142.00" y1="201.00" x2="257.00" y2="201.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="142.00" y1="204.00" x2="257.00" y2="204.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="142.00" y1="207.00" x2="257.00" y2="207.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="142.00" y1="210.00" x2="257.00" y2="210.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="142.00" y1="213.00" x2="257.00" y2="213.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="142.00" y1="216.00" x2="257.00" y2="216.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="142.00" y1="219.00" x2="257.00" y2="219.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="142.00" y1="222.00" x2="257.00" y2="222.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="151.00" y1="192.00" x2="151.00" y2="225.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="178.00" y1="192.00" x2="178.00" y2="225.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="207.00" y1="192.00" x2="207.00" y2="225.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<text x="12.00" y="237.00" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">Build: sockets for U1, then U3 and U2, then the terminal row. With U1 out, power J1: +5 V, +12 V on J2; fit U1: +3V3.</text>
-<text x="12.00" y="240.40" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">Keep the 12 V wiring on the board's door-side half; 1-Wire and I2C short and away from K1. Pull-ups and filters as drawn.</text>
+<line x1="268.00" y1="224.20" x2="410.00" y2="224.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="268.00" y1="227.00" x2="410.00" y2="227.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="268.00" y1="229.80" x2="410.00" y2="229.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="268.00" y1="232.60" x2="410.00" y2="232.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="268.00" y1="235.40" x2="410.00" y2="235.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="286.00" y1="157.00" x2="286.00" y2="238.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="330.00" y1="157.00" x2="330.00" y2="238.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<rect x="12.00" y="220.00" width="126.00" height="3.00" rx="0.00" fill="#e6ebf0" stroke="none" stroke-width="0.00"/>
+<text x="12.70" y="221.95" font-size="1.50" text-anchor="start" font-weight="bold" fill="#15181c">Pin</text>
+<text x="26.70" y="221.95" font-size="1.50" text-anchor="start" font-weight="bold" fill="#15181c">Net</text>
+<text x="44.70" y="221.95" font-size="1.50" text-anchor="start" font-weight="bold" fill="#15181c">Goes to</text>
+<text x="74.70" y="221.95" font-size="1.50" text-anchor="start" font-weight="bold" fill="#15181c">Function</text>
+<text x="12.70" y="224.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO4</text>
+<text x="26.70" y="224.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">IR_TX</text>
+<text x="44.70" y="224.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">Q1 base (R5)</text>
+<text x="74.70" y="224.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">IR emitter, 38 kHz carrier (remote_transmitter)</text>
+<rect x="12.00" y="226.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="12.70" y="227.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO5</text>
+<text x="26.70" y="227.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">IR_RX</text>
+<text x="44.70" y="227.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">U4 OUT</text>
+<text x="74.70" y="227.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">IR receiver: learning, protocol check (remote_receiver)</text>
+<text x="12.70" y="230.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO6</text>
+<text x="26.70" y="230.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">OW_COLD</text>
+<text x="44.70" y="230.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J5-2</text>
+<text x="74.70" y="230.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">1-Wire, cold probes T1-T3 (R1 4.7k pull-up)</text>
+<rect x="12.00" y="232.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="12.70" y="233.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO7</text>
+<text x="26.70" y="233.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">OW_HOT</text>
+<text x="44.70" y="233.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J6-2</text>
+<text x="74.70" y="233.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">1-Wire, hot probes T4-T6 (R2 2.2k pull-up)</text>
+<text x="12.70" y="236.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO8</text>
+<text x="26.70" y="236.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">SDA</text>
+<text x="44.70" y="236.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J4-3</text>
+<text x="74.70" y="236.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">I2C data, SHT41 cold-side humidity</text>
+<rect x="12.00" y="238.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="12.70" y="239.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO9</text>
+<text x="26.70" y="239.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">SCL</text>
+<text x="44.70" y="239.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J4-4</text>
+<text x="74.70" y="239.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">I2C clock (50 kHz on the 0.5 m lead)</text>
+<text x="12.70" y="242.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO10</text>
+<text x="26.70" y="242.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">DOOR_LO</text>
+<text x="44.70" y="242.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J9-1 (R11)</text>
+<text x="74.70" y="242.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">lower door contact, closed when shut</text>
+<rect x="12.00" y="244.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="12.70" y="245.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO11</text>
+<text x="26.70" y="245.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">LEAK</text>
+<text x="44.70" y="245.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J8-1 (R9)</text>
+<text x="74.70" y="245.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">tray float switch, closes on water</text>
+<text x="12.70" y="248.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO12</text>
+<text x="26.70" y="248.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">MAINS</text>
+<text x="44.70" y="248.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">U5 collector</text>
+<text x="74.70" y="248.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">AC socket live: optocoupler pulls low</text>
+<rect x="12.00" y="250.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="12.70" y="251.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO13</text>
+<text x="26.70" y="251.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">SD_RLY</text>
+<text x="44.70" y="251.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">Q2 base (R8)</text>
+<text x="74.70" y="251.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">SHUTDOWN relay K1 -&gt; J3</text>
+<text x="12.70" y="254.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO14</text>
+<text x="26.70" y="254.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">FAN_PWM</text>
+<text x="44.70" y="254.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">Q3 base (R15; R16 holds it on)</text>
+<text x="74.70" y="254.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">office fan PWM 25 kHz, open collector to J11-4</text>
+<rect x="12.00" y="256.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="12.70" y="257.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO15</text>
+<text x="26.70" y="257.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">FAN_TACH</text>
+<text x="44.70" y="257.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J11-3 (R17; R18 10k to 3V3)</text>
+<text x="74.70" y="257.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">office fan speed, 2 pulses per turn</text>
+<text x="12.70" y="260.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO17</text>
+<text x="26.70" y="260.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">TXD</text>
+<text x="44.70" y="260.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">U2 DI/TXD</text>
+<text x="74.70" y="260.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">RS485 transmit (UART1, 19200 8N1)</text>
+<rect x="12.00" y="262.00" width="126.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="12.70" y="263.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">GPIO18</text>
+<text x="26.70" y="263.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">RXD</text>
+<text x="44.70" y="263.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">U2 RO/RXD</text>
+<text x="74.70" y="263.95" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">RS485 receive</text>
+<rect x="12.00" y="220.00" width="126.00" height="45.00" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
+<line x1="12.00" y1="223.00" x2="138.00" y2="223.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="226.00" x2="138.00" y2="226.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="229.00" x2="138.00" y2="229.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="232.00" x2="138.00" y2="232.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="235.00" x2="138.00" y2="235.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="238.00" x2="138.00" y2="238.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="241.00" x2="138.00" y2="241.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="244.00" x2="138.00" y2="244.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="247.00" x2="138.00" y2="247.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="250.00" x2="138.00" y2="250.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="253.00" x2="138.00" y2="253.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="256.00" x2="138.00" y2="256.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="259.00" x2="138.00" y2="259.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="12.00" y1="262.00" x2="138.00" y2="262.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="26.00" y1="220.00" x2="26.00" y2="265.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="44.00" y1="220.00" x2="44.00" y2="265.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="74.00" y1="220.00" x2="74.00" y2="265.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<rect x="142.00" y="220.00" width="115.00" height="3.00" rx="0.00" fill="#e6ebf0" stroke="none" stroke-width="0.00"/>
+<text x="142.70" y="221.95" font-size="1.40" text-anchor="start" font-weight="bold" fill="#15181c">Conn</text>
+<text x="151.70" y="221.95" font-size="1.40" text-anchor="start" font-weight="bold" fill="#15181c">Type</text>
+<text x="178.70" y="221.95" font-size="1.40" text-anchor="start" font-weight="bold" fill="#15181c">Pins 1..n</text>
+<text x="207.70" y="221.95" font-size="1.40" text-anchor="start" font-weight="bold" fill="#15181c">To</text>
+<text x="142.70" y="224.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J1</text>
+<text x="151.70" y="224.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">2-way terminal 3.5 mm</text>
+<text x="178.70" y="224.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">+12V / 0V</text>
+<text x="207.70" y="224.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">12 V in: plug pack on the UPS-backed PDU (W8)</text>
+<rect x="142.00" y="226.00" width="115.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="142.70" y="227.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J2</text>
+<text x="151.70" y="227.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">4-way terminal 3.5 mm</text>
+<text x="178.70" y="227.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">+12V / 0V / A / B</text>
+<text x="207.70" y="227.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">door bus W1 to the touchscreen</text>
+<text x="142.70" y="230.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J3</text>
+<text x="151.70" y="230.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3-way terminal 3.5 mm</text>
+<text x="178.70" y="230.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">COM / NO / NC</text>
+<text x="207.70" y="230.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">SHUTDOWN dry contact (K1) on W2</text>
+<rect x="142.00" y="232.00" width="115.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="142.70" y="233.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J4</text>
+<text x="151.70" y="233.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">JST-XH 4-way</text>
+<text x="178.70" y="233.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3V3 / 0V / SDA / SCL</text>
+<text x="207.70" y="233.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">SHT41 cold-side humidity (W7)</text>
+<text x="142.70" y="236.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J5</text>
+<text x="151.70" y="236.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3-way terminal 3.5 mm</text>
+<text x="178.70" y="236.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3V3 / DQ / 0V</text>
+<text x="207.70" y="236.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">cold probes T1 T2 T3 (W3)</text>
+<rect x="142.00" y="238.00" width="115.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="142.70" y="239.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J6</text>
+<text x="151.70" y="239.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3-way terminal 3.5 mm</text>
+<text x="178.70" y="239.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">3V3 / DQ / 0V</text>
+<text x="207.70" y="239.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">hot probes T4 T5 T6 on harness W2</text>
+<text x="142.70" y="242.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J7</text>
+<text x="151.70" y="242.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">2-way terminal 3.5 mm</text>
+<text x="178.70" y="242.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">IR+ / IR-</text>
+<text x="207.70" y="242.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">IR emitter socket lead W4</text>
+<rect x="142.00" y="244.00" width="115.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="142.70" y="245.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J8</text>
+<text x="151.70" y="245.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">2-way terminal 3.5 mm</text>
+<text x="178.70" y="245.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">LEAK / 0V</text>
+<text x="207.70" y="245.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">tray float switch (W5)</text>
+<text x="142.70" y="248.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J9</text>
+<text x="151.70" y="248.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">2-way terminal 3.5 mm</text>
+<text x="178.70" y="248.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">DOOR / 0V</text>
+<text x="207.70" y="248.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">lower door contact (W6)</text>
+<rect x="142.00" y="250.00" width="115.00" height="3.00" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="142.70" y="251.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J10</text>
+<text x="151.70" y="251.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">2-way terminal 3.5 mm</text>
+<text x="178.70" y="251.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">5V+ / 5V-</text>
+<text x="207.70" y="251.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">mains detect, optional (W2)</text>
+<text x="142.70" y="254.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">J11</text>
+<text x="151.70" y="254.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">4-pin PC fan header, 2.54 mm</text>
+<text x="178.70" y="254.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">0V / +12V / TACH / PWM</text>
+<text x="207.70" y="254.95" font-size="1.40" text-anchor="start" font-weight="normal" fill="#15181c">office air fan (W9); 2nd fan on a Y-lead</text>
+<rect x="142.00" y="220.00" width="115.00" height="36.00" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
+<line x1="142.00" y1="223.00" x2="257.00" y2="223.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="142.00" y1="226.00" x2="257.00" y2="226.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="142.00" y1="229.00" x2="257.00" y2="229.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="142.00" y1="232.00" x2="257.00" y2="232.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="142.00" y1="235.00" x2="257.00" y2="235.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="142.00" y1="238.00" x2="257.00" y2="238.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="142.00" y1="241.00" x2="257.00" y2="241.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="142.00" y1="244.00" x2="257.00" y2="244.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="142.00" y1="247.00" x2="257.00" y2="247.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="142.00" y1="250.00" x2="257.00" y2="250.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="142.00" y1="253.00" x2="257.00" y2="253.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="151.00" y1="220.00" x2="151.00" y2="256.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="178.00" y1="220.00" x2="178.00" y2="256.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="207.00" y1="220.00" x2="207.00" y2="256.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<text x="12.00" y="269.00" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">Build: sockets for U1, then U3 and U2, then the terminal row. With U1 out, power J1: +5 V, +12 V on J2; fit U1: +3V3.</text>
+<text x="12.00" y="272.40" font-size="1.60" text-anchor="start" font-weight="normal" fill="#15181c">Keep the 12 V wiring on the board's door-side half; 1-Wire and I2C short and away from K1. Pull-ups and filters as drawn.</text>
 <rect x="272.00" y="247.00" width="140.00" height="42.00" rx="0.00" fill="#ffffff" stroke="#15181c" stroke-width="0.50"/>
 <text x="274.00" y="253.20" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">PROJECT</text>
 <text x="291.00" y="253.20" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">SRA-16 Silent AC Rack - control electronics kit</text>
@@ -919,13 +1070,13 @@
 <text x="291.00" y="259.50" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">Node carrier: schematic, board, parts</text>
 <line x1="272.00" y1="254.90" x2="412.00" y2="254.90" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="265.80" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DOC NO.</text>
-<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-ELC-001   SHEET 2 OF 5   REV A</text>
+<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-ELC-001   SHEET 2 OF 5   REV B</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">NTS @ A3   UNITS mm   LAYOUT v1.2.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">NTS @ A3   UNITS mm   LAYOUT v1.3.0</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
-<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-01   DRAWN Claude (AI) for Carbon Project</text>
+<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-16   DRAWN Claude (AI) for Carbon Project</text>
 <line x1="272.00" y1="273.80" x2="412.00" y2="273.80" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="284.70" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">STATUS</text>
 <text x="291.00" y="284.70" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">PROTOTYPE - SELV only (12 V); no mains wiring in the kit</text>

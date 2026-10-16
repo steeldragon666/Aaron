@@ -40,7 +40,7 @@ sheet,Partition,Birch ply 12 mm,12.0,611.0,554.0,1,
 sheet,Bay floor,Birch ply 18 mm,18.0,1004.0,554.0,1,cut-outs
 sheet,Divider shelf,Birch ply 18 mm,18.0,1004.0,554.0,1,cut-outs
 sheet,Side panel left MLV,Mass-loaded vinyl 5 kg/m2 (3 mm),3.0,1766.2,1064.0,1,
-sheet,Side panel right MLV,Mass-loaded vinyl 5 kg/m2 (3 mm),3.0,1766.2,1064.0,1,
+sheet,Side panel right MLV,Mass-loaded vinyl 5 kg/m2 (3 mm),3.0,1766.2,1064.0,1,cut-outs
 sheet,Rear panel MLV,Mass-loaded vinyl 5 kg/m2 (3 mm),3.0,1766.2,622.4,1,cut-outs
 sheet,Top panel MLV,Mass-loaded vinyl 5 kg/m2 (3 mm),3.0,1072.4,622.4,1,
 sheet,Door lower MLV,Mass-loaded vinyl 5 kg/m2 (3 mm),3.0,988.5,622.4,1,cut-outs
@@ -58,9 +58,9 @@ sheet,Foam door lower,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,901.0,51
 sheet,Foam side left rack front,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,731.2,130.0,1,
 sheet,Foam side left rack middle,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,731.2,640.0,1,
 sheet,Foam side left rack rear,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,731.2,174.0,1,
-sheet,Foam side right rack front,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,731.2,130.0,1,
+sheet,Foam side right rack front,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,731.2,130.0,1,cut-outs
 sheet,Foam side right rack middle,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,731.2,640.0,1,
-sheet,Foam side right rack rear,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,731.2,174.0,1,
+sheet,Foam side right rack rear,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,731.2,174.0,1,cut-outs
 sheet,Foam rear rack,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,731.2,554.0,1,cut-outs
 sheet,Foam door upper,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,687.2,510.0,1,
 sheet,Foam rear lower,"Melamine acoustic foam 30 mm (FR, Class 0)",30.0,554.0,402.0,1,

@@ -13,14 +13,15 @@ A sealed, acoustically lined server cabinet. The existing **Dimplex GDC14RBA** p
 | Drain | 16 mm barb at the rear, 60 mm above floor, 136.2 mm from the right edge (viewed from behind). Full-floor stainless drip tray + leak sensor. |
 | Frame | Welded 30 × 30 × 2.0 steel SHS, 43 kg. Full cut list and weld plan: [drawings/CP-SRA16-FRM-001.pdf](drawings/CP-SRA16-FRM-001.pdf), [docs/FRAME_WELD_PLAN.md](docs/FRAME_WELD_PLAN.md) |
 | Skins | Laser-cut 1.2 mm steel, 46 pieces, none larger than 1200 × 800, every hole cut. DXFs: [cad/dxf/SRA16_sheet_metal_DXF.zip](cad/dxf/SRA16_sheet_metal_DXF.zip); drawings: [drawings/CP-SRA16-SMP-001.pdf](drawings/CP-SRA16-SMP-001.pdf); notes: [docs/SHEET_METAL.md](docs/SHEET_METAL.md) |
-| Printed parts | Cold-air hood, drop collar and keepers (PETG); exhaust elbow and wall spigot (ASA); touchscreen pod, node box and probe clips (PETG). 24 pieces on 12 plates, sectioned for a **Bambu Lab X1 Carbon**, no supports. STLs: [cad/print/SRA16_print_x1c.zip](cad/print/SRA16_print_x1c.zip); notes: [docs/PRINTED_PARTS.md](docs/PRINTED_PARTS.md) |
-| Controls | **ESP32-S3 rack node + 4.3 in touchscreen** on the upper door. Six temperature probes on the cold and hot sides; runs the AC through its own IR remote codes (setpoint trim, quiet eco cycling, restart after power cuts); alarms, buzzer, an IT-shutdown relay and Home Assistant. Kit about AUD 320. Drawings: [drawings/CP-SRA16-ELC-001.pdf](drawings/CP-SRA16-ELC-001.pdf); firmware: [firmware/](firmware/); guide: [docs/ELECTRONICS.md](docs/ELECTRONICS.md) |
+| Printed parts | Cold-air hood, drop collar and keepers (PETG); exhaust elbow and wall spigot (ASA); touchscreen pod, node box, probe clips and the office air ports (PETG). 33 pieces on 14 plates, sectioned for a **Bambu Lab X1 Carbon**, no supports. STLs: [cad/print/SRA16_print_x1c.zip](cad/print/SRA16_print_x1c.zip); notes: [docs/PRINTED_PARTS.md](docs/PRINTED_PARTS.md) |
+| Controls | **ESP32-S3 rack node + 4.3 in touchscreen** on the upper door. Six temperature probes on the cold and hot sides; runs the AC through its own IR remote codes (setpoint trim, quiet eco cycling, restart after power cuts); alarms, buzzer, an IT-shutdown relay and Home Assistant. Runs the office air fan when the kit is fitted. Kit about AUD 360. Drawings: [drawings/CP-SRA16-ELC-001.pdf](drawings/CP-SRA16-ELC-001.pdf); firmware: [firmware/](firmware/); guide: [docs/ELECTRONICS.md](docs/ELECTRONICS.md) |
+| Office air | Two 60 mm flex-duct ports through the right side to the office next door: AC-cooled supply with an 80 mm PWM fan, return to the hot side. About 40-80 W of cooling plus drying; the rack always comes first. Guide: [docs/OFFICE_AIR.md](docs/OFFICE_AIR.md) |
 | Acoustics | 1.2 mm steel + 5 kg/m² MLV + 30 mm FR melamine foam. Lined labyrinth intake. About 25-30 dB(A) reduction expected. |
-| Mass / cost | About 193 kg empty (+31.5 kg AC). Materials about AUD 5.3k indicative, control kit included. |
+| Mass / cost | About 193 kg empty (+31.5 kg AC). Materials about AUD 5.4k indicative, control kit included. |
 
 ## Open it in Fusion
 
-**Option 1 (fastest):** open `cad/exports/SilentRackAC.step` with **File → Open → Open from my computer…**. Fusion converts it into a native design with all 164 parts named and coloured, grouped into 8 components. Save it to your project.
+**Option 1 (fastest):** open `cad/exports/SilentRackAC.step` with **File → Open → Open from my computer…**. Fusion converts it into a native design with all 174 parts named and coloured, grouped into 8 components. Save it to your project.
 
 **Option 2 (native build with editable parameters):**
 
@@ -28,7 +29,7 @@ A sealed, acoustically lined server cabinet. The existing **Dimplex GDC14RBA** p
 2. Click **+ → Script or add-in from device**, select the `cad/fusion/SilentRackAC` folder, and run it.
 3. The script:
    - builds the rack in a **new** design (your open documents are never touched);
-   - adds 55 `sr_*` user parameters;
+   - adds 59 `sr_*` user parameters;
    - checks every body's volume against this export.
 4. To change the design, do either of these, then run the script again:
    - edit `DEFAULTS` in `rack_layout.py`; or
@@ -55,6 +56,7 @@ The rating-plate dimensions are certain. Everything else about the AC was measur
 | `cad/print/` (`stl/`, zip, STEP, report), `docs/PRINTED_PARTS.md`, `bom/printed_parts.csv` | 3D-printed parts: one STL per piece in print orientation, plates, Bambu Studio settings, assembly, checks |
 | `firmware/` | ESPHome firmware: `sra16-node.yaml` (rack node), `sra16-hmi.yaml` + `hmi/ui.yaml` (touchscreen), `components/sra_control/` (control core), `test/` (unit tests), `preview/` (screens on a PC) |
 | `drawings/CP-SRA16-ELC-001.pdf` (+ `_s1..s5.svg`), `docs/ELECTRONICS.md`, `bom/electronics*.csv` | Control electronics, 5 × A3: system, node carrier schematic + board, touchscreen pod + harness + Modbus map, placement + cable routes, control logic + commissioning |
+| `docs/OFFICE_AIR.md`, `tools/office_air.py` | Office air: performance (duct losses vs fan curves), controls, parts, installation |
 | `docs/DESIGN.md` | Design basis: airflow, thermal, acoustics, drain, controls, build order, commissioning |
 | `renders/` | Renders + voxel airflow-zone sections |
 | `tools/` | Build, verify, draw, BOM and render scripts |
@@ -80,8 +82,8 @@ Override parameters on the command line, for example `python3 tools/build_cadque
 
 ## Verification
 
-- 0 interferences between the 164 solids.
-- All 10 airflow-zone checks pass: cold and hot zones are separate, and the condenser zone is on room air.
+- 0 interferences between the 174 solids.
+- All 12 airflow-zone checks pass: cold and hot zones are separate, the condenser zone is on room air, and the office supply draws from the cold side and returns to the hot side.
 - STEP round-trip volume matches exactly.
 - The Fusion script passes the stand-in API test. It has not yet been run in Fusion itself.
 - Weldment checks pass: every rail and upright welded at both ends, no rivnut clashes, valid STEP files.
@@ -96,8 +98,8 @@ Override parameters on the command line, for example `python3 tools/build_cadque
   - no clash with the rest of the rack with the collar down, raised on its keepers, or hanging with the AC out;
   - the fits to the AC spigot, the duct, the shelf opening and the rear-skin bolt holes are checked against the model.
 - Electronics checks pass:
-  - the control core's 105 unit checks;
-  - 18/18 checks in the thermal simulation (steady load, eco at light load, power cuts with and without mains detect, a failed compressor, a load step), driving the real control code;
+  - the control core's 156 unit checks;
+  - 26/26 checks in the thermal simulation (steady load, eco at light load, power cuts with and without mains detect, a failed compressor, a load step, office air with two fan options and rack-first with a weak AC), driving the real control code;
   - the node firmware's pins match the carrier schematic, and the Modbus map matches on both boards;
   - power budget, carrier fit in the node box; the touchscreen pod's bolt holes match the upper-door DXF;
   - both firmwares compile for the ESP32-S3 with ESPHome 2026.6.5.

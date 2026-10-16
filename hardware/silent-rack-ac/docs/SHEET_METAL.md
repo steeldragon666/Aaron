@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Drawing | CP-SRA16-SMP-001, 6 sheets (`drawings/CP-SRA16-SMP-001.pdf`) |
-| Generated | `tools/make_sheet_pack.py` from `rack_layout.py` v1.2.0 on 2026-10-01 |
+| Generated | `tools/make_sheet_pack.py` from `rack_layout.py` v1.3.0 on 2026-10-16 |
 | DXF | `cad/dxf/cut/` (cut geometry only), `cad/dxf/info/` (+ bend lines, ID etch, notes), `cad/dxf/nest/` (nested 1200x800 blanks), all zipped in `cad/dxf/SRA16_sheet_metal_DXF.zip` |
 | Size limit | every flat blank fits 1200 x 800 (checked) |
 | Skins | 1.2 mm steel, powder coated, 3 mm MLV bonded inside; the welded frame is unchanged |
@@ -17,6 +17,7 @@ The 15 mm ply skins are now laser-cut 1.2 mm steel. The frame and the inside of 
 - **Joint strips.** Each joint sits on a rail centreline with a 1 mm gap, and both skin edges have R4 notches round each strip screw. A 50 x 1.2 strip covers the joint and is screwed through the notches into the rail's rivnuts (detail J, sheet 5). The MLV behind stays one piece per side.
 - **Doors.** The doors are flat skins stiffened by a bonded 20 x 20 angle frame. The hinges and toggle latches are riveted through the skins, so the frame needs **no extra holes**.
 - **Acoustics.** 1.2 mm steel plus MLV weighs about as much as 15 mm ply plus MLV. It has no coincidence dip in the speech band, so the insertion loss is the same or slightly better.
+- **Rev B - office air.** SR3 (right side, top) gains two office air ports at 1320 mm above the floor: a D56 hole and 4 x D3.4 bolt holes on a 71.5 square for each. The supply port is in the front (cold) bay and the return port in the rear (hot) bay. See `docs/OFFICE_AIR.md`.
 
 ## Parts
 
@@ -27,7 +28,7 @@ The 15 mm ply skins are now laser-cut 1.2 mm steel. The frame and the inside of 
 | SL3 | 1 | Side skin left - top | Steel sheet (Zincanneal or CR4) | 1.2 | 1064.0 x 775.7 | 27 | 0 | left side, frame z 990.5-1766.2 above datum A |
 | SR1 | 1 | Side skin right - bottom | Steel sheet (Zincanneal or CR4) | 1.2 | 1064.0 x 446.5 | 13 | 0 | right side, frame z 0.0-446.5 above datum A |
 | SR2 | 1 | Side skin right - middle | Steel sheet (Zincanneal or CR4) | 1.2 | 1064.0 x 542.0 | 8 | 0 | right side, frame z 447.5-989.5 above datum A |
-| SR3 | 1 | Side skin right - top | Steel sheet (Zincanneal or CR4) | 1.2 | 1064.0 x 775.7 | 29 | 0 | right side, frame z 990.5-1766.2 above datum A |
+| SR3 | 1 | Side skin right - top | Steel sheet (Zincanneal or CR4) | 1.2 | 1064.0 x 775.7 | 39 | 0 | right side, frame z 990.5-1766.2 above datum A |
 | JS1 | 2 | Joint strip, side skins - mid rail | Steel sheet (Zincanneal or CR4) | 1.2 | 1064.0 x 50.0 | 5 | 0 | over the side-skin joint on the mid rail (right side: same part, flipped) |
 | JS2 | 2 | Joint strip, side skins - shelf rail | Steel sheet (Zincanneal or CR4) | 1.2 | 1064.0 x 50.0 | 7 | 0 | over the side-skin joint on the shelf rail (right side: same part, flipped) |
 | RP1 | 1 | Rear skin - bottom | Steel sheet (Zincanneal or CR4) | 1.2 | 622.4 x 989.5 | 19 | 0 | rear, frame z 0.0-989.5 above datum A |
@@ -59,6 +60,7 @@ The 15 mm ply skins are now laser-cut 1.2 mm steel. The frame and the inside of 
 | Rivet | D5 | 4.8 mm blind rivet: hinges, latch bases, keepers |
 | M5 | D5.5 | pull handles, exhaust spigot flange |
 | M4 | D4.5 | window clamp, cable grommet |
+| M3 | D3.4 | office air ports: fan + duct-spigot flange (SR3) |
 | Rail bolt | D7 | M6 through the 19in rail and rail spacer into the upright rivnut |
 | Tap M8 | D6.8 | castor pads (tap after cutting) |
 | Cage nut | 9.5 square | EIA-310, 3 per U |
@@ -72,6 +74,7 @@ The hardware holes suit the parts below. If yours differ, change `HW` in `rack_l
 - **Latches:** adjustable toggle latches, 4 off, riveted to the right-hand side skins. The hook engages the slot in the KB1 keeper on the door.
 - **Window:** 2 x 6 mm polycarbonate, 180 x 240, with a 10 mm EPDM spacer frame. Clamp the stack to the lower door with the WR1 frame and 8 x M4 x 35.
 - **Rear skin:** a D150 exhaust spigot (4 x M5 on PCD 190) and a 200 x 40 brush cable grommet.
+- **Office air ports (SR3):** a 80 mm PC fan's bolt square (71.5 mm) round each D56 duct hole. Printed sleeve, grille and duct spigot: `docs/PRINTED_PARTS.md` P9-P11.
 
 ## Nesting (1200 x 800 blanks)
 
@@ -97,6 +100,7 @@ The hardware holes suit the parts below. If yours differ, change `HW` in `rack_l
 3. **Side skins.**
    1. Fit the pieces bottom to top.
    2. Fit the JS strips over the joints with acoustic sealant under each strip edge.
+   3. Office air ports: fit them after the side skins (see `docs/OFFICE_AIR.md` for the full stack).
 4. **Rear skins.**
    1. Fit both pieces and the JR strip.
    2. Fit the exhaust spigot and the cable grommet.

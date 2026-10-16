@@ -3,10 +3,10 @@
 | | |
 |---|---|
 | Drawing | CP-SRA16-ELC-001, 5 sheets (`drawings/CP-SRA16-ELC-001.pdf`) |
-| Generated | `tools/make_electronics.py` on 2026-10-01, layout v1.2.0 |
+| Generated | `tools/make_electronics.py` on 2026-10-16, layout v1.3.0 |
 | Firmware | `firmware/sra16-node.yaml` (rack node), `firmware/sra16-hmi.yaml` (touchscreen), ESPHome 2026.6 |
-| Kit cost | about AUD 317 (+ AUD 33 options), indicative - `bom/electronics.csv` |
-| Power | 12 V, about 3.1 W typical, from a plug pack on the UPS-backed PDU |
+| Kit cost | about AUD 358 (+ AUD 71 options), indicative - `bom/electronics.csv` |
+| Power | 12 V, about 3.8 W typical, from a plug pack on the UPS-backed PDU |
 | Status | prototype; SELV only - nothing in the kit touches mains |
 
 ## What it does
@@ -50,6 +50,7 @@ Both were considered. For a controller sealed inside a rack the ESP32-S3 wins on
 - **Bus W1** - 4-core shielded cable: +12 V, 0 V, RS485 A/B at 19 200 baud, through a hinge loop with a GX16-4 plug so the lift-off door still lifts off.
 - **AC control** - a stick-on IR emitter over the AC's receiver, on a 3.5 mm socket in the bay so the AC still rolls out for its filters (unplug, roll, plug back).
 - **Shutdown** - relay K1 on the node gives a dry contact for a UPS or server input; Home Assistant sees the same request and can shut servers down over the network (NUT / ssh).
+- **Office air** (kit option) - a PWM fan in the right-hand side pushes cold-side air through a 60 mm duct into the next room; the room's air comes back into the hot side through a second duct. The node drives the fan from J11 (PWM + speed), reads the office from probe T7 in the return grille, and only serves the office while the rack is in hand. Performance and installation: `docs/OFFICE_AIR.md`.
 
 ## Kit parts
 
@@ -83,10 +84,15 @@ Both were considered. For a controller sealed inside a rack the ESP32-S3 wins on
 | Cables | loop | Spiral wrap 10 mm, adhesive cable-tie mounts, ties, heat shrink, ferrules |  | 1 | 14.00 | 14.00 |  |
 | Power | W8 | 12 V 2 A regulated plug pack, RCM, 5.5 x 2.1 | on the UPS-backed PDU | 1 | 25.00 | 25.00 |  |
 | Power | W8 | DC 5.5 x 2.1 extension 2 m + socket-to-terminal pigtail |  | 1 | 8.00 | 8.00 |  |
+| Office air | FAN | 80 mm 4-pin PWM fan, 12 V, stops at 0 % PWM | Noctua NF-A8 PWM (0.08 A); boost: Arctic P8 Max | 1 | 25.00 | 25.00 |  |
+| Office air | T7 | DS18B20 waterproof probe, 6 x 50 mm stainless, 3 m lead | office air, in the return wall grille P12 | 1 | 7.00 | 7.00 |  |
+| Office air | W9 | 4-pin PWM fan extension lead, 1 m | J11 to the supply fan | 1 | 6.00 | 6.00 |  |
+| Office air | J11, Q3, F2 | 4-pin fan header 2.54 mm, PN2222A, PTC 0.5 A, 2 x 1k, 2 x 10k, 1 nF | fan drive on the carrier | 1 | 3.00 | 3.00 |  |
 | Options | J10 | Mains detect: 5 V USB charger (RCM) + USB-A lead to bare ends | in a double adaptor on the AC's GPO | 1 | 15.00 | 15.00 | option |
+| Options | FAN2 | Second fan for push-pull, 4-pin Y-lead, 3 m 4-core lead | in the return sleeve; about 30 % more air (docs/OFFICE_AIR.md) | 1 | 38.00 | 38.00 | option |
 | Options | DO1 | 12 V LED beacon | on the alarm output | 1 | 18.00 | 18.00 | option |
 
-**Kit: about AUD 317**, options AUD 33. Indicative retail, Sept 2026 - the screws and magnets for P6/P7/P8 are in `docs/PRINTED_PARTS.md`.
+**Kit: about AUD 358**, options AUD 71. Indicative retail, Sept 2026 - the screws and magnets for P6/P7/P8 are in `docs/PRINTED_PARTS.md`.
 
 ## Rack node carrier (sheet 2)
 
@@ -102,6 +108,8 @@ Both were considered. For a controller sealed inside a rack the ESP32-S3 wins on
 | GPIO11 | LEAK | J8-1 (R9) | tray float switch, closes on water |
 | GPIO12 | MAINS | U5 collector | AC socket live: optocoupler pulls low |
 | GPIO13 | SD_RLY | Q2 base (R8) | SHUTDOWN relay K1 -> J3 |
+| GPIO14 | FAN_PWM | Q3 base (R15; R16 holds it on) | office fan PWM 25 kHz, open collector to J11-4 |
+| GPIO15 | FAN_TACH | J11-3 (R17; R18 10k to 3V3) | office fan speed, 2 pulses per turn |
 | GPIO17 | TXD | U2 DI/TXD | RS485 transmit (UART1, 19200 8N1) |
 | GPIO18 | RXD | U2 RO/RXD | RS485 receive |
 
@@ -117,6 +125,7 @@ Both were considered. For a controller sealed inside a rack the ESP32-S3 wins on
 | J8 | 2-way terminal 3.5 mm | LEAK / 0V | tray float switch (W5) |
 | J9 | 2-way terminal 3.5 mm | DOOR / 0V | lower door contact (W6) |
 | J10 | 2-way terminal 3.5 mm | 5V+ / 5V- | mains detect, optional (W2) |
+| J11 | 4-pin PC fan header, 2.54 mm | 0V / +12V / TACH / PWM | office air fan (W9); 2nd fan on a Y-lead |
 
 Build order: sockets for U1, then U3 and U2, then the terminal row. With U1 out, power J1 from 12 V and check +5 V and the 12 V on J2; then fit U1 and check +3V3. Keep the 12 V wiring on the left half of the board and the 1-Wire/I2C lines short and away from K1. U1's GPIOs are 3.3 V only.
 
@@ -145,6 +154,11 @@ Build order: sockets for U1, then U3 and U2, then the terminal row. With U1 out,
 | C2 | 100uF 10 V | 5 V bulk |
 | C3 | 4.7uF | U4 supply |
 | C4-C7 | 100nF | input filters, U2 decoupling |
+| Q3 | PN2222A | office fan PWM, open collector (J11-4) |
+| F2 | PTC 0.5 A hold | office fan 12 V (J11-2) |
+| R15, R17 | 1k | Q3 base; tach series |
+| R16, R18 | 10k | FAN_PWM pull-up (fan held off while the node boots); tach pull-up |
+| C8 | 1nF | tach filter |
 
 ## Touchscreen pod (sheet 3)
 
@@ -173,6 +187,8 @@ Build order: sockets for U1, then U3 and U2, then the terminal row. With U1 out,
 | POD | Touchscreen (P6) | 135 / -30 / 1505 | outside the upper door, 2 x M4 rivnuts |
 | HP | Hood port | 54 / 70 / 1045 | P1-1 left end, 25 mm membrane grommet |
 | HL | Hinge loop + GX16 | 40 / 50 / 1450 | 300 mm loop in spiral wrap, between the hinges |
+| OS | Office supply port | 603 / 99 / 1320 | sleeve P9 in the right lining, fan blowing out; W9 from J11 |
+| OR | Office return port | 603 / 951 / 1320 | office air back in; probe T7's lead (W10) comes in with it |
 
 Coordinates in mm: x from the left skin, y back from the front, z up from the floor.
 
@@ -186,6 +202,9 @@ Coordinates in mm: x from the left skin, y back from the front, z up from the fl
 | W6 | J9 (node) | lower door contact | 2-core 0.22 | 1.0 | hood port - under the hood's front edge |
 | W7 | J4 (node) | SHT41 cold side | 4-core 0.22 | 0.5 | up the front-left rail spacer, P8-1 clip at z 1300 |
 | W8 | J1 (node) | 12 V plug pack | DC lead + 2 m extension | 3.5 | PDU - (rear: down the return opening, bay, hood port) - bottom slot |
+| W9 | J11 (node) | office supply fan (P9, front plenum, right side) | 4-pin PWM fan extension | 1.0 | node box bottom slot - along the shelf's front edge to the right rail spacer - up its front face to z 1290 - into the supply sleeve through the notch at the bottom of its grille |
+| W10 | T7 office probe | J6 via W2, spliced at T5 | probe lead, 3 m | 3.0 | office: return wall grille P12 - inside the return duct - return sleeve slot (rear plenum, right) - along the rear plenum floor to the rear-left rail spacer - spliced into W2 with T4 and T5 |
+| W11 | Y-lead on W9 (option) | second fan, return sleeve | 4-core 0.22 | 3.0 | with W2: hood port - bay - the shelf's return opening - rear plenum floor - return sleeve (push-pull option) |
 
 Everything that goes from the front plenum into the bay passes through the hood port HP: the round hole in the left end of the printed cold hood (P1-1), fitted with a 25 mm membrane grommet - pierce one hole per cable so it stays sealed. From the bay, W2 reaches the rear plenum through the shelf's open return opening. No other holes are needed except the door's cable grommet (already in the DXF).
 
@@ -199,7 +218,7 @@ esphome run sra16-node.yaml           # USB-C on the DevKit the first time
 esphome run sra16-hmi.yaml            # USB-C on the panel the first time
 ```
 
-- `components/sra_control/sra_control.h` is the control core: plain C++ with no ESPHome dependency. It is unit-tested on a PC (`firmware/test/`, 105 checks, all pass) and driven by the thermal simulation.
+- `components/sra_control/sra_control.h` is the control core: plain C++ with no ESPHome dependency. It is unit-tested on a PC (`firmware/test/`, 156 checks, all pass) and driven by the thermal simulation.
 - `hmi/ui.yaml` holds the four LVGL screens; `preview/sra16-hmi-preview.yaml` runs them on a PC (SDL) with demo data - the screenshots above come from it.
 - Both devices appear in Home Assistant with every probe, the state, the alarms and the settings.
 
@@ -248,6 +267,10 @@ Test it with the shutdown limit temporarily lowered (commissioning step 8) befor
 | Not-cooling check | 15 min (3 min when hot) | then re-send, 3 times, then alarm |
 | Shutdown delay | 120 s | cold side above the limit before K1 closes |
 | IR send gap | >= 10 s | never floods the AC |
+| Office air | Auto (kit fitted) | Off / Auto / On (On ignores the office probe) |
+| Office target | 24 degC | calls above 24.5, satisfied below 23.5 |
+| Office supply | 18 degC | cold-side target while it calls; >= room dew point + 2 K |
+| Office fan | 30-100 % | over 2 K of call; 1.5 K colder than the office; 2 min run |
 
 | Bit | Alarm | When | Action |
 |---|---|---|---|
@@ -263,6 +286,18 @@ Test it with the shutdown limit temporarily lowered (commissioning step 8) befor
 | 9 | IT shutdown | critical for 120 s (latched) | K1 closes, beep |
 | 10 | AC socket dead | mains-detect input low | beep |
 | 11 | link | no screen heartbeat 60 s / node not answering | screen |
+| 12 | office fan | told to run, under 300 rpm for 60 s | screen |
+
+Office air (register 0x17):
+
+| State | Meaning |
+|---|---|
+| Off | office air switched off (or no office kit) |
+| Idle | auto: the office is at its target |
+| Cooling | the fan runs: cold-side air to the office, its air back to the hot side |
+| Waiting | the office calls; the cold side is not yet 1.5 K colder than it (or the fan rests) |
+| Rack first | the office calls, but the rack is warm (cold side 1.5 K over target), an alarm is up, or the AC is off by the user / without power |
+| No office probe | auto, but no reading from T7 |
 
 ## Modbus map (sheet 3)
 
@@ -284,22 +319,32 @@ Node = server 1, holding registers, RS485 19 200 8N1. Temperatures are 0.1 degC 
 | 0x0B | Rise across the servers | S16 | 0.1 K | R |
 | 0x0C | Setpoint sent | S16 | 0.1 degC | R |
 | 0x0D | State (0-8) | U16 | enum | R |
-| 0x0E | Alarm bits | U16 | bits 0-11 | R |
+| 0x0E | Alarm bits | U16 | bits 0-12 | R |
 | 0x0F | Flags | U16 | bits 0-8 | R |
 | 0x10 | Retries | U16 | count | R |
 | 0x11 | Uptime | U16 | min | R |
 | 0x12 | IR frames sent | U16 | count | R |
-| 0x13 | Firmware version | U16 | 100 = 1.0.0 | R |
+| 0x13 | Firmware version | U16 | 110 = 1.1.0 | R |
+| 0x14 | Office (T7) | S16 | 0.1 degC | R |
+| 0x15 | Office fan | U16 | % | R |
+| 0x16 | Office fan speed | U16 | rpm | R |
+| 0x17 | Office air state (0-5) | U16 | enum | R |
+| 0x18 | Cold-side target in use | S16 | 0.1 degC | R |
 | 0x20 | Mode: 0 auto, 1 on, 2 off | U16 | enum | R/W |
 | 0x21 | Intake target | S16 | 0.1 degC, 18-27 | R/W |
 | 0x22 | Eco allowed | U16 | 0/1 | R/W |
 | 0x23 | AC fan: 0 auto, 1 low, 2 high | U16 | enum | R/W |
 | 0x24 | Intake warning | S16 | 0.1 degC, 24-35 | R/W |
 | 0x25 | Shutdown limit | S16 | 0.1 degC, 28-40 | R/W |
+| 0x26 | Office air: 0 off, 1 auto, 2 on | U16 | enum | R/W |
+| 0x27 | Office target | S16 | 0.1 degC, 20-28 | R/W |
+| 0x28 | Office supply (cold side while it calls) | S16 | 0.1 degC, 16-22 | R/W |
+| 0x29 | Office fan maximum | U16 | %, 30-100 | R/W |
 | 0x30 | Upper door open (from the screen) | U16 | 0/1 | W |
 | 0x31 | Room temperature | S16 | 0.1 degC | W |
 | 0x32 | Command: 1 send IR now, 2 reset alarms | U16 |  | W |
 | 0x33 | Heartbeat | U16 | count | W |
+| 0x34 | Room humidity (from the screen) | S16 | 0.1 % | W |
 
 ## Commissioning
 
@@ -311,18 +356,19 @@ Node = server 1, holding registers, RS485 19 200 8N1. Temperatures are 0.1 degC 
 6. **Inputs.** Open each door: its dot turns amber within a second. Lift the float: 'Water in tray' after 5 s. If one reads backwards, add `inverted: true` to that input in the YAML.
 7. **Alarms.** Unplug a probe lead: 'probe missing' shows and the AC is forced on.
 8. **Shutdown.** Temporarily set the shutdown limit to 28 and warm T1/T2: K1 closes 120 s later. Only then wire J3 to the UPS or server input; reset with 'Reset alarms'.
-9. Leave it running for a day and check that the cold-side average sits at the target.
+9. **Office air.** Put T7's address in `t_office`. Warm T7 in your hand: 'Office air' shows Waiting, then Cooling once the cold side is 1.5 K colder than T7; the fan spins up and its speed shows. Unplug W9 while it runs: the 'office fan' alarm comes up a minute later.
+10. Leave it running for a day and check that the cold-side average sits at the target.
 
 ## Verification
 
 | Check | Result | Detail |
 |---|---|---|
-| control-core unit tests (g++ -Wall -Wextra -Werror) | OK | 105 checks passed, 0 failed |
-| thermal simulation with the real control core | OK | 18/18 scenario checks |
-| node firmware GPIOs = carrier nets | OK | firmware [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18], carrier [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18] |
-| Modbus map: node = this table, screen uses a subset | OK | 30 registers; the screen uses 29 (not: 0x13) |
-| carrier fits the node box P7 | OK | board 70x90 in P7; terminal row 66.5 of 70 mm; stack 22.4 of 26.5 mm |
-| power budget within the plug pack and the 5 V buck | OK | peak 0.50 A at 12 V (plug pack 2 A), 5 V rail 392 mA peak (U3 1 A); typical 3.1 W |
+| control-core unit tests (g++ -Wall -Wextra -Werror) | OK | 156 checks passed, 0 failed |
+| thermal simulation with the real control core | OK | 26/26 scenario checks |
+| node firmware GPIOs = carrier nets | OK | firmware [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18], carrier [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18] |
+| Modbus map: node = this table, screen uses a subset | OK | 40 registers; the screen uses 39 (not: 0x13) |
+| carrier fits the node box P7 | OK | board 70x90 in P7; terminal row 66.5 of 70 mm; stack 22.4 of 26.5 mm; no overlaps |
+| power budget within the plug pack and the 5 V buck | OK | peak 0.58 A at 12 V (plug pack 2 A), 5 V rail 392 mA peak (U3 1 A); typical 3.8 W |
 
 Simulation (`tools/sim_controller.py`, plot `renders/controls_sim.png`):
 
@@ -346,6 +392,14 @@ Simulation (`tools/sim_controller.py`, plot `renders/controls_sim.png`):
 | Compressor fails at 2 h (IT shuts down on request) | IT stopped before the cold side reached 38 degC | OK | cold side 36.5 degC when the IT stopped |
 | Load step 0.3 to 2.2 kW at 3 h, room 28 degC | AC on within 5 min of the step | OK | 3.0 min |
 | Load step 0.3 to 2.2 kW at 3 h, room 28 degC | cold side peak below the warning | OK | peak 20.0 degC |
+| Office air 1 x NF-A8 (rack 1.5 kW, office 30 degC uncooled) | office at least 1.0 K cooler | OK | office 28.6 degC, 1.4 K under its uncooled 30 |
+| Office air 1 x NF-A8 (rack 1.5 kW, office 30 degC uncooled) | rack pulled down for the office, never near its warning | OK | cold side averages 17.1 degC (target 18), max 24.8 |
+| Office air 1 x NF-A8 (rack 1.5 kW, office 30 degC uncooled) | no alarms once settled | OK | none |
+| Office air 2 x P8 Max push-pull (rack 1.5 kW, office 30 degC uncooled) | office at least 1.8 K cooler | OK | office 27.6 degC, 2.4 K under its uncooled 30 |
+| Office air 2 x P8 Max push-pull (rack 1.5 kW, office 30 degC uncooled) | rack pulled down for the office, never near its warning | OK | cold side averages 16.9 degC (target 18), max 24.7 |
+| Office air 2 x P8 Max push-pull (rack 1.5 kW, office 30 degC uncooled) | no alarms once settled | OK | none |
+| Office air rack first (AC capacity -40 % at 3 h, 2 x P8 Max) | office fan stopped whenever the rack ran warm | OK | 1.2 h over target + 1.5 K, fan on in 0; off 3.8 h of 5 |
+| Office air rack first (AC capacity -40 % at 3 h, 2 x P8 Max) | cold side peak below the warning | OK | peak 23.7 degC |
 
 ![Simulation](../renders/controls_sim.png)
 

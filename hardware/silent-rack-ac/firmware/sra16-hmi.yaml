@@ -15,7 +15,7 @@ esphome:
   friendly_name: ${friendly_name}
   project:
     name: carbonproject.sra16-hmi
-    version: "1.0.0"
+    version: "1.1.0"
   includes:
     - components/sra_control/sra_control.h
 
@@ -148,6 +148,12 @@ sensor:
   - {platform: modbus_controller, modbus_controller_id: node, id: n_retries, register_type: holding, address: 0x10, value_type: U_WORD, internal: true}
   - {platform: modbus_controller, modbus_controller_id: node, id: n_uptime, register_type: holding, address: 0x11, value_type: U_WORD, internal: true}
   - {platform: modbus_controller, modbus_controller_id: node, id: n_ir_count, name: IR frames sent, register_type: holding, address: 0x12, value_type: U_WORD, accuracy_decimals: 0, entity_category: diagnostic}
+  # office air (docs/OFFICE_AIR.md)
+  - {platform: modbus_controller, modbus_controller_id: node, id: n_office, name: Office, register_type: holding, address: 0x14, value_type: S_WORD, unit_of_measurement: "°C", device_class: temperature, accuracy_decimals: 1, filters: [{lambda: "return x == -32768 ? NAN : x / 10.0f;"}]}
+  - {platform: modbus_controller, modbus_controller_id: node, id: n_office_pct, name: Office fan, register_type: holding, address: 0x15, value_type: U_WORD, unit_of_measurement: "%", accuracy_decimals: 0}
+  - {platform: modbus_controller, modbus_controller_id: node, id: n_office_rpm, name: Office fan speed, register_type: holding, address: 0x16, value_type: U_WORD, unit_of_measurement: rpm, accuracy_decimals: 0}
+  - {platform: modbus_controller, modbus_controller_id: node, id: n_office_state, register_type: holding, address: 0x17, value_type: U_WORD, internal: true}
+  - {platform: modbus_controller, modbus_controller_id: node, id: n_target, name: Cold side target in use, register_type: holding, address: 0x18, value_type: S_WORD, unit_of_measurement: "°C", accuracy_decimals: 1, filters: [{lambda: "return x == -32768 ? NAN : x / 10.0f;"}]}
   - platform: sht4x
     temperature:
       id: room_t
@@ -178,11 +184,24 @@ select:
       "Auto": 0
       "Low": 1
       "High": 2
+  - platform: modbus_controller
+    modbus_controller_id: node
+    id: sel_office
+    name: Office air
+    address: 0x26
+    value_type: U_WORD
+    optionsmap:
+      "Off": 0
+      "Auto": 1
+      "On": 2
 
 number:
   - {platform: modbus_controller, modbus_controller_id: node, id: num_target, name: Intake target, address: 0x21, value_type: S_WORD, min_value: 18, max_value: 27, step: 0.5, multiply: 10, unit_of_measurement: "°C"}
   - {platform: modbus_controller, modbus_controller_id: node, id: num_warn, name: Intake warning, address: 0x24, value_type: S_WORD, min_value: 24, max_value: 35, step: 1, multiply: 10, unit_of_measurement: "°C", entity_category: config}
   - {platform: modbus_controller, modbus_controller_id: node, id: num_crit, name: Intake shutdown limit, address: 0x25, value_type: S_WORD, min_value: 28, max_value: 40, step: 1, multiply: 10, unit_of_measurement: "°C", entity_category: config}
+  - {platform: modbus_controller, modbus_controller_id: node, id: num_office_target, name: Office target, address: 0x27, value_type: S_WORD, min_value: 20, max_value: 28, step: 0.5, multiply: 10, unit_of_measurement: "°C"}
+  - {platform: modbus_controller, modbus_controller_id: node, id: num_office_supply, name: Office supply air, address: 0x28, value_type: S_WORD, min_value: 16, max_value: 22, step: 0.5, multiply: 10, unit_of_measurement: "°C", entity_category: config}
+  - {platform: modbus_controller, modbus_controller_id: node, id: num_office_fan_max, name: Office fan maximum, address: 0x29, value_type: U_WORD, min_value: 30, max_value: 100, step: 5, unit_of_measurement: "%", entity_category: config}
 
 switch:
   - platform: modbus_controller
@@ -239,6 +258,7 @@ binary_sensor:
   - {platform: template, name: "Alarm: probe missing", device_class: problem, lambda: "return ((int) id(n_alarms).state) & sra::AL_SENSOR;"}
   - {platform: template, name: "Alarm: condensation risk", device_class: moisture, lambda: "return ((int) id(n_alarms).state) & sra::AL_CONDENSATION;"}
   - {platform: template, name: "Alarm: AC socket dead", device_class: power, lambda: "return ((int) id(n_alarms).state) & sra::AL_NO_POWER;"}
+  - {platform: template, name: "Alarm: office fan", device_class: problem, lambda: "return ((int) id(n_alarms).state) & sra::AL_OFFICE_FAN;"}
   - platform: template
     id: shutdown_request
     name: IT shutdown request
@@ -249,6 +269,10 @@ text_sensor:
   - platform: template
     name: Cooling state
     lambda: "return std::string(sra::state_name((uint8_t) id(n_state).state));"
+    update_interval: 5s
+  - platform: template
+    name: Office air state
+    lambda: "return std::string(sra::office_state_name((uint8_t) id(n_office_state).state));"
     update_interval: 5s
   - platform: wifi_info
     ip_address:
@@ -289,7 +313,8 @@ script:
             - delay: 180ms
 
 interval:
-  # tell the node about the upper door and the room; the write also serves as its heartbeat
+  # tell the node about the upper door and the room (the humidity guards the office grille against
+  # condensation); the write also serves as its heartbeat
   - interval: 5s
     then:
       - lambda: |-
@@ -297,6 +322,7 @@ interval:
           using MCI = modbus_controller::ModbusCommandItem;
           c->queue_command(MCI::create_write_single_command(c, 0x30, id(door_upper).state ? 1 : 0));
           c->queue_command(MCI::create_write_single_command(c, 0x31, (uint16_t) sra::t10(id(room_t).state)));
+          c->queue_command(MCI::create_write_single_command(c, 0x34, (uint16_t) sra::t10(id(room_rh).state)));
           c->queue_command(MCI::create_write_single_command(c, 0x33, ++id(g_beat)));
   # buzzer: beep on a new serious alarm, then every minute until silenced or cleared
   - interval: 2s

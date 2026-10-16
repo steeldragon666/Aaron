@@ -12,6 +12,10 @@ Model (1 s steps):
   m = loop air flow (W/K): the AC fan when it runs, else the server fans.
   The AC has its own thermostat on its return air (Th) with hysteresis and a 3-minute restart
   delay, accepts IR frames only while powered, and comes back from a power cut in standby.
+  Office air (optional): the office fan takes m_o (W/K, in proportion to its PWM) from the cold volume
+  through the office and back into the hot volume; the servers get m - m_o:
+  office                             C_o dTo/dt = m_o (Tc - To) + Q_o + UA_o (T_out - To)
+  hot volume, with the office return C_h dTh/dt = (m - m_o) T_x + m_o To - m Th + UA_h (T_room - Th)
 
 Usage:  python3 tools/sim_controller.py [--plot renders/controls_sim.png] [--json firmware/test/sim_report.json]
 Exit code 1 if any scenario check fails.
@@ -35,7 +39,8 @@ MODE = {"AUTO": 0, "ON": 1, "OFF": 2}
 FAN_AUTO, FAN_LOW, FAN_HIGH = 0, 1, 2
 STATES = ["Starting", "Cooling", "Idle", "On", "Eco off", "Off", "Not cooling", "No AC power", "CRITICAL"]
 ALARMS = ["cold warn", "cold critical", "hot warn", "not cooling", "leak", "door", "sensor", "condensation",
-          "override", "shutdown", "no AC power", "link"]
+          "override", "shutdown", "no AC power", "link", "office fan"]
+OFFICE = {"OFF": 0, "AUTO": 1, "ON": 2}
 
 
 class Settings(C.Structure):
@@ -47,20 +52,25 @@ class Settings(C.Structure):
                 ("trim_s", C.c_uint32), ("trim_fast_s", C.c_uint32), ("trim_band", C.c_float),
                 ("verify_s", C.c_uint32), ("verify_hot_s", C.c_uint32), ("max_retries", C.c_uint8),
                 ("door_alarm_s", C.c_uint32), ("crit_delay_s", C.c_uint32), ("mains_delay_s", C.c_uint32),
-                ("min_send_gap_s", C.c_uint32)]
+                ("min_send_gap_s", C.c_uint32),
+                ("office_mode", C.c_uint8), ("office_target", C.c_float), ("office_band", C.c_float),
+                ("office_supply", C.c_float), ("office_dt_min", C.c_float), ("office_span", C.c_float),
+                ("office_fan_min", C.c_uint8), ("office_fan_max", C.c_uint8), ("office_block_dt", C.c_float),
+                ("office_min_s", C.c_uint32), ("office_rpm_min", C.c_float), ("office_fan_alarm_s", C.c_uint32)]
 
 
 class Inputs(C.Structure):
     _fields_ = [("cold", C.c_float), ("hot", C.c_float), ("supply", C.c_float), ("ret", C.c_float),
                 ("exhaust", C.c_float), ("room", C.c_float), ("rh_cold", C.c_float),
-                ("door_open", C.c_bool), ("leak", C.c_bool), ("mains", C.c_bool)]
+                ("door_open", C.c_bool), ("leak", C.c_bool), ("mains", C.c_bool),
+                ("office", C.c_float), ("office_rpm", C.c_float), ("rh_room", C.c_float)]
 
 
 class Outputs(C.Structure):
     _fields_ = [("ac_on", C.c_bool), ("setpoint", C.c_float), ("fan", C.c_uint8), ("send", C.c_bool),
                 ("state", C.c_uint8), ("alarms", C.c_uint16), ("shutdown", C.c_bool), ("cooling", C.c_int8),
                 ("eco", C.c_bool), ("retries", C.c_uint8), ("dew_point", C.c_float), ("cold_avg", C.c_float),
-                ("load_dt", C.c_float)]
+                ("load_dt", C.c_float), ("office_pct", C.c_uint8), ("office_state", C.c_uint8), ("target", C.c_float)]
 
 
 def load_lib():
@@ -90,12 +100,30 @@ P = dict(
     c_cold=25e3, c_hot=60e3,    # heat capacity of the cold and hot volumes incl. IT metal (J/K)
     ua_cold=2.0, ua_hot=5.0,    # lined walls to the room (W/K)
     th_band=0.5, restart_s=180, min_run_s=60,   # the AC's own thermostat
+    c_office=300e3, ua_office=40.0,             # a small office: air, furniture and wall surfaces; envelope (W/K)
+    q_office=120.0, t_out=27.0,                 # its own gains (a person, a PC, lights); its surroundings
+    rpm_office=2200.0,                          # office fan speed at 100 % PWM (tach)
 )
 
 
+def office_flow_wk():
+    """Office loop flow (W/K) at 100 % PWM for each fan option, from tools/office_air.py (1 m ducts)."""
+    out = {"nf-a8": 5.16, "p8maxx2": 9.75}
+    try:
+        rep = json.load(open(os.path.join(ROOT, "cad", "exports", "office_air_report.json")))
+        for k in out:
+            out[k] = rep["systems"]["1.0 m"]["fans"][k]["w_per_k"]
+    except (OSError, KeyError, ValueError):
+        pass
+    return out
+
+
 class Rack:
-    def __init__(self, room, q_it, mains_input=False, resume_on_power=False, seed=1):
+    def __init__(self, room, q_it, mains_input=False, resume_on_power=False, seed=1, office_wk=0.0):
         self.room, self.q_it = room, q_it
+        self.office_wk, self.office_pct = office_wk, 0          # office loop flow at 100 % (W/K), fan command
+        self.eps = P["eps"]                                     # coil effectiveness (drops with a dirty filter)
+        self.to = P["t_out"] + P["q_office"] / P["ua_office"]   # the office starts where it sits uncooled
         self.tc = self.th = self.sup = room + 2.0
         self.tx, self.exh = room + 2.0, room
         self.power, self.on, self.sp, self.fan = True, False, 24, FAN_AUTO
@@ -126,12 +154,14 @@ class Rack:
                 self.comp, self.t_comp = True, self.t
         elif self.comp:
             self.comp, self.t_comp = False, self.t
-        q_ac = max(0.0, p["eps"] * m * (self.th - p["t_evap"])) if self.comp else 0.0
+        q_ac = max(0.0, self.eps * m * (self.th - p["t_evap"])) if self.comp else 0.0
         q_fan = p["q_fan"] if fan_runs else 0.0
-        self.tx = self.tc + self.q_it / m
+        mo = min(self.office_wk * self.office_pct / 100.0, 0.5 * m)
+        self.tx = self.tc + self.q_it / (m - mo)
         t_sup = self.th - (q_ac - q_fan) / m
-        self.th += (m * (self.tx - self.th) + p["ua_hot"] * (self.room - self.th)) / p["c_hot"]
+        self.th += ((m - mo) * self.tx + mo * self.to - m * self.th + p["ua_hot"] * (self.room - self.th)) / p["c_hot"]
         self.tc += (m * (t_sup - self.tc) + p["ua_cold"] * (self.room - self.tc)) / p["c_cold"]
+        self.to += (mo * (self.tc - self.to) + p["q_office"] + p["ua_office"] * (p["t_out"] - self.to)) / p["c_office"]
         self.sup += (t_sup - self.sup) / 20.0
         ex_target = self.room + ((q_ac + p["p_comp"]) / p["m_cond"] if self.comp else (1.0 if fan_runs else 0.0))
         self.exh += (ex_target - self.exh) / 90.0
@@ -139,13 +169,16 @@ class Rack:
 
     def inputs(self):
         n = lambda: self.rng.gauss(0.0, 0.05)
+        office = self.to + n() if self.office_wk else float("nan")
+        rpm = P["rpm_office"] * self.office_pct / 100.0 if self.office_wk else float("nan")
         return Inputs(cold=self.tc + n(), hot=self.tx + n(), supply=self.sup + n(), ret=self.th + n(),
                       exhaust=self.exh + n(), room=self.room, rh_cold=40.0, door_open=False, leak=False,
-                      mains=self.power if self.mains_input else True)
+                      mains=self.power if self.mains_input else True, office=office, office_rpm=rpm, rh_room=50.0)
 
 
 # ---------------------------------------------------------------- scenarios
 def run(lib, name, hours, room, q_it, events=(), settings=None, **rack_kw):
+    # rack_kw: mains_input, resume_on_power, seed, office_wk
     rack = Rack(room, q_it, **rack_kw)
     ctl = lib.sra_new()
     s = Settings()
@@ -156,7 +189,7 @@ def run(lib, name, hours, room, q_it, events=(), settings=None, **rack_kw):
     out = Outputs()
     ev = sorted(events, key=lambda e: e[0])
     rec = {k: [] for k in ("t", "cold", "hot", "ret", "sup", "sp", "on", "comp", "state", "alarms", "exh",
-                           "cold_avg")}
+                           "cold_avg", "office", "office_pct", "target")}
     sends, alarm_first, shutdown_at, shut_it = [], OrderedDict(), None, None
     for t in range(int(hours * 3600)):
         while ev and ev[0][0] * 3600 <= t:
@@ -164,6 +197,7 @@ def run(lib, name, hours, room, q_it, events=(), settings=None, **rack_kw):
         if t % 5 == 0:
             inp = rack.inputs()
             lib.sra_step(ctl, C.byref(inp), t, C.byref(out))
+            rack.office_pct = out.office_pct
             if out.send:
                 sends.append(t)
                 rack.receive(out)
@@ -179,7 +213,8 @@ def run(lib, name, hours, room, q_it, events=(), settings=None, **rack_kw):
             for k, v in (("t", t), ("cold", rack.tc), ("hot", rack.tx), ("ret", rack.th), ("sup", rack.sup),
                          ("sp", out.setpoint), ("on", int(rack.power and rack.on)), ("comp", int(rack.comp)),
                          ("state", out.state), ("alarms", out.alarms), ("exh", rack.exh),
-                         ("cold_avg", out.cold_avg)):
+                         ("cold_avg", out.cold_avg), ("office", rack.to if rack.office_wk else float("nan")),
+                         ("office_pct", out.office_pct), ("target", out.target)):
                 rec[k].append(v)
     lib.sra_free(ctl)
     return {"name": name, "rec": rec, "sends": sends, "alarm_first": alarm_first, "shutdown_at": shutdown_at,
@@ -282,7 +317,57 @@ def scenarios(lib):
         "%.1f min" % ((on_t - 3 * 3600) / 60.0) if on_t is not None else "never")
     chk(r["name"], "cold side peak below the warning", max(c) < r["settings"].warn_cold, "peak %.1f degC" % max(c))
     res.append(r)
+
+    # 6, 7 office air: what two 60 mm ducts deliver to a warm office next to the rack (fan options from
+    # tools/office_air.py); the office never reaches its 24 degC target, so the fan runs flat out
+    wk = office_flow_wk()
+    hot_office = P["t_out"] + P["q_office"] / P["ua_office"]
+    for key, label, need in (("nf-a8", "1 x NF-A8", 1.0), ("p8maxx2", "2 x P8 Max push-pull", 1.8)):
+        r = run(lib, "Office air %s (rack 1.5 kW, office %.0f degC uncooled)" % (label, hot_office), 8, 26.0,
+                1500.0, settings={"office_mode": OFFICE["AUTO"]}, office_wk=wk[key])
+        to = window(r, 6 * 3600, 8 * 3600, "office")
+        c = window(r, 2 * 3600, 8 * 3600, "cold")
+        drop = hot_office - mean(to)
+        chk(r["name"], "office at least %.1f K cooler" % need, drop >= need,
+            "office %.1f degC, %.1f K under its uncooled %.0f" % (mean(to), drop, hot_office))
+        chk(r["name"], "rack pulled down for the office, never near its warning",
+            15.5 <= mean(c) <= 20.5 and max(c) < r["settings"].warn_cold,
+            "cold side averages %.1f degC (target %.0f), max %.1f" % (mean(c), r["settings"].office_supply, max(c)))
+        late = [a for a, t in r["alarm_first"].items() if t > 1800]
+        chk(r["name"], "no alarms once settled", not late, ", ".join(late) or "none")
+        r["office_drop"] = drop
+        res.append(r)
+
+    # 8 rack first: the AC loses capacity (dirty filter, low gas); the office loses its air while the rack is warm
+    def weak(k):
+        k.eps = 0.40
+    r = run(lib, "Office air rack first (AC capacity -40 % at 3 h, 2 x P8 Max)", 8, 26.0, 1500.0,
+            events=[(3.0, weak)], settings={"office_mode": OFFICE["AUTO"]}, office_wk=wk["p8maxx2"])
+    s_ = r["settings"]
+    rec = r["rec"]
+    warm = [i for i, (t, ca) in enumerate(zip(rec["t"], rec["cold_avg"]))
+            if t > 3 * 3600 and ca > s_.target + s_.office_block_dt + 0.05]
+    leaks = [rec["t"][i] for i in warm if rec["office_pct"][i] > 0]
+    off = sum(1 for t, p_ in zip(rec["t"], rec["office_pct"]) if t > 3 * 3600 and p_ == 0) * 10 / 3600.0
+    c = window(r, 3 * 3600, 8 * 3600, "cold")
+    chk(r["name"], "office fan stopped whenever the rack ran warm", len(warm) > 30 and not leaks,
+        "%.1f h over target + %.1f K, fan on in %d; off %.1f h of 5" % (
+            len(warm) * 10 / 3600.0, s_.office_block_dt, len(leaks), off))
+    chk(r["name"], "cold side peak below the warning", max(c) < s_.warn_cold, "peak %.1f degC" % max(c))
+    res.append(r)
     return res, checks
+
+
+def runs(flags):
+    """Index ranges (i0, i1) where flags is true."""
+    out, i0 = [], None
+    for i, f in enumerate(list(flags) + [False]):
+        if f and i0 is None:
+            i0 = i
+        elif not f and i0 is not None:
+            out.append((i0, i))
+            i0 = None
+    return out
 
 
 # ---------------------------------------------------------------- plot
@@ -306,6 +391,10 @@ def plot(res, path):
         ax.plot(h, rec["cold_avg"], color="#14365e", lw=1.2, label="cold side, 10-min average")
         ax.plot(h, rec["sup"], color="#56b4c9", lw=0.8, ls="--", label="AC supply")
         ax.step(h, rec["sp"], color="#222", lw=0.9, where="post", label="AC setpoint (sent by IR)")
+        if any(v == v for v in rec["office"]):            # office air scenarios: office temperature, fan strip
+            ax.plot(h, rec["office"], color="#6250d6", lw=1.3, label="office (probe T7)")
+            for i0, i1 in runs(p > 0 for p in rec["office_pct"]):
+                ax.axvspan(h[i0], h[min(i1, len(h) - 1)], ymin=0.0, ymax=0.045, color="#6250d6", alpha=0.55, lw=0)
         s = r["settings"]
         ax.axhline(s.target, color="#2f6fb5", lw=0.6, ls=":")
         ax.axhline(s.warn_cold, color="#d08b00", lw=0.6, ls=":")
@@ -322,7 +411,11 @@ def plot(res, path):
         ax.set_title(r["name"], fontsize=10, loc="left")
         ax.grid(alpha=0.25)
     axs[0].legend(loc="upper right", fontsize=7, ncol=3)
-    axs[-1].set_xlabel("hours   (blue band: compressor running; grey: AC off; triangles: IR sent; red: alarms)")
+    axs[-1].set_xlabel("hours   (blue band: compressor running; grey: AC off; violet strip: office fan; "
+                       "triangles: IR sent; red: alarms)")
+    for ax, r in zip(axs, res):
+        if any(v == v for v in r["rec"]["office"]):
+            ax.legend(loc="upper right", fontsize=7, ncol=4)
     fig.suptitle("CP-SRA16-ELC-001 - rack controller in a thermal model of the SRA-16 loop", fontsize=12)
     fig.tight_layout(rect=(0, 0, 1, 0.98))
     fig.savefig(path, dpi=100)

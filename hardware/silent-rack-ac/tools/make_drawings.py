@@ -378,7 +378,8 @@ def main():
         "6. Drip tray 1.2 SS full bay floor; AC drain + tray -> 16 mm hose, fall",
         "   to floor waste or condensate pump. Leak sensor in tray.",
         "7. 19in rails EIA-310, %.0f mm rail spacing; blank all unused RU." % D["rail_spacing"],
-        "8. External %.1f W x %.1f D x %.1f H (+ handles 36, spigot 60)." % (W, DP, H),
+        "8. External %.1f W x %.1f D x %.1f H (+ handles 36, spigot 60%s)." % (
+            W, DP, H, ", office spigots 48 + ducts on the right" if D["office"] else ""),
     ]
     for i, t in enumerate(notes):
         sh.text(lx, 146 + i * 3.35, t, size=2.05 if i else 2.6, weight="bold" if i == 0 else "normal")

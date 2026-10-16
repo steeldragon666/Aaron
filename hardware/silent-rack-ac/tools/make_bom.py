@@ -41,6 +41,7 @@ ELC_GROUPS = OrderedDict([             # one purchase line per group of bom/elec
     ("AC control", "AC control: stick-on IR emitter + 3.5 mm socket lead"),
     ("Cables", "Cables: door bus + GX16, 8-core rear harness, leads, grommets, spiral wrap"),
     ("Power", "Power: 12 V 2 A plug pack (RCM) + DC extension"),
+    ("Office air", "Office air: 80 mm PWM fan, office probe T7, fan lead W9, fan drive on the carrier"),
 ])
 PRT_WASTE = 1.15                       # filament bought per kg printed: brims, purge, one failed start
 
@@ -216,7 +217,7 @@ def main():
     mass["Seals, ducts, hardware (est.)"] += 9.0
     mass["Steel skins, doors, strips, skirts (%s)" % SMP.DOC_NO] = sm_mass["steel"]
     mass["Stainless drip tray DT1 (1.2 mm)"] = sm_mass["tray"]
-    mass["3D-printed hood, collar, elbow, wall spigot (%s)" % PRT_DOC] = prt["installed_mass_g"] / 1000.0
+    mass["3D-printed hood, elbow, spigots, mounts, office ports (%s)" % PRT_DOC] = prt["installed_mass_g"] / 1000.0
     mass["Welded steel frame, %s (weldment)" % wm["sec_shs"]] = wt["mass_weldment_kg"]
     mass["Rail spacers RS1 (SHS, bolted)"] = wt["mass_spacers_kg"]
     cabinet_kg = sum(mass.values())
@@ -301,6 +302,13 @@ def main():
     add("Rack", "Cage nuts + M6 screws (pack 50)", 1, "pack", 18.0, "")
     add("Rack", "1U tool-less blanking panels", 8, "ea", 7.0, "fill all unused RU")
     add("Rack", "0U / 1U PDU 8-way 10 A", 1, "ea", 120.0, "IT load only - AC on its own GPO")
+    if D["office"]:                                   # office air ports (docs/OFFICE_AIR.md)
+        add("Office air", "Flexible duct %g mm + hose clamp, supply and return runs" % D["office_duct_d"], 2, "run",
+            0.0, "owner supplied; insulated acoustic flex recommended")
+        add("Office air", "M3 x 50 socket head A2 + nyloc + 2 washers", 8, "set", 0.60, "4 per port (P10-P11)")
+        add("Office air", "Closed-cell foam tape 2 mm (fan gasket) and 3 mm (flange gaskets)", 1, "set", 8.0, "")
+        add("Office air", "Wall plugs + 4 mm x 30 countersunk screws, cable ties", 1, "set", 6.0,
+            "office wall grilles P12; 70-76 mm hole saw for the wall")
     for g, desc in ELC_GROUPS.items():
         add("Controls", desc, 1, "set", round(elc[g], 2), "%s, bom/electronics.csv" % ELC_DOC)
     add("Consumables", "Screws (M5 handles, M4 grommet), foil tape, cable ties, labels", 1, "lot", 80.0, "")
@@ -341,23 +349,25 @@ def main():
     for pl in prt["plates"]:
         pl_mats[pl["material"]] = pl_mats.get(pl["material"], 0) + 1
     md += ["", "## 3D-printed parts (%s)" % PRT_DOC, "",
-           "Cold-air hood, drop collar and keepers in PETG; exhaust elbow and wall spigot in ASA. Sectioned for the "
-           "%s, STLs and settings in `cad/print/` and `docs/PRINTED_PARTS.md`." % prt["printer"].upper(), "",
+           "Cold-air hood, drop collar, keepers, electronics mounts and the office air ports in PETG; exhaust elbow, "
+           "wall spigot and the fit gauges in ASA. Sectioned for the %s, STLs and settings in `cad/print/` and "
+           "`docs/PRINTED_PARTS.md`." % prt["printer"].upper(), "",
            "| Quantity | Value |", "|---|---:|",
-           "| Pieces (incl. 2 fit gauges) | %d |" % sum(t["pieces"] for t in prt["totals"].values()),
+           "| Pieces (incl. fit gauges) | %d |" % sum(t["pieces"] for t in prt["totals"].values()),
            "| Plates | %d (%s) |" % (len(prt["plates"]), ", ".join("%d %s" % (n, m) for m, n in pl_mats.items()))]
     for m, t in prt["totals"].items():
         md.append("| %s printed | %.2f kg, about %.0f h |" % (m, t["mass_g"] / 1000.0, t["hours"]))
     md += ["| Internal duct | cut to %.0f mm |" % prt["duct"]["length"]]
     md += ["", "## Control electronics (%s)" % ELC_DOC, "",
            "ESP32-S3 rack node with 6 temperature probes and IR control of the AC, plus a 4.3 inch touchscreen "
-           "on the upper door, joined by RS485. Parts in `bom/electronics.csv`, wiring in `drawings/%s.pdf`, "
-           "build and commissioning in `docs/ELECTRONICS.md`." % ELC_DOC, "",
+           "on the upper door, joined by RS485; the office air kit adds a PWM fan and an office probe. Parts in "
+           "`bom/electronics.csv`, wiring in `drawings/%s.pdf`, build and commissioning in "
+           "`docs/ELECTRONICS.md`." % ELC_DOC, "",
            "| Group | AUD |", "|---|---:|"]
     for g, v in elc.items():
         md.append("| %s | %.0f |" % (g, v))
     md += ["| **Kit** | **%.0f** |" % sum(elc.values()),
-           "| Options, not in the total (mains detect, beacon) | %.0f |" % elc_opt]
+           "| Options, not in the total (mains detect, beacon, push-pull fan) | %.0f |" % elc_opt]
     md += ["", "## Frame and profiles", "",
            "The frame is welded %s: cut list, weld plan and drawings are in `docs/FRAME_WELD_PLAN.md` and "
            "`drawings/%s.pdf` (weldment %.1f kg, %d SHS bars)." % (

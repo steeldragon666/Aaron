@@ -165,48 +165,59 @@
 <text x="278.00" y="93.50" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">SR3  x1</text>
 <text x="298.00" y="93.50" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Side skin right - top</text>
 <text x="278.00" y="97.10" font-size="1.70" text-anchor="start" font-weight="normal" fill="#5b6168">Steel sheet (Zincanneal or CR4) 1.2 - powder coat RAL 7035 both sides</text>
-<path d="M316.90 142.94 L320.20 142.94 L320.22 142.87 L320.27 142.82 L320.33 142.78 L320.40 142.77 L320.47 142.78 L320.53 142.82 L320.58 142.87 L320.60 142.94 L331.75 142.94 L331.77 142.87 L331.82 142.82 L331.88 142.78 L331.95 142.77 L332.02 142.78 L332.08 142.82 L332.13 142.87 L332.15 142.94 L343.30 142.94 L343.32 142.87 L343.37 142.82 L343.43 142.78 L343.50 142.77 L343.57 142.78 L343.63 142.82 L343.68 142.87 L343.70 142.94 L354.85 142.94 L354.87 142.87 L354.92 142.82 L354.98 142.78 L355.05 142.77 L355.12 142.78 L355.18 142.82 L355.23 142.87 L355.25 142.94 L366.40 142.94 L366.42 142.87 L366.47 142.82 L366.53 142.78 L366.60 142.77 L366.67 142.78 L366.73 142.82 L366.78 142.87 L366.80 142.94 L370.10 142.94 L370.10 104.16 L316.90 104.16 Z" fill="#eef1f4" stroke="#15181c" stroke-width="0.25" stroke-linejoin="round"/>
-<circle cx="317.65" cy="142.29" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="317.65" cy="130.25" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="317.65" cy="118.20" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="317.65" cy="106.16" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="369.35" cy="142.29" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="369.35" cy="130.25" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="369.35" cy="118.20" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="369.35" cy="106.16" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="320.40" cy="104.91" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="331.95" cy="104.91" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="343.50" cy="104.91" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="355.05" cy="104.91" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="366.60" cy="104.91" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="325.65" cy="140.22" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="325.65" cy="129.36" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="325.65" cy="118.51" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="325.65" cy="107.66" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="359.15" cy="140.22" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="359.15" cy="129.36" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="359.15" cy="118.51" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="359.15" cy="107.66" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="319.30" cy="136.72" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="319.30" cy="135.82" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="320.70" cy="136.72" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="320.70" cy="135.82" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="319.30" cy="112.63" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="319.30" cy="111.73" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="320.70" cy="112.63" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="320.70" cy="111.73" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<line x1="316.90" y1="143.74" x2="316.90" y2="147.74" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
-<line x1="370.10" y1="143.74" x2="370.10" y2="147.74" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
-<line x1="316.90" y1="146.54" x2="370.10" y2="146.54" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
-<text x="343.50" y="149.14" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c">1064.0</text>
-<line x1="316.10" y1="104.16" x2="312.50" y2="104.16" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
-<line x1="316.10" y1="142.94" x2="312.50" y2="142.94" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
-<line x1="313.70" y1="104.16" x2="313.70" y2="142.94" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
-<text x="312.80" y="123.55" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 312.80 123.55)">775.7</text>
+<path d="M316.90 141.64 L320.20 141.64 L320.22 141.57 L320.27 141.52 L320.33 141.48 L320.40 141.47 L320.47 141.48 L320.53 141.52 L320.58 141.57 L320.60 141.64 L331.75 141.64 L331.77 141.57 L331.82 141.52 L331.88 141.48 L331.95 141.47 L332.02 141.48 L332.08 141.52 L332.13 141.57 L332.15 141.64 L343.30 141.64 L343.32 141.57 L343.37 141.52 L343.43 141.48 L343.50 141.47 L343.57 141.48 L343.63 141.52 L343.68 141.57 L343.70 141.64 L354.85 141.64 L354.87 141.57 L354.92 141.52 L354.98 141.48 L355.05 141.47 L355.12 141.48 L355.18 141.52 L355.23 141.57 L355.25 141.64 L366.40 141.64 L366.42 141.57 L366.47 141.52 L366.53 141.48 L366.60 141.47 L366.67 141.48 L366.73 141.52 L366.78 141.57 L366.80 141.64 L370.10 141.64 L370.10 102.86 L316.90 102.86 Z" fill="#eef1f4" stroke="#15181c" stroke-width="0.25" stroke-linejoin="round"/>
+<circle cx="317.65" cy="140.99" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="317.65" cy="128.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="317.65" cy="116.90" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="317.65" cy="104.86" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="369.35" cy="140.99" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="369.35" cy="128.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="369.35" cy="116.90" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="369.35" cy="104.86" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="320.40" cy="103.61" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="331.95" cy="103.61" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="343.50" cy="103.61" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="355.05" cy="103.61" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="366.60" cy="103.61" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="325.65" cy="138.92" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="325.65" cy="128.06" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="325.65" cy="117.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="325.65" cy="106.36" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="359.15" cy="138.92" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="359.15" cy="128.06" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="359.15" cy="117.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="359.15" cy="106.36" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="319.30" cy="135.42" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="319.30" cy="134.52" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="320.70" cy="135.42" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="320.70" cy="134.52" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="319.30" cy="111.33" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="319.30" cy="110.43" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="320.70" cy="111.33" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="320.70" cy="110.43" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="321.65" cy="130.17" r="1.40" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="319.86" cy="131.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="319.86" cy="128.38" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="323.44" cy="131.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="323.44" cy="128.38" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="364.25" cy="130.17" r="1.40" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="362.46" cy="131.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="362.46" cy="128.38" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="366.04" cy="131.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="366.04" cy="128.38" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<line x1="316.90" y1="142.44" x2="316.90" y2="146.44" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="370.10" y1="142.44" x2="370.10" y2="146.44" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="316.90" y1="145.24" x2="370.10" y2="145.24" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
+<text x="343.50" y="147.84" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c">1064.0</text>
+<line x1="316.10" y1="102.86" x2="312.50" y2="102.86" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="316.10" y1="141.64" x2="312.50" y2="141.64" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="313.70" y1="102.86" x2="313.70" y2="141.64" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
+<text x="312.80" y="122.25" font-size="1.70" text-anchor="middle" font-weight="normal" fill="#15181c" transform="rotate(-90.0 312.80 122.25)">775.7</text>
 <text x="405.00" y="93.50" font-size="1.90" text-anchor="end" font-weight="normal" fill="#5b6168">1:20</text>
-<text x="278.00" y="158.40" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">21 x D8 M6 screw to frame rivnut</text>
-<text x="278.00" y="161.00" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">8 x D5 rivet, toggle latch base</text>
-<text x="278.00" y="163.60" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">5 x R4 edge notch, joint strip screw</text>
+<text x="278.00" y="155.80" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">21 x D8 M6 screw to frame rivnut</text>
+<text x="278.00" y="158.40" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">8 x D5 rivet, toggle latch base</text>
+<text x="278.00" y="161.00" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">1 x D56 office air supply port D56</text>
+<text x="278.00" y="163.60" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">4 x D3.4 M3, office supply port</text>
 <rect x="12.00" y="166.60" width="131.00" height="76.30" rx="0.00" fill="none" stroke="#b8bec5" stroke-width="0.15"/>
 <text x="14.00" y="170.80" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">RP1  x1</text>
 <text x="34.00" y="170.80" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Rear skin - bottom</text>
@@ -311,13 +322,13 @@
 <text x="291.00" y="259.50" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">Flat patterns - side, rear and top skins</text>
 <line x1="272.00" y1="254.90" x2="412.00" y2="254.90" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="265.80" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DOC NO.</text>
-<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 2 OF 6   REV A</text>
+<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 2 OF 6   REV B</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">as noted per part @ A3   UNITS mm   LAYOUT v1.2.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">as noted per part @ A3   UNITS mm   LAYOUT v1.3.0</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
-<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-01   DRAWN Claude (AI) for Carbon Project</text>
+<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-16   DRAWN Claude (AI) for Carbon Project</text>
 <line x1="272.00" y1="273.80" x2="412.00" y2="273.80" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="284.70" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">STATUS</text>
 <text x="291.00" y="284.70" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">FOR CUTTING - DXF is the master; confirm hardware (sheet 5)</text>

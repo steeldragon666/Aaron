@@ -118,7 +118,11 @@
 <text x="14.70" y="121.75" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">16 mm drain bulkhead barb</text>
 <text x="68.50" y="121.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
 <text x="73.70" y="121.75" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">D20.5 in SK2</text>
-<rect x="14.00" y="82.00" width="190.00" height="40.80" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
+<rect x="14.00" y="122.80" width="190.00" height="3.40" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
+<text x="14.70" y="125.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Office air ports (printed P9-P11)</text>
+<text x="68.50" y="125.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
+<text x="73.70" y="125.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">D56 + 4 x D3.4 on a 71.5 square per port (SR3); M3 x 45 through grille, fan, skin, flange</text>
+<rect x="14.00" y="82.00" width="190.00" height="44.20" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
 <line x1="14.00" y1="85.40" x2="204.00" y2="85.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="14.00" y1="88.80" x2="204.00" y2="88.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="14.00" y1="92.20" x2="204.00" y2="92.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
@@ -130,15 +134,16 @@
 <line x1="14.00" y1="112.60" x2="204.00" y2="112.60" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="14.00" y1="116.00" x2="204.00" y2="116.00" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="14.00" y1="119.40" x2="204.00" y2="119.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="64.00" y1="82.00" x2="64.00" y2="122.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<line x1="73.00" y1="82.00" x2="73.00" y2="122.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<text x="14.00" y="130.80" font-size="2.50" text-anchor="start" font-weight="bold" fill="#15181c">ASSEMBLY</text>
-<text x="14.00" y="135.80" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">1  Coat all parts. Bond MLV inside the skins and doors: punch it D8 at the frame screws (it is the gasket), clear it 3 mm round rivets and M4/M5 holes.</text>
-<text x="14.00" y="139.00" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">2  Doors: bond the DA stiffener frame inside (legs inboard, 2 mm inside the frame opening), rivet the hinges and KB1 keepers through skin + angle, fit handles.</text>
-<text x="14.00" y="142.20" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">3  Lower door: glazing unit - outer pane, EPDM spacer, inner pane, WR1 - clamped with 8 x M4 from outside.</text>
-<text x="14.00" y="145.40" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">4  Side skins bottom to top, then the JS strips over the joints (acoustic sealant under each strip edge).</text>
-<text x="14.00" y="148.60" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">5  Rear skins + JR strip, exhaust spigot and cable grommet; top skin last (it overlaps the side and rear skins).</text>
-<text x="14.00" y="151.80" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">6  Skirts SK1-SK3 up into the base-rail rivnuts. Hang the doors on the lift-off hinges, rivet the latches to the right-hand skins and adjust them to pull the doors 3 mm onto the seal.</text>
+<line x1="14.00" y1="122.80" x2="204.00" y2="122.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="64.00" y1="82.00" x2="64.00" y2="126.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<line x1="73.00" y1="82.00" x2="73.00" y2="126.20" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
+<text x="14.00" y="134.20" font-size="2.50" text-anchor="start" font-weight="bold" fill="#15181c">ASSEMBLY</text>
+<text x="14.00" y="139.20" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">1  Coat all parts. Bond MLV inside the skins and doors: punch it D8 at the frame screws (it is the gasket), clear it 3 mm round rivets and M4/M5 holes.</text>
+<text x="14.00" y="142.40" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">2  Doors: bond the DA stiffener frame inside (legs inboard, 2 mm inside the frame opening), rivet the hinges and KB1 keepers through skin + angle, fit handles.</text>
+<text x="14.00" y="145.60" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">3  Lower door: glazing unit - outer pane, EPDM spacer, inner pane, WR1 - clamped with 8 x M4 from outside.</text>
+<text x="14.00" y="148.80" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">4  Side skins bottom to top, then the JS strips over the joints (acoustic sealant under each strip edge).</text>
+<text x="14.00" y="152.00" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">5  Rear skins + JR strip, exhaust spigot and cable grommet; top skin last (it overlaps the side and rear skins).</text>
+<text x="14.00" y="155.20" font-size="1.85" text-anchor="start" font-weight="normal" fill="#15181c">6  Skirts SK1-SK3 up into the base-rail rivnuts. Hang the doors on the lift-off hinges, rivet the latches to the right-hand skins and adjust them to pull the doors 3 mm onto the seal.</text>
 <text x="212.00" y="16.00" font-size="2.20" text-anchor="start" font-weight="bold" fill="#15181c">H  HINGE CORNER - PLAN 1:1</text>
 <rect x="232.00" y="30.00" width="1.20" height="65.80" rx="0.00" fill="#c9ced4" stroke="#15181c" stroke-width="0.20"/>
 <rect x="233.20" y="30.00" width="3.00" height="65.80" rx="0.00" fill="#3a3d42" stroke="#15181c" stroke-width="0.20"/>
@@ -280,13 +285,13 @@
 <text x="291.00" y="259.50" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">19in rail, hardware, assembly, details</text>
 <line x1="272.00" y1="254.90" x2="412.00" y2="254.90" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="265.80" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DOC NO.</text>
-<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 5 OF 6   REV A</text>
+<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 5 OF 6   REV B</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">as noted @ A3   UNITS mm   LAYOUT v1.2.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">as noted @ A3   UNITS mm   LAYOUT v1.3.0</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
-<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-01   DRAWN Claude (AI) for Carbon Project</text>
+<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-16   DRAWN Claude (AI) for Carbon Project</text>
 <line x1="272.00" y1="273.80" x2="412.00" y2="273.80" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="284.70" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">STATUS</text>
 <text x="291.00" y="284.70" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">FOR CUTTING - DXF is the master; confirm hardware (sheet 5)</text>

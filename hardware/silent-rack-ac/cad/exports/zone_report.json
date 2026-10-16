@@ -5,37 +5,37 @@
    "label": 5,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 63.6
+   "volume_L": 63.7
   },
   "cold_front_plenum": {
    "label": 5,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 63.6
+   "volume_L": 63.7
   },
   "hot_rear_plenum": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 437.9
+   "volume_L": 438.1
   },
   "hot_upper_bay": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 437.9
+   "volume_L": 438.1
   },
   "hot_ac_side_gap": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 437.9
+   "volume_L": 438.1
   },
   "hot_ac_notch": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 437.9
+   "volume_L": 438.1
   },
   "condenser_zone": {
    "label": 1,
@@ -60,6 +60,18 @@
    "air": true,
    "vents_to_room": true,
    "volume_L": 15.3
+  },
+  "office_supply_port": {
+   "label": 5,
+   "air": true,
+   "vents_to_room": false,
+   "volume_L": 63.7
+  },
+  "office_return_port": {
+   "label": 4,
+   "air": true,
+   "vents_to_room": false,
+   "volume_L": 438.1
   }
  },
  "checks": {
@@ -72,12 +84,15 @@
   "condenser zone separated from hot return": true,
   "condenser zone draws room air (labyrinth)": true,
   "exhaust duct sealed from hot return": true,
-  "exhaust duct vents out through rear spigot": true
+  "exhaust duct vents out through rear spigot": true,
+  "office supply duct draws from the cold plenum": true,
+  "office return duct feeds the hot return": true
  },
  "all_pass": true,
  "images": {
   "Section A-A: centreline (X = 311)": "renders/zones_x_311.png",
   "Section B-B: exhaust plane (X = 441.7)": "renders/zones_x_441.png",
-  "Section C-C": "renders/zones_z_700.png"
+  "Section C-C": "renders/zones_z_700.png",
+  "Section D-D": "renders/zones_z_1320.png"
  }
 }

@@ -13,7 +13,12 @@
   "ua_hot": 5.0,
   "th_band": 0.5,
   "restart_s": 180,
-  "min_run_s": 60
+  "min_run_s": 60,
+  "c_office": 300000.0,
+  "ua_office": 40.0,
+  "q_office": 120.0,
+  "t_out": 27.0,
+  "rpm_office": 2200.0
  },
  "checks": [
   {
@@ -123,6 +128,54 @@
    "check": "cold side peak below the warning",
    "ok": true,
    "detail": "peak 20.0 degC"
+  },
+  {
+   "scenario": "Office air 1 x NF-A8 (rack 1.5 kW, office 30 degC uncooled)",
+   "check": "office at least 1.0 K cooler",
+   "ok": true,
+   "detail": "office 28.6 degC, 1.4 K under its uncooled 30"
+  },
+  {
+   "scenario": "Office air 1 x NF-A8 (rack 1.5 kW, office 30 degC uncooled)",
+   "check": "rack pulled down for the office, never near its warning",
+   "ok": true,
+   "detail": "cold side averages 17.1 degC (target 18), max 24.8"
+  },
+  {
+   "scenario": "Office air 1 x NF-A8 (rack 1.5 kW, office 30 degC uncooled)",
+   "check": "no alarms once settled",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "scenario": "Office air 2 x P8 Max push-pull (rack 1.5 kW, office 30 degC uncooled)",
+   "check": "office at least 1.8 K cooler",
+   "ok": true,
+   "detail": "office 27.6 degC, 2.4 K under its uncooled 30"
+  },
+  {
+   "scenario": "Office air 2 x P8 Max push-pull (rack 1.5 kW, office 30 degC uncooled)",
+   "check": "rack pulled down for the office, never near its warning",
+   "ok": true,
+   "detail": "cold side averages 16.9 degC (target 18), max 24.7"
+  },
+  {
+   "scenario": "Office air 2 x P8 Max push-pull (rack 1.5 kW, office 30 degC uncooled)",
+   "check": "no alarms once settled",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "scenario": "Office air rack first (AC capacity -40 % at 3 h, 2 x P8 Max)",
+   "check": "office fan stopped whenever the rack ran warm",
+   "ok": true,
+   "detail": "1.2 h over target + 1.5 K, fan on in 0; off 3.8 h of 5"
+  },
+  {
+   "scenario": "Office air rack first (AC capacity -40 % at 3 h, 2 x P8 Max)",
+   "check": "cold side peak below the warning",
+   "ok": true,
+   "detail": "peak 23.7 degC"
   }
  ],
  "scenarios": [
@@ -179,6 +232,30 @@
   {
    "name": "Load step 0.3 to 2.2 kW at 3 h, room 28 degC",
    "ir_sends": 16,
+   "alarms_first_s": {
+    "cold warn": 0
+   },
+   "shutdown_at_s": null
+  },
+  {
+   "name": "Office air 1 x NF-A8 (rack 1.5 kW, office 30 degC uncooled)",
+   "ir_sends": 15,
+   "alarms_first_s": {
+    "cold warn": 0
+   },
+   "shutdown_at_s": null
+  },
+  {
+   "name": "Office air 2 x P8 Max push-pull (rack 1.5 kW, office 30 degC uncooled)",
+   "ir_sends": 15,
+   "alarms_first_s": {
+    "cold warn": 0
+   },
+   "shutdown_at_s": null
+  },
+  {
+   "name": "Office air rack first (AC capacity -40 % at 3 h, 2 x P8 Max)",
+   "ir_sends": 27,
    "alarms_first_s": {
     "cold warn": 0
    },

@@ -7,3 +7,6 @@ W5,J8 (node),tray float switch,2-core 0.22,1.8,"hood port - down the AC's left s
 W6,J9 (node),lower door contact,2-core 0.22,1.0,hood port - under the hood's front edge
 W7,J4 (node),SHT41 cold side,4-core 0.22,0.5,"up the front-left rail spacer, P8-1 clip at z 1300"
 W8,J1 (node),12 V plug pack,DC lead + 2 m extension,3.5,"PDU - (rear: down the return opening, bay, hood port) - bottom slot"
+W9,J11 (node),"office supply fan (P9, front plenum, right side)",4-pin PWM fan extension,1.0,node box bottom slot - along the shelf's front edge to the right rail spacer - up its front face to z 1290 - into the supply sleeve through the notch at the bottom of its grille
+W10,T7 office probe,"J6 via W2, spliced at T5","probe lead, 3 m",3.0,"office: return wall grille P12 - inside the return duct - return sleeve slot (rear plenum, right) - along the rear plenum floor to the rear-left rail spacer - spliced into W2 with T4 and T5"
+W11,Y-lead on W9 (option),"second fan, return sleeve",4-core 0.22,3.0,with W2: hood port - bay - the shelf's return opening - rear plenum floor - return sleeve (push-pull option)

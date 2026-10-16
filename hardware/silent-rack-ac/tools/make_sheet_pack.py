@@ -419,6 +419,12 @@ def elevations(sm, sh, ox, oy, k):
             for zc in D["latch_z_lower"] + D["latch_z_upper"]:
                 sh.rect(views_x + (D["hw_y_side"] - 6) * k, oy + (H - (zc - zb0) - 12) * k, 55 * k, 24 * k, sw=0.12,
                         fill="#8d99a6")
+            hf = D["office_flange"] / 2.0
+            for op in D["office"]:                            # office air ports: P11 flange + duct spigot
+                cx, cy = views_x + op["y"] * k, oy + (H - (op["z"] - zb0)) * k
+                sh.rect(cx - hf * k, cy - hf * k, 2 * hf * k, 2 * hf * k, sw=0.12, fill="#b9a3e0")
+                sh.circle(cx, cy, D["office_duct_d"] / 2.0 * k, sw=0.15, fill="#ffffff")
+                sh.text(cx, cy - hf * k - 1.0, "office %s" % op["name"], size=1.5, anchor="middle")
         x += width * k + 12
     return ground + 8
 
@@ -438,6 +444,7 @@ def sheet1(sm, nests):
     sh.text(16 + tp.w * k / 2, yb + 6 + tp.h * k / 2, "TP1", size=2.6, anchor="middle", weight="bold", c=RED)
     WP.paragraph(sh, 60, yb + 10, [
         "Grey bars: hinges (front + left), latches + keepers (front + right).",
+        "Purple: office air ports on SR3 - P11 flange + D%g duct spigot (rev B)." % D["office_duct_d"],
         "Strips JS/JR cover the skin joints on the mid and shelf rails.",
         "Skirts SK1-SK3 sit under the base rails between the castor pads.",
         "Dots: D8 screw holes on the frame rivnuts (weld pack sheet 6).",
@@ -518,6 +525,10 @@ def sheet5(sm):
         ("Brush cable grommet 200 x 40", "1", "4 x M4 on %g x %g (RP2)" % SMP.SM["grommet_pattern"]),
         ("16 mm drain bulkhead barb", "1", "D%g in SK2" % SMP.RL.SKIRT["drain_d"]),
     ]
+    if D["office"]:
+        rows.append(("Office air ports (printed P9-P11)", str(len(D["office"])),
+                     "D%g + 4 x D%g on a %g square per port (SR3); M3 x 45 through grille, fan, skin, flange" % (
+                         D["office_hole_d"], SMP.SM["m3"], D["office_bolts"])))
     y = WP.table(sh, 14, 82, [(50, "l"), (9, "c"), (131, "l")], rows, head=("ITEM", "QTY", "HOLES / NOTE"),
                  size=1.75, rh=3.4)
     WP.heading(sh, 14, y + 8, "ASSEMBLY", size=2.5)
@@ -788,6 +799,11 @@ def write_md(sm, nests, files):
          "are riveted through the skins, so the frame needs **no extra holes**.",
          "- **Acoustics.** %.1f mm steel plus MLV weighs about as much as 15 mm ply plus MLV. It has no coincidence dip "
          "in the speech band, so the insertion loss is the same or slightly better." % D["skin_t"],
+         "- **Rev B - office air.** SR3 (right side, top) gains two office air ports at %.0f mm above the floor: a "
+         "D%g hole and 4 x D%g bolt holes on a %g square for each. The supply port is in the front (cold) bay and "
+         "the return port in the rear (hot) bay. See `docs/OFFICE_AIR.md`." % (
+             D["office_z"], D["office_hole_d"], SMP.SM["m3"], D["office_bolts"]) if D["office"] else
+         "- **Rev B.** No office air ports in this build (office_ports = 0).",
          "", "## Parts", "", "| ID | Qty | Part | Material | t mm | Flat mm | Holes | Bends | Fits |",
          "|---|---:|---|---|---:|---|---:|---:|---|"]
     for p in sm["parts"]:
@@ -801,6 +817,7 @@ def write_md(sm, nests, files):
           "| Rivet | D%g | 4.8 mm blind rivet: hinges, latch bases, keepers |" % SMP.SM["rivet"],
           "| M5 | D%g | pull handles, exhaust spigot flange |" % SMP.SM["m5"],
           "| M4 | D%g | window clamp, cable grommet |" % SMP.SM["m4"],
+          "| M3 | D%g | office air ports: fan + duct-spigot flange (SR3) |" % SMP.SM["m3"],
           "| Rail bolt | D%g | M6 through the 19in rail and rail spacer into the upright rivnut |" % SMP.SM["rail_bolt"],
           "| Tap M8 | D%g | castor pads (tap after cutting) |" % SMP.SM["tap_m8"],
           "| Cage nut | %g square | EIA-310, 3 per U |" % SMP.SM["sq_hole"],
@@ -817,6 +834,10 @@ def write_md(sm, nests, files):
           "door with the WR1 frame and 8 x M4 x 35." % (D["win_w"] + 40, D["win_h"] + 40),
           "- **Rear skin:** a D150 exhaust spigot (4 x M5 on PCD %g) and a 200 x 40 brush cable grommet." % (
               SMP.SM["spigot_pcd"]),
+          ] + ([
+          "- **Office air ports (SR3):** a %g mm PC fan's bolt square (%g mm) round each D%g duct hole. Printed "
+          "sleeve, grille and duct spigot: `docs/PRINTED_PARTS.md` P9-P11." % (
+              D["office_fan"], D["office_bolts"], D["office_hole_d"])] if D["office"] else []) + [
           "", "## Nesting (%g x %g blanks)" % BLANK, "",
           "| Material | Blanks | Parts |", "|---|---:|---|"]
     for key, sheets in nests.items():
@@ -836,6 +857,8 @@ def write_md(sm, nests, files):
           "3. **Side skins.**",
           "   1. Fit the pieces bottom to top.",
           "   2. Fit the JS strips over the joints with acoustic sealant under each strip edge.",
+          ] + (["   3. Office air ports: fit them after the side skins (see `docs/OFFICE_AIR.md` for the full stack)."]
+               if D["office"] else []) + [
           "4. **Rear skins.**",
           "   1. Fit both pieces and the JR strip.",
           "   2. Fit the exhaust spigot and the cable grommet.",

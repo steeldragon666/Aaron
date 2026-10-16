@@ -3,11 +3,12 @@
 | | |
 |---|---|
 | Document | CP-SRA16-DES-001, Rev A (concept) |
-| Geometry source | `cad/fusion/SilentRackAC/rack_layout.py` v1.2.0 |
+| Geometry source | `cad/fusion/SilentRackAC/rack_layout.py` v1.3.0 |
 | Drawing | `drawings/CP-SRA16-GA-001.svg` (A3, 1:15) |
 | Frame | Welded 30 × 30 × 2.0 SHS: weld pack `drawings/CP-SRA16-FRM-001.pdf` (6 sheets) and `docs/FRAME_WELD_PLAN.md` |
 | Skins | Laser-cut 1.2 mm steel, every piece within 1200 × 800: sheet-metal pack `drawings/CP-SRA16-SMP-001.pdf` (6 sheets), DXFs in `cad/dxf/`, `docs/SHEET_METAL.md` |
 | Controls | ESP32-S3 rack node + 4.3 in touchscreen: `drawings/CP-SRA16-ELC-001.pdf` (5 sheets), firmware in `firmware/`, `docs/ELECTRONICS.md` |
+| Office air | Two 60 mm duct ports to the office next door: `docs/OFFICE_AIR.md` |
 | Status | Concept. Tape-check the AC dimensions in §3 before cutting panels. |
 
 ## 1. Brief
@@ -146,10 +147,11 @@ Mass-law transmission loss of the wall is about 18 / 24 / 30 / 36 dB at 125 / 25
 ## 9. Electrical and controls
 
 - **Circuits.** Put the AC (1.7 kW, about 7.5 A) on its own 10 A GPO. Put the IT load on separate circuits or a UPS. Total demand can reach about 4.5 kW, so have an electrician confirm circuit capacity. Do not run the AC from the IT UPS.
-- **Controls (CP-SRA16-ELC-001, `docs/ELECTRONICS.md`).** An ESP32-S3 **rack node** in the front plenum reads six DS18B20 probes - cold side top and middle and the AC supply on the front-left rail spacer; hot side top and AC return on the rear-left rail spacer; the condenser exhaust in the elbow - plus a humidity sensor, the tray float switch and the lower door. Every 5 s it decides whether the AC should run, at what setpoint and fan speed, and sends the AC's own IR remote codes from a stick-on emitter. A **4.3 in touchscreen** on the upper door shows the state and takes the settings over RS485, and links the rack to Home Assistant over Wi-Fi. The node needs neither the screen nor the network to keep the rack cool. Kit about AUD 320, 12 V, about 3 W, on the UPS.
+- **Controls (CP-SRA16-ELC-001, `docs/ELECTRONICS.md`).** An ESP32-S3 **rack node** in the front plenum reads six DS18B20 probes - cold side top and middle and the AC supply on the front-left rail spacer; hot side top and AC return on the rear-left rail spacer; the condenser exhaust in the elbow - plus a humidity sensor, the tray float switch and the lower door. Every 5 s it decides whether the AC should run, at what setpoint and fan speed, and sends the AC's own IR remote codes from a stick-on emitter. A **4.3 in touchscreen** on the upper door shows the state and takes the settings over RS485, and links the rack to Home Assistant over Wi-Fi. The node needs neither the screen nor the network to keep the rack cool. Kit about AUD 360, 12 V, about 4 W, on the UPS.
 - **Setpoint trim and eco.** At normal load the AC runs on its own thermostat; the node trims its setpoint (whole degrees) so the 10-minute average intake meets the target (22 °C). At light load (the servers warm the air by less than 4 K) eco pulls the rack 2 K below the target, switches the AC off, and on again 2 K above it - long quiet spells, with at least 15 min on and 5 min off.
 - **Automatic restart.** Portable ACs come back from a power cut in standby. The node sees that the AC is not cooling (supply air vs return, exhaust vs room) and re-sends its state; with the optional mains detect it re-sends 30 s after the socket comes back. Simulated: cooling again 1.8 min after the power returns (0.5 min with mains detect).
 - **Alarms and shutdown.** Intake 27 °C is a warning; 32 °C for 120 s raises an IT shutdown request - relay K1 gives a dry contact for a UPS or server input, and Home Assistant gets the same signal for NUT or ssh. Missing probes, water in the tray, a door left open, a dead AC socket and condensation risk are all alarms; unknown readings always mean AC on.
+- **Office air (`docs/OFFICE_AIR.md`).** Two 60 mm flex ducts through the right side at 1320 mm: a supply from the front cold bay with an 80 mm PWM fan in its sleeve, and a fanless return into the rear hot bay, so the office joins the closed loop instead of pulling room air into the cabinet. About 15-30 m³/h, 40-80 W sensible plus a similar amount of drying. While the office calls, the node lowers the cold-side target to 18 °C (never below the room dew point + 2 K) and pauses eco. The rack always comes first: any rack alarm or a cold side 1.5 K over target stops the fan at once. Probe T7 sits in the office return grille.
 - **Viewing window.** The lower door has a double-glazed polycarbonate window (140 × 200) over the AC display. You can read the unit's temperature and use the IR remote through it.
 
 ## 10. Construction
@@ -224,10 +226,10 @@ Build order:
 
 | Check | Result |
 |---|---|
-| Interference (all 164 solids, OCC booleans) | 0 clashes |
-| Airflow zone flood fill (§4) | 10 / 10 pass |
-| STEP round-trip | re-imports as 166 solids (two of the 164 parts are in two pieces), total volume within 0.002 % |
-| Fusion script (stand-in API test) | 164/164 bodies, volumes within 0.5 %, `sr_*` override and Y-up paths pass |
+| Interference (all 174 solids, OCC booleans) | 0 clashes |
+| Airflow zone flood fill (§4) | 12 / 12 pass (incl. office supply from cold, return to hot) |
+| STEP round-trip | re-imports with every part, total volume within 0.002 % |
+| Fusion script (stand-in API test) | 174/174 bodies, volumes within 0.5 %, `sr_*` override and Y-up paths pass |
 | Layout rules (`validate()`) | OK: side gaps, elbow vs top box, duct vs partition and shelf, plenums, height, ply on ledges inside the frame depth, skin pieces within 1200 × 800, hinge and latch clearances |
 | Sheet metal (`tools/sheetmetal.py`) | OK: every blank within 1200 × 800; every frame rivnut matched by a sheet hole; hole-to-edge, hole-to-bend and hole-to-hole distances; mirror twins identical hole for hole; 19-inch rail bolts match all four uprights |
 | Weldment (`tools/weldment.py`) | OK: every rail and upright welded at both ends; rivnuts on adjacent faces at least 22 mm apart; weldment STEP and 15 per-mark STEP files valid |
@@ -247,7 +249,7 @@ The Fusion script was not run inside Fusion from here. It shows its own volume c
 
 The model is fully parametric: RU count (12-20), width (600-700), depth (900-1200) and wall build-up. That makes a "silent rack with integrated cooling" product family straightforward.
 
-- **Materials:** about AUD 5.3k at retail prices (see `bom/BOM.md`). The welded frame is about AUD 0.8k, the laser-cut, folded and coated sheet metal about AUD 1.5k and the control kit about AUD 0.3k. Expect less at volume.
+- **Materials:** about AUD 5.4k at retail prices (see `bom/BOM.md`). The welded frame is about AUD 0.8k, the laser-cut, folded and coated sheet metal about AUD 1.5k and the control kit about AUD 0.4k. Expect less at volume.
 - **For a sellable kit:**
   - laser-cut steel skins (the DXFs and nests are already generated) and CNC-cut foam;
   - the welded SHS frame, already detailed for production: per-mark STEP files for tube laser cutting, and a jig can be built from the side-frame sheet;

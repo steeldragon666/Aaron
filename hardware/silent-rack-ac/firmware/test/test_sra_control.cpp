@@ -376,6 +376,169 @@ static void test_dew_point() {
   CHECK(std::isnan(dew_point_c(NAN, 50.0f)));
 }
 
+// ---------------------------------------------------------------- office air
+static Inputs office_rack(float cold, float hot, float office, int8_t cooling = 1) {
+  Inputs in = rack(cold, hot, cooling);
+  in.office = office;
+  in.office_rpm = 1500.0f;
+  return in;
+}
+
+static void test_office_off_by_default() {
+  std::puts("office: off by default - no fan, the rack's own target");
+  Controller c;
+  Outputs o = run(c, office_rack(22, 33, 30), 0, 600);
+  CHECK(o.office_state == OF_OFF);
+  CHECK(o.office_pct == 0);
+  CHECK(o.target == 22.0f);
+}
+
+static void test_office_auto() {
+  std::puts("office: auto - colder target at once, fan after its rest, stops when satisfied, setpoint restored");
+  Controller c;
+  c.s.office_mode = OFFICE_AUTO;
+  c.s.avg_s = 0;
+  Outputs o = c.step(office_rack(22, 33, 26), 0);
+  CHECK(o.office_state == OF_WAIT);          // the fan rests after boot
+  CHECK(o.office_pct == 0);
+  CHECK(o.target == 18.0f);                  // cold side pulled down for the office
+  CHECK(o.setpoint == 21.0f);                // first guess: office supply + offset
+  o = run(c, office_rack(22, 33, 26), 1, 119);
+  CHECK(o.office_pct == 0);
+  o = c.step(office_rack(22, 33, 26), 120);
+  CHECK(o.office_state == OF_COOLING);
+  CHECK(o.office_pct == 100);                // 2.5 K over the stop point: full speed
+  o = run(c, office_rack(22, 33, 24.0f), 121, 200);
+  CHECK(o.office_pct >= 45 && o.office_pct <= 50);   // 0.5 K over the stop point: 30 + 70 x 0.25
+  o = c.step(office_rack(22, 33, 23.4f), 201);
+  CHECK(o.office_pct == 0);                  // satisfied: stops at once
+  CHECK(o.office_state == OF_IDLE);
+  CHECK(o.target == 22.0f);
+  CHECK(o.setpoint >= 25.0f);                // the rack's own setpoint is back
+}
+
+static void test_office_rack_first() {
+  std::puts("office: rack first - a warm cold side or an alarm blocks it, the fan stops at once");
+  Controller c;
+  c.s.office_mode = OFFICE_AUTO;
+  c.s.avg_s = 0;
+  Outputs o = run(c, office_rack(24.0f, 35, 27), 0, 300);    // cold side 2 K over its target
+  CHECK(o.office_state == OF_BLOCKED);
+  CHECK(o.office_pct == 0);
+  CHECK(o.target == 22.0f);
+  o = run(c, office_rack(22.8f, 34, 27), 301, 400);          // 0.8 K over: still blocked (hysteresis)
+  CHECK(o.office_state == OF_BLOCKED);
+  o = run(c, office_rack(22.4f, 33, 27), 401, 600);          // released at 0.5 K over
+  CHECK(o.office_state == OF_COOLING);
+  CHECK(o.office_pct > 0);
+  Inputs wet = office_rack(22.4f, 33, 27);
+  wet.leak = true;
+  o = c.step(wet, 601);
+  CHECK(o.office_state == OF_BLOCKED);
+  CHECK(o.office_pct == 0);                                  // at once, no minimum run
+}
+
+static void test_office_holds_off_eco() {
+  std::puts("office: a call holds eco off and brings the AC back after its rest");
+  Controller c;
+  c.s.office_mode = OFFICE_AUTO;
+  Inputs low = office_rack(19.0f, 21.0f, 23.0f, 0);          // low load, office satisfied
+  Outputs o = run(c, low, 0, 900);
+  CHECK(!o.ac_on);                                           // eco switched it off at min_on_s
+  CHECK(o.office_state == OF_IDLE);
+  Inputs call = office_rack(19.0f, 21.0f, 25.0f, 0);
+  o = run(c, call, 901, 1199);
+  CHECK(!o.ac_on);                                           // the compressor rests first
+  CHECK(!o.eco);
+  CHECK(o.office_state == OF_COOLING);                       // the plenum is still cold: the fan runs meanwhile
+  o = c.step(call, 1200);
+  CHECK(o.ac_on);
+  CHECK(o.send);
+}
+
+static void test_office_waits_for_cold_air() {
+  std::puts("office: no fan until the cold side is clearly colder than the office");
+  Controller c;
+  c.s.office_mode = OFFICE_AUTO;
+  c.s.avg_s = 0;
+  Outputs o = run(c, office_rack(23.4f, 34, 24.6f), 0, 300); // calls, but only 1.2 K colder
+  CHECK(o.office_state == OF_WAIT);
+  CHECK(o.office_pct == 0);
+  CHECK(o.target == 18.0f);                                  // the rack is pulled down meanwhile
+  o = run(c, office_rack(22.0f, 33, 24.6f), 301, 400);
+  CHECK(o.office_state == OF_COOLING);
+}
+
+static void test_office_on_and_no_probe() {
+  std::puts("office: ON runs the fan at its maximum without a probe; AUTO without a probe does nothing");
+  Controller c;
+  c.s.office_mode = OFFICE_ON;
+  c.s.office_fan_max = 80;
+  Outputs o = run(c, rack(22, 33), 0, 200);                  // no office probe
+  CHECK(o.office_state == OF_COOLING);
+  CHECK(o.office_pct == 80);
+  c.s.office_mode = OFFICE_AUTO;
+  o = c.step(rack(22, 33), 201);
+  CHECK(o.office_state == OF_NO_PROBE);
+  CHECK(o.office_pct == 0);
+  CHECK(o.target == 22.0f);
+}
+
+static void test_office_fan_alarm() {
+  std::puts("office: a fan told to run that does not turn raises AL_OFFICE_FAN after a minute");
+  Controller c;
+  c.s.office_mode = OFFICE_AUTO;
+  c.s.avg_s = 0;
+  Inputs in = office_rack(22, 33, 26);
+  in.office_rpm = 0.0f;
+  Outputs o = run(c, in, 0, 179);                            // the fan is told to run from 120 s
+  CHECK(!(o.alarms & AL_OFFICE_FAN));
+  o = c.step(in, 180);
+  CHECK(o.alarms & AL_OFFICE_FAN);
+  in.office_rpm = 1500.0f;
+  o = c.step(in, 181);
+  CHECK(!(o.alarms & AL_OFFICE_FAN));
+}
+
+static void test_office_dew_point_floor() {
+  std::puts("office: the colder target stays 2 K over the room dew point (a dry office grille)");
+  Controller c;
+  c.s.office_mode = OFFICE_AUTO;
+  Inputs in = office_rack(22, 33, 26);
+  in.room = 26.0f;
+  in.rh_room = 60.0f;                                        // dew point 17.6
+  Outputs o = c.step(in, 0);
+  CHECK(std::fabs(o.target - 19.6f) < 0.1f);
+  in.rh_room = 80.0f;                                        // dew point 22.3: no lower than the rack's target
+  o = c.step(in, 1);
+  CHECK(o.target == 22.0f);
+}
+
+static void test_office_user_off_blocks() {
+  std::puts("office: the user's AC OFF blocks office air");
+  Controller c;
+  c.s.office_mode = OFFICE_AUTO;
+  c.s.mode = MODE_OFF;
+  Outputs o = run(c, office_rack(22, 33, 26, 0), 0, 300);
+  CHECK(o.office_state == OF_BLOCKED);
+  CHECK(o.office_pct == 0);
+  CHECK(!o.ac_on);
+}
+
+static void test_office_min_run() {
+  std::puts("office: once running, the fan keeps going for office_min_s when the cold air runs out");
+  Controller c;
+  c.s.office_mode = OFFICE_AUTO;
+  c.s.avg_s = 0;
+  Outputs o = run(c, office_rack(21, 33, 26), 0, 120);       // starts at 120
+  CHECK(o.office_pct > 0);
+  o = run(c, office_rack(23.4f, 33, 24.0f), 121, 239);       // only 0.6 K colder now: not useful
+  CHECK(o.office_pct > 0);                                   // still inside the minimum run
+  o = c.step(office_rack(23.4f, 33, 24.0f), 240);
+  CHECK(o.office_pct == 0);
+  CHECK(o.office_state == OF_WAIT);
+}
+
 int main() {
   test_start();
   test_start_off();
@@ -401,6 +564,16 @@ int main() {
   test_remote_override_resend_off();
   test_reset_alarms();
   test_dew_point();
+  test_office_off_by_default();
+  test_office_auto();
+  test_office_rack_first();
+  test_office_holds_off_eco();
+  test_office_waits_for_cold_air();
+  test_office_on_and_no_probe();
+  test_office_fan_alarm();
+  test_office_dew_point_floor();
+  test_office_user_off_blocks();
+  test_office_min_run();
   std::printf("%d checks passed, %d failed\n", g_pass, g_fail);
   return g_fail ? EXIT_FAILURE : EXIT_SUCCESS;
 }

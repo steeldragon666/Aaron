@@ -505,7 +505,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-B8
+C2
   9
 $SURFTAB1
  70
@@ -2957,7 +2957,7 @@ ACAD
   0
 APPID
   5
-B5
+BF
 330
 3
 100
@@ -2971,7 +2971,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-B6
+C0
 330
 3
 100
@@ -5665,9 +5665,209 @@ AcDbCircle
  40
 2.5
   0
-TEXT
+CIRCLE
   5
 AD
+330
+17
+100
+AcDbEntity
+  8
+CUT
+100
+AcDbCircle
+ 10
+94.99999999999999
+ 20
+229.5
+ 30
+0.0
+ 40
+28.0
+  0
+CIRCLE
+  5
+AE
+330
+17
+100
+AcDbEntity
+  8
+CUT
+100
+AcDbCircle
+ 10
+59.249999999999986
+ 20
+193.75
+ 30
+0.0
+ 40
+1.7
+  0
+CIRCLE
+  5
+AF
+330
+17
+100
+AcDbEntity
+  8
+CUT
+100
+AcDbCircle
+ 10
+59.249999999999986
+ 20
+265.25
+ 30
+0.0
+ 40
+1.7
+  0
+CIRCLE
+  5
+B0
+330
+17
+100
+AcDbEntity
+  8
+CUT
+100
+AcDbCircle
+ 10
+130.75
+ 20
+193.75
+ 30
+0.0
+ 40
+1.7
+  0
+CIRCLE
+  5
+B1
+330
+17
+100
+AcDbEntity
+  8
+CUT
+100
+AcDbCircle
+ 10
+130.75
+ 20
+265.25
+ 30
+0.0
+ 40
+1.7
+  0
+CIRCLE
+  5
+B2
+330
+17
+100
+AcDbEntity
+  8
+CUT
+100
+AcDbCircle
+ 10
+947.0
+ 20
+229.5
+ 30
+0.0
+ 40
+28.0
+  0
+CIRCLE
+  5
+B3
+330
+17
+100
+AcDbEntity
+  8
+CUT
+100
+AcDbCircle
+ 10
+911.25
+ 20
+193.75
+ 30
+0.0
+ 40
+1.7
+  0
+CIRCLE
+  5
+B4
+330
+17
+100
+AcDbEntity
+  8
+CUT
+100
+AcDbCircle
+ 10
+911.25
+ 20
+265.25
+ 30
+0.0
+ 40
+1.7
+  0
+CIRCLE
+  5
+B5
+330
+17
+100
+AcDbEntity
+  8
+CUT
+100
+AcDbCircle
+ 10
+982.75
+ 20
+193.75
+ 30
+0.0
+ 40
+1.7
+  0
+CIRCLE
+  5
+B6
+330
+17
+100
+AcDbEntity
+  8
+CUT
+100
+AcDbCircle
+ 10
+982.75
+ 20
+265.25
+ 30
+0.0
+ 40
+1.7
+  0
+TEXT
+  5
+B7
 330
 17
 100
@@ -5697,7 +5897,7 @@ AcDbText
   0
 TEXT
   5
-AE
+B8
 330
 17
 100
@@ -5727,7 +5927,7 @@ AcDbText
   0
 TEXT
   5
-AF
+B9
 330
 17
 100
@@ -5757,7 +5957,7 @@ AcDbText
   0
 TEXT
   5
-B0
+BA
 330
 17
 100
@@ -5787,7 +5987,7 @@ AcDbText
   0
 TEXT
   5
-B1
+BB
 330
 17
 100
@@ -5817,7 +6017,7 @@ AcDbText
   0
 TEXT
   5
-B2
+BC
 330
 17
 100
@@ -5835,7 +6035,7 @@ AcDbText
  40
 3.5
   1
-CP-SRA16-SMP-001  rack_layout v1.2.0 rev A  generated 2026-10-01
+CP-SRA16-SMP-001  rack_layout v1.3.0 rev B  generated 2026-10-16
  11
 0.0
  21
@@ -5847,7 +6047,7 @@ AcDbText
   0
 TEXT
   5
-B3
+BD
 330
 17
 100
@@ -5877,7 +6077,7 @@ AcDbText
   0
 TEXT
   5
-B4
+BE
 330
 17
 100
@@ -6995,7 +7195,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-B7
+C1
   0
 DICTIONARYVAR
   5
@@ -7711,7 +7911,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-B7
+C1
 330
 2D
 100
