@@ -172,7 +172,7 @@ KIT = [
      "fan drive on the carrier", 1, 3.0, False),
     ("Options", "J10", "Mains detect: 5 V USB charger (RCM) + USB-A lead to bare ends", "in a double adaptor on the "
      "AC's GPO", 1, 15.0, True),
-    ("Options", "FAN2", "Second fan for push-pull, 4-pin Y-lead, 3 m 4-core lead", "in the return sleeve; about 30 % "
+    ("Options", "FAN2", "Second fan for push-pull, 4-pin Y-lead, 3 m 4-core lead", "on the return adaptor; about 30 % "
      "more air (docs/OFFICE_AIR.md)", 1, 38.0, True),
     ("Options", "DO1", "12 V LED beacon", "on the alarm output", 1, 18.0, True),
 ]
@@ -196,12 +196,12 @@ HARNESS = [
      "PDU - (rear: down the return opening, bay, hood port) - bottom slot"),
     ("W9", "J11 (node)", "office supply fan (P9, front plenum, right side)", "4-pin PWM fan extension", 1.0,
      "node box bottom slot - along the shelf's front edge to the right rail spacer - up its front face to z 1290 - "
-     "into the supply sleeve through the notch at the bottom of its grille"),
+     "to the fan on the supply plenum adaptor's inner face"),
     ("W10", "T7 office probe", "J6 via W2, spliced at T5", "probe lead, 3 m", 3.0,
-     "office: return wall grille P12 - inside the return duct - return sleeve slot (rear plenum, right) - along "
+     "office: return wall grille P12 - inside the return duct and adaptor - out between the return grille's slots (rear plenum, right) - along "
      "the rear plenum floor to the rear-left rail spacer - spliced into W2 with T4 and T5"),
-    ("W11", "Y-lead on W9 (option)", "second fan, return sleeve", "4-core 0.22", 3.0,
-     "with W2: hood port - bay - the shelf's return opening - rear plenum floor - return sleeve (push-pull option)"),
+    ("W11", "Y-lead on W9 (option)", "second fan, return adaptor", "4-core 0.22", 3.0,
+     "with W2: hood port - bay - the shelf's return opening - rear plenum floor - return adaptor (push-pull option)"),
 ]
 
 # Modbus holding registers on the node (server 1, 19200 8N1): address, name, type, scale/unit, access
@@ -290,7 +290,7 @@ SPOTS = [  # id, what, x, y, z, how
     ("POD", "Touchscreen (P6)", 135, -30, 1505, "outside the upper door, 2 x M4 rivnuts"),
     ("HP", "Hood port", 54, 70, 1045, "P1-1 left end, 25 mm membrane grommet"),
     ("HL", "Hinge loop + GX16", 40, 50, 1450, "300 mm loop in spiral wrap, between the hinges"),
-    ("OS", "Office supply port", 603, 99, 1320, "sleeve P9 in the right lining, fan blowing out; W9 from J11"),
+    ("OS", "Office supply port", 574, 99, 1320, "plenum adaptor P9 in the right lining, fan on its inner face blowing out; W9 from J11"),
     ("OR", "Office return port", 603, 951, 1320, "office air back in; probe T7's lead (W10) comes in with it"),
 ]
 

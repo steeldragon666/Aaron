@@ -41,8 +41,9 @@ def prim_mask(p, xs, ys, zs):
         by = (ys >= y0) & (ys <= y1)
         bz = (zs >= z0) & (zs <= z1)
         return bx[:, None, None] & by[None, :, None] & bz[None, None, :]
-    if k == "cyl":
-        p0, p1, r = np.array(p["p0"]), np.array(p["p1"]), p["r"]
+    if k in ("cyl", "cone"):
+        p0, p1 = np.array(p["p0"]), np.array(p["p1"])
+        r = p["r"] if k == "cyl" else max(p["r0"], p["r1"])
         ax = int(np.argmax(np.abs(p1 - p0)))
         lo, hi = min(p0[ax], p1[ax]), max(p0[ax], p1[ax])
         coords = [xs, ys, zs]
@@ -56,7 +57,12 @@ def prim_mask(p, xs, ys, zs):
         along = along.reshape(shape)
         dshape = [len(xs), len(ys), len(zs)]
         dshape[ax] = 1
-        return along & disk.reshape(dshape)
+        if k == "cyl":
+            return along & disk.reshape(dshape)
+        t = np.clip((coords[ax] - p0[ax]) / (p1[ax] - p0[ax]), 0.0, 1.0)      # radius along the axis
+        rr = (p["r0"] + (p["r1"] - p["r0"]) * t).reshape(shape)
+        rho2 = (da[:, None] + db[None, :]).reshape(dshape)
+        return along & (rho2 <= rr * rr)
     if k == "elbow":
         clip = prim_mask(RL.elbow_clip_box(p), xs, ys, zs)
         c, a = np.array(p["c"]), np.array(p["axis"], float)

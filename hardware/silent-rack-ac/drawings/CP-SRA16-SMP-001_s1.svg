@@ -242,16 +242,16 @@
 <circle cx="170.47" cy="31.57" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
 <circle cx="171.87" cy="32.47" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
 <circle cx="171.87" cy="31.57" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="172.82" cy="51.31" r="1.40" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="171.03" cy="53.10" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="171.03" cy="49.52" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="174.61" cy="53.10" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="174.61" cy="49.52" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="215.42" cy="51.31" r="1.40" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="213.63" cy="53.10" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="213.63" cy="49.52" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="217.21" cy="53.10" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="217.21" cy="49.52" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="172.82" cy="51.31" r="1.60" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="170.92" cy="51.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="174.72" cy="51.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="172.82" cy="53.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="172.82" cy="49.41" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="215.42" cy="51.31" r="1.60" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="213.52" cy="51.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="217.32" cy="51.31" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="215.42" cy="53.21" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="215.42" cy="49.41" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
 <text x="194.67" y="44.39" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">SR3</text>
 <path d="M221.27 91.21 L168.07 91.21 L168.07 88.71 L221.27 88.71 Z" fill="#cfd6dd" stroke="#15181c" stroke-width="0.20" stroke-linejoin="round"/>
 <circle cx="171.57" cy="89.96" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
@@ -274,12 +274,12 @@
 <rect x="169.87" y="67.56" width="2.75" height="1.20" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
 <rect x="169.87" y="55.51" width="2.75" height="1.20" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
 <rect x="169.87" y="31.42" width="2.75" height="1.20" rx="0.00" fill="#8d99a6" stroke="#15181c" stroke-width="0.12"/>
-<rect x="170.62" y="49.11" width="4.40" height="4.40" rx="0.00" fill="#b9a3e0" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="172.82" cy="51.31" r="2.10" fill="#b9a3e0" stroke="#15181c" stroke-width="0.12"/>
 <circle cx="172.82" cy="51.31" r="1.50" fill="#ffffff" stroke="#15181c" stroke-width="0.15"/>
-<text x="172.82" y="48.11" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">office supply</text>
-<rect x="213.22" y="49.11" width="4.40" height="4.40" rx="0.00" fill="#b9a3e0" stroke="#15181c" stroke-width="0.12"/>
+<text x="172.82" y="48.21" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">office supply</text>
+<circle cx="215.42" cy="51.31" r="2.10" fill="#b9a3e0" stroke="#15181c" stroke-width="0.12"/>
 <circle cx="215.42" cy="51.31" r="1.50" fill="#ffffff" stroke="#15181c" stroke-width="0.15"/>
-<text x="215.42" y="48.11" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">office return</text>
+<text x="215.42" y="48.21" font-size="1.50" text-anchor="middle" font-weight="normal" fill="#15181c">office return</text>
 <path d="M16.00 184.93 L47.12 184.93 L47.12 131.31 L16.00 131.31 Z" fill="#eef1f4" stroke="#15181c" stroke-width="0.25" stroke-linejoin="round"/>
 <circle cx="19.71" cy="183.97" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
 <circle cx="31.56" cy="183.97" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
@@ -297,7 +297,7 @@
 <text x="31.56" y="189.43" font-size="2.30" text-anchor="middle" font-weight="bold" fill="#15181c">TOP (front edge at bottom)</text>
 <text x="31.56" y="158.12" font-size="2.60" text-anchor="middle" font-weight="bold" fill="#c0392b">TP1</text>
 <text x="60.00" y="135.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Grey bars: hinges (front + left), latches + keepers (front + right).</text>
-<text x="60.00" y="138.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Purple: office air ports on SR3 - P11 flange + D60 duct spigot (rev B).</text>
+<text x="60.00" y="138.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Purple: office air ports on SR3 - P9 adaptor's D60 duct spigot (rev C).</text>
 <text x="60.00" y="141.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Strips JS/JR cover the skin joints on the mid and shelf rails.</text>
 <text x="60.00" y="144.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Skirts SK1-SK3 sit under the base rails between the castor pads.</text>
 <text x="60.00" y="147.31" font-size="1.90" text-anchor="start" font-weight="normal" fill="#15181c">Dots: D8 screw holes on the frame rivnuts (weld pack sheet 6).</text>
@@ -580,10 +580,10 @@
 <text x="291.00" y="259.50" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">Skin layout, parts list</text>
 <line x1="272.00" y1="254.90" x2="412.00" y2="254.90" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="265.80" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DOC NO.</text>
-<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 1 OF 6   REV B</text>
+<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 1 OF 6   REV C</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">1:20 (elevations) @ A3   UNITS mm   LAYOUT v1.3.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">1:20 (elevations) @ A3   UNITS mm   LAYOUT v1.3.1</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
 <text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-16   DRAWN Claude (AI) for Carbon Project</text>

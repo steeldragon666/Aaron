@@ -18,7 +18,7 @@
 <text x="291.00" y="265.80" font-size="2.30" text-anchor="start" font-weight="normal" fill="#111">CP-SRA16-GA-001    REV A</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#111" stroke-width="0.15" />
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#111">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.30" text-anchor="start" font-weight="normal" fill="#111">1:15 @ A3    UNITS mm    LAYOUT v1.3.0</text>
+<text x="291.00" y="272.10" font-size="2.30" text-anchor="start" font-weight="normal" fill="#111">1:15 @ A3    UNITS mm    LAYOUT v1.3.1</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#111" stroke-width="0.15" />
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#111">DATE</text>
 <text x="291.00" y="278.40" font-size="2.30" text-anchor="start" font-weight="normal" fill="#111">2026-10-16    DRAWN Claude (AI) for Carbon Project</text>
@@ -386,15 +386,16 @@
 <path d="M65.95 223.53 L65.95 223.47" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M65.95 222.13 L65.95 221.53" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M35.92 222.13 L35.91 222.11 L35.90 222.08 L35.90 222.06 L35.89 222.03 L35.89 222.01 L35.89 221.98 L35.88 221.96 L35.88 221.93 L35.88 221.91 L35.88 221.88 L35.88 221.86 L35.88 221.83 L35.88 221.81 L35.88 221.78 L35.89 221.76 L35.89 221.73 L35.89 221.71 L35.90 221.68 L35.90 221.66 L35.91 221.63 L35.91 221.61 L35.92 221.58 L35.93 221.56 L35.94 221.53" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M69.08 148.87 L69.21 148.87" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M69.08 143.13 L69.21 143.13" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M71.49 148.93 L71.69 148.93" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M71.69 148.93 L71.69 143.07" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M71.49 143.07 L71.69 143.07" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M71.69 144.00 L72.23 144.00" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M84.69 143.80 L84.69 143.98 L84.69 144.17 L84.69 144.35 L84.69 144.53 L84.69 144.72 L84.69 144.90 L84.69 145.08 L84.69 145.27 L84.69 145.45 L84.69 145.63 L84.69 145.82 L84.69 146.00 L84.69 146.18 L84.69 146.37 L84.69 146.55 L84.69 146.73 L84.69 146.92 L84.69 147.10 L84.69 147.28 L84.69 147.47 L84.69 147.65 L84.69 147.83 L84.69 148.02 L84.69 148.20" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M72.23 143.80 L84.69 143.80" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M72.23 143.80 L72.23 143.98 L72.23 144.17 L72.23 144.35 L72.23 144.53 L72.23 144.72 L72.23 144.90 L72.23 145.08 L72.23 145.27 L72.23 145.45 L72.23 145.63 L72.23 145.82 L72.23 146.00 L72.23 146.18 L72.23 146.37 L72.23 146.55 L72.23 146.73 L72.23 146.92 L72.23 147.10 L72.23 147.28 L72.23 147.47 L72.23 147.65 L72.23 147.83 L72.23 148.02 L72.23 148.20" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M67.25 148.87 L67.25 143.13" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M67.25 148.87 L67.41 148.87" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M67.41 148.87 L67.41 143.13" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M67.25 143.13 L67.41 143.13" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M71.49 144.00 L72.03 144.00" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M67.41 148.67 L67.75 148.67" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M67.41 143.33 L67.75 143.33" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M84.49 143.80 L84.49 143.98 L84.49 144.17 L84.49 144.35 L84.49 144.53 L84.49 144.72 L84.49 144.90 L84.49 145.08 L84.49 145.27 L84.49 145.45 L84.49 145.63 L84.49 145.82 L84.49 146.00 L84.49 146.18 L84.49 146.37 L84.49 146.55 L84.49 146.73 L84.49 146.92 L84.49 147.10 L84.49 147.28 L84.49 147.47 L84.49 147.65 L84.49 147.83 L84.49 148.02 L84.49 148.20" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M72.03 143.80 L84.49 143.80" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M72.03 143.80 L72.03 143.98 L72.03 144.17 L72.03 144.35 L72.03 144.53 L72.03 144.72 L72.03 144.90 L72.03 145.08 L72.03 145.27 L72.03 145.45 L72.03 145.63 L72.03 145.82 L72.03 146.00 L72.03 146.18 L72.03 146.37 L72.03 146.55 L72.03 146.73 L72.03 146.92 L72.03 147.10 L72.03 147.28 L72.03 147.47 L72.03 147.65 L72.03 147.83 L72.03 148.02 L72.03 148.20" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M34.41 160.33 L34.41 160.20" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M34.41 158.87 L34.41 113.05" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M35.75 160.33 L35.75 160.20" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
@@ -496,8 +497,8 @@
 <path d="M39.08 230.53 L39.35 230.53" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M36.35 230.00 L36.35 230.27" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M37.41 228.00 L37.41 230.00" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M71.69 148.00 L72.23 148.00" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M72.23 148.20 L84.69 148.20" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M71.49 148.00 L72.03 148.00" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M72.03 148.20 L84.49 148.20" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <text x="50.75" y="249.00" font-size="3.00" text-anchor="middle" font-weight="bold" fill="#111">FRONT VIEW - DOORS REMOVED</text>
 <line x1="30.00" y1="234.80" x2="30.00" y2="241.20" stroke="#111" stroke-width="0.13" />
 <line x1="71.49" y1="234.80" x2="71.49" y2="241.20" stroke="#111" stroke-width="0.13" />
@@ -1553,13 +1554,10 @@
 <path d="M236.08 121.32 L236.08 118.65" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M249.41 121.32 L236.08 121.32" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M249.41 118.65 L236.08 118.65" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M222.00 143.07 L221.80 143.07" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M222.00 148.93 L221.80 148.93" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M221.80 148.93 L221.80 143.07" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M221.80 144.00 L221.27 144.00" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M208.80 148.20 L208.80 148.02 L208.80 147.83 L208.80 147.65 L208.80 147.47 L208.80 147.28 L208.80 147.10 L208.80 146.92 L208.80 146.73 L208.80 146.55 L208.80 146.37 L208.80 146.18 L208.80 146.00 L208.80 145.82 L208.80 145.63 L208.80 145.45 L208.80 145.27 L208.80 145.08 L208.80 144.90 L208.80 144.72 L208.80 144.53 L208.80 144.35 L208.80 144.17 L208.80 143.98 L208.80 143.80" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M221.27 143.80 L208.80 143.80" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M221.27 148.20 L221.27 148.02 L221.27 147.83 L221.27 147.65 L221.27 147.47 L221.27 147.28 L221.27 147.10 L221.27 146.92 L221.27 146.73 L221.27 146.55 L221.27 146.37 L221.27 146.18 L221.27 146.00 L221.27 145.82 L221.27 145.63 L221.27 145.45 L221.27 145.27 L221.27 145.08 L221.27 144.90 L221.27 144.72 L221.27 144.53 L221.27 144.35 L221.27 144.17 L221.27 143.98 L221.27 143.80" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M222.00 144.00 L221.47 144.00" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M209.00 148.20 L209.00 148.02 L209.00 147.83 L209.00 147.65 L209.00 147.47 L209.00 147.28 L209.00 147.10 L209.00 146.92 L209.00 146.73 L209.00 146.55 L209.00 146.37 L209.00 146.18 L209.00 146.00 L209.00 145.82 L209.00 145.63 L209.00 145.45 L209.00 145.27 L209.00 145.08 L209.00 144.90 L209.00 144.72 L209.00 144.53 L209.00 144.35 L209.00 144.17 L209.00 143.98 L209.00 143.80" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M221.47 143.80 L209.00 143.80" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M221.47 148.20 L221.47 148.02 L221.47 147.83 L221.47 147.65 L221.47 147.47 L221.47 147.28 L221.47 147.10 L221.47 146.92 L221.47 146.73 L221.47 146.55 L221.47 146.37 L221.47 146.18 L221.47 146.00 L221.47 145.82 L221.47 145.63 L221.47 145.45 L221.47 145.27 L221.47 145.08 L221.47 144.90 L221.47 144.72 L221.47 144.53 L221.47 144.35 L221.47 144.17 L221.47 143.98 L221.47 143.80" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M264.16 219.97 L264.16 213.30" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M264.16 187.85 L264.16 181.19" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M264.16 171.79 L264.16 165.13" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
@@ -1570,8 +1568,8 @@
 <path d="M256.88 230.53 L256.61 230.53" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M256.61 230.53 L256.41 230.53" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M257.15 230.00 L257.15 230.27" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M221.80 148.00 L221.27 148.00" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M221.27 148.20 L208.80 148.20" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M222.00 148.00 L221.47 148.00" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M221.47 148.20 L209.00 148.20" fill="none" stroke="#333" stroke-width="0.13" stroke-linejoin="round" stroke-linecap="round"/>
 <text x="242.75" y="249.00" font-size="3.00" text-anchor="middle" font-weight="bold" fill="#111">REAR VIEW</text>
 <line x1="222.00" y1="234.80" x2="222.00" y2="241.20" stroke="#111" stroke-width="0.13" />
 <line x1="263.49" y1="234.80" x2="263.49" y2="241.20" stroke="#111" stroke-width="0.13" />

@@ -65,6 +65,8 @@ def _prim(tbm, q):
     if k == "cyl":
         r = q["r"] / 10.0
         return tbm.createCylinderOrCone(_p3(*q["p0"]), r, _p3(*q["p1"]), r)
+    if k == "cone":
+        return tbm.createCylinderOrCone(_p3(*q["p0"]), q["r0"] / 10.0, _p3(*q["p1"]), q["r1"] / 10.0)
     if k == "elbow":
         tor = tbm.createTorus(_p3(*q["c"]), _v3(*q["axis"]), q["R"] / 10.0, q["r"] / 10.0)
         clip = _prim(tbm, rack_layout.elbow_clip_box(q))

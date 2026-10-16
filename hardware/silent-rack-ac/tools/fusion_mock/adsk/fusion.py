@@ -37,9 +37,10 @@ class TemporaryBRepManager:
         return _TempBody(cq.Solid.makeBox(L, W, H, pnt=cq.Vector(c.x - L / 2, c.y - W / 2, c.z - H / 2)))
 
     def createCylinderOrCone(self, p1, r1, p2, r2):
-        assert abs(r1 - r2) < 1e-12
         d = p2.v() - p1.v()
-        return _TempBody(cq.Solid.makeCylinder(r1, d.Length, pnt=p1.v(), dir=d.normalized()))
+        if abs(r1 - r2) < 1e-12:
+            return _TempBody(cq.Solid.makeCylinder(r1, d.Length, pnt=p1.v(), dir=d.normalized()))
+        return _TempBody(cq.Solid.makeCone(r1, r2, d.Length, pnt=p1.v(), dir=d.normalized()))
 
     def createTorus(self, c, axis, R, r):
         return _TempBody(cq.Solid.makeTorus(R, r, pnt=c.v(), dir=axis.v()))

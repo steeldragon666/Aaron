@@ -195,16 +195,16 @@
 <circle cx="319.30" cy="110.43" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
 <circle cx="320.70" cy="111.33" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
 <circle cx="320.70" cy="110.43" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="321.65" cy="130.17" r="1.40" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="319.86" cy="131.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="319.86" cy="128.38" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="323.44" cy="131.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="323.44" cy="128.38" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="364.25" cy="130.17" r="1.40" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="362.46" cy="131.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="362.46" cy="128.38" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="366.04" cy="131.95" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
-<circle cx="366.04" cy="128.38" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="321.65" cy="130.17" r="1.60" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="319.75" cy="130.17" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="323.55" cy="130.17" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="321.65" cy="132.07" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="321.65" cy="128.27" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="364.25" cy="130.17" r="1.60" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="362.35" cy="130.17" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="366.15" cy="130.17" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="364.25" cy="132.07" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
+<circle cx="364.25" cy="128.27" r="0.28" fill="#ffffff" stroke="#15181c" stroke-width="0.12"/>
 <line x1="316.90" y1="142.44" x2="316.90" y2="146.44" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
 <line x1="370.10" y1="142.44" x2="370.10" y2="146.44" stroke="#15181c" stroke-width="0.12" stroke-linecap="butt"/>
 <line x1="316.90" y1="145.24" x2="370.10" y2="145.24" stroke="#15181c" stroke-width="0.18" marker-start="url(#aDim)" marker-end="url(#aDim)"/>
@@ -216,7 +216,7 @@
 <text x="405.00" y="93.50" font-size="1.90" text-anchor="end" font-weight="normal" fill="#5b6168">1:20</text>
 <text x="278.00" y="155.80" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">21 x D8 M6 screw to frame rivnut</text>
 <text x="278.00" y="158.40" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">8 x D5 rivet, toggle latch base</text>
-<text x="278.00" y="161.00" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">1 x D56 office air supply port D56</text>
+<text x="278.00" y="161.00" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">1 x D64 office air supply port D64</text>
 <text x="278.00" y="163.60" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">4 x D3.4 M3, office supply port</text>
 <rect x="12.00" y="166.60" width="131.00" height="76.30" rx="0.00" fill="none" stroke="#b8bec5" stroke-width="0.15"/>
 <text x="14.00" y="170.80" font-size="2.80" text-anchor="start" font-weight="bold" fill="#15181c">RP1  x1</text>
@@ -322,10 +322,10 @@
 <text x="291.00" y="259.50" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">Flat patterns - side, rear and top skins</text>
 <line x1="272.00" y1="254.90" x2="412.00" y2="254.90" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="265.80" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DOC NO.</text>
-<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 2 OF 6   REV B</text>
+<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 2 OF 6   REV C</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">as noted per part @ A3   UNITS mm   LAYOUT v1.3.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">as noted per part @ A3   UNITS mm   LAYOUT v1.3.1</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
 <text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-16   DRAWN Claude (AI) for Carbon Project</text>

@@ -22,7 +22,7 @@ manual and should be tape-checked before cutting panels.
 
 import math
 
-VERSION = "1.3.0"
+VERSION = "1.3.1"
 
 DEFAULTS = {
     # --- rack / envelope -------------------------------------------------
@@ -90,7 +90,7 @@ DEFAULTS = {
     # --- office air: cold air to the next room through the right side --------
     "office_ports": 1,       # 1 = supply (fan) + return port pair in the right side, 0 = none
     "office_duct_d": 60.0,   # flexible duct bore = spigot OD (duct slides on, hose clamp)
-    "office_fan": 80.0,      # booster fan frame (square, 25 mm deep) in the supply sleeve
+    "office_fan": 80.0,      # booster fan frame (square, 25 mm deep) on the supply plenum adaptor
     "office_dz": 215.0,      # port centres above the divider shelf top
 }
 
@@ -225,10 +225,12 @@ HW = {
 # plinth skirts (folded L under the base rails, between the castor pads)
 SKIRT = {"inset": 6.0, "flange": 28.0, "floor_gap": 10.0, "pad_gap": 2.0, "slot_z": (35.0, 75.0),
          "slot_fr": 50.0, "pitch_fr": 72.0, "slot_side": 60.0, "pitch_side": 85.0, "drain_d": 20.5}
-# office air ports (CP-SRA16-PRT-001 P9-P12): a printed sleeve in the side lining holds a 25 mm PC fan on a
-# foam gasket against its end plate; a flange + duct spigot outside, 4 x M3 through grille, fan, skin, flange
-OFFICE = {"fan_t": 25.0, "gasket": 2.0, "wall": 3.0, "plate": 3.0, "grille": 2.5, "flange_t": 3.0,
-          "flange_m": 4.0, "spigot_l": 45.0, "spigot_t": 2.4, "bolt_d": 3.4, "duct_t": 3.0, "duct_stub": 150.0}
+# office air ports (CP-SRA16-PRT-001 P9, P10, P12): a one-piece printed plenum adaptor fills the cut in the
+# side lining and bears on the MLV; inside, it tapers from the fan bore to the duct bore, and its duct spigot
+# passes out through the MLV and skin.  4 x M3 from outside the skin into heat-set inserts in its outer face
+# (on the axes, clear of the duct); the fan (supply) and grille P10 screw into inserts in its inner face.
+OFFICE = {"fan_t": 25.0, "gasket": 2.0, "wall": 3.0, "grille": 2.5, "spigot_l": 45.0, "spigot_t": 2.4,
+          "bolt_d": 3.4, "skin_bolt_r": 38.0, "hole_cl": 1.0, "duct_t": 3.0, "duct_stub": 150.0}
 FAN_HOLES = {40.0: 32.0, 50.0: 40.0, 60.0: 50.0, 70.0: 60.0, 80.0: 71.5, 92.0: 82.5, 120.0: 105.0}  # frame: hole square
 
 
@@ -267,6 +269,11 @@ def box(x0, y0, z0, x1, y1, z1):
 
 def cyl(p0, p1, r):
     return {"kind": "cyl", "p0": tuple(p0), "p1": tuple(p1), "r": float(r)}
+
+
+def cone(p0, p1, r0, r1):
+    """Truncated cone (frustum) on the axis p0 -> p1, radius r0 at p0 and r1 at p1."""
+    return {"kind": "cone", "p0": tuple(p0), "p1": tuple(p1), "r0": float(r0), "r1": float(r1)}
 
 
 def elbow(c, axis, u, v, R, r, pad=0.0):
@@ -442,10 +449,11 @@ def derive(P):
     # office air: supply (fan) in the side lining of the front plenum, return into the rear plenum,
     # both centred in their foam bay at one height; the ducts run straight out through the wall
     D["office_z"] = D["z_shelf1"] + P["office_dz"]
-    D["office_sleeve"] = P["office_fan"] + 2 * OFFICE["wall"]
-    D["office_flange"] = P["office_fan"] + 2 * OFFICE["flange_m"]
-    D["office_hole_d"] = P["office_duct_d"] - 4.0                    # skin, MLV and end plate: just over the bore
-    D["office_bolts"] = FAN_HOLES.get(P["office_fan"], 0.0)
+    D["office_sleeve"] = P["office_fan"] + 2 * OFFICE["wall"]           # adaptor body = the lining cut
+    D["office_hole_d"] = P["office_duct_d"] + 3.0 + OFFICE["hole_cl"]   # skin + MLV: the spigot's bead passes
+    D["office_bolts"] = FAN_HOLES.get(P["office_fan"], 0.0)             # fan + grille screw square (inner face)
+    D["office_skin_r"] = OFFICE["skin_bolt_r"]                          # skin screws on the axes (outer face)
+    D["office_flange"] = 2 * (OFFICE["skin_bolt_r"] + 4.0)               # footprint outside: the screw heads
     D["office"] = [] if P["office_ports"] < 1 else [
         {"name": "supply", "zone": "cold", "fan": True, "y": (D["y_in0"] + D["y_frail"]) / 2.0, "z": D["office_z"]},
         {"name": "return", "zone": "hot", "fan": False, "y": (D["y_rrail"] + D["y_in1"]) / 2.0, "z": D["office_z"]}]
@@ -517,20 +525,23 @@ def validate(D):
 
 
 def validate_office(D):
-    """Office air ports: sleeve in its foam bay, flange clear of the latches, joint strips and panel screws."""
+    """Office air ports: adaptor in its foam bay, skin screws clear of the duct and bore, the footprint
+    outside clear of the latches, joint strips and panel screws."""
     w = []
     if not D["office"]:
         return w
     if not D["office_bolts"]:
         w.append("office_fan %g is not a standard PC fan size %s" % (D["office_fan"], sorted(FAN_HOLES)))
-    if D["frame"] - OFFICE["plate"] < OFFICE["fan_t"] + OFFICE["gasket"] - 1e-6:
-        w.append("Office fan + gasket (%g) do not fit the %g mm side lining" % (
-            OFFICE["fan_t"] + OFFICE["gasket"], D["frame"] - OFFICE["plate"]))
     if D["office_duct_d"] - 2 * OFFICE["spigot_t"] > D["office_fan"] - 4.0:
         w.append("Office duct bore is larger than the fan's own bore")
     h, hf = D["office_sleeve"] / 2.0, D["office_flange"] / 2.0
-    if D["office_bolts"] / 2.0 + OFFICE["bolt_d"] / 2.0 + 2.0 > hf:
-        w.append("Office flange too small for the fan bolt square")
+    rs = D["office_skin_r"]
+    if rs - 2.85 < D["office_duct_d"] / 2.0 + OFFICE["duct_t"] + 0.5:
+        w.append("Office skin screw heads (r %.1f) foul the flex duct" % rs)
+    if rs + 2.3 + 1.5 > h or rs - 2.3 - 1.5 < D["office_duct_d"] / 2.0:
+        w.append("Office skin screw inserts do not fit between the duct spigot and the adaptor's side")
+    if D["office_bolts"] / 2.0 * math.sqrt(2) - 2.3 - 3.0 < D["office_fan"] / 2.0 - 2.0:
+        w.append("Office fan screw inserts break into the adaptor's bore")
     bays = {"supply": (D["y_in0"], D["y_frail"]), "return": (D["y_rrail"], D["y_in1"])}
     f, s = D["frame"], D["skin"]
     screw_lines = (s + f / 2.0, D["y_frail"] + f / 2.0, D["y_rrail"] - f / 2.0, D["ext_d"] - s - f / 2.0)
@@ -539,20 +550,20 @@ def validate_office(D):
         y, z = op["y"], op["z"]
         y0, y1 = bays[op["name"]]
         if y - h < y0 + 10.0 or y + h > y1 - 10.0:
-            w.append("Office %s sleeve (%.0f) leaves under 10 mm of lining in its %.0f mm bay" % (
+            w.append("Office %s adaptor (%.0f) leaves under 10 mm of lining in its %.0f mm bay" % (
                 op["name"], 2 * h, y1 - y0))
         if z - h < D["z_srail1"] + 10.0 or z + h > D["z_toprail0"] - 10.0:
-            w.append("Office %s sleeve is not inside the rack-zone side lining" % op["name"])
+            w.append("Office %s adaptor is not inside the rack-zone side lining" % op["name"])
         if y - hf < latch_y1 + 10.0:
             for zl in D["latch_z_lower"] + D["latch_z_upper"]:
                 if abs(z - zl) < hf + HW["keeper_h"] / 2.0 + 10.0:
-                    w.append("Office %s flange within 10 mm of the toggle latch at z %.0f" % (op["name"], zl))
+                    w.append("Office %s screws within 10 mm of the toggle latch at z %.0f" % (op["name"], zl))
         for zj in D["side_splits"]:
             if abs(z - zj) < hf + D["strip_w"] / 2.0 + 5.0:
-                w.append("Office %s flange runs onto the side joint strip at z %.0f" % (op["name"], zj))
+                w.append("Office %s screws run onto the side joint strip at z %.0f" % (op["name"], zj))
         for yc in screw_lines:
             if abs(y - yc) < hf + 12.0:
-                w.append("Office %s flange within 12 mm of the panel screw line at y %.0f" % (op["name"], yc))
+                w.append("Office %s screws within 12 mm of the panel screw line at y %.0f" % (op["name"], yc))
     return w
 
 
@@ -960,46 +971,45 @@ def build_parts(P=None):
          [box(slot[0], DP - s, slot[2], slot[1], DP, slot[3])],
          bom={"kind": "purchased", "material": "Brush-strip cable grommet 200x40"})
 
-    # office air: cold supply out of the front plenum (fan in the sleeve), office air back into the rear
-    # plenum; each port = grille + sleeve in the side lining, flange + duct spigot outside the skin
+    # office air: cold supply out of the front plenum, office air back into the rear plenum; each port =
+    # a one-piece plenum adaptor in the side lining (fan bore tapering to the duct bore, spigot out through
+    # the skin), with the fan (supply) and grille P10 on its inner face
     O = OFFICE
     fan = P["office_fan"]
-    h, hi, hf = D["office_sleeve"] / 2.0, D["office_sleeve"] / 2.0 - O["wall"], D["office_flange"] / 2.0
-    xe, xf = W - s, W + O["flange_t"]                       # sleeve end plate on the MLV; flange outer face
-    xs1 = xf + O["spigot_l"]
+    h = D["office_sleeve"] / 2.0
+    xe = W - s                                              # adaptor outer face, on the MLV
+    xs1 = W + O["spigot_l"]
     rd, rb = P["office_duct_d"] / 2.0, P["office_duct_d"] / 2.0 - O["spigot_t"]
-    rg = fan / 2.0 - 2.0                                    # fan bore = grille opening
+    rg = fan / 2.0 - 2.0                                    # fan bore = adaptor mouth = grille opening
     for op in D["office"]:
         nm, y, z = op["name"], op["y"], op["z"]
         col = "cold" if op["zone"] == "cold" else "room"
+        xg1 = X1 - (O["fan_t"] + O["gasket"] if op["fan"] else 0.0)    # grille: on the fan, or on the adaptor
+        xg0 = xg1 - O["grille"]
         slots_ = []                                         # grille: 9 mm slots on a 12 mm pitch across the bore
         for dz in (-30.0, -18.0, -6.0, 6.0, 18.0, 30.0):
             c = math.sqrt(max(rg ** 2 - (abs(dz) + 4.5) ** 2, 0.0))
-            slots_.append(box(X1 - O["grille"] - 1, y - c, z + dz - 4.5, X1 + 1, y + c, z + dz + 4.5))
-        part("Office %s grille" % nm, "Airflow & Seals", col, [box(X1 - O["grille"], y - h, z - h, X1, y + h, z + h)],
+            slots_.append(box(xg0 - 1, y - c, z + dz - 4.5, xg1 + 1, y + c, z + dz + 4.5))
+        part("Office %s grille" % nm, "Airflow & Seals", col, [box(xg0, y - h, z - h, xg1, y + h, z + h)],
              slots_, bom={"kind": "fab", "material": "3D-printed PETG, CP-SRA16-PRT-001 P10 (office port grille)"})
-        part("Office %s sleeve" % nm, "Airflow & Seals", col, [box(X1, y - h, z - h, xe, y + h, z + h)],
-             [box(X1 - 1, y - hi, z - hi, xe - O["plate"], y + hi, z + hi),
-              cyl((xe - O["plate"] - 1, y, z), (xe + 1, y, z), D["office_hole_d"] / 2.0)],
-             bom={"kind": "fab", "material": "3D-printed PETG, CP-SRA16-PRT-001 P9 (office port sleeve)"})
+        part("Office %s adaptor" % nm, "Airflow & Seals", col,
+             [box(X1, y - h, z - h, xe, y + h, z + h), cyl((xe, y, z), (xs1, y, z), rd)],
+             [cone((X1 - 0.01, y, z), (xe, y, z), rg, rb), cyl((xe - 0.01, y, z), (xs1 + 1, y, z), rb)],
+             bom={"kind": "fab", "material": "3D-printed PETG, CP-SRA16-PRT-001 P9 (office plenum adaptor, "
+                  "%g fan to %g duct)" % (fan, P["office_duct_d"])})
         if op["fan"]:
-            fx1 = X1 + O["fan_t"]
+            fx0, fx1 = X1 - O["gasket"] - O["fan_t"], X1 - O["gasket"]
             part("Office supply fan", "Airflow & Seals", "it_body",
-                 [box(X1, y - fan / 2.0, z - fan / 2.0, fx1, y + fan / 2.0, z + fan / 2.0)],
-                 [cyl((X1 - 1, y, z), (fx1 + 1, y, z), rg)],
+                 [box(fx0, y - fan / 2.0, z - fan / 2.0, fx1, y + fan / 2.0, z + fan / 2.0)],
+                 [cyl((fx0 - 1, y, z), (fx1 + 1, y, z), rg)],
                  bom={"kind": "purchased", "material": "%g mm PWM fan, 12 V 4-pin (Noctua NF-A8 PWM or equal)" % fan})
             part("Office supply fan rotor", "Airflow & Seals", "it_blank",
-                 [cyl((X1 + 2, y, z), (fx1 - 3, y, z), 15.0),
-                  box(X1 + 4, y - rg + 1.5, z - 1.5, fx1 - 5, y + rg - 1.5, z + 1.5),
-                  box(X1 + 4, y - 1.5, z - rg + 1.5, fx1 - 5, y + 1.5, z + rg - 1.5)])
-        part("Office %s spigot" % nm, "Airflow & Seals", col,
-             [box(W, y - hf, z - hf, xf, y + hf, z + hf), cyl((xf, y, z), (xs1, y, z), rd)],
-             [cyl((W - 1, y, z), (xs1 + 1, y, z), rb)],
-             bom={"kind": "fab", "material": "3D-printed PETG, CP-SRA16-PRT-001 P11 (flange + %g duct spigot)"
-                  % P["office_duct_d"]})
+                 [cyl((fx0 + 3, y, z), (fx1 - 2, y, z), 15.0),
+                  box(fx0 + 5, y - rg + 1.5, z - 1.5, fx1 - 4, y + rg - 1.5, z + 1.5),
+                  box(fx0 + 5, y - 1.5, z - rg + 1.5, fx1 - 4, y + 1.5, z + rg - 1.5)])
         part("Office %s duct (flex %g)" % (nm, P["office_duct_d"]), "Airflow & Seals", "alu",
-             [cyl((xf + 8.0, y, z), (xs1 + O["duct_stub"], y, z), rd + O["duct_t"])],
-             [cyl((xf + 7.0, y, z), (xs1 + O["duct_stub"] + 1, y, z), rd + 0.25)],
+             [cyl((W + 8.0, y, z), (xs1 + O["duct_stub"], y, z), rd + O["duct_t"])],
+             [cyl((W + 7.0, y, z), (xs1 + O["duct_stub"] + 1, y, z), rd + 0.25)],
              bom={"kind": "purchased", "material": "Flexible duct %g mm + hose clamp, through the office wall "
                   "(owner supplied)" % P["office_duct_d"]})
 

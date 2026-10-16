@@ -23,7 +23,7 @@ import weldment as WM  # noqa: E402
 
 RL = WM.RL
 DOC_NO = "CP-SRA16-SMP-001"
-REV = "B"
+REV = "C"
 STEEL, SS = 7.85e-6, 7.93e-6          # kg/mm3
 
 # hole sizes and bending (change to suit the shop / hardware)
@@ -32,7 +32,7 @@ SM = {
     "rivet": 5.0,          # 4.8 mm blind rivet (hinges, latches, keepers)
     "m4": 4.5,             # window clamp bolts, cable grommet
     "m5": 5.5,             # pull handle, exhaust spigot flange
-    "m3": 3.4,             # office air ports: fan + flange bolts (CP-SRA16-PRT-001 P9-P11)
+    "m3": 3.4,             # office air ports: skin screws into the plenum adaptor (CP-SRA16-PRT-001 P9)
     "rail_bolt": 7.0,      # M6 through the 19in rail, rail spacer and packers into the upright rivnut
     "tap_m8": 6.8,         # castor pad, tapped M8 after cutting
     "k_factor": 0.33,      # air bending mild steel, inside radius = t
@@ -273,15 +273,14 @@ def build(P=None):
                         if za < zc + dz < zb:
                             u, v = uv((0, yh + dy, zc + dz))
                             pt.hole(u, v - za, SM["rivet"], "rivet, toggle latch base")
-                b = D["office_bolts"] / 2.0
-                for op in D["office"]:                       # office air ports: duct hole + fan/flange bolts
+                r = D["office_skin_r"]
+                for op in D["office"]:                       # office air ports: spigot hole + adaptor screws
                     if za < op["z"] < zb:
                         u, v = uv((0, op["y"], op["z"]))
-                        pt.hole(u, v - za, D["office_hole_d"], "office air %s port D%g (P11 duct spigot)" % (
+                        pt.hole(u, v - za, D["office_hole_d"], "office air %s port D%g (P9 adaptor spigot)" % (
                             op["name"], D["office_hole_d"]))
-                        for du in (-b, b):
-                            for dv in (-b, b):
-                                pt.hole(u + du, v - za + dv, SM["m3"], "M3, office %s port (P9-P11)" % op["name"])
+                        for du, dv in ((-r, 0.0), (r, 0.0), (0.0, -r), (0.0, r)):
+                            pt.hole(u + du, v - za + dv, SM["m3"], "M3, office %s port (P9 adaptor)" % op["name"])
             pt.notes.append("MLV (3 mm) is one piece per side, bonded across the joints; strips JS cover the joints.")
             parts.append(pt)
     for j, zj in enumerate(splits):

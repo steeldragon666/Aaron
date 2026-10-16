@@ -254,33 +254,33 @@
 <text x="49.70" y="154.75" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">office supply fan (P9, front plenum, right side)</text>
 <text x="91.70" y="154.75" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">4-pin PWM fan extension</text>
 <text x="141.30" y="154.75" font-size="1.50" text-anchor="end" font-weight="normal" fill="#15181c">1.0</text>
-<text x="142.70" y="154.75" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">node box bottom slot - along the shelf's front edge to the right rail spacer - up its front face to z 1290 - into the supply sleeve through the notch</text>
+<text x="142.70" y="154.75" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">node box bottom slot - along the shelf's front edge to the right rail spacer - up its front face to z 1290 - to the fan on the supply plenum adaptor's</text>
 <rect x="12.00" y="155.80" width="398.00" height="2.90" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
 <text x="12.70" y="157.65" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c"></text>
 <text x="21.70" y="157.65" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c"></text>
 <text x="49.70" y="157.65" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c"></text>
 <text x="91.70" y="157.65" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c"></text>
 <text x="141.30" y="157.65" font-size="1.50" text-anchor="end" font-weight="normal" fill="#15181c"></text>
-<text x="142.70" y="157.65" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">at the bottom of its grille</text>
+<text x="142.70" y="157.65" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">inner face</text>
 <text x="12.70" y="160.55" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">W10</text>
 <text x="21.70" y="160.55" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">T7 office probe</text>
 <text x="49.70" y="160.55" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">J6 via W2, spliced at T5</text>
 <text x="91.70" y="160.55" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">probe lead, 3 m</text>
 <text x="141.30" y="160.55" font-size="1.50" text-anchor="end" font-weight="normal" fill="#15181c">3.0</text>
-<text x="142.70" y="160.55" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">office: return wall grille P12 - inside the return duct - return sleeve slot (rear plenum, right) - along the rear plenum floor to the rear-left rail</text>
+<text x="142.70" y="160.55" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">office: return wall grille P12 - inside the return duct and adaptor - out between the return grille's slots (rear plenum, right) - along the rear</text>
 <rect x="12.00" y="161.60" width="398.00" height="2.90" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
 <text x="12.70" y="163.45" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c"></text>
 <text x="21.70" y="163.45" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c"></text>
 <text x="49.70" y="163.45" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c"></text>
 <text x="91.70" y="163.45" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c"></text>
 <text x="141.30" y="163.45" font-size="1.50" text-anchor="end" font-weight="normal" fill="#15181c"></text>
-<text x="142.70" y="163.45" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">spacer - spliced into W2 with T4 and T5</text>
+<text x="142.70" y="163.45" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">plenum floor to the rear-left rail spacer - spliced into W2 with T4 and T5</text>
 <text x="12.70" y="166.35" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">W11</text>
 <text x="21.70" y="166.35" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">Y-lead on W9 (option)</text>
-<text x="49.70" y="166.35" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">second fan, return sleeve</text>
+<text x="49.70" y="166.35" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">second fan, return adaptor</text>
 <text x="91.70" y="166.35" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">4-core 0.22</text>
 <text x="141.30" y="166.35" font-size="1.50" text-anchor="end" font-weight="normal" fill="#15181c">3.0</text>
-<text x="142.70" y="166.35" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">with W2: hood port - bay - the shelf's return opening - rear plenum floor - return sleeve (push-pull option)</text>
+<text x="142.70" y="166.35" font-size="1.50" text-anchor="start" font-weight="normal" fill="#15181c">with W2: hood port - bay - the shelf's return opening - rear plenum floor - return adaptor (push-pull option)</text>
 <rect x="12.00" y="121.00" width="398.00" height="46.40" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
 <line x1="12.00" y1="123.90" x2="410.00" y2="123.90" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="12.00" y1="126.80" x2="410.00" y2="126.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
@@ -645,7 +645,7 @@
 <text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-ELC-001   SHEET 3 OF 5   REV B</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">NTS @ A3   UNITS mm   LAYOUT v1.3.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">NTS @ A3   UNITS mm   LAYOUT v1.3.1</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
 <text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-16   DRAWN Claude (AI) for Carbon Project</text>

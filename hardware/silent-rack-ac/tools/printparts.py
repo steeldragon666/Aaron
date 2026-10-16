@@ -18,9 +18,10 @@ wall spigot and the rear-skin bolt holes), not retyped here.
   P6  Touchscreen pod      PETG  bezel + shell for the 4.3in panel, on the upper door (CP-SRA16-ELC-001)
   P7  Rack node box        PETG  base + lid for the node carrier, on magnets inside the front plenum
   P8  Probe clips          PETG  magnet clips for the temperature probes
-  P9  Office port sleeve   PETG  lines the cut in the right side lining; holds the booster fan (x2)
-  P10 Office port grille   PETG  finger guard; the four M3 bolts clamp grille, fan, skin and flange (x2)
-  P11 Office duct spigot   PETG  flange + 60 mm spigot with a clamp bead for the flex duct (x2)
+  P9  Office plenum adaptor PETG one piece per port: fills the lining cut, tapers the fan bore to the
+                               duct bore, 60 mm spigot out through the skin; heat-set inserts both faces (x2)
+  P10 Office port grille   PETG  finger guard, screwed over the fan (supply) or the adaptor mouth (x2)
+  (P11 retired in rev D: the separate flange + duct spigot is now part of P9)
   P12 Office wall grille   PETG  the office end of each duct; the return one holds probe T7 (x2)
   G3  Duct gauge           PETG  print first: the flex duct must slide over it
 
@@ -45,7 +46,7 @@ import cadquery as cq  # noqa: E402
 import rack_layout as RL  # noqa: E402
 
 DOC_NO = "CP-SRA16-PRT-001"
-REV = "C"
+REV = "D"
 V = cq.Vector
 
 # Usable volume: bed less a brim margin each side, height less some headroom.  "exclude" is the
@@ -86,9 +87,9 @@ PR = {
     "seat": 3.5,          # conical seat inside the elbow socket: the AC spigot stops on it
     "tongue_b": 5.0,      # wall spigot: tongue on the outer tube into the flange groove
     "bead": 1.5,          # retention bead near the end of the outer tube (flex-hose clamp)
-    # office air ports (P9-P12)
-    "fan_cl": 0.3,        # fan in the sleeve, per side (the bolts locate it)
-    "cable": (27.0, 6.0), # cable slot in the sleeve's bottom wall and notch in the grille: offset along Y, width
+    # office air ports (P9, P10, P12)
+    "insert": (4.0, 7.0), # M3 x 5.7 brass heat-set insert: hole D, depth
+    "spigot_root": 0.5,   # P9: root fillet where the spigot leaves the adaptor (the spigot passes the skin hole)
     "slot_w": 7.0, "bar_w": 2.0,                  # fan grille P10: finger-safe slots and bars
     "wall_slots": (11.8, 2.0),                    # office wall grille P12: three thin bars, mostly open (low loss)
     "wall_plate": (110.0, 4.0, 90.0),             # office wall grille: square, thickness, screw square
@@ -216,13 +217,14 @@ def interfaces(P=None):
                  "f0": V(*ws["add"][1]["p0"]), "f1": V(*ws["add"][1]["p1"]), "rf": ws["add"][1]["r"]}
     I["office"] = []
     for op in D["office"]:
-        g, sl, sp = (M["Office %s %s" % (op["name"], k)] for k in ("grille", "sleeve", "spigot"))
+        g, ad = (M["Office %s %s" % (op["name"], k)] for k in ("grille", "adaptor"))
         fan = M.get("Office supply fan") if op["fan"] else None
+        cn = ad["cut"][0]
         I["office"].append({"name": op["name"], "y": op["y"], "z": op["z"], "fan": op["fan"],
-                            "grille": bx(g["add"][0]), "sleeve": bx(sl["add"][0]), "sleeve_in": bx(sl["cut"][0]),
-                            "hole_r": sl["cut"][1]["r"], "flange": bx(sp["add"][0]),
-                            "spigot": (V(*sp["add"][1]["p0"]), V(*sp["add"][1]["p1"]), sp["add"][1]["r"]),
-                            "bore": sp["cut"][0]["r"], "fan_box": bx(fan["add"][0]) if fan else None})
+                            "grille": bx(g["add"][0]), "body": bx(ad["add"][0]),
+                            "spigot": (V(*ad["add"][1]["p0"]), V(*ad["add"][1]["p1"]), ad["add"][1]["r"]),
+                            "mouth_r": cn["r0"], "bore": ad["cut"][1]["r"], "hole_r": D["office_hole_d"] / 2.0,
+                            "fan_box": bx(fan["add"][0]) if fan else None})
     return I
 
 
@@ -456,8 +458,15 @@ def grille_slots(r, mid=None, sw=None, bw=None):
 
 
 def office_bolts(I, op):
+    """Fan + grille screws: the fan's own hole square, into inserts in the adaptor's inner face."""
     b = I["D"]["office_bolts"] / 2.0
     return sorted((op["y"] + sy * b, op["z"] + sz * b) for sy in (-1, 1) for sz in (-1, 1))
+
+
+def office_skin_bolts(I, op):
+    """Skin screws: on the axes at office_skin_r, from outside into inserts in the adaptor's outer face."""
+    r = I["D"]["office_skin_r"]
+    return sorted([(op["y"] + d, op["z"]) for d in (-r, r)] + [(op["y"], op["z"] + d) for d in (-r, r)])
 
 
 def duct_spigot_profile(ro, rb, L, root=3.0):
@@ -467,27 +476,38 @@ def duct_spigot_profile(ro, rb, L, root=3.0):
             (ro, L - 4.0), (ro, L - c), (ro - c, L), (rb, L)]
 
 
-def office_sleeve(I, op):
-    """P9: square tube in the side lining, end plate on the MLV (duct hole + bolt square), a lead-in at the
-    mouth and a cable slot through the bottom wall from the mouth to the end plate."""
-    x0, ya, za, x1, yb, zb = op["sleeve"]
+def office_adaptor(I, op):
+    """P9, one piece per port: a square body that fills the cut in the side lining (inner face flush with
+    the foam, outer face on the MLV), bored as a cone from the fan bore down to the duct bore, with the
+    duct spigot (clamp bead, lead-in) running on out through the MLV and the skin.  Heat-set inserts:
+    four on the fan's hole square in the inner face (fan + grille), four on the axes in the outer face
+    (skin screws from outside, clear of the duct)."""
+    x0, ya, za, x1, yb, zb = op["body"]
     y, z = op["y"], op["z"]
     h = (yb - ya) / 2.0
-    hi = I["P"]["office_fan"] / 2.0 + PR["fan_cl"]
-    xp = op["sleeve_in"][3]                                     # end plate, inner face
-    sol = box(x0, y - h, z - h, x1, y + h, z + h).cut(box(x0 - 1, y - hi, z - hi, xp, y + hi, z + hi))
-    sol = sol.cut(cyl((xp - 1, y, z), (x1 + 1, y, z), op["hole_r"]))
+    p0, p1, ro = op["spigot"]
+    rm, rb = op["mouth_r"], op["bore"]
+    L = p1.x - p0.x
+    sol = box(x0, y - h, z - h, x1, y + h, z + h).fuse(
+        rev(duct_spigot_profile(ro, rb, L, root=PR["spigot_root"]), (x1, y, z), (1, 0, 0)))
+    sol = sol.cut(cq.Solid.makeCone(rm, rb, x1 - x0, pnt=V(x0, y, z), dir=V(1, 0, 0)))
+    sol = sol.cut(cyl((x1 - 0.01, y, z), (p1.x + 1, y, z), rb))
+    c = PR["lead_in"]                                           # lead-in at the mouth (no elephant's foot)
+    sol = sol.cut(cq.Solid.makeCone(rm + c + 0.01, rm, c + 0.01, pnt=V(x0 - 0.01, y, z), dir=V(1, 0, 0)))
+    d, dep = PR["insert"]
     for by, bz in office_bolts(I, op):
-        sol = sol.cut(cyl((xp - 1, by, bz), (x1 + 1, by, bz), RL.OFFICE["bolt_d"] / 2.0))
-    c = PR["lead_in"]
-    sol = sol.cut(cq.Solid.makeLoft([_sq_wire(x0 - 0.01, y, z, hi + c + 0.01), _sq_wire(x0 + c, y, z, hi)], True))
-    cy, cw = PR["cable"]
-    sol = sol.cut(box(x0 - 1, y + cy - cw / 2, z - h - 1, xp, y + cy + cw / 2, z - hi + 0.01))
-    return one_solid(sol.clean()), {"hi": hi, "depth": xp - x0, "plate": x1 - xp}
+        sol = sol.cut(cyl((x0 - 1, by, bz), (x0 + dep, by, bz), d / 2.0))
+    for by, bz in office_skin_bolts(I, op):
+        sol = sol.cut(cyl((x1 - dep, by, bz), (x1 + 1, by, bz), d / 2.0))
+    half = math.degrees(math.atan((rm - rb) / (x1 - x0)))
+    return one_solid(sol.clean()), {"h": h, "depth": x1 - x0, "ro": ro, "rb": rb, "rm": rm, "L": L,
+                                    "out": p1.x - I["D"]["ext_w"], "half_angle": half,
+                                    "bead_h": (L - 8.0, L - 5.5)}
 
 
 def office_grille(I, op):
-    """P10: plate over the sleeve mouth: slots across the fan bore, bolt holes, a notch over the cable slot."""
+    """P10: plate over the fan's inlet (supply) or the adaptor's mouth (return): slots across the fan bore,
+    the four screw holes on the fan's hole square."""
     x0, ya, za, x1, yb, zb = op["grille"]
     y, z = op["y"], op["z"]
     h = (yb - ya) / 2.0
@@ -502,24 +522,7 @@ def office_grille(I, op):
             open_ += hole.Volume() / (x1 - x0 + 2)
     for by, bz in office_bolts(I, op):
         sol = sol.cut(cyl((x0 - 1, by, bz), (x1 + 1, by, bz), RL.OFFICE["bolt_d"] / 2.0))
-    cy, cw = PR["cable"]
-    sol = sol.cut(box(x0 - 1, y + cy - cw / 2, z - h - 1, x1 + 1, y + cy + cw / 2, z - h + 4.0))
     return one_solid(sol.clean()), {"open_mm2": open_, "bore_mm2": math.pi * rg ** 2}
-
-
-def office_spigot(I, op):
-    """P11: flange on the skin + duct spigot (root fillet, clamp bead, lead-in), bored to the duct bore."""
-    xw, ya, za, xf, yb, zb = op["flange"]
-    y, z = op["y"], op["z"]
-    hf = (yb - ya) / 2.0
-    p0, p1, ro = op["spigot"]
-    rb = op["bore"]
-    L = p1.x - p0.x
-    sol = box(xw, y - hf, z - hf, xf, y + hf, z + hf).fuse(rev(duct_spigot_profile(ro, rb, L), (xf, y, z), (1, 0, 0)))
-    sol = sol.cut(cyl((xw - 1, y, z), (xf + 1, y, z), rb))
-    for by, bz in office_bolts(I, op):
-        sol = sol.cut(cyl((xw - 1, by, bz), (xf + 1, by, bz), RL.OFFICE["bolt_d"] / 2.0))
-    return one_solid(sol.clean()), {"ro": ro, "rb": rb, "L": L, "bead_h": (L - 8.0, L - 5.5)}
 
 
 def wall_grille(I):
@@ -845,19 +848,17 @@ PART_INFO = OrderedDict([
                          "4 x M3 x 8 self-tapping (lid)"]}),
     ("P8", {"file": "clip", "name": "Probe clips", "mat": "PETG", "replaces": [],
             "hardware": ["6 x 10 x 3 mm neodymium disc magnets (glued)"]}),
-    ("P9", {"file": "office_sleeve", "name": "Office port sleeve", "mat": "PETG",
-            "replaces": ["Office supply sleeve", "Office return sleeve"],
-            "hardware": ["80 x 80 x 25 mm 12 V 4-pin PWM fan in the supply sleeve (Noctua NF-A8 PWM or equal)",
-                         "2 mm closed-cell foam tape on the supply sleeve's end plate, round the duct hole "
-                         "(fan gasket)"]}),
+    ("P9", {"file": "office_plenum_adaptor", "name": "Office plenum adaptor", "mat": "PETG",
+            "replaces": ["Office supply adaptor", "Office return adaptor"],
+            "hardware": ["16 x M3 x 5.7 brass heat-set inserts (8 per adaptor: 4 each face), D4.0 holes",
+                         "8 x M3 x 10 button head A2 + 8 washers, from outside the skin (4 per port)",
+                         "80 x 80 x 25 mm 12 V 4-pin PWM fan on the supply adaptor (Noctua NF-A8 PWM or equal)",
+                         "2 mm closed-cell foam tape: a ring on the supply adaptor's inner face (fan gasket)",
+                         "2 x hose clamp to suit the duct (one per duct, behind the bead)"]}),
     ("P10", {"file": "office_grille", "name": "Office port grille", "mat": "PETG",
              "replaces": ["Office supply grille", "Office return grille"],
-             "hardware": ["8 x M3 x 50 socket head, A2 stainless, + 8 washers under the heads (4 per port)"]}),
-    ("P11", {"file": "office_spigot", "name": "Office duct spigot", "mat": "PETG",
-             "replaces": ["Office supply spigot", "Office return spigot"],
-             "hardware": ["8 x M3 nyloc + 8 washers, outside on the flanges",
-                          "3 mm closed-cell foam gasket under each flange (cut from 3 x 10 tape)",
-                          "2 x hose clamp to suit the duct (one per duct, between the flange and the bead)"]}),
+             "hardware": ["4 x M3 x 35 socket head A2: supply grille + fan into the adaptor's inserts",
+                          "4 x M3 x 8 socket head A2: return grille into the adaptor's inserts"]}),
     ("P12", {"file": "office_wall_grille", "name": "Office wall grille", "mat": "PETG", "replaces": [],
              "hardware": ["8 x 4 mm x 30 countersunk screws + wall plugs (4 per grille)",
                           "2 x cable tie: each duct onto its wall-grille spigot, behind the bead",
@@ -972,21 +973,17 @@ def build(P=None, printer="x1c"):
     # office air ports: one piece of each, printed twice (supply and return); the supply ones are the
     # pieces' installed position, both installs are kept for the clash check and the STEP
     if I["office"]:
-        sl, gr, sp = [], [], []
+        ad, gr = [], []
         for op in I["office"]:
-            sl.append(office_sleeve(I, op))
+            ad.append(office_adaptor(I, op))
             gr.append(office_grille(I, op))
-            sp.append(office_spigot(I, op))
         n = len(I["office"])
-        parts["P9"] = {"solids": [q[0] for q in sl], "info": sl[0][1]}
+        parts["P9"] = {"solids": [q[0] for q in ad], "info": ad[0][1]}
         parts["P10"] = {"solids": [q[0] for q in gr], "info": gr[0][1]}
-        parts["P11"] = {"solids": [q[0] for q in sp], "info": sp[0][1]}
-        add_piece("P9-1", "P9", "Office port sleeve", sl[0][0], (1, 0, 0), qty=n,
-                  note="end plate on the plate, print %d (supply holds the fan)" % n)
+        add_piece("P9-1", "P9", "Office plenum adaptor", ad[0][0], (-1, 0, 0), qty=n,
+                  note="inner (fan) face on the plate, spigot up, print %d" % n)
         add_piece("P10-1", "P10", "Office port grille", gr[0][0], (-1, 0, 0), qty=n,
                   note="plenum face on the plate, print %d" % n)
-        add_piece("P11-1", "P11", "Office duct spigot", sp[0][0], (-1, 0, 0), qty=n,
-                  note="skin face of the flange on the plate, print %d" % n)
         wg, winfo = wall_grille(I)
         op = I["office"][0]
         x_wall = op["spigot"][1].x + RL.OFFICE["duct_stub"] + 60.0      # shown past the duct stub (office side)
@@ -1129,40 +1126,57 @@ def office_checks(I, parts):
         out.append((name, bool(ok), detail))
 
     O, P = RL.OFFICE, I["P"]
-    si = parts["P9"]["info"]
+    ai = parts["P9"]["info"]
     op = I["office"][0]
-    fb = op["fan_box"]
-    fan_w = fb[4] - fb[1]
-    sb = parts["P9"]["solids"][0].BoundingBox()
-    chk("office sleeve: outside = the lining cut, fan + gasket fill its depth, %.1f mm fan clearance" % PR["fan_cl"],
-        abs(sb.ylen - (op["sleeve"][4] - op["sleeve"][1])) < 1e-6 and abs(sb.xlen - (op["sleeve"][3] - op["sleeve"][0]))
-        < 1e-6 and abs(si["depth"] - (O["fan_t"] + O["gasket"])) < 1e-6 and 0.1 <= si["hi"] - fan_w / 2.0 <= 0.5,
-        "%.0f x %.0f x %.0f, inside %.1f for a %.0f fan, depth %.0f = %g + %g gasket" % (
-            sb.ylen, sb.zlen, sb.xlen, 2 * si["hi"], fan_w, si["depth"], O["fan_t"], O["gasket"]))
+    ab = parts["P9"]["solids"][0].BoundingBox()
+    lin = op["body"]
+    chk("office adaptor body = the lining cut (inner face flush with the foam, outer face on the MLV)",
+        abs(ab.ylen - (lin[4] - lin[1])) < 1e-6 and abs(ab.zlen - (lin[5] - lin[2])) < 1e-6
+        and abs(ab.xmin - lin[0]) < 1e-6,
+        "%.0f x %.0f, %.0f deep in the lining" % (ab.ylen, ab.zlen, ai["depth"]))
+    chk("office adaptor taper: fan bore to duct bore at most 25 deg (smooth, prints without support)",
+        ai["half_angle"] <= 25.0 and abs(ai["rm"] - (P["office_fan"] / 2.0 - 2.0)) < 1e-6,
+        "D%.0f to D%.1f over %.0f mm, %.1f deg half-angle" % (2 * ai["rm"], 2 * ai["rb"], ai["depth"], ai["half_angle"]))
     holes = skin_office_holes(P)
     bad = []
+    d_ins, dep = PR["insert"]
     for k, o in enumerate(I["office"]):
         h = holes.get(o["name"], {"port": None, "bolts": []})
-        printed = [(round(y, 2), round(z, 2)) for y, z in office_bolts(I, o)]
+        sk = [(round(y, 2), round(z, 2)) for y, z in office_skin_bolts(I, o)]
         skin = [(round(y, 2), round(z, 2)) for y, z, _ in h["bolts"]]
         port = h["port"]
-        if printed != skin or not port or abs(port[0] - o["y"]) > 1e-6 or abs(port[1] - o["z"]) > 1e-6:
-            bad.append(o["name"])
-        for pid in ("P9", "P10", "P11"):                       # every printed part has the four holes there
-            sol = parts[pid]["solids"][k]
-            bb = sol.BoundingBox()
-            for y, z in printed:
-                probe = cyl((bb.xmin - 1, y, z), (bb.xmax + 1, y, z), RL.OFFICE["bolt_d"] / 2.0 - 0.2)
-                if sol.intersect(probe).Volume() > 0.01:
-                    bad.append("%s %s hole at y %.1f z %.1f" % (o["name"], pid, y, z))
-    chk("office port bolt holes = right-skin M3 holes (DXF), through sleeve, grille and flange", not bad,
-        "; ".join(bad) or "%d ports, 4 x D%g on a %g square" % (len(I["office"]), O["bolt_d"], I["D"]["office_bolts"]))
-    spi = parts["P11"]["info"]
+        if sk != skin or not port or abs(port[0] - o["y"]) > 1e-6 or abs(port[1] - o["z"]) > 1e-6:
+            bad.append(o["name"] + " skin holes")
+        ad, gr = parts["P9"]["solids"][k], parts["P10"]["solids"][k]
+        bb = ad.BoundingBox()
+        x0, x1 = o["body"][0], o["body"][3]
+        for y, z in office_bolts(I, o):                          # inner face: inserts; grille: clearance
+            if ad.intersect(cyl((x0 - 1, y, z), (x0 + dep - 0.2, y, z), d_ins / 2.0 - 0.2)).Volume() > 0.01:
+                bad.append("%s P9 inner insert at y %.1f z %.1f" % (o["name"], y, z))
+            gb = gr.BoundingBox()
+            if gr.intersect(cyl((gb.xmin - 1, y, z), (gb.xmax + 1, y, z), O["bolt_d"] / 2.0 - 0.2)).Volume() > 0.01:
+                bad.append("%s P10 hole at y %.1f z %.1f" % (o["name"], y, z))
+        for y, z in office_skin_bolts(I, o):                     # outer face: inserts, with wall all round
+            if ad.intersect(cyl((x1 - dep + 0.2, y, z), (x1 + 1, y, z), d_ins / 2.0 - 0.2)).Volume() > 0.01:
+                bad.append("%s P9 outer insert at y %.1f z %.1f" % (o["name"], y, z))
+            ring = cyl((x1 - dep, y, z), (x1 - 0.5, y, z), d_ins / 2.0 + 1.2).cut(
+                cyl((x1 - dep - 1, y, z), (x1, y, z), d_ins / 2.0))
+            if abs(ad.intersect(ring).Volume() - ring.Volume()) > 0.05 * ring.Volume():
+                bad.append("%s P9 outer insert wall at y %.1f z %.1f" % (o["name"], y, z))
+    chk("office ports: skin screws = right-skin M3 holes (DXF); inserts and grille holes on the fan square",
+        not bad, "; ".join(bad) or "%d ports; skin 4 x D%g on the axes at r %g; fan + grille 4 x M3 on a %g square" % (
+            len(I["office"]), O["bolt_d"], I["D"]["office_skin_r"], I["D"]["office_bolts"]))
     hole_d = 2 * op["hole_r"]
-    chk("office duct spigot OD = the duct bore, bore clear of the %.0f mm skin hole" % hole_d,
-        abs(2 * spi["ro"] - P["office_duct_d"]) < 1e-6 and 0.0 <= hole_d - 2 * spi["rb"] <= 2.0,
-        "OD %.1f (+%.1f bead, %.0f mm from the flange for the clamp), bore %.1f" % (
-            2 * spi["ro"], 2 * PR["bead"], spi["bead_h"][0], 2 * spi["rb"]))
+    clear = hole_d / 2.0 - (ai["ro"] + PR["bead"])
+    chk("office duct spigot OD = the duct bore; it and its bead pass the D%.0f skin hole" % hole_d,
+        abs(2 * ai["ro"] - P["office_duct_d"]) < 1e-6 and 0.2 <= clear <= 1.0 and ai["out"] >= 40.0,
+        "OD %.1f (+%.1f bead, %.1f mm radial clearance in the skin hole), bore %.1f, %.0f mm out of the skin" % (
+            2 * ai["ro"], 2 * PR["bead"], clear, 2 * ai["rb"], ai["out"]))
+    rs = I["D"]["office_skin_r"]
+    chk("office skin screw heads clear the flex duct over the spigot",
+        rs - 2.85 > P["office_duct_d"] / 2.0 + O["duct_t"],
+        "head edge r %.1f, duct OD r %.1f" % (rs - 2.85, P["office_duct_d"] / 2.0 + O["duct_t"]))
+    spi = ai
     wi = parts["P12"]["info"]
     chk("office wall grille spigot = cabinet spigot (one duct size both ends)",
         abs(wi["ro"] - spi["ro"]) < 1e-6 and abs(wi["rb"] - spi["rb"]) < 1e-6,

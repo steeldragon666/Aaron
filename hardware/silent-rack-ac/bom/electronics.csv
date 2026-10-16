@@ -32,7 +32,7 @@ Office air,T7,"DS18B20 waterproof probe, 6 x 50 mm stainless, 3 m lead","office 
 Office air,W9,"4-pin PWM fan extension lead, 1 m",J11 to the supply fan,1,6.0,6.0,
 Office air,"J11, Q3, F2","4-pin fan header 2.54 mm, PN2222A, PTC 0.5 A, 2 x 1k, 2 x 10k, 1 nF",fan drive on the carrier,1,3.0,3.0,
 Options,J10,Mains detect: 5 V USB charger (RCM) + USB-A lead to bare ends,in a double adaptor on the AC's GPO,1,15.0,15.0,yes
-Options,FAN2,"Second fan for push-pull, 4-pin Y-lead, 3 m 4-core lead",in the return sleeve; about 30 % more air (docs/OFFICE_AIR.md),1,38.0,38.0,yes
+Options,FAN2,"Second fan for push-pull, 4-pin Y-lead, 3 m 4-core lead",on the return adaptor; about 30 % more air (docs/OFFICE_AIR.md),1,38.0,38.0,yes
 Options,DO1,12 V LED beacon,on the alarm output,1,18.0,18.0,yes
 TOTAL,,kit (excl. options),,,,358.3,
 TOTAL,,options,,,,71.0,yes

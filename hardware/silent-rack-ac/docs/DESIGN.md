@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Document | CP-SRA16-DES-001, Rev A (concept) |
-| Geometry source | `cad/fusion/SilentRackAC/rack_layout.py` v1.3.0 |
+| Geometry source | `cad/fusion/SilentRackAC/rack_layout.py` v1.3.1 |
 | Drawing | `drawings/CP-SRA16-GA-001.svg` (A3, 1:15) |
 | Frame | Welded 30 × 30 × 2.0 SHS: weld pack `drawings/CP-SRA16-FRM-001.pdf` (6 sheets) and `docs/FRAME_WELD_PLAN.md` |
 | Skins | Laser-cut 1.2 mm steel, every piece within 1200 × 800: sheet-metal pack `drawings/CP-SRA16-SMP-001.pdf` (6 sheets), DXFs in `cad/dxf/`, `docs/SHEET_METAL.md` |
@@ -151,7 +151,7 @@ Mass-law transmission loss of the wall is about 18 / 24 / 30 / 36 dB at 125 / 25
 - **Setpoint trim and eco.** At normal load the AC runs on its own thermostat; the node trims its setpoint (whole degrees) so the 10-minute average intake meets the target (22 °C). At light load (the servers warm the air by less than 4 K) eco pulls the rack 2 K below the target, switches the AC off, and on again 2 K above it - long quiet spells, with at least 15 min on and 5 min off.
 - **Automatic restart.** Portable ACs come back from a power cut in standby. The node sees that the AC is not cooling (supply air vs return, exhaust vs room) and re-sends its state; with the optional mains detect it re-sends 30 s after the socket comes back. Simulated: cooling again 1.8 min after the power returns (0.5 min with mains detect).
 - **Alarms and shutdown.** Intake 27 °C is a warning; 32 °C for 120 s raises an IT shutdown request - relay K1 gives a dry contact for a UPS or server input, and Home Assistant gets the same signal for NUT or ssh. Missing probes, water in the tray, a door left open, a dead AC socket and condensation risk are all alarms; unknown readings always mean AC on.
-- **Office air (`docs/OFFICE_AIR.md`).** Two 60 mm flex ducts through the right side at 1320 mm: a supply from the front cold bay with an 80 mm PWM fan in its sleeve, and a fanless return into the rear hot bay, so the office joins the closed loop instead of pulling room air into the cabinet. About 15-30 m³/h, 40-80 W sensible plus a similar amount of drying. While the office calls, the node lowers the cold-side target to 18 °C (never below the room dew point + 2 K) and pauses eco. The rack always comes first: any rack alarm or a cold side 1.5 K over target stops the fan at once. Probe T7 sits in the office return grille.
+- **Office air (`docs/OFFICE_AIR.md`).** Two 60 mm flex ducts through the right side at 1320 mm: each through a one-piece printed plenum adaptor (P9) that tapers from an 80 mm fan to the duct: a supply from the front cold bay with an 80 mm PWM fan, and a fanless return into the rear hot bay, so the office joins the closed loop instead of pulling room air into the cabinet. About 16-31 m³/h, 45-80 W sensible plus a similar amount of drying. While the office calls, the node lowers the cold-side target to 18 °C (never below the room dew point + 2 K) and pauses eco. The rack always comes first: any rack alarm or a cold side 1.5 K over target stops the fan at once. Probe T7 sits in the office return grille.
 - **Viewing window.** The lower door has a double-glazed polycarbonate window (140 × 200) over the AC display. You can read the unit's temperature and use the IR remote through it.
 
 ## 10. Construction
@@ -226,10 +226,10 @@ Build order:
 
 | Check | Result |
 |---|---|
-| Interference (all 174 solids, OCC booleans) | 0 clashes |
+| Interference (all 172 solids, OCC booleans) | 0 clashes |
 | Airflow zone flood fill (§4) | 12 / 12 pass (incl. office supply from cold, return to hot) |
 | STEP round-trip | re-imports with every part, total volume within 0.002 % |
-| Fusion script (stand-in API test) | 174/174 bodies, volumes within 0.5 %, `sr_*` override and Y-up paths pass |
+| Fusion script (stand-in API test) | 172/172 bodies, volumes within 0.5 %, `sr_*` override and Y-up paths pass |
 | Layout rules (`validate()`) | OK: side gaps, elbow vs top box, duct vs partition and shelf, plenums, height, ply on ledges inside the frame depth, skin pieces within 1200 × 800, hinge and latch clearances |
 | Sheet metal (`tools/sheetmetal.py`) | OK: every blank within 1200 × 800; every frame rivnut matched by a sheet hole; hole-to-edge, hole-to-bend and hole-to-hole distances; mirror twins identical hole for hole; 19-inch rail bolts match all four uprights |
 | Weldment (`tools/weldment.py`) | OK: every rail and upright welded at both ends; rivnuts on adjacent faces at least 22 mm apart; weldment STEP and 15 per-mark STEP files valid |

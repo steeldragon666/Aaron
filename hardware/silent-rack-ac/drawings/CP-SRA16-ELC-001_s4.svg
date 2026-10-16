@@ -64,8 +64,8 @@
 <text x="57.50" y="158.55" font-size="1.10" text-anchor="middle" font-weight="bold" fill="#d68910">IR</text>
 <circle cx="26.50" cy="244.50" r="1.60" fill="#ffffff" stroke="#d68910" stroke-width="0.30"/>
 <text x="26.50" y="245.05" font-size="1.10" text-anchor="middle" font-weight="bold" fill="#d68910">LK</text>
-<circle cx="95.38" cy="97.00" r="1.60" fill="#ffffff" stroke="#2f6db5" stroke-width="0.30"/>
-<text x="95.38" y="97.55" font-size="1.10" text-anchor="middle" font-weight="bold" fill="#2f6db5">OS</text>
+<circle cx="91.75" cy="97.00" r="1.60" fill="#ffffff" stroke="#2f6db5" stroke-width="0.30"/>
+<text x="91.75" y="97.55" font-size="1.10" text-anchor="middle" font-weight="bold" fill="#2f6db5">OS</text>
 <circle cx="26.77" cy="131.38" r="1.00" fill="#d68910" stroke="#d68910" stroke-width="0.40"/>
 <text x="28.77" y="134.97" font-size="1.50" text-anchor="start" font-weight="bold" fill="#d68910">HP</text>
 <text x="29.85" y="110.72" font-size="1.50" text-anchor="start" font-weight="bold" fill="#15181c">NB</text>
@@ -211,8 +211,8 @@
 <rect x="262.00" y="72.80" width="148.00" height="2.80" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
 <text x="262.70" y="74.55" font-size="1.45" text-anchor="start" font-weight="normal" fill="#15181c">OS</text>
 <text x="271.70" y="74.55" font-size="1.45" text-anchor="start" font-weight="normal" fill="#15181c">Office supply port</text>
-<text x="296.70" y="74.55" font-size="1.45" text-anchor="start" font-weight="normal" fill="#15181c">603 / 99 / 1320</text>
-<text x="318.70" y="74.55" font-size="1.45" text-anchor="start" font-weight="normal" fill="#15181c">sleeve P9 in the right lining, fan blowing out; W9 from J11</text>
+<text x="296.70" y="74.55" font-size="1.45" text-anchor="start" font-weight="normal" fill="#15181c">574 / 99 / 1320</text>
+<text x="318.70" y="74.55" font-size="1.45" text-anchor="start" font-weight="normal" fill="#15181c">plenum adaptor P9 in the right lining, fan on its inner face blowing out; W9 from J11</text>
 <text x="262.70" y="77.35" font-size="1.45" text-anchor="start" font-weight="normal" fill="#15181c">OR</text>
 <text x="271.70" y="77.35" font-size="1.45" text-anchor="start" font-weight="normal" fill="#15181c">Office return port</text>
 <text x="296.70" y="77.35" font-size="1.45" text-anchor="start" font-weight="normal" fill="#15181c">603 / 951 / 1320</text>
@@ -238,7 +238,7 @@
 <line x1="271.00" y1="28.00" x2="271.00" y2="78.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="296.00" y1="28.00" x2="296.00" y2="78.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="318.00" y1="28.00" x2="318.00" y2="78.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
-<text x="262.00" y="82.40" font-size="1.55" text-anchor="start" font-weight="normal" fill="#15181c">x from the left skin, y back from the front, z up from the floor (rack_layout v1.3.0).</text>
+<text x="262.00" y="82.40" font-size="1.55" text-anchor="start" font-weight="normal" fill="#15181c">x from the left skin, y back from the front, z up from the floor (rack_layout v1.3.1).</text>
 <text x="262.00" y="85.00" font-size="1.55" text-anchor="start" font-weight="normal" fill="#15181c">Cold side (blue): front plenum. Hot side (red): rear plenum and the bay above the partition,</text>
 <text x="262.00" y="87.60" font-size="1.55" text-anchor="start" font-weight="normal" fill="#15181c">which carries the return air down to the AC. Everything that crosses from the front plenum</text>
 <text x="262.00" y="90.20" font-size="1.55" text-anchor="start" font-weight="normal" fill="#15181c">to the bay goes through the hood port HP; no other holes are needed. Keep probe leads</text>
@@ -316,7 +316,7 @@
 <text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-ELC-001   SHEET 4 OF 5   REV B</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">1:8 views, details as noted @ A3   UNITS mm   LAYOUT v1.3.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">1:8 views, details as noted @ A3   UNITS mm   LAYOUT v1.3.1</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
 <text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-16   DRAWN Claude (AI) for Carbon Project</text>

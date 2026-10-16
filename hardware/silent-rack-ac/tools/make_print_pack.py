@@ -42,11 +42,11 @@ OVERHANG_MAX = 50.0                    # deg from vertical a face may lean befor
 OK_WIDTH = 6.0                         # an overhang strip this narrow prints anyway (short bridge / ledge)
 GAP = 6.0                              # spacing between parts on a shared plate
 PLATE_MAX_G = 700.0                    # a fresh 1 kg spool always finishes a plate (brim, purge, a restart)
-PRINT_ORDER = ("G", "P2", "P1", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P11", "P12")  # plate numbering
+PRINT_ORDER = ("G", "P2", "P1", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P12")  # plate numbering
 LOOSE = ("G", "P8", "P12")             # parts with no fixed installed position in the rack (gauges, clips, office wall)
 KITS = {"P6": "electronics", "P7": "electronics", "P8": "electronics",      # kits print on plates of their own
-        "P9": "office", "P10": "office", "P11": "office", "P12": "office"}
-INSTALLED_TWICE = ("P3", "P9", "P10", "P11")    # one piece, several installed copies (keepers, office ports)
+        "P9": "office", "P10": "office", "P12": "office"}
+INSTALLED_TWICE = ("P3", "P9", "P10")    # one piece, several installed copies (keepers, office ports)
 DUCT = "Exhaust duct (insulated)"
 FOAM_RING = 3.0                        # closed-cell foam ring on the elbow shoulder, compressed to half by the duct
 ZIP_DATE = (2026, 1, 1, 0, 0, 0)
@@ -236,7 +236,7 @@ def clash_check(pack):
     hb = I["hood_box"]
     hinfo = pack["parts"]["P1"]["info"]
     z_arm = pack["parts"]["P3"]["z_arm"]
-    fixed = [p for p in pack["pieces"] if p["part"] in ("P1", "P4", "P5", "P6", "P7", "P9", "P10", "P11")]
+    fixed = [p for p in pack["pieces"] if p["part"] in ("P1", "P4", "P5", "P6", "P7", "P9", "P10")]
     configs = OrderedDict()
     k_stow = pack["parts"]["P3"]["solids"]
     k_hold = [PP.keeper(x, y, hb[2], z_arm, 0.0) for x, y in hinfo["keepers"]]
@@ -330,7 +330,7 @@ def exploded_figure(pack, path):
               ("Exhaust: elbow halves, wall spigot", ("P4", "P5"), (-35.0, 22.0), 1.15),
               ("Electronics: touchscreen pod, node box", ("P6", "P7"), (-62.0, 18.0), 0.9)]
     if "P9" in pack["parts"]:
-        groups.append(("Office air port: grille, sleeve, duct spigot, wall grille", ("P9", "P10", "P11", "P12"),
+        groups.append(("Office air port: grille, plenum adaptor, wall grille", ("P9", "P10", "P12"),
                        (-58.0, 20.0), 1.0))
     fig = plt.figure(figsize=(6.7 * len(groups), 7.6))
     light = np.array([-0.4, -0.6, 0.7])
@@ -418,8 +418,8 @@ def _explode(p, pack):
         return np.array([0.0, -40.0, 0.0]) if p["id"].endswith("-2") else np.zeros(3)
     if p["part"] == "P7":                       # lid off to the side
         return np.array([45.0, 0.0, 0.0]) if p["id"].endswith("-2") else np.zeros(3)
-    if p["part"] in ("P9", "P10", "P11", "P12"):  # along the duct axis: grille in, spigot out, wall grille closer
-        return np.array([{"P10": -45.0, "P9": 0.0, "P11": 45.0, "P12": -110.0}[p["part"]], 0.0, 0.0])
+    if p["part"] in ("P9", "P10", "P12"):        # along the duct axis: grille in, wall grille closer
+        return np.array([{"P10": -45.0, "P9": 0.0, "P12": -110.0}[p["part"]], 0.0, 0.0])
     if p["part"] == "P5":                       # pulled in from the rear wall to sit just past the elbow
         ei, wi = pack["parts"]["P4"]["info"], pack["parts"]["P5"]["info"]
         dy = ei["outlet_end"].y + 60.0 + 90.0 - wi["y_in0"]
@@ -510,11 +510,10 @@ def doc_md(pack, plates, report):
                  "(see `docs/ELECTRONICS.md`).",
            "P7": "Holds the rack node's carrier board inside the front plenum, on magnets.",
            "P8": "Hold the temperature probes (and the humidity sensor's lead) in the air stream, on magnets.",
-           "P9": "Lines the cut in the right side lining and holds the booster fan on a foam gasket; the return port "
-                 "uses the same sleeve, empty (see `docs/OFFICE_AIR.md`).",
-           "P10": "Finger guard over the fan. The four M3 bolts go in through it from the plenum side and clamp "
-                  "grille, fan, sleeve, skin and flange together.",
-           "P11": "Takes your flex duct outside the cabinet: a spigot with a clamp bead on a flange bolted to the skin.",
+           "P9": "One piece per port: fills the cut in the right side lining, tapers smoothly from the 80 mm fan "
+                 "to the 60 mm duct and carries the duct spigot out through the skin. The fan screws to its inner "
+                 "face; four screws from outside hold it to the skin (see `docs/OFFICE_AIR.md`).",
+           "P10": "Finger guard, screwed over the fan (supply) or straight onto the adaptor (return).",
            "P12": "Finishes each duct on the office side of the wall; the return one holds the office probe T7."}
     for pid, pi in PP.PART_INFO.items():
         ps = [p for p in pcs if p["part"] == pid]
@@ -567,8 +566,8 @@ def doc_md(pack, plates, report):
            "4. **Elbow and wall spigot (%s)** in ASA." % pls("P4", "P5"),
            "5. **Electronics mounts (%s):** the touchscreen pod, the node box and the clips, any time before the "
            "electronics go in." % pls("P6", "P7", "P8")] + ([
-           "6. **Office air kit (%s):** two of each - sleeve, grille, duct spigot and wall grille. Print G3 first: "
-           "your flex duct must push over it and past the bead." % pls("P9", "P10", "P11", "P12")]
+           "6. **Office air kit (%s):** two of each - plenum adaptor, grille and wall grille. Print G3 first: "
+           "your flex duct must push over it and past the bead." % pls("P9", "P10", "P12")]
                                                           if "P9" in pack["parts"] else []) + ["",
            "## Assembly", "",
            "**Hood body (P1).** Dry-fit first. The tongue on each section (inner half of the wall, %.0f mm long) slides "
@@ -662,27 +661,35 @@ def office_assembly(pack):
     O = PP.RL.OFFICE
     D = pack["I"]["D"]
     wi = pack["parts"]["P12"]["info"]
+    ai = pack["parts"]["P9"]["info"]
+    d, dep = PP.PR["insert"]
     return [
-        "**Office air ports (P9-P11).** Two ports in the right side, at %.0f mm above the floor: the supply in the "
-        "front (cold) bay, the return in the rear (hot) bay. The side skin SR3 comes with the D%g duct hole and four "
-        "D%g bolt holes per port (`docs/SHEET_METAL.md`). Cut the %.0f mm square out of the side lining behind each "
-        "hole and push the sleeve (P9) in from the plenum side, end plate against the MLV, cable slot at the bottom." % (
-            D["office_z"], D["office_hole_d"], O["bolt_d"], D["office_sleeve"]),
+        "**Office plenum adaptors (P9).** Two ports in the right side, at %.0f mm above the floor: the supply in "
+        "the front (cold) bay, the return in the rear (hot) bay. Each adaptor is one print: a %.0f mm square body "
+        "that fills the cut in the side lining, bored as a smooth cone from the fan's D%.0f to the duct's D%.1f "
+        "(%.0f degrees), with the D%g duct spigot running on out through the skin." % (
+            D["office_z"], 2 * ai["h"], 2 * ai["rm"], 2 * ai["rb"], ai["half_angle"], D["office_duct_d"]),
         "",
-        "Supply: stick a %g mm foam tape ring round the duct hole on the sleeve's end plate, then slide the fan in "
-        "**blowing outwards** (label side out), its lead in the cable slot. Put a 3 mm foam gasket on each spigot "
-        "flange (P11) and hold it on the outside of the skin. From inside, push 4 x M3 x 50 with washers through the "
-        "grille (P10), the fan's corner holes, the sleeve, the skin and the flange; nyloc nuts and washers outside. "
-        "Tighten until the fan is snug on its gasket, no more. The fan lead leaves through the grille's notch. "
-        "Return: the same stack with no fan and no gasket." % O["gasket"],
+        "1. **Inserts.** Press 8 x M3 heat-set inserts into each adaptor with a soldering iron (D%g holes, %g deep): "
+        "4 in the inner face on the fan's square, 4 in the outer face round the spigot." % (d, dep),
+        "2. **Fit.** The side skin SR3 comes with a D%g hole and 4 x D%g screw holes per port (`docs/SHEET_METAL.md`). "
+        "Cut the %.0f mm square out of the side lining and the D%g hole in the MLV behind each skin hole. Push the "
+        "adaptor in from the plenum side, spigot first, until its outer face sits on the MLV; screw it on from "
+        "outside with 4 x M3 x 10 button heads and washers. The MLV is the gasket: tighten until it just "
+        "squeezes." % (D["office_hole_d"], O["bolt_d"], D["office_sleeve"], D["office_hole_d"]),
+        "3. **Supply fan.** Stick a %g mm foam tape ring on the adaptor's inner face, round the bore. Hold the fan on "
+        "it **blowing outwards** (label side towards the adaptor), the grille (P10) on the fan, and screw all three "
+        "together with 4 x M3 x 35 into the inserts. Snug, no more. The fan lead runs free in the plenum to the node "
+        "box (W9)." % O["gasket"],
+        "4. **Return.** No fan: screw the grille straight onto the adaptor with 4 x M3 x 8.",
         "",
         "**Ducts and wall grilles (P12).** Drill a 70-76 mm hole through the office wall in line with each port. "
-        "Push each duct over its cabinet spigot past the bead and clamp it between the flange and the bead. Run "
+        "Push each duct over its cabinet spigot past the bead and clamp it behind the bead. Run "
         "the duct through the wall. On the office side push it over the wall grille's spigot and hold it behind "
         "the bead with a cable tie. Screw the grille to the wall with 4 x 4 mm countersunk screws in plugs. Before "
         "you fit the return grille, clip probe T7 into the channel on the back of its slots (%.0f mm behind the "
-        "room face) and feed its lead back through the return duct to the cabinet (`docs/OFFICE_AIR.md`, "
-        "`docs/ELECTRONICS.md`)." % wi["probe"][1],
+        "room face) and feed its lead back through the return duct and the adaptor, out between the grille's "
+        "slots into the hot plenum (`docs/OFFICE_AIR.md`, `docs/ELECTRONICS.md`)." % wi["probe"][1],
         ""]
 
 

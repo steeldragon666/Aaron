@@ -119,9 +119,9 @@
 <text x="68.50" y="121.75" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">1</text>
 <text x="73.70" y="121.75" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">D20.5 in SK2</text>
 <rect x="14.00" y="122.80" width="190.00" height="3.40" rx="0.00" fill="#f5f7f9" stroke="none" stroke-width="0.00"/>
-<text x="14.70" y="125.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Office air ports (printed P9-P11)</text>
+<text x="14.70" y="125.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">Office air ports (printed P9)</text>
 <text x="68.50" y="125.15" font-size="1.75" text-anchor="middle" font-weight="normal" fill="#15181c">2</text>
-<text x="73.70" y="125.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">D56 + 4 x D3.4 on a 71.5 square per port (SR3); M3 x 45 through grille, fan, skin, flange</text>
+<text x="73.70" y="125.15" font-size="1.75" text-anchor="start" font-weight="normal" fill="#15181c">D64 + 4 x D3.4 on the axes at r 38 per port (SR3); M3 x 10 button heads into the adaptor</text>
 <rect x="14.00" y="82.00" width="190.00" height="44.20" rx="0.00" fill="none" stroke="#15181c" stroke-width="0.30"/>
 <line x1="14.00" y1="85.40" x2="204.00" y2="85.40" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
 <line x1="14.00" y1="88.80" x2="204.00" y2="88.80" stroke="#9aa1a8" stroke-width="0.10" stroke-linecap="butt"/>
@@ -285,10 +285,10 @@
 <text x="291.00" y="259.50" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">19in rail, hardware, assembly, details</text>
 <line x1="272.00" y1="254.90" x2="412.00" y2="254.90" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="265.80" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DOC NO.</text>
-<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 5 OF 6   REV B</text>
+<text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-SMP-001   SHEET 5 OF 6   REV C</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">as noted @ A3   UNITS mm   LAYOUT v1.3.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">as noted @ A3   UNITS mm   LAYOUT v1.3.1</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
 <text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-16   DRAWN Claude (AI) for Carbon Project</text>

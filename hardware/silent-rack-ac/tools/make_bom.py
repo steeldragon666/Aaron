@@ -305,8 +305,10 @@ def main():
     if D["office"]:                                   # office air ports (docs/OFFICE_AIR.md)
         add("Office air", "Flexible duct %g mm + hose clamp, supply and return runs" % D["office_duct_d"], 2, "run",
             0.0, "owner supplied; insulated acoustic flex recommended")
-        add("Office air", "M3 x 50 socket head A2 + nyloc + 2 washers", 8, "set", 0.60, "4 per port (P10-P11)")
-        add("Office air", "Closed-cell foam tape 2 mm (fan gasket) and 3 mm (flange gaskets)", 1, "set", 8.0, "")
+        add("Office air", "M3 x 5.7 brass heat-set inserts", 16, "ea", 0.25, "8 per plenum adaptor P9")
+        add("Office air", "M3 A2 screws: 8 x 10 button head + washers, 4 x 35 and 4 x 8 socket head", 1, "set", 6.0,
+            "skin to adaptor; supply grille + fan; return grille")
+        add("Office air", "Closed-cell foam tape 2 mm (fan gasket)", 1, "roll", 5.0, "")
         add("Office air", "Wall plugs + 4 mm x 30 countersunk screws, cable ties", 1, "set", 6.0,
             "office wall grilles P12; 70-76 mm hole saw for the wall")
     for g, desc in ELC_GROUPS.items():

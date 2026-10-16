@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Drawing | CP-SRA16-SMP-001, 6 sheets (`drawings/CP-SRA16-SMP-001.pdf`) |
-| Generated | `tools/make_sheet_pack.py` from `rack_layout.py` v1.3.0 on 2026-10-16 |
+| Generated | `tools/make_sheet_pack.py` from `rack_layout.py` v1.3.1 on 2026-10-16 |
 | DXF | `cad/dxf/cut/` (cut geometry only), `cad/dxf/info/` (+ bend lines, ID etch, notes), `cad/dxf/nest/` (nested 1200x800 blanks), all zipped in `cad/dxf/SRA16_sheet_metal_DXF.zip` |
 | Size limit | every flat blank fits 1200 x 800 (checked) |
 | Skins | 1.2 mm steel, powder coated, 3 mm MLV bonded inside; the welded frame is unchanged |
@@ -17,7 +17,7 @@ The 15 mm ply skins are now laser-cut 1.2 mm steel. The frame and the inside of 
 - **Joint strips.** Each joint sits on a rail centreline with a 1 mm gap, and both skin edges have R4 notches round each strip screw. A 50 x 1.2 strip covers the joint and is screwed through the notches into the rail's rivnuts (detail J, sheet 5). The MLV behind stays one piece per side.
 - **Doors.** The doors are flat skins stiffened by a bonded 20 x 20 angle frame. The hinges and toggle latches are riveted through the skins, so the frame needs **no extra holes**.
 - **Acoustics.** 1.2 mm steel plus MLV weighs about as much as 15 mm ply plus MLV. It has no coincidence dip in the speech band, so the insertion loss is the same or slightly better.
-- **Rev B - office air.** SR3 (right side, top) gains two office air ports at 1320 mm above the floor: a D56 hole and 4 x D3.4 bolt holes on a 71.5 square for each. The supply port is in the front (cold) bay and the return port in the rear (hot) bay. See `docs/OFFICE_AIR.md`.
+- **Rev B/C - office air.** SR3 (right side, top) has two office air ports at 1320 mm above the floor: a D64 hole for the plenum adaptor's duct spigot and 4 x D3.4 screw holes on its axes at 38 mm from the centre (rev C: was D56 + a 71.5 square for the earlier sleeve and flange). The supply port is in the front (cold) bay and the return port in the rear (hot) bay. See `docs/OFFICE_AIR.md`.
 
 ## Parts
 
@@ -74,7 +74,7 @@ The hardware holes suit the parts below. If yours differ, change `HW` in `rack_l
 - **Latches:** adjustable toggle latches, 4 off, riveted to the right-hand side skins. The hook engages the slot in the KB1 keeper on the door.
 - **Window:** 2 x 6 mm polycarbonate, 180 x 240, with a 10 mm EPDM spacer frame. Clamp the stack to the lower door with the WR1 frame and 8 x M4 x 35.
 - **Rear skin:** a D150 exhaust spigot (4 x M5 on PCD 190) and a 200 x 40 brush cable grommet.
-- **Office air ports (SR3):** a 80 mm PC fan's bolt square (71.5 mm) round each D56 duct hole. Printed sleeve, grille and duct spigot: `docs/PRINTED_PARTS.md` P9-P11.
+- **Office air ports (SR3):** a D64 hole for the duct spigot and 4 x M3 on the axes at 38 mm round it. Printed plenum adaptor and grille: `docs/PRINTED_PARTS.md` P9-P10.
 
 ## Nesting (1200 x 800 blanks)
 

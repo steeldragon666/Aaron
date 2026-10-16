@@ -15,9 +15,8 @@ P6-2,P6,Touchscreen pod - bezel,PETG,1,128.0,91.0,10.0,31.8,40.0,1.2,11,front fa
 P7-1,P7,Rack node box - base,PETG,1,98.0,78.0,26.5,48.7,62.0,1.8,11,base on the plate,cad/print/stl/P7-1_node_box_base.stl
 P7-2,P7,Rack node box - lid,PETG,1,98.0,78.0,5.0,15.8,20.0,0.7,12,outer face on the plate,cad/print/stl/P7-2_node_box_lid.stl
 P8-1,P8,Clip - temperature probe,PETG,6,24.0,14.0,22.0,6.5,8.0,0.5,12,"magnet face on the plate, print 6",cad/print/stl/P8-1_clip_temperature_probe_x6.stl
-P9-1,P9,Office port sleeve,PETG,2,86.0,86.0,30.0,38.4,49.0,1.4,13,"end plate on the plate, print 2 (supply holds the fan)",cad/print/stl/P9-1_office_sleeve_x2.stl
-P10-1,P10,Office port grille,PETG,2,86.0,86.0,2.5,9.9,13.0,0.6,13,"plenum face on the plate, print 2",cad/print/stl/P10-1_office_grille_x2.stl
-P11-1,P11,Office duct spigot,PETG,2,88.0,88.0,48.0,37.4,48.0,1.4,14,"skin face of the flange on the plate, print 2",cad/print/stl/P11-1_office_spigot_x2.stl
+P9-1,P9,Office plenum adaptor,PETG,2,86.0,86.0,79.2,141.2,179.0,4.6,13,"inner (fan) face on the plate, spigot up, print 2",cad/print/stl/P9-1_office_plenum_adaptor_x2.stl
+P10-1,P10,Office port grille,PETG,2,86.0,86.0,2.5,10.0,13.0,0.6,14,"plenum face on the plate, print 2",cad/print/stl/P10-1_office_grille_x2.stl
 P12-1,P12,Office wall grille,PETG,2,110.0,110.0,44.0,60.6,77.0,2.1,14,"room face on the plate, print 2",cad/print/stl/P12-1_office_wall_grille_x2.stl
 G1,G,Gauge - elbow socket over the AC spigot,ASA,1,159.0,159.0,12.0,23.1,25.0,1.0,1,print first,cad/print/stl/G1_gauge_elbow_socket_over_the_ac_spigot.stl
 G2,G,Gauge - male spigot into the 150 duct,ASA,1,149.0,149.0,15.0,27.1,29.0,1.1,2,print first,cad/print/stl/G2_gauge_male_spigot_into_the_150_duct.stl

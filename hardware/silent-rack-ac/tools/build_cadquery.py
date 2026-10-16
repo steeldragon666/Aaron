@@ -35,6 +35,10 @@ def make_prim(p):
         p0, p1 = cq.Vector(*p["p0"]), cq.Vector(*p["p1"])
         d = p1 - p0
         return cq.Solid.makeCylinder(p["r"], d.Length, pnt=p0, dir=d.normalized())
+    if k == "cone":
+        p0, p1 = cq.Vector(*p["p0"]), cq.Vector(*p["p1"])
+        d = p1 - p0
+        return cq.Solid.makeCone(p["r0"], p["r1"], d.Length, pnt=p0, dir=d.normalized())
     if k == "elbow":
         tor = cq.Solid.makeTorus(p["R"], p["r"], pnt=cq.Vector(*p["c"]), dir=cq.Vector(*p["axis"]))
         return tor.intersect(make_prim(RL.elbow_clip_box(p)))

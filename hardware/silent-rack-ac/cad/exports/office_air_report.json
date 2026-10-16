@@ -3,8 +3,9 @@
   "d": 0.06,
   "a_d": 0.00283,
   "a_b": 0.00239,
-  "a_s": 0.0065,
-  "f10": 0.51972,
+  "a_s": 0.00454,
+  "cone_half_deg": 19.11973,
+  "f10": 0.74426,
   "f12": 0.77948,
   "open10_pct": 74.42617,
   "open12_pct": 77.94846
@@ -13,125 +14,125 @@
  "fan_derate": 0.85,
  "systems": {
   "0.5 m": {
-   "k_total": 9.51,
+   "k_total": 8.14,
    "elements": {
-    "supply: fan grille P10 + entry": 0.82,
-    "supply: fan outlet into the end-plate hole": 0.44,
+    "supply: fan grille P10 + entry": 0.52,
+    "supply: adaptor cone, fan bore to duct bore": 0.07,
     "supply: spigot bore into the duct": 0.03,
     "supply: flex duct, 0.5 m": 0.42,
     "supply: office wall grille P12, free outlet": 3.59,
     "return: office wall grille P12 + entry": 1.59,
     "return: flex duct, 0.5 m": 0.42,
     "return: duct into the spigot bore": 0.11,
-    "return: bore into the empty sleeve": 0.56,
-    "return: fan grille P10, free outlet": 1.55
+    "return: adaptor cone as a diffuser": 0.24,
+    "return: fan grille P10, free outlet": 1.16
    },
    "fans": {
     "nf-a8": {
-     "m3h": 16.0,
-     "pa": 14.1,
-     "duct_m_s": 1.57,
-     "w_per_k": 5.35
+     "m3h": 17.0,
+     "pa": 13.7,
+     "duct_m_s": 1.67,
+     "w_per_k": 5.71
     },
     "nf-a8x2": {
-     "m3h": 21.1,
-     "pa": 24.5,
-     "duct_m_s": 2.07,
-     "w_per_k": 7.06
+     "m3h": 22.4,
+     "pa": 23.6,
+     "duct_m_s": 2.2,
+     "w_per_k": 7.49
     },
     "p8max": {
-     "m3h": 23.0,
-     "pa": 29.2,
-     "duct_m_s": 2.26,
-     "w_per_k": 7.71
+     "m3h": 24.5,
+     "pa": 28.3,
+     "duct_m_s": 2.41,
+     "w_per_k": 8.2
     },
     "p8maxx2": {
-     "m3h": 29.9,
-     "pa": 49.4,
-     "duct_m_s": 2.94,
-     "w_per_k": 10.03
+     "m3h": 31.6,
+     "pa": 47.2,
+     "duct_m_s": 3.11,
+     "w_per_k": 10.6
     }
    }
   },
   "1.0 m": {
-   "k_total": 10.35,
+   "k_total": 8.97,
    "elements": {
-    "supply: fan grille P10 + entry": 0.82,
-    "supply: fan outlet into the end-plate hole": 0.44,
+    "supply: fan grille P10 + entry": 0.52,
+    "supply: adaptor cone, fan bore to duct bore": 0.07,
     "supply: spigot bore into the duct": 0.03,
     "supply: flex duct, 1.0 m": 0.83,
     "supply: office wall grille P12, free outlet": 3.59,
     "return: office wall grille P12 + entry": 1.59,
     "return: flex duct, 1.0 m": 0.83,
     "return: duct into the spigot bore": 0.11,
-    "return: bore into the empty sleeve": 0.56,
-    "return: fan grille P10, free outlet": 1.55
+    "return: adaptor cone as a diffuser": 0.24,
+    "return: fan grille P10, free outlet": 1.16
    },
    "fans": {
     "nf-a8": {
-     "m3h": 15.4,
-     "pa": 14.3,
-     "duct_m_s": 1.52,
-     "w_per_k": 5.17
+     "m3h": 16.4,
+     "pa": 13.9,
+     "duct_m_s": 1.61,
+     "w_per_k": 5.48
     },
     "nf-a8x2": {
-     "m3h": 20.4,
-     "pa": 25.0,
-     "duct_m_s": 2.01,
-     "w_per_k": 6.84
+     "m3h": 21.6,
+     "pa": 24.2,
+     "duct_m_s": 2.12,
+     "w_per_k": 7.22
     },
     "p8max": {
-     "m3h": 22.3,
-     "pa": 29.7,
-     "duct_m_s": 2.19,
-     "w_per_k": 7.46
+     "m3h": 23.6,
+     "pa": 28.9,
+     "duct_m_s": 2.32,
+     "w_per_k": 7.9
     },
     "p8maxx2": {
-     "m3h": 29.1,
-     "pa": 50.6,
-     "duct_m_s": 2.85,
-     "w_per_k": 9.73
+     "m3h": 30.6,
+     "pa": 48.6,
+     "duct_m_s": 3.0,
+     "w_per_k": 10.25
     }
    }
   },
   "2.0 m": {
-   "k_total": 12.01,
+   "k_total": 10.64,
    "elements": {
-    "supply: fan grille P10 + entry": 0.82,
-    "supply: fan outlet into the end-plate hole": 0.44,
+    "supply: fan grille P10 + entry": 0.52,
+    "supply: adaptor cone, fan bore to duct bore": 0.07,
     "supply: spigot bore into the duct": 0.03,
     "supply: flex duct, 2.0 m": 1.67,
     "supply: office wall grille P12, free outlet": 3.59,
     "return: office wall grille P12 + entry": 1.59,
     "return: flex duct, 2.0 m": 1.67,
     "return: duct into the spigot bore": 0.11,
-    "return: bore into the empty sleeve": 0.56,
-    "return: fan grille P10, free outlet": 1.55
+    "return: adaptor cone as a diffuser": 0.24,
+    "return: fan grille P10, free outlet": 1.16
    },
    "fans": {
     "nf-a8": {
-     "m3h": 14.5,
-     "pa": 14.6,
-     "duct_m_s": 1.42,
-     "w_per_k": 4.85
+     "m3h": 15.2,
+     "pa": 14.3,
+     "duct_m_s": 1.5,
+     "w_per_k": 5.11
     },
     "nf-a8x2": {
-     "m3h": 19.3,
-     "pa": 25.8,
-     "duct_m_s": 1.89,
-     "w_per_k": 6.45
+     "m3h": 20.2,
+     "pa": 25.1,
+     "duct_m_s": 1.98,
+     "w_per_k": 6.77
     },
     "p8max": {
-     "m3h": 21.0,
-     "pa": 30.6,
-     "duct_m_s": 2.06,
-     "w_per_k": 7.02
+     "m3h": 22.0,
+     "pa": 29.9,
+     "duct_m_s": 2.16,
+     "w_per_k": 7.38
     },
     "p8maxx2": {
-     "m3h": 27.5,
-     "pa": 52.6,
-     "duct_m_s": 2.7,
-     "w_per_k": 9.21
+     "m3h": 28.8,
+     "pa": 51.0,
+     "duct_m_s": 2.83,
+     "w_per_k": 9.64
     }
    }
   }
@@ -144,32 +145,32 @@
   "loop_dew_c": 10.5,
   "cases": {
    "nf-a8": {
-    "m3h": 15.4,
-    "sensible_w": 41,
-    "water_g_h": 67,
-    "water_l_day": 1.6,
-    "latent_w": 46
+    "m3h": 16.4,
+    "sensible_w": 44,
+    "water_g_h": 72,
+    "water_l_day": 1.7,
+    "latent_w": 49
    },
    "nf-a8x2": {
-    "m3h": 20.4,
-    "sensible_w": 55,
-    "water_g_h": 89,
-    "water_l_day": 2.1,
-    "latent_w": 61
+    "m3h": 21.6,
+    "sensible_w": 58,
+    "water_g_h": 95,
+    "water_l_day": 2.3,
+    "latent_w": 64
    },
    "p8max": {
-    "m3h": 22.3,
-    "sensible_w": 60,
-    "water_g_h": 98,
-    "water_l_day": 2.3,
-    "latent_w": 67
+    "m3h": 23.6,
+    "sensible_w": 63,
+    "water_g_h": 103,
+    "water_l_day": 2.5,
+    "latent_w": 70
    },
    "p8maxx2": {
-    "m3h": 29.1,
-    "sensible_w": 78,
-    "water_g_h": 128,
-    "water_l_day": 3.1,
-    "latent_w": 87
+    "m3h": 30.6,
+    "sensible_w": 82,
+    "water_g_h": 134,
+    "water_l_day": 3.2,
+    "latent_w": 91
    }
   }
  },
@@ -192,7 +193,7 @@
    "q": 55.5,
    "rpm": 2200,
    "noise": "about 21 dB(A)",
-   "note": "second fan in the return sleeve"
+   "note": "second fan on the return adaptor"
   },
   "p8max": {
    "name": "1 x Arctic P8 Max",

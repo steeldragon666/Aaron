@@ -2,12 +2,13 @@
 """
 office_air.py - how much cold air, and so how much cooling, the office ports deliver (docs/OFFICE_AIR.md).
 
-The office loop: cold plenum -> fan grille P10 -> fan -> sleeve end plate -> spigot -> flex duct ->
-office wall grille P12 -> office -> P12 -> flex duct -> spigot -> empty sleeve -> P10 -> hot plenum.
+The office loop: cold plenum -> fan grille P10 -> fan -> plenum adaptor P9 (cone, fan bore to duct bore)
+-> its spigot -> flex duct -> office wall grille P12 -> office -> P12 -> flex duct -> P9 spigot -> P9 cone
+(now a diffuser) -> P10 -> hot plenum.
 Every element is a loss coefficient on its own velocity, converted to the duct's velocity pressure, so
 the system curve is dp = K_total * rho v^2 / 2.  The fans are straight lines between their catalogue
-maximum static pressure and maximum airflow, derated for a grille and a sleeve right at the fan; two
-fans in push-pull (a second fan in the return sleeve) add their pressures.  The loss coefficients are
+maximum static pressure and maximum airflow, derated for a grille and a cone right at the fan; two
+fans in push-pull (a second fan on the return adaptor) add their pressures.  The loss coefficients are
 handbook values for sharp-edged perforated plates and fittings (Idelchik): take the flows as +-20 %.
 
 The grille open areas come from the printed parts themselves (tools/printparts.py).
@@ -32,13 +33,13 @@ RHO, CP = 1.2, 1005.0                  # air, kg/m3 and J/kg K
 F_DUCT = 0.05                          # Darcy friction factor, corrugated flex duct pulled straight (sagging: x2-3)
 DUCT_M = (0.5, 1.0, 2.0)               # duct length each way (cabinet to the office grille), m
 DUCT_DEFAULT = 1.0
-DERATE = 0.85                          # fan pressure lost to the grille and sleeve right at the fan
+DERATE = 0.85                          # fan pressure lost to the grille and the cone right at the fan
 # catalogue maxima: static pressure mm H2O, airflow m3/h, speed, noise (manufacturer data, Oct 2026)
 FANS = OrderedDict([
     ("nf-a8", {"name": "1 x Noctua NF-A8 PWM", "short": "1 x NF-A8", "n": 1, "p_mm": 2.37, "q": 55.5, "rpm": 2200,
                "noise": "17.7 dB(A) at full speed", "note": "standard: silent"}),
     ("nf-a8x2", {"name": "2 x NF-A8 PWM, push-pull", "short": "2 x NF-A8", "n": 2, "p_mm": 2.37, "q": 55.5, "rpm": 2200,
-                 "noise": "about 21 dB(A)", "note": "second fan in the return sleeve"}),
+                 "noise": "about 21 dB(A)", "note": "second fan on the return adaptor"}),
     ("p8max", {"name": "1 x Arctic P8 Max", "short": "1 x P8 Max", "n": 1, "p_mm": 5.3, "q": 67.96, "rpm": 5000,
                "noise": "clearly audible above ~3000 rpm", "note": "boost: cap it with 'Office fan max'"}),
     ("p8maxx2", {"name": "2 x Arctic P8 Max, push-pull", "short": "2 x P8 Max", "n": 2, "p_mm": 5.3, "q": 67.96, "rpm": 5000,
@@ -59,19 +60,31 @@ def plate_exit(f):
     return 1.0 / (f * eps) ** 2
 
 
+def cone_in(half_deg):
+    """Conical contraction (confusor) on the outlet velocity, Idelchik diagram 3-7: 0.05 at 10-20 deg
+    half-angle (no separation), rising towards a sharp step's 0.5 * (1 - n) at 90."""
+    return 0.05 if half_deg <= 20.0 else 0.05 + 0.25 * (half_deg - 20.0) / 70.0
+
+
+def cone_out(half_deg):
+    """Conical diffuser: the fraction of a sudden expansion's loss (Idelchik diagram 5-2), about 0.2 at
+    4 deg half-angle, 0.8 at 20 and 1.0 (a plain step) from 30 up."""
+    return min(1.0, 0.2 + 0.6 * max(half_deg - 4.0, 0.0) / 16.0) if half_deg < 20.0 else min(1.0, 0.8 + 0.02 * (half_deg - 20.0))
+
+
 def geometry():
     I = PP.interfaces()
     op = I["office"][0]
     _, gi = PP.office_grille(I, op)
     _, wi = PP.wall_grille(I)
+    _, ai = PP.office_adaptor(I, op)
     P = I["P"]
     d = P["office_duct_d"] / 1000.0
     a_d = math.pi * d ** 2 / 4.0                                   # flex duct bore
     a_b = math.pi * (wi["rb"] / 1000.0) ** 2                       # spigot bore
-    hs = (P["office_fan"] / 2.0 + PP.PR["fan_cl"]) / 1000.0
-    a_s = (2 * hs) ** 2                                            # sleeve inside
-    return {"d": d, "a_d": a_d, "a_b": a_b, "a_s": a_s,
-            "f10": gi["open_mm2"] / 1e6 / a_s,                       # fan grille, open / sleeve section
+    a_s = math.pi * (ai["rm"] / 1000.0) ** 2                       # adaptor mouth = fan bore
+    return {"d": d, "a_d": a_d, "a_b": a_b, "a_s": a_s, "cone_half_deg": ai["half_angle"],
+            "f10": gi["open_mm2"] / 1e6 / a_s,                       # fan grille, open / fan bore
             "f12": wi["open_mm2"] / 1e6 / a_b,                       # wall grille, open / bore
             "open10_pct": 100.0 * gi["open_mm2"] / gi["bore_mm2"], "open12_pct": 100.0 * wi["open_mm2"] / wi["bore_mm2"]}
 
@@ -82,14 +95,14 @@ def losses(G, L):
     duct = F_DUCT * L / G["d"]
     return OrderedDict([
         ("supply: fan grille P10 + entry", (plate_in_duct(G["f10"]) + 0.5) * rd_s),
-        ("supply: fan outlet into the end-plate hole", 0.5 * (1.0 - G["a_b"] / G["a_s"]) * rd_b),
+        ("supply: adaptor cone, fan bore to duct bore", cone_in(G["cone_half_deg"]) * rd_b),
         ("supply: spigot bore into the duct", (1.0 - G["a_b"] / G["a_d"]) ** 2 * rd_b),
         ("supply: flex duct, %.1f m" % L, duct),
         ("supply: office wall grille P12, free outlet", plate_exit(G["f12"]) * rd_b),
         ("return: office wall grille P12 + entry", (plate_in_duct(G["f12"]) + 0.5) * rd_b),
         ("return: flex duct, %.1f m" % L, duct),
         ("return: duct into the spigot bore", 0.5 * (1.0 - G["a_b"] / G["a_d"]) * rd_b),
-        ("return: bore into the empty sleeve", (1.0 - G["a_b"] / G["a_s"]) ** 2 * rd_b),
+        ("return: adaptor cone as a diffuser", cone_out(G["cone_half_deg"]) * (1.0 - G["a_b"] / G["a_s"]) ** 2 * rd_b),
         ("return: fan grille P10, free outlet", plate_exit(G["f10"]) * rd_s),
     ])
 

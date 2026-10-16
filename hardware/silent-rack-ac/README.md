@@ -13,15 +13,15 @@ A sealed, acoustically lined server cabinet. The existing **Dimplex GDC14RBA** p
 | Drain | 16 mm barb at the rear, 60 mm above floor, 136.2 mm from the right edge (viewed from behind). Full-floor stainless drip tray + leak sensor. |
 | Frame | Welded 30 × 30 × 2.0 steel SHS, 43 kg. Full cut list and weld plan: [drawings/CP-SRA16-FRM-001.pdf](drawings/CP-SRA16-FRM-001.pdf), [docs/FRAME_WELD_PLAN.md](docs/FRAME_WELD_PLAN.md) |
 | Skins | Laser-cut 1.2 mm steel, 46 pieces, none larger than 1200 × 800, every hole cut. DXFs: [cad/dxf/SRA16_sheet_metal_DXF.zip](cad/dxf/SRA16_sheet_metal_DXF.zip); drawings: [drawings/CP-SRA16-SMP-001.pdf](drawings/CP-SRA16-SMP-001.pdf); notes: [docs/SHEET_METAL.md](docs/SHEET_METAL.md) |
-| Printed parts | Cold-air hood, drop collar and keepers (PETG); exhaust elbow and wall spigot (ASA); touchscreen pod, node box, probe clips and the office air ports (PETG). 33 pieces on 14 plates, sectioned for a **Bambu Lab X1 Carbon**, no supports. STLs: [cad/print/SRA16_print_x1c.zip](cad/print/SRA16_print_x1c.zip); notes: [docs/PRINTED_PARTS.md](docs/PRINTED_PARTS.md) |
+| Printed parts | Cold-air hood, drop collar and keepers (PETG); exhaust elbow and wall spigot (ASA); touchscreen pod, node box, probe clips and the office plenum adaptors and grilles (PETG). 31 pieces on 14 plates, sectioned for a **Bambu Lab X1 Carbon**, no supports. STLs: [cad/print/SRA16_print_x1c.zip](cad/print/SRA16_print_x1c.zip); notes: [docs/PRINTED_PARTS.md](docs/PRINTED_PARTS.md) |
 | Controls | **ESP32-S3 rack node + 4.3 in touchscreen** on the upper door. Six temperature probes on the cold and hot sides; runs the AC through its own IR remote codes (setpoint trim, quiet eco cycling, restart after power cuts); alarms, buzzer, an IT-shutdown relay and Home Assistant. Runs the office air fan when the kit is fitted. Kit about AUD 360. Drawings: [drawings/CP-SRA16-ELC-001.pdf](drawings/CP-SRA16-ELC-001.pdf); firmware: [firmware/](firmware/); guide: [docs/ELECTRONICS.md](docs/ELECTRONICS.md) |
-| Office air | Two 60 mm flex-duct ports through the right side to the office next door: AC-cooled supply with an 80 mm PWM fan, return to the hot side. About 40-80 W of cooling plus drying; the rack always comes first. Guide: [docs/OFFICE_AIR.md](docs/OFFICE_AIR.md) |
+| Office air | Two 60 mm flex-duct ports through the right side to the office next door: AC-cooled supply with an 80 mm PWM fan, return to the hot side. Each port is a one-piece printed plenum adaptor (80 mm fan to 60 mm duct). About 45-80 W of cooling plus drying; the rack always comes first. Guide: [docs/OFFICE_AIR.md](docs/OFFICE_AIR.md) |
 | Acoustics | 1.2 mm steel + 5 kg/m² MLV + 30 mm FR melamine foam. Lined labyrinth intake. About 25-30 dB(A) reduction expected. |
 | Mass / cost | About 193 kg empty (+31.5 kg AC). Materials about AUD 5.4k indicative, control kit included. |
 
 ## Open it in Fusion
 
-**Option 1 (fastest):** open `cad/exports/SilentRackAC.step` with **File → Open → Open from my computer…**. Fusion converts it into a native design with all 174 parts named and coloured, grouped into 8 components. Save it to your project.
+**Option 1 (fastest):** open `cad/exports/SilentRackAC.step` with **File → Open → Open from my computer…**. Fusion converts it into a native design with all 172 parts named and coloured, grouped into 8 components. Save it to your project.
 
 **Option 2 (native build with editable parameters):**
 
@@ -82,7 +82,7 @@ Override parameters on the command line, for example `python3 tools/build_cadque
 
 ## Verification
 
-- 0 interferences between the 174 solids.
+- 0 interferences between the 172 solids.
 - All 12 airflow-zone checks pass: cold and hot zones are separate, the condenser zone is on room air, and the office supply draws from the cold side and returns to the hot side.
 - STEP round-trip volume matches exactly.
 - The Fusion script passes the stand-in API test. It has not yet been run in Fusion itself.

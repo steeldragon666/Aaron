@@ -133,7 +133,7 @@
    "scenario": "Office air 1 x NF-A8 (rack 1.5 kW, office 30 degC uncooled)",
    "check": "office at least 1.0 K cooler",
    "ok": true,
-   "detail": "office 28.6 degC, 1.4 K under its uncooled 30"
+   "detail": "office 28.5 degC, 1.5 K under its uncooled 30"
   },
   {
    "scenario": "Office air 1 x NF-A8 (rack 1.5 kW, office 30 degC uncooled)",
@@ -151,13 +151,13 @@
    "scenario": "Office air 2 x P8 Max push-pull (rack 1.5 kW, office 30 degC uncooled)",
    "check": "office at least 1.8 K cooler",
    "ok": true,
-   "detail": "office 27.6 degC, 2.4 K under its uncooled 30"
+   "detail": "office 27.5 degC, 2.5 K under its uncooled 30"
   },
   {
    "scenario": "Office air 2 x P8 Max push-pull (rack 1.5 kW, office 30 degC uncooled)",
    "check": "rack pulled down for the office, never near its warning",
    "ok": true,
-   "detail": "cold side averages 16.9 degC (target 18), max 24.7"
+   "detail": "cold side averages 16.9 degC (target 18), max 24.6"
   },
   {
    "scenario": "Office air 2 x P8 Max push-pull (rack 1.5 kW, office 30 degC uncooled)",
@@ -255,7 +255,7 @@
   },
   {
    "name": "Office air rack first (AC capacity -40 % at 3 h, 2 x P8 Max)",
-   "ir_sends": 27,
+   "ir_sends": 28,
    "alarms_first_s": {
     "cold warn": 0
    },
