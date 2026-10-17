@@ -5,7 +5,10 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('/opt/node22/lib/node_modules/playwright');
 const here = path.dirname(url.fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..', '..');
-const glb = fs.readFileSync(path.join(root, 'cad/exports/SilentRackAC.glb')).toString('base64');
+// SRA_RENDER=complete renders the complete assembly (tools/make_master_step.py) instead of the model
+const complete = process.env.SRA_RENDER === 'complete';
+const glb = fs.readFileSync(path.join(root, complete ? 'cad/exports/SRA16_complete_assembly.glb'
+  : 'cad/exports/SilentRackAC.glb')).toString('base64');
 const outDir = path.join(root, 'renders'); fs.mkdirSync(outDir, { recursive: true });
 
 const doors = ['Door lower*', 'Door upper*', 'Handle upper door', 'Handle lower door', 'Window*', 'Foam door lower',
@@ -13,7 +16,11 @@ const doors = ['Door lower*', 'Door upper*', 'Handle upper door', 'Handle lower 
 const rightSide = ['Side panel right*', 'Joint strip right*', 'Latch lower*', 'Latch upper*', 'Foam side right*',
   'Skirt right'];
 const top = ['Top panel', 'Top panel MLV', 'Foam top'];
-const views = [
+const completeViews = [
+  { file: 'complete_cutaway.png', hide: [...doors, ...rightSide], dir: [1.25, -1.0, 0.7], fov: 26, margin: 0.92 },
+  { file: 'complete_section.png', hide: [...doors, ...top], clipX: 330, dir: [1, 0.0, 0.12], fov: 24, margin: 0.98, w: 1100, h: 1500 },
+];
+const modelViews = [
   { file: 'hero_front_left.png', dir: [-1.0, -1.25, 0.75], fov: 26, margin: 0.92 },
   { file: 'rear_right.png', dir: [1.0, 1.35, 0.65], fov: 26, margin: 0.92 },
   { file: 'cutaway_front_right.png', hide: [...doors, ...rightSide], dir: [1.25, -1.0, 0.7], fov: 26, margin: 0.92 },
@@ -22,6 +29,7 @@ const views = [
   // office air: both ports on the right side with the flex duct stubs (docs/OFFICE_AIR.md)
   { file: 'office_ports.png', dir: [1.0, -0.42, 0.22], target: [700, 525, 1330], fov: 26, margin: 0.52 },
 ];
+const views = complete ? completeViews : modelViews;
 // three.js is fetched once with curl (trusts the system CA bundle) and served to the
 // page through request interception, so the browser never needs network/TLS access.
 const CDN = 'https://cdn.jsdelivr.net/npm/three@0.160.0/';

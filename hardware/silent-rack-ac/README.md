@@ -46,6 +46,7 @@ The rating-plate dimensions are certain. Everything else about the AC was measur
 | `cad/fusion/SilentRackAC/` | Fusion script + `rack_layout.py` (**single source of truth** for all geometry) |
 | `cad/exports/SilentRackAC.step` | STEP assembly (named, coloured) |
 | `cad/exports/SilentRackAC.glb` | glTF for web viewers and renders |
+| `cad/exports/SRA16_complete_assembly.step` (+ .glb) | **Everything in one:** the rack, the welded frame as built, all printed parts in place and the electronics stand-ins (`tools/make_master_step.py`) |
 | `drawings/CP-SRA16-GA-001.svg/.png` | A3 general arrangement at 1:15: front, section A-A with airflow, rear, plan C-C |
 | `bom/BOM.md`, `bom/BOM.csv`, `bom/cut_list.csv` | Purchase list, cut list, sheet nesting, mass |
 | `drawings/CP-SRA16-FRM-001.pdf` (+ `_s1..s6.svg`) | Frame weld pack, 6 × A3: GA + marks, side frames, box, weld details + WPS, cut list + nesting, drilling |
@@ -75,7 +76,8 @@ python3 tools/make_print_pack.py       # printed parts: STLs sectioned for the X
 python3 tools/make_electronics.py      # control kit: unit tests, simulation, 5 A3 sheets + PDF, parts, guide
                                        #   (--shots also rebuilds the touchscreen screenshots: needs ESPHome + Xvfb)
 python3 tools/make_bom.py              # BOM, cut list, mass (reads the print pack and electronics outputs)
-node tools/render/render.mjs           # renders (Playwright + Chromium)
+python3 tools/make_master_step.py      # complete assembly STEP: rack + weldment + printed parts + electronics
+node tools/render/render.mjs           # renders (Playwright + Chromium); SRA_RENDER=complete for the complete assembly
 ```
 
 Override parameters on the command line, for example `python3 tools/build_cadquery.py ru_count=17`.
