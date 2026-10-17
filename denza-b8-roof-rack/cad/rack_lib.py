@@ -266,12 +266,13 @@ def whip(cx, cy, z0, length, base_r=22, tip_r=8, name="whip", mat="antenna_white
 
 def shark_fin(cx, cy, z0, length=230, height=150, width=60, name="fin",
               mat="antenna_white") -> Part:
-    pts = [(cx - length / 2, z0), (cx - length / 2 + 25, z0 + height * 0.55),
-           (cx - length / 2 + 70, z0 + height), (cx + length / 2, z0 + 8)]
-    fin = (cq.Workplane("XZ").moveTo(*pts[0]).spline(pts[1:], includeCurrent=True)
-           .lineTo(cx + length / 2, z0).close().extrude(width / 2, both=True)
-           .translate((0, cy, 0)))
-    fin = safe_fillet(fin, ">Z", 4)
+    # swept leading edge rising rearward to a near-vertical trailing edge
+    xf, xr = cx + length / 2, cx - length / 2
+    fin = (cq.Workplane("XZ").moveTo(xf, z0)
+           .spline([(cx + length * 0.05, z0 + height * 0.45), (xr + 40, z0 + height)], includeCurrent=True)
+           .lineTo(xr + 8, z0 + height - 30).lineTo(xr, z0).close()
+           .extrude(width / 2, both=True).translate((0, cy, 0)))
+    fin = safe_fillet(fin, "|Y", 6)
     return Part(name, fin, mat)
 
 

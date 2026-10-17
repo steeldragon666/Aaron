@@ -79,7 +79,7 @@ def textured_plastic(name, base, rough=0.6, scale=900.0, bump=0.15):
 def build_materials(mode):
     night = mode == "night"
     led_on = mode in ("night", "dusk")
-    led_k = {"night": 60.0, "dusk": 30.0}.get(mode, 0.0)
+    led_k = {"night": 80.0, "dusk": 60.0}.get(mode, 0.0)
     cool = (0.85, 0.92, 1.0)
     amber = (1.0, 0.45, 0.05)
     M = {
@@ -230,12 +230,12 @@ def led_beams(objs, scale=1.0):
         col = (1.0, 0.5, 0.1) if mat == "led_amber" else (0.85, 0.92, 1.0)
         k = 0.25 if mat == "led_amber" else 1.0
         if mat == "headlight":
-            add_spot(c + Vector((0.1, 0, 0)), (1, 0, -0.08), 1500 * scale, 70)
+            add_spot(c + Vector((0.1, 0, 0)), (1, 0, -0.1), 1500 * scale, 70, blend=0.8)
         elif c.x > 0.2:
             n = max(1, int(dims.y / 0.35))
             for i in range(n):
                 y = c.y - dims.y / 2 + (i + 0.5) * dims.y / n
-                add_spot((c.x + 0.08, y, c.z), (1, 0, -0.06), 9000 * k * scale / n, 60, col)
+                add_spot((c.x + 0.08, y, c.z), (1, 0, -0.07), 14000 * k * scale / n, 70, col, blend=0.8, radius=0.1)
         elif c.x < -2.0:
             add_spot((c.x - 0.08, c.y, c.z), (-1, 0, -0.35), 1200 * k * scale, 110, col, blend=0.9, radius=0.15)
         elif mat == "led_halo":
@@ -253,7 +253,8 @@ CAMS = {
     "rear34":   ((-8.4, -6.0, 3.3),        (-1.0, 0.0, 1.7), 40),
     "side":     ((0.4, -11.5, 1.4),        (-0.4, 0.0, 1.2), 50),
     "top34":    ((-3.6, -3.4, 4.6),        (-1.4, 0.0, 2.05), 40),
-    "night_front": ((9.5, -4.2, 1.35),     (0.0, 0.0, 1.35), 45),
+    "night_front": ((8.6, -5.2, 2.7),      (0.2, 0.0, 1.45), 40),
+    "dusk34":   ((-4.2, -8.4, 2.5),        (-0.7, 0.0, 1.35), 38),
 }
 
 
@@ -311,7 +312,7 @@ def main():
     world_hdri(Path(a.hdri_dir) / a.hdri, a.hdri_strength, a.hdri_rot)
     ground(a.mode)
     if a.mode in ("night", "dusk"):
-        led_beams(objs, scale=1.0 if a.mode == "night" else 0.6)
+        led_beams(objs, scale=1.0)
     camera(a.cam)
     sc.render.filepath = str(Path(a.out).resolve())
     bpy.ops.render.render(write_still=True)

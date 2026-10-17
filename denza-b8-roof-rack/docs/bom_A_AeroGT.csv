@@ -48,8 +48,8 @@ A_rf_bay_gland_0,rubber,16,22,22,6.1
 A_rf_bay_gland_1,rubber,16,22,22,6.1
 A_rf_bay_gland_2,rubber,16,22,22,6.1
 A_rf_bay_gland_3,rubber,16,22,22,6.1
-A_fin_adsb,antenna_white,260,50,205,1866.5
-A_fin_lora,antenna_white,260,50,177,1629.3
+A_fin_adsb,antenna_white,243,50,172,1137.4
+A_fin_lora,antenna_white,240,50,148,969.0
 A_gnss,antenna_black,110,110,20,184.3
 A_wifi_0,antenna_black,76,76,26,113.1
 A_wifi_1,antenna_black,76,76,26,113.1
