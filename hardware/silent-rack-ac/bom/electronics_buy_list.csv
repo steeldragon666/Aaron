@@ -1,0 +1,50 @@
+section,refs,item,check on the listing,qty,where,Temu search,AUD (est.),note
+Boards and screens,HMI,Touchscreen Waveshare ESP32-S3-Touch-LCD-4.3B,"the 4.3B version: 800 x 480, RS485 + isolated DI/DO terminals, 7-36 V in. Not the 4.3 (no RS485)",1,maker / authorised reseller,Waveshare ESP32-S3 Touch LCD 4.3B,85.0,Temu only if the listing names the 4.3B and shows the terminal block; otherwise Waveshare's store or Amazon AU
+Boards and screens,U1,ESP32-S3-DevKitC-1 (rack node),"ESP32-S3-DevKitC-1 layout: 2 x 22 pins, two USB-C ports. N8R8 or N16R8 both fine. Not the 'mini' / 'zero' / 'super mini' S3 boards (different pinout)",2,Temu,ESP32-S3-DevKitC-1 N16R8,24.0,buy 2: one spare; clones are fine
+Boards and screens,U2,"RS485 module, automatic direction, 3.3 V","TTL to RS485, auto direction (no DE/RE pin), works at 3.3 V (MAX3485 / SP3485)",2,Temu,TTL to RS485 module automatic flow control 3.3V,6.0,
+Boards and screens,U3,5 V step-down module,"mini MP1584 buck (about 22 x 17 mm; an LM2596 board is too big for the carrier), input to 24 V, set it to 5.0-5.1 V with a meter before fitting",2,Temu,MP1584 mini buck converter adjustable,4.0,pack of several
+Boards and screens,PCB,"Prototype board 7 x 9 cm, double sided, plated through","70 x 90 mm, 2.54 mm grid",1,Temu,PCB prototype board 7x9 double sided,5.0,pack
+Boards and screens,spare,ESP32-DevKitC (WROOM-32) on 24 V terminal breakout,"the board in hand: bench spare, AVAS experiments (docs/AVAS.md)",1,owned,,0.0,not used in the rack node
+Node components,U4,IR receiver 38 kHz,TSOP38238 or VS1838B (same OUT-GND-VCC pin order),1,Temu,VS1838B IR receiver 38kHz,3.0,pack
+Node components,K1,"Relay 12 V SPDT, small",Omron G5V-1-DC12 or HK19F-DC12V (same 7.5 x 12.5 footprint); not the big blue SRD relays,1,Temu,HK19F DC12V relay,4.0,pack
+Node components,"U5, Q1-Q3, D1-D3","Semiconductors: PC817, PN2222A x 3, 1N4148 x 2, 1N5819",TO-92 transistors with E-B-C pin order (PN2222A); PC817 DIP-4,1,Temu,PC817 2N2222 1N4148 1N5819 assortment,8.0,assortment kits
+Node components,"F1, F2",Resettable fuses (PTC) 0.5 A hold,"radial PPTC, 16 V or more",2,Temu,PPTC resettable fuse kit,5.0,kit
+Node components,"R, C",Resistor kit 1/4 W + capacitor kit,"1/4 W metal film E12 kit; ceramic 100 nF, 1 nF, 4.7 uF; electrolytic 100 uF 25 V",1,Temu,metal film resistor kit 1/4W + capacitor kit,16.0,covers sheet 2's list with spares
+Node components,J1-J10,PCB screw terminals 3.5 mm pitch,"7 x 2-way, 3 x 3-way, 1 x 4-way (or a mixed kit); 3.5 mm, not 5.0 / 5.08",1,Temu,3.5mm pitch PCB screw terminal block,7.0,
+Node components,"J4, J11",JST-XH 2.54 kit + 2.54 mm headers,JST-XH 4-pin socket + plug; 2 x 22-way female headers for U1; a 4-pin 2.54 fan header,1,Temu,JST XH 2.54 connector kit,9.0,
+Sensors,T1-T3,"DS18B20 waterproof probe, 1 m","6 x 50 mm stainless, 3 wires (red, black, yellow), not the 2-wire kind",3,Temu,DS18B20 waterproof probe 1m,9.0,often a 5-pack: then buy one pack
+Sensors,T4-T7,"DS18B20 waterproof probe, 3 m","as above, 3 m lead (hot side x 3 + office T7)",4,Temu,DS18B20 waterproof probe 3m,18.0,
+Sensors,"RH, pod",SHT40 / SHT41 humidity breakout,"Sensirion SHT40 or SHT41 (or SHT45) on an I2C breakout, 3.3 V; one cold side, one in the pod",2,Temu,SHT40 temperature humidity sensor module I2C,10.0,
+Sensors,LEAK,"Mini float switch, vertical, normally open","M8 or M10 stem, about 50 mm; closes as it rises (or flip the float)",1,Temu,mini vertical float switch water level M8,5.0,
+Sensors,DOOR x 2,"Door reed contacts, surface","MC-38 type, normally closed when the magnet is near (lower door + upper door)",2,Temu,MC-38 door magnetic reed switch,5.0,pack
+Sensors,pod,Active buzzer 12 V,"12 mm, about 85 dB, 12 V",1,Temu,active buzzer 12V 12mm,3.0,pack
+AC control,IR,"IR emitter, stick-on, 3.5 mm mono plug","IR repeater / blaster emitter, single or dual head, mono 3.5 mm",1,Temu,IR extender emitter 3.5mm,5.0,
+AC control,W4,3.5 mm mono socket on a lead,"panel or inline 3.5 mm mono socket, 1-2 m lead to bare ends",1,Temu,3.5mm mono female jack cable pigtail,4.0,
+Cables and wiring,W1,4-core shielded alarm cable,4 x 0.22 mm2 + foil shield,5 m,Temu,4 core shielded cable 0.22mm 5m,10.0,or Jaycar by the metre
+Cables and wiring,W2,8-core shielded alarm cable,8 x 0.22 mm2 + foil shield,5 m,Temu,8 core shielded cable 0.2mm 5m,15.0,or Jaycar by the metre
+Cables and wiring,W5-W7,2-core and 4-core hook-up cable,"0.2-0.5 mm2, 5 m each",1,Temu,2 core 4 core electrical wire 22AWG,8.0,
+Cables and wiring,W1,GX16-4 aviation connector pair,"4-pin, male + female, cable mount",1,Temu,GX16 4 pin aviation connector,4.0,pack
+Cables and wiring,W9,"4-pin PWM fan extension, 1 m","PC fan 4-pin, male to female",1,Temu,4 pin PWM fan extension cable,4.0,
+Cables and wiring,ports,Rubber grommets 20 + 25 mm,"membrane / blind grommets (hood port, pod)",1,Temu,rubber membrane grommet kit,6.0,kit
+Cables and wiring,loop,"Spiral wrap 10 mm, adhesive tie mounts, cable ties",,1,Temu,spiral wrap 10mm + adhesive cable tie mounts,10.0,
+Cables and wiring,,Heat-shrink kit + bootlace ferrules with crimper,ferrules 0.25-1.5 mm2,1,Temu,ferrule crimper kit + heat shrink tube kit,28.0,tool you keep
+Power,W8,"12 V 2 A plug pack, regulated, 5.5 x 2.1","RCM-marked, regulated 12 V DC",1,Jaycar / Altronics,,28.0,mains-connected: not from Temu
+Power,W8,DC 5.5 x 2.1 extension 2 m + socket-to-terminal pigtail,,1,Temu,DC 5.5x2.1 extension cable 2m + female terminal adapter,6.0,
+Office air,FAN,"Noctua NF-A8 PWM (80 mm, stops at 0 %)",the genuine NF-A8 PWM (4 wire),1,maker / authorised reseller,,32.0,Temu Noctua listings are often fakes
+Office air,inserts,"M3 heat-set inserts, M3 x 5.7","brass, for 4.0 mm holes",1,Temu,M3 heat set inserts brass,8.0,16 needed: P9 adaptors
+Office air,screws,M3 stainless screw kit,"button head + socket head, lengths 8-35 mm, washers (8 x M3x10, 4 x M3x35, 4 x M3x8)",1,Temu,M3 stainless screw assortment button head socket head,12.0,kit
+Office air,gasket,Closed-cell foam tape 2 mm,,1,Temu,closed cell foam tape 2mm,5.0,
+Office air,ducts,60 mm flex duct + 2 hose clamps,,2,owned,,0.0,in hand
+Mounts,P7,Neodymium disc magnets 20 x 5 mm,N35 or better,2,Temu,neodymium magnet 20x5mm,6.0,pack
+Mounts,P8,Neodymium disc magnets 10 x 3 mm,N35 or better,6,Temu,neodymium magnet 10x3mm,5.0,pack
+Mounts,"P6, P7","Self-tapping screws M2.5 x 6 and M3 x 8/12, M4 x 8 button heads",,1,Temu,self tapping screw assortment M2 M2.5 M3,8.0,kit
+Mounts,P6,Foam pads 10 x 10 x 2 mm,,1,Temu,foam tape pads,3.0,
+Network,SW1,"Industrial PoE switch 16 PoE + 8 GE, L2+ managed",the switch in hand,1,owned,,0.0,check its label: DC input range and PoE budget
+Network,PS1,48-55 V DIN-rail supply for the switch,"Mean Well SDR-240-48 class (240 W, adjustable to about 53 V for PoE+); size it to the cameras: 16 x 6 W cameras + the switch = about 130 W",1,Element14 / RS / Core Electronics,,125.0,mains-connected: not from Temu
+Network,DIN,"DIN rail 35 mm, 300 mm",steel top-hat rail,1,Temu,DIN rail 35mm 300mm,5.0,
+Network,leads,Cat6 patch leads 0.5 m,"pure copper, not CCA",4,Temu,cat6 patch cable 0.5m pure copper,12.0,uplink + servers
+AVAS (bench),AVAS,"Arrival AVAS unit, pre-production, unflashed",the unit in hand,1,owned,,0.0,see docs/AVAS.md before powering it
+AVAS (bench),X1,Deutsch DT 12-way plug kit (mates the unit),DT06-12SA plug + W12S wedge + size 16 sockets (the unit has the DT04-12P receptacle),1,Temu,Deutsch DT 12 pin connector kit DT06-12S,10.0,check the key letter (A) matches
+Options,J10,Mains detect: 5 V USB charger + USB-A lead,RCM-marked charger,1,Jaycar / Altronics,,15.0,optional
+Options,FAN2,Second fan (push-pull) + 4-pin Y splitter,genuine Noctua NF-A8 PWM or Arctic P8 Max,1,maker / authorised reseller,,38.0,optional
+Options,DO1,12 V LED beacon,"12 V DC, small strobe or steady",1,Temu,12V LED warning beacon,10.0,optional

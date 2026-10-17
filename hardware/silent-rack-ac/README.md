@@ -58,6 +58,8 @@ The rating-plate dimensions are certain. Everything else about the AC was measur
 | `firmware/` | ESPHome firmware: `sra16-node.yaml` (rack node), `sra16-hmi.yaml` + `hmi/ui.yaml` (touchscreen), `components/sra_control/` (control core), `test/` (unit tests), `preview/` (screens on a PC) |
 | `drawings/CP-SRA16-ELC-001.pdf` (+ `_s1..s5.svg`), `docs/ELECTRONICS.md`, `bom/electronics*.csv` | Control electronics, 5 × A3: system, node carrier schematic + board, touchscreen pod + harness + Modbus map, placement + cable routes, control logic + commissioning |
 | `docs/OFFICE_AIR.md`, `tools/office_air.py` | Office air: performance (duct losses vs fan curves), controls, parts, installation |
+| `bom/ELECTRONICS_BUY_LIST.md`, `bom/electronics_buy_list.csv` | **Shopping list** for every screen, board, sensor, cable and power part (Temu where sensible; mains items RCM-marked from local suppliers) (`tools/make_buy_list.py`) |
+| `docs/AVAS.md` | The Arrival AVAS unit: bench identification plan and how it becomes the alarm sounder |
 | `docs/DESIGN.md` | Design basis: airflow, thermal, acoustics, drain, controls, build order, commissioning |
 | `renders/` | Renders + voxel airflow-zone sections |
 | `tools/` | Build, verify, draw, BOM and render scripts |
