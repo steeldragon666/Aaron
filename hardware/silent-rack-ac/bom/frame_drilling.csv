@@ -1,0 +1,16 @@
+mark,qty,face,use,hole,datum_end,positions_mm_from_datum_end
+P1,2,outer side face,Side panel fixing,D9.0 (M6 rivnut),bottom end,40.0 280.9 521.8 762.7 1003.5 1244.4 1485.3 1726.2
+P2,1,outer side face,Side panel fixing,D9.0 (M6 rivnut),bottom end,40.0 280.9 521.8 762.7 1003.5 1244.4 1485.3 1726.2
+P2,1,rear face,Rear panel fixing,D9.0 (M6 rivnut),bottom end,160.4 401.3 642.2 883.1 1124.0 1364.9 1605.8
+P3,1,outer side face,Side panel fixing,D9.0 (M6 rivnut),bottom end,40.0 280.9 521.8 762.7 1003.5 1244.4 1485.3 1726.2
+P3,1,rear face,Rear panel fixing,D9.0 (M6 rivnut),bottom end,160.4 401.3 642.2 883.1 1124.0 1364.9 1605.8
+S1,4,outer side face,Side panel fixing,D9.0 (M6 rivnut),front end,40.0 271.0 502.0 733.0 964.0
+S1,4,bottom (at base) / top (at top),Plinth skirt fixing (at base) / Top panel fixing (at top),D9.0 (M6 rivnut),front end,155.5 386.5 617.5 848.5
+S2,4,outer side face,Side panel fixing,D9.0 (M6 rivnut),front end,40.0 271.0 502.0 733.0 964.0
+C1,1,bottom face,Plinth skirt fixing,D9.0 (M6 rivnut),left end,100.0 277.0 454.0
+C2,2,rear face,Rear panel fixing,D9.0 (M6 rivnut),left end,40.0 277.0 514.0
+C2,2,bottom (at base) / top (at top),Plinth skirt fixing (at base) / Top panel fixing (at top),D9.0 (M6 rivnut),left end,158.5 395.5
+C3,3,"rear (at mid, shelf) / top (at top)","Rear panel fixing (at mid, shelf) / Top panel fixing (at top)",D9.0 (M6 rivnut),left end,40.0 277.0 514.0
+U1,4,outer side face,Side panel fixing,D9.0 (M6 rivnut),bottom end,40.0 257.1 474.1 691.2
+U1,4,inner face,19in rail-spacer bolts,D9.0 (M6 rivnut),bottom end,148.5 365.6 582.7
+PL1,4,plate,castor bolts,M8 tapped thru (6.8 drill),pad corner,60 mm square on pad centre
