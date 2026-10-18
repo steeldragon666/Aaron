@@ -17,25 +17,25 @@
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 438.0
+   "volume_L": 437.6
   },
   "hot_upper_bay": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 438.0
+   "volume_L": 437.6
   },
   "hot_ac_side_gap": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 438.0
+   "volume_L": 437.6
   },
   "hot_ac_notch": {
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 438.0
+   "volume_L": 437.6
   },
   "condenser_zone": {
    "label": 1,
@@ -71,7 +71,7 @@
    "label": 4,
    "air": true,
    "vents_to_room": false,
-   "volume_L": 438.0
+   "volume_L": 437.6
   }
  },
  "checks": {

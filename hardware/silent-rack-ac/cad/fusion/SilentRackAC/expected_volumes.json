@@ -1,5 +1,5 @@
 {
- "layout_version": "1.3.1",
+ "layout_version": "1.4.0",
  "params": {
   "ru_count": 16,
   "ru_pitch": 44.45,
@@ -59,9 +59,18 @@
   "office_ports": 1,
   "office_duct_d": 60.0,
   "office_fan": 80.0,
-  "office_dz": 215.0
+  "office_dz": 215.0,
+  "ac_ret_w": 220.0,
+  "ac_ret_h": 280.0,
+  "ac_ret_dx": -106.0,
+  "ac_ret_z": 727.0,
+  "ret_wall": 4.0,
+  "ret_gasket": 5.0,
+  "ret_flange": 20.0,
+  "ret_flange_t": 5.0,
+  "ret_boot_l": 50.0
  },
- "part_count": 172,
+ "part_count": 174,
  "volumes_mm3": {
   "Post FL": 1589580.0,
   "Post FR": 1589580.0,
@@ -188,6 +197,8 @@
   "Dock gasket right": 200400.0,
   "Partition gasket": 110800.0,
   "Brush seal under AC": 245794.0,
+  "Hot return boot": 290880.0,
+  "Return boot gasket": 108000.0,
   "Inlet riser box": 2928672.0,
   "Foam inlet riser": 2029200.0,
   "Exhaust elbow (insulated)": 1335148.8,

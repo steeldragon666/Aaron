@@ -28,8 +28,8 @@ Drain,Tank bulkhead 25 mm + tundish,1,ea,24.0,24.0,
 Drain,16 mm ID clear PVC hose,3,m,4.5,13.5,fall >= 1:50 to waste
 Drain,Hose barbs / quick connects,3,ea,6.0,18.0,
 Drain,Mini condensate pump (only if no floor waste),1,ea,180.0,180.0,optional
-Printed parts,"PETG filament, 1 kg spool",3,spool,32.0,96.0,"24 pieces, 2.14 kg, about 58 h: hood, collar, keepers"
-Printed parts,"ASA filament, 1 kg spool",2,spool,40.0,80.0,"7 pieces, 1.06 kg, about 32 h: exhaust elbow, wall spigot and their gauges"
+Printed parts,"PETG filament, 1 kg spool",3,spool,32.0,96.0,"28 pieces, 2.51 kg, about 68 h: hood, collar, keepers"
+Printed parts,"ASA filament, 1 kg spool",2,spool,40.0,80.0,"8 pieces, 1.07 kg, about 33 h: exhaust elbow, wall spigot and their gauges"
 Printed parts,"Fixings: 6 x 4x20 pan-head, 2 x M4x25 + 4 x M5x25 button head, nylocs, washers",1,set,18.0,18.0,"hood to shelf, keepers, wall spigot"
 Printed parts,"Two-part epoxy 25 ml + acetone (laps), 3 x 10 closed-cell foam tape 5 m",1,set,30.0,30.0,"hood and collar laps (epoxy), elbow lap (acetone), seals"
 Airflow,Lined inlet riser + cable gland boxes (12 mm ply),1,set,0.0,0.0,from ply offcuts

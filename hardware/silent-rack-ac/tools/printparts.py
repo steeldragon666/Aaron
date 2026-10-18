@@ -215,6 +215,11 @@ def interfaces(P=None):
     ws = M["Exhaust wall spigot"]
     I["wall"] = {"p0": V(*ws["add"][0]["p0"]), "p1": V(*ws["add"][0]["p1"]), "r": ws["add"][0]["r"],
                  "f0": V(*ws["add"][1]["p0"]), "f1": V(*ws["add"][1]["p1"]), "rf": ws["add"][1]["r"]}
+    rb = M["Hot return boot"]
+    I["ret"] = {"grille": (D["ret_gx0"], D["ret_gx1"], D["ret_gz0"], D["ret_gz1"]),
+                "y_face": D["ret_y_face"], "y0": D["ret_yf0"], "wall": P["ret_wall"],
+                "flange": P["ret_flange"], "flange_t": P["ret_flange_t"], "boot_l": P["ret_boot_l"],
+                "gasket": P["ret_gasket"], "box": bx(rb["add"][0])}
     I["office"] = []
     for op in D["office"]:
         g, ad = (M["Office %s %s" % (op["name"], k)] for k in ("grille", "adaptor"))
@@ -562,6 +567,44 @@ def wall_grille(I):
                                     "bore_mm2": math.pi * rb ** 2}
 
 
+def return_boot(I):
+    """P13: hot-return boot - a rectangular flanged shroud that caps the AC's rear return grille and seals it
+    to the hot bay.  Flange (gasket seat + bracket screws) on the AC rear face, mouth into the bay.  Open both
+    ends (the AC grille one side, the rear plenum the other).  Returns (solid, core(d), info)."""
+    R = I["ret"]
+    gx0, gx1, gz0, gz1 = R["grille"]
+    t, fw, ft, L, y0 = R["wall"], R["flange"], R["flange_t"], R["boot_l"], R["y0"]
+    y1, yf1 = y0 + L, y0 + ft                                 # mouth rear, flange rear
+
+    def envelope(d):                                          # outer solid (no bore), shrunk by d in x and z
+        tube = box(gx0 - t + d, y0, gz0 - t + d, gx1 + t - d, y1, gz1 + t - d)
+        flange = box(gx0 - fw + d, y0, gz0 - fw + d, gx1 + fw - d, yf1, gz1 + fw - d)
+        return fuse(tube, flange)
+
+    boot = envelope(0.0).cut(box(gx0, y0 - 1, gz0, gx1, y1 + 1, gz1))        # open the bore (both ends)
+    bolts = [(x, z) for x in (gx0 - fw / 2.0, gx1 + fw / 2.0) for z in (gz0 - fw / 2.0, gz1 + fw / 2.0)]
+    for x, z in bolts:                                        # 4 bracket screws through the flange
+        boot = boot.cut(cyl((x, y0 - 1, z), (x, yf1 + 1, z), PR["screw_d"] / 2.0))
+    boot = one_solid(boot.clean())
+
+    def core(d):
+        return boot.intersect(envelope(d))
+    info = {"grille": (gx0, gx1, gz0, gz1), "flange_outer": (gx0 - fw, gx1 + fw, gz0 - fw, gz1 + fw),
+            "bolts": bolts, "y0": y0, "y1": y1, "yf1": yf1, "L": L, "wall": t,
+            "open_mm2": (gx1 - gx0) * (gz1 - gz0)}
+    return boot, core, info
+
+
+def return_gauge(I):
+    """G4: a flat corner template of the hot-return boot - one flange corner with the grille (bore) corner cut
+    out.  Hold it on the AC's rear return grille: the inner corner sits on the grille corner, the leg edges run
+    along the grille edges, so you confirm ac_ret_w/h/dx/z before printing the full boot.  Prints flat."""
+    fw = I["ret"]["flange"]
+    leg = fw + 90.0
+    g = box(0, 0, 0, leg, leg, 3.0).cut(box(fw, fw, -1, leg + 1, leg + 1, 4.0))
+    return one_solid(g.clean())
+
+
 def duct_gauge(I):
     """G3: the last 15 mm of the duct spigot (bead, lead-in), standing on its tip."""
     ro = I["P"]["office_duct_d"] / 2.0
@@ -838,6 +881,11 @@ PART_INFO = OrderedDict([
     ("P5", {"file": "wall_spigot", "name": "Exhaust wall spigot", "mat": "ASA", "replaces": ["Exhaust wall spigot"],
             "hardware": ["4 x M5 x 25 button head + 4 x M5 nyloc + 8 washers",
                          "3 mm closed-cell foam ring or silicone under the flange", "acetone or ABS/ASA cement"]}),
+    ("P13", {"file": "return_boot", "name": "Hot-return boot", "mat": "PETG", "replaces": ["Hot return boot"],
+             "hardware": ["10 mm EPDM closed-cell gasket, cut to the flange (model part 'Return boot gasket')",
+                          "2 x L-bracket (bent 1.6 mm steel/alu) + 4 x 4 mm x 16 screws: flange to the dock posts",
+                          "4 x 4 mm x 16 pan-head screws through the flange corners into the brackets",
+                          "epoxy or PETG-rated CA glue for the corner laps"]}),
     ("G", {"file": "gauge", "name": "Fit gauges", "mat": "ASA", "replaces": [], "hardware": []}),
     ("P6", {"file": "pod", "name": "Touchscreen pod", "mat": "PETG", "replaces": [],
             "hardware": ["2 x M4 rivnut (1.2 mm skin) in the upper door + 2 x M4 x 8 button head",
@@ -953,6 +1001,40 @@ def build(P=None, printer="x1c"):
     add_piece("P5-1", "P5", "Wall spigot - flange + inner tube", A, tuple(ax), note="flange face (outside) on the plate")
     add_piece("P5-2", "P5", "Wall spigot - outer tube", B, tuple(ax), note="hose end on the plate, tongue up")
 
+    # P13 hot-return boot: a hollow rectangular frame; sectioned in X then Z into L-corners that fit the bed
+    boot, bcore, binfo = return_boot(I)
+    parts["P13"] = {"solid": boot, "info": binfo}
+    fo = binfo["flange_outer"]                               # x0, x1, z0, z1 of the flange
+    cuts_x = sections_along(fo[0], fo[1], PR["lap_l"], W_)
+    cuts_z = sections_along(fo[2], fo[3], PR["lap_l"], D_)
+    cols, rest, gap_t = [], boot, 0.0
+    for xc in cuts_x:
+        lo, rest, g = lap_split(rest, bcore, (xc, 0, 0), (1, 0, 0))
+        cols.append(lo)
+        gap_t += g
+    cols.append(rest)
+    cells = []
+    for col in cols:
+        rest2, sub = col, []
+        for zc in cuts_z:
+            ccore = (lambda s: (lambda d: s.intersect(bcore(d))))(rest2)   # restrict tongues to this column
+            lo, rest2, g = lap_split(rest2, ccore, (0, 0, zc), (0, 0, 1))
+            sub.append(lo)
+            gap_t += g
+        sub.append(rest2)
+        cells.append(sub)
+    parts["P13"]["cuts"], parts["P13"]["gap"] = (cuts_x, cuts_z), gap_t
+    nx, nz = len(cols), len(cells[0])
+    xlab = ["left", "right"] if nx == 2 else ["col %d" % (i + 1) for i in range(nx)]
+    zlab = ["lower", "upper"] if nz == 2 else ["row %d" % (j + 1) for j in range(nz)]
+    for i, sub in enumerate(cells):
+        for j, s in enumerate(sub):
+            for q in s.Solids():                             # one L-corner per cell
+                tag = ("%s %s corner" % (zlab[j], xlab[i])) if (nx > 1 and nz > 1) else \
+                    (zlab[j] if nz > 1 else xlab[i] if nx > 1 else "whole")
+                add_piece("P13-%d%d" % (i + 1, j + 1), "P13", "Hot-return boot - %s" % tag, q, (0, -1, 0),
+                          note="flange face on the plate, mouth up")
+
     # electronics mounts
     shell, bezel, pinfo = touch_pod()
     M = pinfo["frame"]
@@ -998,6 +1080,8 @@ def build(P=None, printer="x1c"):
     g1, g2 = gauges(I)
     add_piece("G1", "G", "Gauge - elbow socket over the AC spigot", g1, (0, 0, -1), note="print first")
     add_piece("G2", "G", "Gauge - male spigot into the 150 duct", g2, (0, 0, -1), note="print first")
+    add_piece("G4", "G", "Gauge - hot-return boot corner (check the AC return grille)", return_gauge(I),
+              (0, 0, -1), note="print first (check the grille)")
     if I["office"]:
         add_piece("G3", "G", "Gauge - office flex duct over the spigot", duct_gauge(I), (0, 0, -1),
                   note="print first (office kit)")
@@ -1042,7 +1126,7 @@ def run_checks(I, C, parts, pieces, printer):
     inval = [p["id"] for p in pieces if not (p["solid"].isValid() and len(p["solid"].Solids()) == 1)]
     chk("every piece is one valid closed solid", not inval, ", ".join(inval))
     # pieces of a part do not overlap and add back up to the part (less the lap clearances)
-    for pid in ("P1", "P2", "P4"):
+    for pid in ("P1", "P2", "P4", "P13"):
         ps = [p for p in pieces if p["part"] == pid]
         ov = 0.0
         for i in range(len(ps)):
@@ -1113,6 +1197,23 @@ def run_checks(I, C, parts, pieces, printer):
     pw, ph, pdp = pi["pocket"]
     chk("panel fits the pod pocket, window inside the glass", pw - bw <= 1.2 and ph - bh <= 1.2 and
         pi["window"][0] < bw - 4 and pi["window"][1] < bh - 4, "pocket %.1f x %.1f for %.1f x %.1f board" % (pw, ph, bw, bh))
+    # hot-return boot (P13)
+    D, ri = I["D"], parts["P13"]["info"]
+    gx0, gx1, gz0, gz1 = ri["grille"]
+    fx0, fx1, fz0, fz1 = ri["flange_outer"]
+    chk("return grille on the AC rear face, in its upper (evaporator) zone",
+        D["x_ac0"] <= gx0 and gx1 <= D["x_ac1"] and D["z_split"] <= gz0 and gz1 <= D["z_ac0"] + D["ac_notch_top_z"],
+        "grille x %.0f-%.0f z %.0f-%.0f in AC x %.0f-%.0f, upper zone z %.0f-%.0f"
+        % (gx0, gx1, gz0, gz1, D["x_ac0"], D["x_ac1"], D["z_split"], D["z_ac0"] + D["ac_notch_top_z"]))
+    exh_keepout = D["exh_x"] - (D["exh_ro"] + 15.0)
+    chk("boot clears the rear-right exhaust and the partition below",
+        fx1 <= exh_keepout and fz0 >= D["z_split"] and (ri["y0"] + ri["L"]) <= D["exh_run_y0"],
+        "flange right x %.0f (keep-out %.0f), bottom z %.0f (partition top %.0f), mouth to y %.0f (exhaust y %.0f)"
+        % (fx1, exh_keepout, fz0, D["z_split"], ri["y0"] + ri["L"], D["exh_run_y0"]))
+    bp = [p for p in pieces if p["part"] == "P13"]
+    chk("boot bore (grille clear area) at least the office-return area, and the flange seats on the AC",
+        ri["open_mm2"] >= 20000.0 and fz1 <= D["z_ac0"] + D["ac_notch_top_z"],
+        "bore %.0f x %.0f = %.0f mm2, %d printed pieces" % (gx1 - gx0, gz1 - gz0, ri["open_mm2"], len(bp)))
     if I["office"]:
         out += office_checks(I, parts)
     return out

@@ -67,7 +67,7 @@ Tolerance built in: 39 mm side gaps, a 25 mm front gap, 80 mm above the AC for t
 | Path | Route |
 |---|---|
 | **Cold supply** (blue) | AC top louvres → sealed **cold hood** (drop collar + EPDM gasket on the AC top) → opening in the divider shelf → **front plenum** (130 mm) → server intakes |
-| **Hot return** (red) | Server exhausts → **rear plenum** (174 mm) → rear opening in the shelf → upper-rear bay → AC **upper (evaporator) grille** |
+| **Hot return** (red) | Server exhausts → **rear plenum** (174 mm) → rear opening in the shelf → upper-rear bay → **hot-return boot (P13)** → AC **upper (evaporator) grille** |
 | **Room air** (green) | Perforated plinth skirts → under the bay floor (lined) → floor opening → **lined riser box** (two 90° turns) → condenser zone under the partition → AC **lower (condenser) grille** |
 | **Exhaust** (amber) | AC spigot (in the notch, pointing up) → 150 mm 90° elbow (R150) → insulated Ø150 duct at 752 mm → flanged spigot in the rear panel → acoustic flex duct → window or wall vent |
 
@@ -180,11 +180,11 @@ The outer skins are **laser-cut 1.2 mm steel** (pack **CP-SRA16-SMP-001**, `docs
 | DXF | `cad/dxf/cut/` (cut layer only), `cad/dxf/info/` (bend lines, ID etch, notes), `cad/dxf/nest/` (11 steel + 1 stainless 1200 × 800 blanks), zipped in `cad/dxf/SRA16_sheet_metal_DXF.zip` |
 | Fixing | M6 × 20 flanged button heads into the frame rivnuts. The MLV behind the skin is punched Ø8 and acts as the gasket. Hinges, toggle latches and keepers are riveted (4.8 mm), so the frame needs no extra holes. |
 
-The cold-air hood and the exhaust parts are **3D-printed** (pack **CP-SRA16-PRT-001**, `docs/PRINTED_PARTS.md`), sectioned for a Bambu Lab X1 Carbon.
+The cold-air hood, the hot-return boot and the exhaust parts are **3D-printed** (pack **CP-SRA16-PRT-001**, `docs/PRINTED_PARTS.md`), sectioned for a Bambu Lab X1 Carbon. The two plenum transitions at the AC — the cold hood (air in) and the return boot (air out) — are described in `docs/RACK_PLENUMS.md`.
 
 | | |
 |---|---|
-| Parts | P1 hood body (4 sections), P2 drop collar (2 halves), P3 keepers (2), P4 exhaust elbow (2 halves), P5 wall spigot (2), and 2 fit gauges: 14 pieces on 10 plates |
+| Parts | P1 hood body (4 sections), P2 drop collar (2 halves), P3 keepers (2), **P13 hot-return boot (4 corners)**, P4 exhaust elbow (2 halves), P5 wall spigot (2), and fit gauges: see the pack for the current piece and plate count |
 | Material | PETG on the cold side (1.35 kg, about 35 h); ASA for the exhaust, which runs up to about 60 °C (1.05 kg, about 32 h) |
 | Size limit | Every piece fits 250 × 250 × 250 (the X1C's 256 mm volume less a brim margin), clear of the no-print corner, and prints without supports |
 | Joints | Glued half-laps, 10 mm long, 0.2 mm clearance per face; the outside stays flush |

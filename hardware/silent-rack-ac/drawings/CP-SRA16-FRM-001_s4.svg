@@ -200,7 +200,7 @@
 <text x="256.00" y="209.40" font-size="1.70" text-anchor="start" font-weight="normal" fill="#15181c">SHS wall 2</text>
 <text x="256.00" y="224.00" font-size="1.70" text-anchor="start" font-weight="normal" fill="#15181c">rivnut M6</text>
 <text x="256.00" y="226.60" font-size="1.70" text-anchor="start" font-weight="normal" fill="#15181c">hole D9.0</text>
-<text x="224.00" y="182.60" font-size="1.80" text-anchor="middle" font-weight="bold" fill="#15181c">M6 x 20 flanged button head</text>
+<text x="224.00" y="185.60" font-size="1.80" text-anchor="middle" font-weight="bold" fill="#15181c">M6 x 20 flanged button head</text>
 <text x="210.00" y="237.00" font-size="1.60" text-anchor="end" font-weight="normal" fill="#5b6168">tube bore</text>
 <text x="188.00" y="256.00" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">Drill before welding, deburr. Fit rivnuts</text>
 <text x="188.00" y="258.80" font-size="1.80" text-anchor="start" font-weight="normal" fill="#15181c">(steel, flat head, grip 0.5-3) after coating.</text>
@@ -325,10 +325,10 @@
 <text x="291.00" y="265.80" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">CP-SRA16-FRM-001   SHEET 4 OF 6   REV A</text>
 <line x1="272.00" y1="261.20" x2="412.00" y2="261.20" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="272.10" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">SCALE</text>
-<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">details NTS (proportional) @ A3   UNITS mm   LAYOUT v1.2.0</text>
+<text x="291.00" y="272.10" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">details NTS (proportional) @ A3   UNITS mm   LAYOUT v1.4.0</text>
 <line x1="272.00" y1="267.50" x2="412.00" y2="267.50" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="278.40" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">DATE</text>
-<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-09-27   DRAWN Claude (AI) for Carbon Project</text>
+<text x="291.00" y="278.40" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">2026-10-18   DRAWN Claude (AI) for Carbon Project</text>
 <line x1="272.00" y1="273.80" x2="412.00" y2="273.80" stroke="#15181c" stroke-width="0.15" stroke-linecap="butt"/>
 <text x="274.00" y="284.70" font-size="1.90" text-anchor="start" font-weight="bold" fill="#15181c">STATUS</text>
 <text x="291.00" y="284.70" font-size="2.15" text-anchor="start" font-weight="normal" fill="#15181c">FOR FABRICATION after hold point H1 (AC grille split M3)</text>

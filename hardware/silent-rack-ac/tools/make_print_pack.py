@@ -42,7 +42,7 @@ OVERHANG_MAX = 50.0                    # deg from vertical a face may lean befor
 OK_WIDTH = 6.0                         # an overhang strip this narrow prints anyway (short bridge / ledge)
 GAP = 6.0                              # spacing between parts on a shared plate
 PLATE_MAX_G = 700.0                    # a fresh 1 kg spool always finishes a plate (brim, purge, a restart)
-PRINT_ORDER = ("G", "P2", "P1", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P12")  # plate numbering
+PRINT_ORDER = ("G", "P2", "P1", "P3", "P13", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P12")  # plate numbering
 LOOSE = ("G", "P8", "P12")             # parts with no fixed installed position in the rack (gauges, clips, office wall)
 KITS = {"P6": "electronics", "P7": "electronics", "P8": "electronics",      # kits print on plates of their own
         "P9": "office", "P10": "office", "P12": "office"}
@@ -505,7 +505,12 @@ def doc_md(pack, plates, report):
            "P3": "Turn buttons under the hood floor: lift the collar onto them to roll the AC in or out.",
            "P4": "The socket that fits over the AC spigot and the male outlet are custom; a stock elbow needs adapters.",
            "P5": "The flange is drilled to the laser-cut rear-skin pattern; the outer tube carries a hose bead.",
-           "G": "Ten-minute prints that prove the critical fits before the long prints (G3: your office duct).",
+           "P13": "Caps the AC's rear return (evaporator) grille and seals it to the hot bay, so the return "
+                  "air is ducted into the AC instead of swirling in the bay. Split into four corners for the "
+                  "bed; the grille size and position are a parametric default - check them with gauge G4 first "
+                  "(see `docs/RACK_PLENUMS.md`).",
+           "G": "Ten-minute prints that prove the critical fits before the long prints (G3: your office duct; "
+                "G4: the AC return grille).",
            "P6": "Holds the 4.3 inch touchscreen on the upper door; bolts to two rivnuts and covers the cable grommet "
                  "(see `docs/ELECTRONICS.md`).",
            "P7": "Holds the rack node's carrier board inside the front plenum, on magnets.",

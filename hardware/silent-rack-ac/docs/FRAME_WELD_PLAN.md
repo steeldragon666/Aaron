@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Drawing | CP-SRA16-FRM-001, 6 sheets (`drawings/CP-SRA16-FRM-001.pdf`) |
-| Generated | `tools/make_weld_pack.py` from `rack_layout.py` v1.2.0 on 2026-09-27 |
+| Generated | `tools/make_weld_pack.py` from `rack_layout.py` v1.4.0 on 2026-10-18 |
 | Frame | 30x30x2.0 SHS C350L0 to AS/NZS 1163, welded; outside 614 W x 1064 D x 1766.2 H mm |
 | Mass | 43.1 kg weldment + 4.9 kg loose rail spacers |
 | Welds | 38 SHS joints all round + 10 ledge stitch runs + 4 caps + 4 pads, about 8.1 m |

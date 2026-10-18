@@ -22,7 +22,7 @@ manual and should be tape-checked before cutting panels.
 
 import math
 
-VERSION = "1.3.1"
+VERSION = "1.4.0"
 
 DEFAULTS = {
     # --- rack / envelope -------------------------------------------------
@@ -92,6 +92,19 @@ DEFAULTS = {
     "office_duct_d": 60.0,   # flexible duct bore = spigot OD (duct slides on, hose clamp)
     "office_fan": 80.0,      # booster fan frame (square, 25 mm deep) on the supply plenum adaptor
     "office_dz": 215.0,      # port centres above the divider shelf top
+    # --- hot-return boot: printed shroud that caps the AC's evaporator/return grille (CP-SRA16-PRT-001 P13) -
+    # The GDC14RBA draws return (room-side) air through a grille on its upper back.  Its exact size and
+    # position are not published, so these are a parametric DEFAULT (VERIFY with gauge G4 before printing):
+    # the grille is set in the CLEAR LEFT of the rear face so the boot stays out of the rear-right exhaust.
+    "ac_ret_w": 220.0,       # AC return grille width   (VERIFY)
+    "ac_ret_h": 280.0,       # AC return grille height  (VERIFY)
+    "ac_ret_dx": -106.0,     # grille centre, from the AC centre line (-ve = left, clear of the exhaust) (VERIFY)
+    "ac_ret_z": 727.0,       # grille centre above the floor (VERIFY)
+    "ret_wall": 4.0,         # printed boot wall
+    "ret_gasket": 5.0,       # EPDM gasket between the boot flange and the AC rear face (seals the grille)
+    "ret_flange": 20.0,      # boot flange width round the grille (gasket seat + bracket screws)
+    "ret_flange_t": 5.0,     # boot flange thickness
+    "ret_boot_l": 50.0,      # boot mouth length, rearward into the hot bay from the flange
 }
 
 # name -> (unit, description) ; unit "mm" or "" (count)
@@ -155,6 +168,15 @@ PARAM_DOC = {
     "office_duct_d": ("mm", "Office flex duct bore (= spigot OD)"),
     "office_fan": ("mm", "Office booster fan frame size"),
     "office_dz": ("mm", "Office port centres above the shelf top"),
+    "ac_ret_w": ("mm", "AC return grille width (VERIFY)"),
+    "ac_ret_h": ("mm", "AC return grille height (VERIFY)"),
+    "ac_ret_dx": ("mm", "AC return grille centre from the AC centre line (VERIFY)"),
+    "ac_ret_z": ("mm", "AC return grille centre above the floor (VERIFY)"),
+    "ret_wall": ("mm", "Hot-return boot wall"),
+    "ret_gasket": ("mm", "Boot flange to AC rear face EPDM gasket"),
+    "ret_flange": ("mm", "Boot flange width round the grille"),
+    "ret_flange_t": ("mm", "Boot flange thickness"),
+    "ret_boot_l": ("mm", "Boot mouth length into the hot bay"),
 }
 
 GROUPS = [
@@ -407,6 +429,14 @@ def derive(P):
     D["out_x1"] = D["out_x0"] + P["ac_out_w"]
     D["out_y0"] = D["y_ac0"] + P["ac_out_y"]
     D["out_y1"] = D["out_y0"] + P["ac_out_d"]
+    # AC return (evaporator) grille on the upper rear face + hot-return boot that caps it
+    D["ret_xc"] = (D["x_ac0"] + D["x_ac1"]) / 2.0 + P["ac_ret_dx"]
+    D["ret_gx0"] = D["ret_xc"] - P["ac_ret_w"] / 2.0
+    D["ret_gx1"] = D["ret_xc"] + P["ac_ret_w"] / 2.0
+    D["ret_gz0"] = P["ac_ret_z"] - P["ac_ret_h"] / 2.0
+    D["ret_gz1"] = P["ac_ret_z"] + P["ac_ret_h"] / 2.0
+    D["ret_y_face"] = D["y_ac1"]                              # grille is in the AC rear face
+    D["ret_yf0"] = D["y_ac1"] + P["ret_gasket"]              # boot flange front (gasket seat is behind it)
     # drain
     D["drain_x"] = D["x_ac0"] + P["ac_drain_x"]
     D["drain_z"] = D["z_ac0"] + P["ac_drain_z"]
@@ -481,6 +511,16 @@ def validate(D):
         w.append("Exhaust duct clips the partition")
     if D["exh_run_z"] + D["exh_ro"] >= D["z_srail0"]:
         w.append("Exhaust duct clips the shelf rail")
+    # hot-return boot: grille on the AC rear face, in its upper (evaporator) zone, and the boot clear of the exhaust
+    if D["ret_gx0"] < D["x_ac0"] or D["ret_gx1"] > D["x_ac1"]:
+        w.append("Return grille runs off the AC rear face in X")
+    if D["ret_gz0"] < D["z_split"] or D["ret_gz1"] > D["z_ac0"] + D["ac_notch_top_z"]:
+        w.append("Return grille is outside the AC upper-rear zone (%.0f-%.0f)" % (
+            D["z_split"], D["z_ac0"] + D["ac_notch_top_z"]))
+    exh_keepout = D["exh_x"] - (D["exh_ro"] + 20.0)                   # left edge of the exhaust + clearance
+    if D["ret_gx1"] + D["ret_flange"] > exh_keepout:
+        w.append("Return boot flange (x %.0f) clashes the rear-right exhaust (keep-out %.0f)" % (
+            D["ret_gx1"] + D["ret_flange"], exh_keepout))
     if D["front_plenum"] < 100:
         w.append("Front (cold) plenum < 100 mm")
     if D["rear_plenum"] < 100:
@@ -928,6 +968,22 @@ def build_parts(P=None):
          [box(D["x_ac0"] + 10, D["y_ac1"], ztr, D["x_ac1"] - 10, D["y_dock"], D["z_ac0"] + P["ac_body_z"])],
          [cyl((dx, D["y_ac1"] - 1, D["drain_z"]), (dx, D["y_dock"] + 1, D["drain_z"]), 15)],
          bom={"kind": "purchased", "material": "25 mm nylon brush strip in alu carrier"})
+    # hot-return boot: printed shroud (P13) that caps the AC's rear return grille and seals it to the hot bay.
+    # Flange (gasket seat) on the AC rear face, mouth projecting into the rear plenum.  Parametric grille,
+    # default placed clear of the rear-right exhaust (VERIFY with gauge G4).  See printparts.py return_boot().
+    rt, rfl, rft, rbl = P["ret_wall"], P["ret_flange"], P["ret_flange_t"], P["ret_boot_l"]
+    gx0, gx1, gz0, gz1 = D["ret_gx0"], D["ret_gx1"], D["ret_gz0"], D["ret_gz1"]
+    yf0 = D["ret_yf0"]                                       # flange front / mouth start
+    part("Hot return boot", "Airflow & Seals", "hot",
+         [box(gx0 - rt, yf0, gz0 - rt, gx1 + rt, yf0 + rbl, gz1 + rt),      # mouth tube (4 walls)
+          box(gx0 - rfl, yf0, gz0 - rfl, gx1 + rfl, yf0 + rft, gz1 + rfl)],  # flange
+         [box(gx0, yf0 - 1, gz0, gx1, yf0 + rbl + 1, gz1)],                 # bore (open both ends)
+         bom={"kind": "fab", "material": "3D-printed PETG, CP-SRA16-PRT-001 P13 (hot-return boot, %g x %g grille)"
+              % (P["ac_ret_w"], P["ac_ret_h"])})
+    part("Return boot gasket", "Airflow & Seals", "gasket",
+         [box(gx0 - rfl, D["y_ac1"], gz0 - rfl, gx1 + rfl, yf0, gz1 + rfl)],
+         [box(gx0, D["y_ac1"] - 1, gz0, gx1, yf0 + 1, gz1)],
+         bom={"kind": "purchased", "material": "EPDM closed-cell foam 10 mm, cut to the boot flange"})
     # condenser (room-air) inlet riser: lined box over the floor opening
     rx0, rx1, ry0 = X0 + 37, X1 - 37, D["inlet_y0"] - 20
     rz1 = ztr + 258

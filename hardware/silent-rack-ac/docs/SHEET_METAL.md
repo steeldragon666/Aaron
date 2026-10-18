@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Drawing | CP-SRA16-SMP-001, 6 sheets (`drawings/CP-SRA16-SMP-001.pdf`) |
-| Generated | `tools/make_sheet_pack.py` from `rack_layout.py` v1.3.1 on 2026-10-16 |
+| Generated | `tools/make_sheet_pack.py` from `rack_layout.py` v1.4.0 on 2026-10-18 |
 | DXF | `cad/dxf/cut/` (cut geometry only), `cad/dxf/info/` (+ bend lines, ID etch, notes), `cad/dxf/nest/` (nested 1200x800 blanks), all zipped in `cad/dxf/SRA16_sheet_metal_DXF.zip` |
 | Size limit | every flat blank fits 1200 x 800 (checked) |
 | Skins | 1.2 mm steel, powder coated, 3 mm MLV bonded inside; the welded frame is unchanged |
